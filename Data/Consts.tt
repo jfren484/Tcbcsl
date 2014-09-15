@@ -1,0 +1,65 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".generated.cs" #>
+<#@ Assembly Name="System.Data" #>
+<#@ Assembly Name="System.Data.Linq" #>
+<#@ Assembly Name="System.Core" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.CodeDom" #>
+<#@ import namespace="System.CodeDom.Compiler" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.Linq" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+namespace Tcbcsl.Data
+{
+<#
+	var commandTextFormat = "SELECT {0}Id AS Id, Description FROM {1}";
+	var tableInfos = new[]
+	{
+		new { BaseName = "ContactInfoPieceType", TableName = "ContactInfoPieceTypes" },
+		new { BaseName = "GameStatus", TableName = "GameStatus" },
+		new { BaseName = "GameType", TableName = "GameTypes" }
+	};
+
+	using (var connection = new SqlConnection(@"Server=.;Database=Tcbcsl;Integrated Security=True"))
+	{
+		connection.Open();
+		foreach (var tableInfo in tableInfos)
+        {
+#>
+	public partial class <#= tableInfo.BaseName #>
+	{
+<#
+			var commandText = string.Format(commandTextFormat, tableInfo.BaseName, tableInfo.TableName);
+			using (var command = new SqlCommand(commandText, connection))
+			using (var reader = command.ExecuteReader())
+			{
+				while (reader.Read())
+				{
+#>
+		public const int <#= FormatStringAsIdentifier(reader["Description"].ToString()) #> = <#= reader["Id"] #>;
+<#
+				}
+			}
+#>
+	}
+
+<#
+        }
+	}
+#>
+}
+<#+
+string FormatStringAsIdentifier(string str)
+{
+	str = Regex.Replace(str, "[^a-zA-Z ]", " ");
+	str = Regex.Replace(str, @"\b[a-z]", m => m.ToString().ToUpper());
+
+	str = str.Replace(" ", string.Empty);
+
+	return str;
+}
+#>
