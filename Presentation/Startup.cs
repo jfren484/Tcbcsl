@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(Presentation.Startup))]
-namespace Presentation
+[assembly: OwinStartupAttribute(typeof(Tcbcsl.Presentation.Startup))]
+namespace Tcbcsl.Presentation
 {
     public partial class Startup
     {

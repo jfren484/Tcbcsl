@@ -9,7 +9,7 @@ using Microsoft.Owin.Security;
 using Tcbcsl.Data;
 using Tcbcsl.Data.Identity;
 
-namespace Presentation
+namespace Tcbcsl.Presentation
 {
     public class EmailService : IIdentityMessageService
     {

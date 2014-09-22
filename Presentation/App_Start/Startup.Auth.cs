@@ -3,13 +3,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
 using Owin;
-using Presentation.Models;
 using Tcbcsl.Data;
 using Tcbcsl.Data.Identity;
 
-namespace Presentation
+namespace Tcbcsl.Presentation
 {
     public partial class Startup
     {

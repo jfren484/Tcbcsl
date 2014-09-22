@@ -55,6 +55,11 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Consts.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Consts.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Church.cs" />
     <Compile Include="Entities\Coach.cs" />
     <Compile Include="Entities\Conference.cs" />
@@ -93,7 +98,7 @@
     <None Include="App.config" />
     <None Include="Consts.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Consts1.generated.cs</LastGenOutput>
+      <LastGenOutput>Consts.generated.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

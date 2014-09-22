@@ -5,10 +5,10 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Presentation.Models;
+using Tcbcsl.Presentation.Models;
 using Tcbcsl.Data.Identity;
 
-namespace Presentation.Controllers
+namespace Tcbcsl.Presentation.Controllers
 {
     [Authorize]
     public class ManageController : Controller
