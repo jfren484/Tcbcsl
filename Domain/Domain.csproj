@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Content\NewsItem.cs" />
     <Compile Include="Team\Team.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueBase.cs" />
