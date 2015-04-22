@@ -6,8 +6,8 @@ namespace Tcbcsl.Presentation.Controllers
 {
     public class TeamController : ControllerBase
     {
-        [Route("Teams/{year}")]
-        public ActionResult List(int year = 2013)
+        [Route("Teams/{year?}")]
+        public ActionResult Teams(int year = 2013)
         {
             var divisions = DbContext
                 .DivisionYears
