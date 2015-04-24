@@ -24,5 +24,4 @@
 		public const int Exhibition = 3;
 		public const int GamePlaceholder = 4;
 	}
-
 }
