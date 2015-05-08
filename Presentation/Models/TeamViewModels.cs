@@ -50,7 +50,7 @@ namespace Tcbcsl.Presentation.Models
         public StatsCategory Category { get; set; }
         public int? PlayerId { get; set; }
         public string Name { get; set; }
-        public decimal Value { get; set; }
+        public decimal? Value { get; set; }
     }
 
     public class TeamGameModel

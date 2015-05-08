@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Web.Mvc.Routing;
 using System.Web.Routing;
 
 namespace Tcbcsl.Presentation
@@ -9,7 +10,9 @@ namespace Tcbcsl.Presentation
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapMvcAttributeRoutes();
+            var constraintsResolver = new DefaultInlineConstraintResolver();
+            constraintsResolver.ConstraintMap.Add("year", typeof(YearRouteConstraint));
+            routes.MapMvcAttributeRoutes(constraintsResolver);
 
             routes.MapRoute(
                 name: "Default",

@@ -10,8 +10,8 @@ namespace Tcbcsl.Presentation.Controllers
 {
     public class TeamController : ControllerBase
     {
-        [Route("Teams/{year?}")]
-        public ActionResult Teams(int year = 2013)
+        [Route("Teams/{year:year?}")]
+        public ActionResult Teams(int year = Config.CurrentYear)
         {
             var divisions = DbContext
                 .DivisionYears
@@ -40,7 +40,7 @@ namespace Tcbcsl.Presentation.Controllers
             });
         }
 
-        [Route("Team/{year}/{teamId}")]
+        [Route("Team/{year:year}/{teamId}")]
         public ActionResult View(int teamId, int year)
         {
             var statsCategories = new List<StatsCategory>
@@ -152,20 +152,21 @@ namespace Tcbcsl.Presentation.Controllers
                                         : ps.OPS
                 });
 
-            var groupedStats = selectedValues.GroupBy(val => val.Value);
-
-            var topValue = groupedStats.OrderByDescending(group => group.Key).FirstOrDefault();
+            var topValue = selectedValues
+                .GroupBy(val => val.Value)
+                .OrderByDescending(group => group.Key)
+                .FirstOrDefault();
 
             var leader = new StatsLeaderModel
             {
                 Category = category,
-                PlayerId = topValue == null || topValue.Count() > 1 ? (int?)null : topValue.Single().PlayerId,
-                Name = topValue == null
-                    ? "None"
+                PlayerId = topValue == null || topValue.Key == 0 || topValue.Count() > 1 ? (int?)null : topValue.Single().PlayerId,
+                Name = topValue == null || topValue.Key == 0
+                    ? null
                     : topValue.Count() > 1
                         ? topValue.Count() + " tied"
                         : topValue.Single().Name,
-                Value = topValue == null ? 0 : topValue.Key
+                Value = topValue == null || topValue.Key == 0 ? (decimal?)null : topValue.Key
             };
 
             return leader;

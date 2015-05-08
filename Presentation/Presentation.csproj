@@ -200,6 +200,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ContentService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="YearRouteConstraint.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
