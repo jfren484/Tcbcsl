@@ -2,15 +2,22 @@
 
 namespace Tcbcsl.Presentation.Models
 {
+    public enum StandingsType
+    {
+        Division,
+        League
+    }
+
     public class StandingsModel
     {
         public int Year { get; set; }
-        public List<DivisionStandingsModel> Divisions { get; set; }
+        public StandingsType Type { get; set; }
+        public List<StandingsGroupModel> Groups { get; set; }
     }
 
-    public class DivisionStandingsModel
+    public class StandingsGroupModel
     {
-        public string DivisionName { get; set; }
+        public string Name { get; set; }
         public List<StandingsTeamModel> Teams { get; set; }
     }
 
@@ -29,7 +36,8 @@ namespace Tcbcsl.Presentation.Models
         public int DivisionTies { get; set; }
         public int RunsScored { get; set; }
         public int RunsAllowed { get; set; }
-        public int Streak { get; set; }
+        public int StreakOutcome { get; set; }
+        public int StreakCount { get; set; }
         public int Last5Wins { get; set; }
         public int Last5Losses { get; set; }
         public int Last5Ties { get; set; }

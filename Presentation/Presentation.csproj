@@ -269,11 +269,10 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Team\Teams.cshtml" />
+    <Content Include="Views\Standings\Standings.cshtml" />
     <None Include="Views\Team\View.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Standings\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
