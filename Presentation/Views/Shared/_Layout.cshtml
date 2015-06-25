@@ -21,7 +21,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li>@Html.ActionLink("Scores", "Index", "Scores")</li>
-                        <li>@Html.ActionLink("Standings", "Standings", "Team")</li>
+                        <li>@Html.ActionLink("Standings", "Standings", new { controller = "Standings" }, new { type = StandingsType.Division })</li>
                         <li>@Html.ActionLink("Statistics", "League", "Statistics")</li>
                         <li>@Html.ActionLink("Teams", "Teams", "Team")</li>
                         <li>@Html.ActionLink("Churches", "Index", "Churches")</li>
