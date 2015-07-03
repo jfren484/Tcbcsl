@@ -1,10 +1,65 @@
 ﻿@model StandingsModel
 @{
-    ViewBag.Title = Model.Type + " Standings";
+    var title = Model.Type + " Standings";
+    ViewBag.Title = title + " - " + Model.Year;
 
     var outcomeStrings = new[] { "Lost", "Tied", "Won" };
+    var showTies = Model.Groups.Any(g => g.Teams.Any(t => t.Ties > 0));
+
+    var hackText = new string('X', Model.Groups.SelectMany(g => g.Teams.Select(t => t.TeamName.Length)).Max());
+    var dict = ViewContext.RouteData.Values;
 }
-<h2>@Model.Type Standings</h2>
+@section scripts
+{
+    <script>
+        $('#yearSelector').change(function () {
+            window.location.href = $('#yearSelector option:selected').data('url');
+        });
+    </script>
+}
+<style>
+    .pseudo-hidden {
+        color: rgba(0, 0, 0, 0.0);
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+</style>
+    @*<div class="btn-group pull-right h2">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="hidden-xs">Year </span><span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            @for (var year = 2001; year <= Config.CurrentYear; ++year)
+            {
+                if (year == Config.CurrentYear)
+                {
+                    dict.Remove("year");
+                }
+                else
+                {
+                    dict["year"] = year;
+                }
+                <li>@Html.RouteLink(year.ToString(), dict)</li>
+            }
+        </ul>
+    </div>*@
+<h2>@title <select class="pull-right" id="yearSelector">
+        @for (var year = 2001; year <= Config.CurrentYear; ++year)
+        {
+            if (year == Config.CurrentYear)
+            {
+                dict.Remove("year");
+            }
+            else
+            {
+                dict["year"] = year;
+            }
+            <option @(year == Model.Year ? "selected" : "") data-url="@Url.RouteUrl(dict)">@year</option>
+        }
+    </select></h2>
 <div class="row">
     @foreach (var groupModel in Model.Groups)
     {
@@ -16,39 +71,49 @@
                 <table class="table table-striped table-bordered table-condensed">
                     <thead>
                         <tr>
-                            <th>Team</th>
+                            <th>Team<span class="hidden-xs pseudo-hidden">@hackText</span></th>
                             <th>W</th>
                             <th>L</th>
-                            <th>T</th>
+                            @if (showTies)
+                            {
+                                <th>T</th>
+                            }
                             <th>Pct</th>
                             <th>GB</th>
-                            <th>Div</th>
-                            <th>RS</th>
-                            <th>RA</th>
-                            <th>Streak</th>
-                            <th>Last 5</th>
+                            <th class="hidden-xs">Div</th>
+                            <th class="hidden-xs">RS</th>
+                            <th class="hidden-xs">RA</th>
+                            <th class="hidden-xs">Streak</th>
+                            <th class="hidden-xs">Last 5</th>
                         </tr>
                     </thead>
-                    @foreach (var teamModel in groupModel.Teams)
-                    {
-                        <tr>
-                            <td>@teamModel.TeamName</td>
-                            <td>@teamModel.Wins</td>
-                            <td>@teamModel.Losses</td>
-                            <td>@teamModel.Ties</td>
-                            <td>@teamModel.WinningPercentage.ToString("0.000")</td>
-                            <td>@teamModel.GamesBack</td>
-                            <td>@teamModel.DivisionWins -
-                                @teamModel.DivisionLosses
-                                @teamModel.DivisionTies.ToString("'- '#;;''")</td>
-                            <td>@teamModel.RunsScored</td>
-                            <td>@teamModel.RunsAllowed</td>
-                            <td>@outcomeStrings[teamModel.StreakOutcome + 1] @teamModel.StreakCount</td>
-                            <td>@teamModel.Last5Wins -
-                                @teamModel.Last5Losses
-                                @teamModel.Last5Ties.ToString("'- '#;;''")</td>
-                        </tr>
-                    }
+                    <tbody>
+                        @foreach (var teamModel in groupModel.Teams)
+                        {
+                            <tr>
+                                <td>@teamModel.TeamName</td>
+                                <td>@teamModel.Wins</td>
+                                <td>@teamModel.Losses</td>
+                                @if (showTies)
+                                {
+                                    <td>@teamModel.Ties</td>
+                                }
+                                <td>@teamModel.WinningPercentage.ToString("0.000")</td>
+                                <td>@teamModel.GamesBack</td>
+                                <td class="hidden-xs">
+                                    @teamModel.DivisionWins - @teamModel.DivisionLosses
+                                    @teamModel.DivisionTies.ToString("'- '#;;''")
+                                </td>
+                                <td class="hidden-xs">@teamModel.RunsScored</td>
+                                <td class="hidden-xs">@teamModel.RunsAllowed</td>
+                                <td class="hidden-xs">@outcomeStrings[teamModel.StreakOutcome + 1] @teamModel.StreakCount</td>
+                                <td class="hidden-xs">
+                                    @teamModel.Last5Wins - @teamModel.Last5Losses
+                                    @teamModel.Last5Ties.ToString("'- '#;;''")
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
             </div>
         </div>
