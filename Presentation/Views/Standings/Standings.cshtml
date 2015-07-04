@@ -7,59 +7,8 @@
     var showTies = Model.Groups.Any(g => g.Teams.Any(t => t.Ties > 0));
 
     var hackText = new string('X', Model.Groups.SelectMany(g => g.Teams.Select(t => t.TeamName.Length)).Max());
-    var dict = ViewContext.RouteData.Values;
 }
-@section scripts
-{
-    <script>
-        $('#yearSelector').change(function () {
-            window.location.href = $('#yearSelector option:selected').data('url');
-        });
-    </script>
-}
-<style>
-    .pseudo-hidden {
-        color: rgba(0, 0, 0, 0.0);
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-</style>
-    @*<div class="btn-group pull-right h2">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="hidden-xs">Year </span><span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            @for (var year = 2001; year <= Config.CurrentYear; ++year)
-            {
-                if (year == Config.CurrentYear)
-                {
-                    dict.Remove("year");
-                }
-                else
-                {
-                    dict["year"] = year;
-                }
-                <li>@Html.RouteLink(year.ToString(), dict)</li>
-            }
-        </ul>
-    </div>*@
-<h2>@title <select class="pull-right" id="yearSelector">
-        @for (var year = 2001; year <= Config.CurrentYear; ++year)
-        {
-            if (year == Config.CurrentYear)
-            {
-                dict.Remove("year");
-            }
-            else
-            {
-                dict["year"] = year;
-            }
-            <option @(year == Model.Year ? "selected" : "") data-url="@Url.RouteUrl(dict)">@year</option>
-        }
-    </select></h2>
+<h2>@title @Html.Partial("_YearPartial")</h2>
 <div class="row">
     @foreach (var groupModel in Model.Groups)
     {

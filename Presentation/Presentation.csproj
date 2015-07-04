@@ -285,6 +285,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Team\Teams.cshtml" />
     <Content Include="Views\Standings\Standings.cshtml" />
+    <Content Include="Views\Shared\_YearPartial.cshtml" />
     <None Include="Views\Team\View.cshtml" />
   </ItemGroup>
   <ItemGroup />
