@@ -23,10 +23,7 @@
                             <th>Team<span class="hidden-xs pseudo-hidden">@hackText</span></th>
                             <th>W</th>
                             <th>L</th>
-                            @if (showTies)
-                            {
-                                <th>T</th>
-                            }
+                            @if (showTies) { <th>T</th> }
                             <th>Pct</th>
                             <th>GB</th>
                             <th class="hidden-xs">Div</th>
@@ -43,22 +40,19 @@
                                 <td>@teamModel.TeamName</td>
                                 <td>@teamModel.Wins</td>
                                 <td>@teamModel.Losses</td>
-                                @if (showTies)
-                                {
-                                    <td>@teamModel.Ties</td>
-                                }
-                                <td>@teamModel.WinningPercentage.ToString("0.000")</td>
-                                <td>@teamModel.GamesBack</td>
+                                @if (showTies) { <td>@teamModel.Ties</td> }
+                                <td>@teamModel.WinningPercentage.ToString(Consts.Decimal3PlacesFormat)</td>
+                                <td>@teamModel.GamesBack.ToString(Consts.GamesBackFormat)</td>
                                 <td class="hidden-xs">
                                     @teamModel.DivisionWins - @teamModel.DivisionLosses
-                                    @teamModel.DivisionTies.ToString("'- '#;;''")
+                                    @teamModel.DivisionTies.ToString(Consts.TiesFormat)
                                 </td>
                                 <td class="hidden-xs">@teamModel.RunsScored</td>
                                 <td class="hidden-xs">@teamModel.RunsAllowed</td>
                                 <td class="hidden-xs">@outcomeStrings[teamModel.StreakOutcome + 1] @teamModel.StreakCount</td>
                                 <td class="hidden-xs">
                                     @teamModel.Last5Wins - @teamModel.Last5Losses
-                                    @teamModel.Last5Ties.ToString("'- '#;;''")
+                                    @teamModel.Last5Ties.ToString(Consts.TiesFormat)
                                 </td>
                             </tr>
                         }

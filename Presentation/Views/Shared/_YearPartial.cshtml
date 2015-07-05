@@ -2,9 +2,9 @@
     var dict = ViewContext.RouteData.Values;
 }
 <select class="pull-right" id="yearSelector">
-    @for (var year = 2001; year <= Config.CurrentYear; ++year)
+    @for (var year = 2001; year <= Consts.CurrentYear; ++year)
     {
-        if (year == Config.CurrentYear)
+        if (year == Consts.CurrentYear)
         {
             dict.Remove("year");
         }

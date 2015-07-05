@@ -33,7 +33,7 @@ namespace Tcbcsl.Presentation
                 if (!int.TryParse(valueString, NumberStyles.Integer, CultureInfo.InvariantCulture, out year)) return false;
             }
 
-            return year >= Config.FirstYear && year <= Config.CurrentYear;
+            return year >= Consts.FirstYear && year <= Consts.CurrentYear;
         }
     }
 }

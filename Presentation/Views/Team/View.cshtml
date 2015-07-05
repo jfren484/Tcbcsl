@@ -25,7 +25,7 @@
                         <td>@Html.ActionLink(Model.CoachName, "View", "Coach", new { id = Model.CoachId, year = Model.Year }, null)</td>
                     </tr>
                 }
-                @if (Model.Year == Config.CurrentYear)
+                @if (Model.Year == Consts.CurrentYear)
                 {
                     <tr>
                         <th>Field</th>
@@ -48,6 +48,9 @@
             <table class="table">
                 @foreach (var statsLeader in Model.StatsLeaders)
                 {
+                    var valueFormat = statsLeader.Category.IsPercentage
+                                          ? Consts.Decimal3PlacesFormat
+                                          : Consts.WholeNumberFormat;
                     <tr>
                         <th>@Html.ActionLink(statsLeader.Category.Name, "Team", "Statistics", new { id = Model.TeamId, year = Model.Year, sort = statsLeader.Category.Name }, null)</th>
                         <td>
@@ -60,12 +63,12 @@
                                 @statsLeader.Name
                             }
                         </td>
-                        <td>@(statsLeader.Value == null ? null : statsLeader.Value.Value.ToString(statsLeader.Category.IsPercentage ? "N3" : "N0"))</td>
+                        <td>@(statsLeader.Value == null ? null : statsLeader.Value.Value.ToString(valueFormat))</td>
                     </tr>
                 }
             </table>
         </div>
-        @if (Model.Year == Config.CurrentYear)
+        @if (Model.Year == Consts.CurrentYear)
         {
             <h3>News</h3>
             if (Model.NewsItems.Any())
