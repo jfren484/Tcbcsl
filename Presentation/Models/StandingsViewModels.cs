@@ -12,6 +12,7 @@ namespace Tcbcsl.Presentation.Models
     {
         public int Year { get; set; }
         public StandingsType Type { get; set; }
+        public bool ShowTies { get; set; }
         public List<StandingsGroupModel> Groups { get; set; }
     }
 

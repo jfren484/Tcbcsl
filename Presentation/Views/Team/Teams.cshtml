@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Teams";
 }
-<h2>Teams</h2>
+<h2>Teams @Html.Partial("_YearPartial")</h2>
 <div class="row">
     @foreach (var divTeamsModel in Model.Divisions)
     {
@@ -15,11 +15,11 @@
                     @foreach (var teamModel in divTeamsModel.Teams)
                     {
                         <tr>
-                            <td>@teamModel.TeamName</td>
-                            <td class="actions-row">
+                            <td>@Html.TeamLink(teamModel.TeamName, teamModel.TeamId, Model.Year)</td>
+                            @*<td class="actions-row">
                                 <a href="@Url.Action("View", new { teamId = teamModel.TeamId, year = Model.Year })" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Team Page"><span class="glyphicon glyphicon-info-sign"></span></a>
-                                @*<a href="@Url.Action("Stats", new { id = teamModel.TeamId, year = Model.Year })" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Team Stats"><span class="glyphicon glyphicon-stats"></span></a>*@
-                            </td>
+                                <a href="@Url.Action("Stats", new { id = teamModel.TeamId, year = Model.Year })" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Team Stats"><span class="glyphicon glyphicon-stats"></span></a>
+                            </td>*@
                         </tr>
                     }
                 </table>

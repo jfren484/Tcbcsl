@@ -15,8 +15,3 @@
         <option @(year == Model.Year ? "selected" : "") data-url="@Url.RouteUrl(dict)">@year</option>
     }
 </select>
-<script>
-    $('#yearSelector').change(function () {
-        window.location.href = $('#yearSelector option:selected').data('url');
-    });
-</script>

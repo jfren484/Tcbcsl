@@ -3,9 +3,6 @@
     var title = Model.Type + " Standings";
     ViewBag.Title = title + " - " + Model.Year;
 
-    var outcomeStrings = new[] { "Lost", "Tied", "Won" };
-    var showTies = Model.Groups.Any(g => g.Teams.Any(t => t.Ties > 0));
-
     var hackText = new string('X', Model.Groups.SelectMany(g => g.Teams.Select(t => t.TeamName.Length)).Max());
 }
 <h2>@title @Html.Partial("_YearPartial")</h2>
@@ -23,7 +20,7 @@
                             <th>Team<span class="hidden-xs pseudo-hidden">@hackText</span></th>
                             <th>W</th>
                             <th>L</th>
-                            @if (showTies) { <th>T</th> }
+                            @if (Model.ShowTies) { <th>T</th> }
                             <th>Pct</th>
                             <th>GB</th>
                             <th class="hidden-xs">Div</th>
@@ -37,10 +34,10 @@
                         @foreach (var teamModel in groupModel.Teams)
                         {
                             <tr>
-                                <td>@teamModel.TeamName</td>
+                                <td>@Html.TeamLink(teamModel.TeamName, teamModel.TeamId, Model.Year)</td>
                                 <td>@teamModel.Wins</td>
                                 <td>@teamModel.Losses</td>
-                                @if (showTies) { <td>@teamModel.Ties</td> }
+                                @if (Model.ShowTies) { <td>@teamModel.Ties</td> }
                                 <td>@teamModel.WinningPercentage.ToString(Consts.Decimal3PlacesFormat)</td>
                                 <td>@teamModel.GamesBack.ToString(Consts.GamesBackFormat)</td>
                                 <td class="hidden-xs">
@@ -49,7 +46,7 @@
                                 </td>
                                 <td class="hidden-xs">@teamModel.RunsScored</td>
                                 <td class="hidden-xs">@teamModel.RunsAllowed</td>
-                                <td class="hidden-xs">@outcomeStrings[teamModel.StreakOutcome + 1] @teamModel.StreakCount</td>
+                                <td class="hidden-xs">@Consts.GameOutcomeVerbs[teamModel.StreakOutcome] @teamModel.StreakCount</td>
                                 <td class="hidden-xs">
                                     @teamModel.Last5Wins - @teamModel.Last5Losses
                                     @teamModel.Last5Ties.ToString(Consts.TiesFormat)

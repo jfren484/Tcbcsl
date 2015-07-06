@@ -18,6 +18,7 @@ namespace Tcbcsl.Presentation.Controllers
             {
                 Year = year,
                 Type = type,
+                ShowTies = teams.Any(t => t.Model.Ties > 0),
                 Groups = type == StandingsType.Division
                     ? GetDivisionStandingsTeamModels(teams)
                     : GetLeagueStandingsTeamModels(teams)

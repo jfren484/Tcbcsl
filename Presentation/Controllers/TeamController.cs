@@ -40,8 +40,8 @@ namespace Tcbcsl.Presentation.Controllers
             });
         }
 
-        [Route("Team/{year:year}/{teamId}")]
-        public ActionResult View(int teamId, int year)
+        [Route("Team/{teamId}/{year:year?}")]
+        public ActionResult View(int teamId, int year = Consts.CurrentYear)
         {
             var statsCategories = new List<StatsCategory>
             {
