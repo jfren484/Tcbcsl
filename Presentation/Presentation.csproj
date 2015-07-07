@@ -198,6 +198,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
+    <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\StandingsController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Global.asax.cs">
@@ -288,6 +289,7 @@
     <Content Include="Views\Team\Teams.cshtml" />
     <Content Include="Views\Standings\Standings.cshtml" />
     <Content Include="Views\Shared\_YearPartial.cshtml" />
+    <Content Include="Views\Schedule\Schedule.cshtml" />
     <None Include="Views\Team\View.cshtml" />
   </ItemGroup>
   <ItemGroup />
