@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Web;
 using System.Web.Routing;
 
-namespace Tcbcsl.Presentation
+namespace Tcbcsl.Presentation.Helpers
 {
     public class YearRouteConstraint : IRouteConstraint
     {
