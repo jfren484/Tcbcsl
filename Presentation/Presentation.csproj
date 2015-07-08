@@ -208,6 +208,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContentItemViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ScheduleViewModels.cs" />
     <Compile Include="Models\StandingsViewModels.cs" />
     <Compile Include="Models\TeamViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

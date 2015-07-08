@@ -9,6 +9,7 @@ namespace Tcbcsl.Presentation
 
         public const string WholeNumberFormat = "N0";
         public const string Decimal3PlacesFormat = "N3";
+        public const string DateFormat = "MMMM d, yyyy";
         public const string TiesFormat = "'- '#;;''";
         public const string GamesBackFormat = "0.0;0.0;'---'";
 

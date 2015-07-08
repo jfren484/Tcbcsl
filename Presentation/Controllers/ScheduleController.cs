@@ -1,15 +1,31 @@
 ﻿using System;
+using System.Data.Entity.SqlServer;
+using System.Linq;
 using System.Web.Mvc;
+using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Controllers
 {
-    public class ScheduleController : Controller
+    public class ScheduleController : ControllerBase
     {
         [Route("Schedule/{date:datetime?}")]
         public ActionResult Schedule(DateTime? date)
         {
-            var scheduleDate = date ?? DateTime.Today;
-            return View((object)scheduleDate.ToLongDateString());
+            var model = new ScheduleModel
+            {
+                Date = date ?? GetClosestGameDate()
+            };
+                    
+            return View(model);
+        }
+
+        private DateTime GetClosestGameDate()
+        {
+            var dateQuery = from g in DbContext.Games
+                            orderby Math.Abs(SqlFunctions.DateDiff("day", g.GameDate, DateTime.Now).Value)
+                            select g.GameDate;
+
+            return dateQuery.First().Date;
         }
     }
 }
