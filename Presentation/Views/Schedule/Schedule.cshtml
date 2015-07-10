@@ -4,5 +4,13 @@
     ViewBag.Title = title;
 }
 <h2>@title</h2>
-<div class="row">
-</div>
+@foreach (var conference in Model.ConferenceModels)
+{
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                @conference.Label Conference Games
+            </div>
+        </div>
+    </div>
+}

@@ -1,7 +1,7 @@
 ﻿@model StandingsModel
 @{
     var title = Model.Type + " Standings";
-    ViewBag.Title = title + " - " + Model.Year;
+    ViewBag.Title = title + Model.Year.AsTitleSuffix();
 
     var hackText = new string('X', Model.Groups.SelectMany(g => g.Teams.Select(t => t.TeamName.Length)).Max());
 }

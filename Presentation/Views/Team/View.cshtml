@@ -1,8 +1,8 @@
 ﻿@model TeamViewModel
 @{
-    ViewBag.Title = Model.TeamName;
+    ViewBag.Title = Model.TeamName + Model.Year.AsTitleSuffix();
 }
-<h2>@Model.TeamName</h2>
+<h2>@Model.TeamName @Html.Partial("_YearPartial")</h2>
 <div class="row">
     <div class="col-md-6">
         <div class="panel panel-primary">

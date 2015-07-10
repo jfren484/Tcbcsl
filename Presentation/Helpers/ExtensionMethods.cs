@@ -6,6 +6,13 @@ namespace Tcbcsl.Presentation.Helpers
 {
     public static class ExtensionMethods
     {
+        public static string AsTitleSuffix(this int year)
+        {
+            return year == Consts.CurrentYear
+                ? ""
+                : " - " + year;
+        }
+
         public static MvcHtmlString TeamLink(this HtmlHelper htmlHelper, string teamName, int teamId, int year)
         {
             var extraParameters = new RouteValueDictionary { { "teamId", teamId } };

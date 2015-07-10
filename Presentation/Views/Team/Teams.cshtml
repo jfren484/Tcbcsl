@@ -1,6 +1,6 @@
 ﻿@model TeamsListModel
 @{
-    ViewBag.Title = "Teams";
+    ViewBag.Title = "Teams" + Model.Year.AsTitleSuffix();
 }
 <h2>Teams @Html.Partial("_YearPartial")</h2>
 <div class="row">
