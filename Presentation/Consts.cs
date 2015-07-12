@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Tcbcsl.Presentation
 {
@@ -13,11 +14,39 @@ namespace Tcbcsl.Presentation
         public const string TiesFormat = "'- '#;;''";
         public const string GamesBackFormat = "0.0;0.0;'---'";
 
+        public static readonly List<DateTime> TournamentDates = new List<DateTime>
+        {
+            DateTime.Parse("2001-08-18"),
+            DateTime.Parse("2002-08-17"),
+            DateTime.Parse("2003-08-16"),
+            DateTime.Parse("2004-08-21"),
+            DateTime.Parse("2005-08-20"),
+            DateTime.Parse("2006-08-19"),
+            DateTime.Parse("2007-08-18"),
+            DateTime.Parse("2008-08-16"),
+            DateTime.Parse("2009-08-15"),
+            DateTime.Parse("2010-08-21"),
+            DateTime.Parse("2011-08-20"),
+            DateTime.Parse("2012-08-18"),
+            DateTime.Parse("2013-08-17"),
+            DateTime.Parse("2014-08-16"),
+            DateTime.Parse("2015-08-15")
+        };
+
         public static readonly Dictionary<int, string> GameOutcomeVerbs = new Dictionary<int, string>
         {
             [-1] = "Lost",
             [0] = "Tied",
             [1] = "Won"
         };
+
+        /*
+        $g_asTOURN_DATE		= array('2001-08-18', '2002-08-17', '2003-08-16', '2004-08-21', '2005-08-20', '2006-08-19', '2007-08-18', '2008-08-16', '2009-08-15', '2010-08-21', '2011-08-20', '2012-08-18', '2013-08-17', '2014-08-16', '2015-08-15');
+        $g_asIGNORE_KEYS	= array('year', 'date');
+        $g_lTEAM_ID_TBD		= 44;
+        $g_lTEAM_ID_PP		= 60;
+        $g_lCOACH_ID_DUMMY	= 31;
+        $g_sPH_DIV_NAME		= 'Post-Season';
+        */
     }
 }
