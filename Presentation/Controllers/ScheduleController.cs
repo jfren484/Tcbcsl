@@ -39,45 +39,45 @@ namespace Tcbcsl.Presentation.Controllers
             }
 
             var model = new ScheduleModel
-            {
-                Date = scheduleDate,
-                ConferenceModels = bucketedGames.OrderBy(kvp => kvp.Key.Sort)
-                                                .Select(kvp => new ScheduleConferenceModel
-                                                    {
-                                                        Label = kvp.Key.Label,
-                                                        Games = kvp.Value.Select(GameModelFromGame).ToList()
-                                                    })
-                                                .ToList()
-            };
-                    
+                        {
+                            Date = scheduleDate,
+                            ConferenceModels = bucketedGames.OrderBy(kvp => kvp.Key.Sort)
+                                                            .Select(kvp => new ScheduleConferenceModel
+                                                                           {
+                                                                               Label = kvp.Key.Label,
+                                                                               Games = kvp.Value.Select(GameModelFromGame).ToList()
+                                                                           })
+                                                            .ToList()
+                        };
+
             return View(model);
         }
 
         private ScheduleGameModel GameModelFromGame(Game game)
         {
             return new ScheduleGameModel
-            {
-                GameId = game.GameId,
-                GameDate = game.GameDate,
-                DisplayScores = game.GameStatus.DisplayScores,
-                Outcome = game.GameStatus.Description,
-                HomeTeam = game.GameParticipants.Where(gp => gp.IsHost).Select(GameTeamModelFromParticipant).Single(),
-                RoadTeam = game.GameParticipants.Where(gp => !gp.IsHost).Select(GameTeamModelFromParticipant).Single()
-            };
+                   {
+                       GameId = game.GameId,
+                       GameDate = game.GameDate,
+                       DisplayScores = game.GameStatus.DisplayScores,
+                       Outcome = game.GameStatus.Description,
+                       HomeTeam = game.GameParticipants.Where(gp => gp.IsHost).Select(GameTeamModelFromParticipant).Single(),
+                       RoadTeam = game.GameParticipants.Where(gp => !gp.IsHost).Select(GameTeamModelFromParticipant).Single()
+                   };
         }
 
         private ScheduleGameTeamModel GameTeamModelFromParticipant(GameParticipant gp)
         {
             return new ScheduleGameTeamModel
-            {
-                TeamId = gp.TeamYear.TeamId,
-                TeamName = gp.TeamYear.Church.DisplayName + (string.IsNullOrEmpty(gp.TeamYear.TeamName)
-                    ? null
-                    : " " + gp.TeamYear.TeamName),
-                RecordInfo = "", // TODO: figure this out
-                RunsScored = gp.RunsScored,
-                Hits = gp.StatLines.Any() ? gp.StatLines.Sum(sl => sl.StatHits) : (int?)null
-            };
+                   {
+                       TeamId = gp.TeamYear.TeamId,
+                       TeamName = gp.TeamYear.Church.DisplayName + (string.IsNullOrEmpty(gp.TeamYear.TeamName)
+                                                                        ? null
+                                                                        : " " + gp.TeamYear.TeamName),
+                       RecordInfo = "", // TODO: figure this out
+                       RunsScored = gp.RunsScored,
+                       Hits = gp.StatLines.Any() ? gp.StatLines.Sum(sl => sl.StatHits) : (int?)null
+                   };
         }
 
         private GameBucket GetGameBucket(Game game)
@@ -121,8 +121,8 @@ namespace Tcbcsl.Presentation.Controllers
 
         private struct GameBucket : IEquatable<GameBucket>
         {
-            public string Label { get; private set; }
-            public int Sort { get; private set; }
+            public string Label { get; }
+            public int Sort { get; }
 
             public GameBucket(string label, int sort)
             {
@@ -139,41 +139,6 @@ namespace Tcbcsl.Presentation.Controllers
             public bool Equals(GameBucket other)
             {
                 return other.Label == Label;
-            }
-        }
-
-        private class ConferenceSummary
-        {
-            public int ConferenceYearId { get; set; }
-            public string Name { get; set; }
-            public int Sort { get; set; }
-            public bool IsInLeague { get; set; }
-        }
-
-        private class ConferenceSummaryComparer : IEqualityComparer<ConferenceSummary>, IEqualityComparer<List<ConferenceSummary>>
-        {
-            public bool Equals(ConferenceSummary x, ConferenceSummary y)
-            {
-                return x.ConferenceYearId == y.ConferenceYearId;
-            }
-
-            public bool Equals(List<ConferenceSummary> x, List<ConferenceSummary> y)
-            {
-                return x.SequenceEqual(y, this);
-            }
-
-            public int GetHashCode(ConferenceSummary obj)
-            {
-                return obj.ConferenceYearId.GetHashCode();
-            }
-
-            public int GetHashCode(List<ConferenceSummary> obj)
-            {
-                var first = obj[0].ConferenceYearId.GetHashCode();
-
-                return obj.Count == 1
-                    ? first
-                    : first + 1000 * obj[1].ConferenceYearId.GetHashCode();
             }
         }
     }
