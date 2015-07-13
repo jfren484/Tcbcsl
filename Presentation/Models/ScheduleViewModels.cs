@@ -19,7 +19,7 @@ namespace Tcbcsl.Presentation.Models
     {
         public int GameId { get; set; }
         public DateTime GameDate { get; set; }
-        public bool IsComplete { get; set; }
+        public bool DisplayScores { get; set; }
         public string Outcome { get; set; }
         public ScheduleGameTeamModel RoadTeam { get; set; }
         public ScheduleGameTeamModel HomeTeam { get; set; }
@@ -31,5 +31,6 @@ namespace Tcbcsl.Presentation.Models
         public string TeamName { get; set; }
         public string RecordInfo { get; set; }
         public int RunsScored { get; set; }
+        public int? Hits { get; set; }
     }
 }

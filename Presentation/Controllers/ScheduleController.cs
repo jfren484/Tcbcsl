@@ -59,7 +59,7 @@ namespace Tcbcsl.Presentation.Controllers
             {
                 GameId = game.GameId,
                 GameDate = game.GameDate,
-                IsComplete = game.GameStatus.IsComplete,
+                DisplayScores = game.GameStatus.DisplayScores,
                 Outcome = game.GameStatus.Description,
                 HomeTeam = game.GameParticipants.Where(gp => gp.IsHost).Select(GameTeamModelFromParticipant).Single(),
                 RoadTeam = game.GameParticipants.Where(gp => !gp.IsHost).Select(GameTeamModelFromParticipant).Single()
@@ -71,9 +71,12 @@ namespace Tcbcsl.Presentation.Controllers
             return new ScheduleGameTeamModel
             {
                 TeamId = gp.TeamYear.TeamId,
-                TeamName = gp.TeamYear.TeamName,
+                TeamName = gp.TeamYear.Church.DisplayName + (string.IsNullOrEmpty(gp.TeamYear.TeamName)
+                    ? null
+                    : " " + gp.TeamYear.TeamName),
                 RecordInfo = "", // TODO: figure this out
-                RunsScored = gp.RunsScored
+                RunsScored = gp.RunsScored,
+                Hits = gp.StatLines.Any() ? gp.StatLines.Sum(sl => sl.StatHits) : (int?)null
             };
         }
 

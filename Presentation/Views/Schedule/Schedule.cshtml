@@ -3,6 +3,26 @@
     var title = "Schedule for " + Model.Date.ToString(Consts.DateFormat);
     ViewBag.Title = title;
 }
+<style>
+    table.game {
+        margin-bottom: 20px;
+        border: solid 1px #ddd;
+        width: 100%;
+    }
+    table.game thead {
+        background-color: #f8f8f8;
+        border-bottom: solid 1px #ddd;
+    }
+    table.game th {
+        padding: 0 5px;
+    }
+    table.game td {
+        padding: 10px 5px;
+    }
+    table.game tr.winner td {
+        font-weight: bold;
+    }
+</style>
 <h2>@title</h2>
 @foreach (var conference in Model.ConferenceModels)
 {
@@ -10,6 +30,53 @@
         <div class="panel panel-primary">
             <div class="panel-heading">
                 @conference.Label Games
+            </div>
+            <div class="panel-body">
+                @foreach (var game in conference.Games)
+                {
+                    var showHits = game.RoadTeam.Hits.HasValue || game.HomeTeam.Hits.HasValue;
+                    <div class="col-lg-3">
+                        <table class="game">
+                            <thead>
+                                <tr>
+                                    <th>@(game.DisplayScores ? game.Outcome : game.GameDate.ToString("t"))</th>
+                                    @if (game.DisplayScores)
+                                    {
+                                        <th>R</th>
+                                        if (showHits)
+                                        {
+                                            <th>H</th>
+                                        }
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="@(game.RoadTeam.RunsScored > game.HomeTeam.RunsScored ? "winner" : "")">
+                                    <td>@Html.TeamLink(game.RoadTeam.TeamName, game.RoadTeam.TeamId, game.GameDate.Year)</td>
+                                    @if (game.DisplayScores)
+                                    {
+                                        <td>@game.RoadTeam.RunsScored</td>
+                                        if (showHits)
+                                        {
+                                            <td>@game.RoadTeam.Hits</td>
+                                        }
+                                    }
+                                </tr>
+                                <tr class="@(game.HomeTeam.RunsScored > game.RoadTeam.RunsScored ? "winner" : "")">
+                                    <td>@Html.TeamLink(game.HomeTeam.TeamName, game.HomeTeam.TeamId, game.GameDate.Year)</td>
+                                    @if (game.DisplayScores)
+                                    {
+                                        <td>@game.HomeTeam.RunsScored</td>
+                                        if (showHits)
+                                        {
+                                            <td>@game.HomeTeam.Hits</td>
+                                        }
+                                    }
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                }
             </div>
         </div>
     </div>
