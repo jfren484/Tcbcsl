@@ -34,45 +34,33 @@
             <div class="panel-body">
                 @foreach (var game in conference.Games)
                 {
-                    var showHits = game.RoadTeam.Hits.HasValue || game.HomeTeam.Hits.HasValue;
                     <div class="col-lg-3">
                         <table class="game">
                             <thead>
                                 <tr>
                                     <th>@(game.DisplayScores ? game.Outcome : game.GameDate.ToString("t"))</th>
-                                    @if (game.DisplayScores)
+                                    @if (game.IsComplete)
                                     {
                                         <th>R</th>
-                                        if (showHits)
-                                        {
-                                            <th>H</th>
-                                        }
+                                        <th>H</th>
                                     }
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="@(game.RoadTeam.RunsScored > game.HomeTeam.RunsScored ? "winner" : "")">
-                                    <td>@Html.TeamLink(game.RoadTeam.TeamName, game.RoadTeam.TeamId, game.GameDate.Year)</td>
-                                    @if (game.DisplayScores)
+                            @foreach (var team in game.Teams)
+                            {
+                                <tr class="@(team.IsWinner ? "winner" : "")">
+                                    <td>
+                                        @Html.TeamLink(team.TeamName, team.TeamId, game.GameDate.Year)
+                                        @*<br/>@team.RecordInfo*@
+                                    </td>
+                                    @if (game.IsComplete)
                                     {
-                                        <td>@game.RoadTeam.RunsScored</td>
-                                        if (showHits)
-                                        {
-                                            <td>@game.RoadTeam.Hits</td>
-                                        }
+                                        <td>@team.RunsScored</td>
+                                        <td>@team.Hits</td>
                                     }
                                 </tr>
-                                <tr class="@(game.HomeTeam.RunsScored > game.RoadTeam.RunsScored ? "winner" : "")">
-                                    <td>@Html.TeamLink(game.HomeTeam.TeamName, game.HomeTeam.TeamId, game.GameDate.Year)</td>
-                                    @if (game.DisplayScores)
-                                    {
-                                        <td>@game.HomeTeam.RunsScored</td>
-                                        if (showHits)
-                                        {
-                                            <td>@game.HomeTeam.Hits</td>
-                                        }
-                                    }
-                                </tr>
+                            }
                             </tbody>
                         </table>
                     </div>

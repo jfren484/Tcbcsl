@@ -110,8 +110,6 @@ namespace Tcbcsl.Presentation.Controllers
                                                                              IsPlaceholder = gp.Game.GameTypeId == GameType.GamePlaceholder,
                                                                              IsExhibition = gp.Game.GameTypeId == GameType.Exhibition,
                                                                              GameResultDescription = gp.Game.GameStatus.IsComplete
-                                                                                                         //? winLossChar + " " + SqlFunctions.StringConvert((decimal)winnerRuns) + "-"
-                                                                                                         //  + SqlFunctions.StringConvert((decimal)loserRuns)
                                                                                                          ? winLossChar + " " + winnerRuns + "-" + loserRuns
                                                                                                          : gp.Game.GameStatusId != GameStatus.Scheduled
                                                                                                                ? gp.Game.GameStatus.Description

@@ -217,6 +217,7 @@
     <Compile Include="Models\TeamViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ContentService.cs" />
+    <Compile Include="Services\ScheduleService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Helpers\YearRouteConstraint.cs" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿@model StandingsModel
+﻿@using Tcbcsl.Presentation.Services
+@model StandingsModel
 @{
     var title = Model.Type + " Standings";
     ViewBag.Title = title + Model.Year.AsTitleSuffix();
@@ -40,17 +41,11 @@
                                 @if (Model.ShowTies) { <td>@teamModel.Ties</td> }
                                 <td>@teamModel.WinningPercentage.ToString(Consts.Decimal3PlacesFormat)</td>
                                 <td>@teamModel.GamesBack.ToString(Consts.GamesBackFormat)</td>
-                                <td class="hidden-xs">
-                                    @teamModel.DivisionWins - @teamModel.DivisionLosses
-                                    @teamModel.DivisionTies.ToString(Consts.TiesFormat)
-                                </td>
+                                <td class="hidden-xs">@ScheduleService.FormatRecord(teamModel.DivisionWins, teamModel.DivisionLosses, teamModel.DivisionTies)</td>
                                 <td class="hidden-xs">@teamModel.RunsScored</td>
                                 <td class="hidden-xs">@teamModel.RunsAllowed</td>
                                 <td class="hidden-xs">@Consts.GameOutcomeVerbs[teamModel.StreakOutcome] @teamModel.StreakCount</td>
-                                <td class="hidden-xs">
-                                    @teamModel.Last5Wins - @teamModel.Last5Losses
-                                    @teamModel.Last5Ties.ToString(Consts.TiesFormat)
-                                </td>
+                                <td class="hidden-xs">@ScheduleService.FormatRecord(teamModel.Last5Wins, teamModel.Last5Losses, teamModel.Last5Ties)</td>
                             </tr>
                         }
                     </tbody>

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Models;
+using Tcbcsl.Presentation.Services;
 
 namespace Tcbcsl.Presentation.Controllers
 {
@@ -45,7 +46,7 @@ namespace Tcbcsl.Presentation.Controllers
                                                             .Select(kvp => new ScheduleConferenceModel
                                                                            {
                                                                                Label = kvp.Key.Label,
-                                                                               Games = kvp.Value.Select(GameModelFromGame).ToList()
+                                                                               Games = kvp.Value.Select(ScheduleService.GameModelFromGame).ToList()
                                                                            })
                                                             .ToList()
                         };
@@ -53,34 +54,7 @@ namespace Tcbcsl.Presentation.Controllers
             return View(model);
         }
 
-        private ScheduleGameModel GameModelFromGame(Game game)
-        {
-            return new ScheduleGameModel
-                   {
-                       GameId = game.GameId,
-                       GameDate = game.GameDate,
-                       DisplayScores = game.GameStatus.DisplayScores,
-                       Outcome = game.GameStatus.Description,
-                       HomeTeam = game.GameParticipants.Where(gp => gp.IsHost).Select(GameTeamModelFromParticipant).Single(),
-                       RoadTeam = game.GameParticipants.Where(gp => !gp.IsHost).Select(GameTeamModelFromParticipant).Single()
-                   };
-        }
-
-        private ScheduleGameTeamModel GameTeamModelFromParticipant(GameParticipant gp)
-        {
-            return new ScheduleGameTeamModel
-                   {
-                       TeamId = gp.TeamYear.TeamId,
-                       TeamName = gp.TeamYear.Church.DisplayName + (string.IsNullOrEmpty(gp.TeamYear.TeamName)
-                                                                        ? null
-                                                                        : " " + gp.TeamYear.TeamName),
-                       RecordInfo = "", // TODO: figure this out
-                       RunsScored = gp.RunsScored,
-                       Hits = gp.StatLines.Any() ? gp.StatLines.Sum(sl => sl.StatHits) : (int?)null
-                   };
-        }
-
-        private GameBucket GetGameBucket(Game game)
+        private static GameBucket GetGameBucket(Game game)
         {
             if (game.GameTypeId == GameType.GamePlaceholder)
             {
