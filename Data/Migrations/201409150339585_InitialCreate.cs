@@ -1,8 +1,8 @@
+using System.Data.Entity.Migrations;
+
 namespace Tcbcsl.Data.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
+    // ReSharper disable once UnusedMember.Global
     public partial class InitialCreate : DbMigration
     {
         public override void Up()

@@ -17,7 +17,7 @@ namespace Tcbcsl.Presentation.Services
                    {
                        GameId = game.GameId,
                        GameDate = game.GameDate,
-                       DisplayScores = game.GameStatus.DisplayScores,
+                       DisplayOutcome = game.GameStatus.DisplayOutcome,
                        IsComplete = game.GameStatus.IsComplete,
                        Outcome = game.GameStatus.Description,
                        Teams = game.GameParticipants

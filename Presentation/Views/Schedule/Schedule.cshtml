@@ -38,7 +38,7 @@
                         <table class="game">
                             <thead>
                                 <tr>
-                                    <th>@(game.DisplayScores ? game.Outcome : game.GameDate.ToString("t"))</th>
+                                    <th>@(game.DisplayOutcome ? game.Outcome : game.GameDate.ToString("t"))</th>
                                     @if (game.IsComplete)
                                     {
                                         <th>R</th>

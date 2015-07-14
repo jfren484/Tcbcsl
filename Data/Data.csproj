@@ -86,6 +86,10 @@
     <Compile Include="Migrations\201409150421366_AddTcbcslTables.Designer.cs">
       <DependentUpon>201409150421366_AddTcbcslTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507141922308_ChangeColumnOnGameStatus.cs" />
+    <Compile Include="Migrations\201507141922308_ChangeColumnOnGameStatus.Designer.cs">
+      <DependentUpon>201507141922308_ChangeColumnOnGameStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
     <Compile Include="Entities\PageContent.cs" />
@@ -112,6 +116,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409150421366_AddTcbcslTables.resx">
       <DependentUpon>201409150421366_AddTcbcslTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507141922308_ChangeColumnOnGameStatus.resx">
+      <DependentUpon>201507141922308_ChangeColumnOnGameStatus.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

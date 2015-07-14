@@ -19,7 +19,7 @@ namespace Tcbcsl.Presentation.Models
     {
         public int GameId { get; set; }
         public DateTime GameDate { get; set; }
-        public bool DisplayScores { get; set; }
+        public bool DisplayOutcome { get; set; }
         public bool IsComplete { get; set; }
         public string Outcome { get; set; }
 

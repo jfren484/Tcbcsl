@@ -10,7 +10,7 @@ namespace Tcbcsl.Data.Entities
         public string Description { get; set; }
 
         [Required]
-        public bool DisplayScores { get; set; }
+        public bool DisplayOutcome { get; set; }
 
         [Required]
         public bool IsComplete { get; set; }
