@@ -17,29 +17,26 @@
                     <div class="col-lg-3 col-md-4 col-sm-6 grid4321">
                         <div class="schedule-game">
                             <div class="container-fluid game-header">
-                                <div class="row">
-                                    <div class="col-xs-@(game.IsComplete ? 8 : 12)">@(game.DisplayOutcome ? game.Outcome : game.GameDate.ToString("t"))</div>
-                                    @if (game.IsComplete)
-                                    {
-                                        <div class="col-xs-2">R</div>
-                                        <div class="col-xs-2">H</div>
-                                    }
-                                </div>
+                                @Html.Partial("_ScheduleGameRow", new ScheduleGameRowModel
+                                                                  {
+                                                                      RowClasses = "row",
+                                                                      DisplayScores = game.IsComplete,
+                                                                      LabelHtml = MvcHtmlString.Create(game.DisplayOutcome ? game.Outcome : game.GameDate.ToString("t")),
+                                                                      Runs = "R",
+                                                                      Hits = "H"
+                                                                  })
                             </div>
                             <div class="container-fluid game-body">
                                 @foreach (var team in game.Teams)
                                 {
-                                    <div class="row @(team.IsWinner ? "winner" : "")">
-                                        <div class="col-xs-@(game.IsComplete ? 8 : 12)">
-                                            @Html.TeamLink(team.TeamName, team.TeamId, game.GameDate.Year)
-                                            @*<br/>@team.RecordInfo*@
-                                        </div>
-                                        @if (game.IsComplete)
-                                        {
-                                            <div class="col-xs-2">@team.RunsScored</div>
-                                            <div class="col-xs-2">@team.Hits</div>
-                                        }
-                                    </div>
+                                    @Html.Partial("_ScheduleGameRow", new ScheduleGameRowModel
+                                                                      {
+                                                                          RowClasses = "row" + (team.IsWinner ? " winner" : ""),
+                                                                          DisplayScores = game.IsComplete,
+                                                                          LabelHtml = Html.Partial("_ScheduleTeamInfo", team),
+                                                                          Runs = team.RunsScored,
+                                                                          Hits = team.Hits
+                                                                      })
                                 }
                             </div>
                         </div>

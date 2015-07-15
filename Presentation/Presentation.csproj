@@ -296,6 +296,8 @@
     <Content Include="Views\Standings\Standings.cshtml" />
     <Content Include="Views\Shared\_YearPartial.cshtml" />
     <Content Include="Views\Schedule\Schedule.cshtml" />
+    <Content Include="Views\Schedule\_ScheduleTeamInfo.cshtml" />
+    <Content Include="Views\Schedule\_ScheduleGameRow.cshtml" />
     <None Include="Views\Team\View.cshtml" />
   </ItemGroup>
   <ItemGroup />

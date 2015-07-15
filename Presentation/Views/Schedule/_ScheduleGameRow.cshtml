@@ -1,0 +1,13 @@
+﻿@model ScheduleGameRowModel
+<div class="@Model.RowClasses">
+    @if (Model.DisplayScores)
+    {
+        <div class="col-xs-8">@Model.LabelHtml</div>
+        <div class="col-xs-2">@Model.Runs</div>
+        <div class="col-xs-2">@Model.Hits</div>
+    }
+    else
+    {
+        <div class="col-xs-12">@Model.LabelHtml</div>
+    }
+</div>

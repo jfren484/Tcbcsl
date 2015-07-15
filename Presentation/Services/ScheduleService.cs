@@ -37,13 +37,14 @@ namespace Tcbcsl.Presentation.Services
                        TeamName = gameParticipant.TeamYear.Church.DisplayName + (string.IsNullOrEmpty(gameParticipant.TeamYear.TeamName)
                                                                                      ? null
                                                                                      : " " + gameParticipant.TeamYear.TeamName),
+                       Year = gameParticipant.Game.GameDate.Year,
                        IsWinner = gameParticipant.RunsScored > opponent.RunsScored,
-                       RecordInfo = "(0-0, 0-0 Anywhere)",// GetRecordInfo(gameParticipant), // JAF - this is just too slow right now
                        RunsScored = gameParticipant.RunsScored,
                        Hits = gameParticipant.StatLines.Any() ? gameParticipant.StatLines.Sum(sl => sl.StatHits) : (int?)null
                    };
         }
 
+        /* JAF - This works, but is way too slow
         private static string GetRecordInfo(GameParticipant gameParticipant)
         {
             var teamGamesBeforeThisDate = (from gp in gameParticipant.TeamYear.GameParticipants
@@ -79,5 +80,6 @@ namespace Tcbcsl.Presentation.Services
 
             return $"({totalRecord}, {locationSpecificRecord} {locationSpecificLabel})";
         }
+        */
     }
 }

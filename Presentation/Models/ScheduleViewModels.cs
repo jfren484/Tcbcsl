@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Models
 {
@@ -31,9 +32,19 @@ namespace Tcbcsl.Presentation.Models
     {
         public int TeamId { get; set; }
         public string TeamName { get; set; }
+        public int Year { get; set; }
         public bool IsWinner { get; set; }
         public string RecordInfo { get; set; }
         public int RunsScored { get; set; }
         public int? Hits { get; set; }
+    }
+
+    public class ScheduleGameRowModel
+    {
+        public string RowClasses { get; set; }
+        public bool DisplayScores { get; set; }
+        public MvcHtmlString LabelHtml { get; set; }
+        public object Runs { get; set; }
+        public object Hits { get; set; }
     }
 }
