@@ -298,6 +298,7 @@
     <Content Include="Views\Schedule\Schedule.cshtml" />
     <Content Include="Views\Schedule\_ScheduleTeamInfo.cshtml" />
     <Content Include="Views\Schedule\_ScheduleGameRow.cshtml" />
+    <Content Include="Views\Shared\_NavDropdownToggle.cshtml" />
     <None Include="Views\Team\View.cshtml" />
   </ItemGroup>
   <ItemGroup />
