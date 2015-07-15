@@ -1,8 +1,10 @@
 ﻿@model TeamsListModel
 @{
-    ViewBag.Title = "Teams" + Model.Year.AsTitleSuffix();
+    const string title = "Teams";
+    ViewBag.Title = title + Model.Year.AsTitleSuffix();
 }
-<h2>Teams @Html.Partial("_YearPartial")</h2>
+@Html.Partial("_YearPartial")
+<h2>@title</h2>
 <div class="row">
     @foreach (var divTeamsModel in Model.Divisions)
     {

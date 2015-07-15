@@ -6,7 +6,8 @@
 
     var hackText = new string('X', Model.Groups.SelectMany(g => g.Teams.Select(t => t.TeamName.Length)).Max());
 }
-<h2>@title @Html.Partial("_YearPartial")</h2>
+@Html.Partial("_YearPartial")
+<h2>@title</h2>
 <div class="row">
     @foreach (var groupModel in Model.Groups)
     {

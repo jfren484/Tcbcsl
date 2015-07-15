@@ -1,17 +1,31 @@
 ﻿@{ 
     var dict = ViewContext.RouteData.Values;
 }
-<select class="pull-right" id="yearSelector">
-    @for (var year = Consts.CurrentYear; year >= 2001; --year)
-    {
-        if (year == Consts.CurrentYear)
+<div class="dropdown pull-right" style="margin-top: 20px;">
+    <button class="btn btn-info dropdown-toggle" type="button" id="yearSelector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 1.7em; padding: 0 10px;">
+        @Model.Year
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        @for (var year = Consts.CurrentYear; year >= 2001; --year)
         {
-            dict.Remove("year");
+            if (year == Model.Year)
+            {
+                <li class="active"><a>@year</a></li>
+            }
+            else
+            {
+                if (year == Consts.CurrentYear)
+                {
+                    dict.Remove("year");
+                }
+                else
+                {
+                    dict["year"] = year;
+                }
+
+                <li><a href="@Url.RouteUrl(dict)">@year</a></li>
+            }
         }
-        else
-        {
-            dict["year"] = year;
-        }
-        <option @(year == Model.Year ? "selected" : "") data-url="@Url.RouteUrl(dict)">@year</option>
-    }
-</select>
+    </ul>
+</div>
