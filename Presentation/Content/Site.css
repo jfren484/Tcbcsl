@@ -31,3 +31,50 @@ textarea {
     -ms-user-select: none;
     user-select: none;
 }
+
+.schedule-game {
+    margin-bottom: 20px;
+    border: solid 1px #ddd;
+}
+
+.schedule-game .game-header {
+    background-color: #f8f8f8;
+    border-bottom: solid 1px #ddd;
+}
+
+.schedule-game .game-header .row div {
+    padding: 0 5px;
+    font-weight: bold;
+    text-align: right;
+}
+
+.schedule-game .game-body .row div {
+    padding: 10px 5px;
+    text-align: right;
+}
+
+.schedule-game .row div:first-child {
+    text-align: left;
+}
+
+.schedule-game .game-body .winner {
+    font-weight: bold;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .grid4321:nth-child(2n + 1) {
+        clear: left;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .grid4321:nth-child(3n + 1) {
+        clear: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    .grid4321:nth-child(4n + 1) {
+        clear: left;
+    }
+}

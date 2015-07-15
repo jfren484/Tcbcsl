@@ -3,66 +3,46 @@
     var title = "Schedule for " + Model.Date.ToString(Consts.DateFormat);
     ViewBag.Title = title;
 }
-<style>
-    table.game {
-        margin-bottom: 20px;
-        border: solid 1px #ddd;
-        width: 100%;
-    }
-    table.game thead {
-        background-color: #f8f8f8;
-        border-bottom: solid 1px #ddd;
-    }
-    table.game th {
-        padding: 0 5px;
-    }
-    table.game td {
-        padding: 10px 5px;
-    }
-    table.game tr.winner td {
-        font-weight: bold;
-    }
-</style>
 <h2>@title</h2>
 @foreach (var conference in Model.ConferenceModels)
 {
-    <div class="row">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                @conference.Label Games
-            </div>
-            <div class="panel-body">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            @conference.Label Games
+        </div>
+        <div class="panel-body">
+            <div class="row">
                 @foreach (var game in conference.Games)
                 {
-                    <div class="col-lg-3">
-                        <table class="game">
-                            <thead>
-                                <tr>
-                                    <th>@(game.DisplayOutcome ? game.Outcome : game.GameDate.ToString("t"))</th>
+                    <div class="col-lg-3 col-md-4 col-sm-6 grid4321">
+                        <div class="schedule-game">
+                            <div class="container-fluid game-header">
+                                <div class="row">
+                                    <div class="col-xs-@(game.IsComplete ? 8 : 12)">@(game.DisplayOutcome ? game.Outcome : game.GameDate.ToString("t"))</div>
                                     @if (game.IsComplete)
                                     {
-                                        <th>R</th>
-                                        <th>H</th>
+                                        <div class="col-xs-2">R</div>
+                                        <div class="col-xs-2">H</div>
                                     }
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach (var team in game.Teams)
-                            {
-                                <tr class="@(team.IsWinner ? "winner" : "")">
-                                    <td>
-                                        @Html.TeamLink(team.TeamName, team.TeamId, game.GameDate.Year)
-                                        @*<br/>@team.RecordInfo*@
-                                    </td>
-                                    @if (game.IsComplete)
-                                    {
-                                        <td>@team.RunsScored</td>
-                                        <td>@team.Hits</td>
-                                    }
-                                </tr>
-                            }
-                            </tbody>
-                        </table>
+                                </div>
+                            </div>
+                            <div class="container-fluid game-body">
+                                @foreach (var team in game.Teams)
+                                {
+                                    <div class="row @(team.IsWinner ? "winner" : "")">
+                                        <div class="col-xs-@(game.IsComplete ? 8 : 12)">
+                                            @Html.TeamLink(team.TeamName, team.TeamId, game.GameDate.Year)
+                                            @*<br/>@team.RecordInfo*@
+                                        </div>
+                                        @if (game.IsComplete)
+                                        {
+                                            <div class="col-xs-2">@team.RunsScored</div>
+                                            <div class="col-xs-2">@team.Hits</div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
                     </div>
                 }
             </div>
