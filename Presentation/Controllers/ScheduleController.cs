@@ -136,7 +136,7 @@ namespace Tcbcsl.Presentation.Controllers
                 Months = new List<YearCalendarMonthModel>()
             };
 
-            var gameDatesInYear = new List<DateTime> { new DateTime(year, 5, 11), new DateTime(year, 8, 15) };
+            var gameDatesInYear = GetGameDatesInYear(year);
             var firstMonth = gameDatesInYear.Min().Month;
             var lastMonth = gameDatesInYear.Max().Month;
 
@@ -167,6 +167,18 @@ namespace Tcbcsl.Presentation.Controllers
 
             return PartialView(model);
         }
+
+        private List<DateTime> GetGameDatesInYear(int year)
+        {
+            var dates = (from g in DbContext.Games
+                         where g.GameDate.Year == year
+                         select g.GameDate)
+                .DistinctBy(g => g.Date)
+                .Select(d => d.Date)
+                .ToList();
+
+            return dates;
+        } 
 
         #endregion
     }
