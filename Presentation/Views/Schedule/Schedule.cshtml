@@ -42,7 +42,7 @@
                                                                           RowClasses = "row" + (team.IsWinner ? " winner" : ""),
                                                                           DisplayScores = game.IsComplete,
                                                                           LabelHtml = Html.Partial("_ScheduleTeamInfo", team),
-                                                                          Runs = team.RunsScored,
+                                                                          Runs = Html.ActionLink(team.RunsScored.ToString(), "Game", "Statistics", new {game.GameId}, null),
                                                                           Hits = team.Hits
                                                                       })
                                 }

@@ -39,6 +39,7 @@ namespace Tcbcsl.Presentation.Services
                                                                                      : " " + gameParticipant.TeamYear.TeamName),
                        Year = gameParticipant.Game.GameDate.Year,
                        IsWinner = gameParticipant.RunsScored > opponent.RunsScored,
+                       RecordInfo = null, // TODO: figure out a fast way to get this
                        RunsScored = gameParticipant.RunsScored,
                        Hits = gameParticipant.StatLines.Any() ? gameParticipant.StatLines.Sum(sl => sl.StatHits) : (int?)null
                    };

@@ -64,7 +64,7 @@
                                 @statsLeader.Name
                             }
                         </td>
-                        <td>@(statsLeader.Value?.ToString(valueFormat))</td>
+                        <td>@(statsLeader.Value.HasValue ? statsLeader.Value.Value.ToString(valueFormat) : null)</td>
                     </tr>
                 }
             </table>
