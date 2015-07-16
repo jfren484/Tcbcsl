@@ -47,7 +47,6 @@ textarea {
 }
 
 /* Schedule */
-
 .schedule-game {
     margin-bottom: 20px;
     border: solid 1px #ddd;
@@ -96,7 +95,6 @@ textarea {
 }
 
 /* Schedule Calendar */
-
 .calendar-dropdown {
     margin-top: 20px;
 }
@@ -106,37 +104,42 @@ textarea {
     padding: 0 15px;
 }
 
-.calendar-modal .calendar-content > .panel {
+.calendar-dropdown .dropdown-menu {
     margin: 0;
+    padding: 0;
     border: none;
 }
 
-.calendar-modal .calendar-content > .panel > .panel-body {
+.calendar-dropdown .dropdown-menu > .panel {
+    margin: 0;
+}
+
+.calendar-dropdown .dropdown-menu > .panel > .panel-body {
     padding-bottom: 0;
 }
 
-.calendar-modal .calendar-content .panel-heading {
+.calendar-dropdown .dropdown-menu .panel-heading {
     text-align: center;
     font-size: 1.1em;
 }
 
-.calendar-modal .calendar-content .calendar-year-nav {
+.calendar-dropdown .dropdown-menu .calendar-year-nav {
     font-size: 1.5em;
 }
 
-.calendar-modal .calendar-content .calendar-year-nav a {
+.calendar-dropdown .dropdown-menu .calendar-year-nav a {
     color: white;
 }
 
-.calendar-modal .calendar-content .calendar-year-nav a:hover {
+.calendar-dropdown .dropdown-menu .calendar-year-nav a:hover {
     color: #337ab7;
 }
 
-.calendar-modal .calendar-content .calendar-year-nav a.disabled {
+.calendar-dropdown .dropdown-menu .calendar-year-nav a.disabled {
     pointer-events: none;
 }
 
-.calendar-modal .calendar-content .table-month th,
-.calendar-modal .calendar-content .table-month td {
+.calendar-dropdown .dropdown-menu .table-month th,
+.calendar-dropdown .dropdown-menu .table-month td {
     text-align: right;
 }

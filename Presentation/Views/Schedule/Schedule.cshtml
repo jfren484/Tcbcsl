@@ -3,18 +3,14 @@
     const string title = "Schedule";
     ViewBag.Title = string.Format("{0} for {1}", title, Model.Date.ToString(Consts.DateFormat));
 }
-<div class="modal calendar-modal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content calendar-content">
-            @Html.Action("YearCalendar", new { year = Model.Date.Year })
-        </div>
-    </div>
-</div>
 <div class="dropdown calendar-dropdown pull-right">
-    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="modal" data-target=".calendar-modal">
+    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         @Model.Date.ToString(Consts.DateFormat)
         <span class="caret"></span>
     </button>
+    <div id="calendarContent" class="dropdown-menu">
+        @Html.Action("YearCalendar", new {year = Model.Date.Year})
+    </div>
 </div>
 <h2>@title</h2>
 @foreach (var conference in Model.ConferenceModels)
