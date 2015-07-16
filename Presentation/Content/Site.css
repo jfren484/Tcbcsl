@@ -1,4 +1,5 @@
-﻿body {
+﻿/* VS default provided styles */
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -23,6 +24,8 @@ textarea {
     max-width: 280px;
 }
 
+/* Hide something by making it transparent (but take up space in the document) #kludge */
+
 .pseudo-hidden {
     color: rgba(0, 0, 0, 0.0);
     -webkit-touch-callout: none;
@@ -32,6 +35,18 @@ textarea {
     user-select: none;
 }
 
+/* Year dropdown */
+
+.year-dropdown {
+    margin-top: 20px;
+}
+
+.year-dropdown .dropdown-toggle {
+    font-size: 1.7em;
+    padding: 0 15px;
+}
+
+/* Schedule */
 .schedule-game {
     margin-bottom: 20px;
     border: solid 1px #ddd;
@@ -77,4 +92,54 @@ textarea {
     .grid4321:nth-child(4n + 1) {
         clear: left;
     }
+}
+
+/* Schedule Calendar */
+.calendar-dropdown {
+    margin-top: 20px;
+}
+
+.calendar-dropdown .dropdown-toggle {
+    font-size: 1.7em;
+    padding: 0 15px;
+}
+
+.calendar-dropdown .dropdown-menu {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.calendar-dropdown .dropdown-menu > .panel {
+    margin: 0;
+}
+
+.calendar-dropdown .dropdown-menu > .panel > .panel-body {
+    padding-bottom: 0;
+}
+
+.calendar-dropdown .dropdown-menu .panel-heading {
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.calendar-dropdown .dropdown-menu .calendar-year-nav {
+    font-size: 1.5em;
+}
+
+.calendar-dropdown .dropdown-menu .calendar-year-nav a {
+    color: white;
+}
+
+.calendar-dropdown .dropdown-menu .calendar-year-nav a:hover {
+    color: #337ab7;
+}
+
+.calendar-dropdown .dropdown-menu .calendar-year-nav a.disabled {
+    pointer-events: none;
+}
+
+.calendar-dropdown .dropdown-menu .table-month th,
+.calendar-dropdown .dropdown-menu .table-month td {
+    text-align: right;
 }

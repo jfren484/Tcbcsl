@@ -3,12 +3,13 @@
     const string title = "Schedule";
     ViewBag.Title = string.Format("{0} for {1}", title, Model.Date.ToString(Consts.DateFormat));
 }
-<div class="dropdown pull-right" style="margin-top: 20px;">
-    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 1.7em; padding: 0 10px;">
+<div class="dropdown calendar-dropdown pull-right">
+    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         @Model.Date.ToString(Consts.DateFormat)
         <span class="caret"></span>
     </button>
     <div id="calendarContent" class="dropdown-menu">
+        @Html.Action("YearCalendar", new {year = Model.Date.Year})
     </div>
 </div>
 <h2>@title</h2>
@@ -53,22 +54,4 @@
             </div>
         </div>
     </div>
-}
-@section scripts
-{
-    <script>
-        var firstYear = 0 + @Consts.FirstYear;
-        var lastYear = 0 + @Consts.CurrentYear;
-
-        $('.calendar-year-nav a').click(function(e) {
-            e.stopPropagation();
-
-            var year = $(this).data('year');
-            if (year >= firstYear && year <= lastYear) {
-                // TODO: get data and update calendar
-                //$.ajax
-                //#calendarContent
-            }
-        });
-    </script>
 }

@@ -126,8 +126,8 @@ namespace Tcbcsl.Presentation.Controllers
 
         #region YearCalendar
 
-        [Route("YearCalendar/{year:year?}")]
-        public ActionResult YearCalendar(int year = Consts.CurrentYear)
+        [Route("Schedule/YearCalendar/{year:year}")]
+        public PartialViewResult YearCalendar(int year)
         {
             var model = new YearCalendarModel
             {
@@ -163,7 +163,7 @@ namespace Tcbcsl.Presentation.Controllers
                                  });
             }
 
-            return View(model);
+            return PartialView(model);
         }
 
         #endregion
