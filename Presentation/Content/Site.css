@@ -160,6 +160,7 @@ textarea {
 .calendar-modal .calendar-content .table-month td.active {
     background-color: #2fa4e7;
     color: #fff;
+    text-shadow: none;
 }
 
 .calendar-modal .calendar-content .table-month td.calendar-games {
