@@ -300,6 +300,7 @@
     <Content Include="Views\Schedule\_ScheduleGameRow.cshtml" />
     <Content Include="Views\Shared\_NavDropdownToggle.cshtml" />
     <Content Include="Views\Shared\_MainNavigation.cshtml" />
+    <Content Include="Views\Schedule\YearCalendar.cshtml" />
     <None Include="Views\Team\View.cshtml" />
   </ItemGroup>
   <ItemGroup />

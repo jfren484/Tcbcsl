@@ -4,6 +4,8 @@ using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Models
 {
+    #region Schedule Models
+
     public class ScheduleModel
     {
         public DateTime Date { get; set; }
@@ -47,4 +49,29 @@ namespace Tcbcsl.Presentation.Models
         public object Runs { get; set; }
         public object Hits { get; set; }
     }
+
+    #endregion
+
+    #region Calendar Dropdown Models
+
+    public class YearCalendarModel
+    {
+        public int Year { get; set; }
+        public List<YearCalendarMonthModel> Months { get; set; }
+    }
+
+    public class YearCalendarMonthModel
+    {
+        public int Month { get; set; }
+        public string MonthName { get; set; }
+        public List<List<YearCalendarDayModel>> Weeks { get; set; }
+    }
+
+    public class YearCalendarDayModel
+    {
+        public int Day { get; set; }
+        public bool HasGames { get; set; }
+    }
+
+    #endregion
 }

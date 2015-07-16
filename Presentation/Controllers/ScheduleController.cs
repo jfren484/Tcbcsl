@@ -12,6 +12,8 @@ namespace Tcbcsl.Presentation.Controllers
 {
     public class ScheduleController : ControllerBase
     {
+        #region Schedule
+
         [Route("Schedule/{date:datetime?}")]
         public ActionResult Schedule(DateTime? date)
         {
@@ -53,6 +55,8 @@ namespace Tcbcsl.Presentation.Controllers
 
             return View(model);
         }
+
+        #region Helpers
 
         private static GameBucket GetGameBucket(Game game)
         {
@@ -115,5 +119,53 @@ namespace Tcbcsl.Presentation.Controllers
                 return other.Label == Label;
             }
         }
+
+        #endregion
+
+        #endregion
+
+        #region YearCalendar
+
+        [Route("YearCalendar/{year:year?}")]
+        public ActionResult YearCalendar(int year = Consts.CurrentYear)
+        {
+            var model = new YearCalendarModel
+            {
+                Year = year,
+                Months = new List<YearCalendarMonthModel>()
+            };
+
+            var gameDatesInYear = new List<DateTime> { new DateTime(year, 5, 11), new DateTime(year, 8, 15) };
+            var firstMonth = gameDatesInYear.Min().Month;
+            var lastMonth = gameDatesInYear.Max().Month;
+
+            for (var month = firstMonth; month <= lastMonth; ++month)
+            {
+                var firstDay = new DateTime(year, month, 1);
+                var daysInMonth = DateTime.DaysInMonth(year, month);
+
+                var dayList = Enumerable.Repeat(0, (int)firstDay.DayOfWeek)
+                                        .Concat(Enumerable.Range(1, daysInMonth))
+                                        .Concat(Enumerable.Repeat(0, 6 - (int)new DateTime(year, month, daysInMonth).DayOfWeek));
+
+                model.Months.Add(new YearCalendarMonthModel
+                                 {
+                                     Month = month,
+                                     MonthName = firstDay.ToString("MMMM"),
+                                     Weeks = dayList.Batch(7)
+                                                    .Select(week => week.Select(day => new YearCalendarDayModel
+                                                                                       {
+                                                                                           Day = day,
+                                                                                           HasGames = day != 0 && gameDatesInYear.Contains(new DateTime(year, month, day))
+                                                                                       })
+                                                                        .ToList())
+                                                    .ToList()
+                                 });
+            }
+
+            return View(model);
+        }
+
+        #endregion
     }
 }

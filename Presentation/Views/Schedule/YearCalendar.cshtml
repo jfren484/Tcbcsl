@@ -1,0 +1,73 @@
+﻿@model YearCalendarModel
+<style>
+    .table-month th, .table-month td {
+        text-align: right;
+    }
+
+    .table-month .monthLabel {
+        text-align: center;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12" style="text-align: center">
+            <div class="calendar-year-nav" style="display: inline; font-weight: bold; font-size: 1.5em; text-align: center;">
+                <a href="#" class="@(Model.Year > Consts.FirstYear ? "disabled" : "")" data-year="@(Model.Year - 1)">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <span>@Model.Year</span>
+                <a href="#" class="@(Model.Year < Consts.CurrentYear ? "disabled" : "")" data-year="@(Model.Year + 1)">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var monthModel in Model.Months)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 grid4321">
+                <table class="table table-month">
+                    <thead>
+                        <tr>
+                            <th colspan="7" class="monthLabel" style="font-size: 1.1em;">@monthModel.MonthName</th>
+                        </tr>
+                        <tr>
+                            <th>Su</th>
+                            <th>Mo</th>
+                            <th>Tu</th>
+                            <th>We</th>
+                            <th>Th</th>
+                            <th>Fr</th>
+                            <th>Sa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var week in monthModel.Weeks)
+                        {
+                            <tr>
+                                @foreach (var dayModel in week)
+                                {
+                                    if (dayModel.HasGames)
+                                    {
+                                        <td>@Html.RouteLink(dayModel.Day.ToString(),
+                                                            new
+                                                            {
+                                                                controller = "Schedule",
+                                                                action = "Schedule",
+                                                                date = new DateTime(Model.Year, monthModel.Month, dayModel.Day).ToString("yyyy-MM-dd")
+                                                            },
+                                                            null)</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@dayModel.Day.ToString("#;;''")</td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

@@ -25,10 +25,5 @@ namespace Tcbcsl.Presentation.Helpers
 
             return htmlHelper.ActionLink(teamName, "View", "Team", extraParameters, null);
         }
-
-        public static int WeekOfYear(this DateTime date)
-        {
-            return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
-        }
     }
 }

@@ -3,70 +3,12 @@
     const string title = "Schedule";
     ViewBag.Title = string.Format("{0} for {1}", title, Model.Date.ToString(Consts.DateFormat));
 }
-<style>
-    .table-month th, .table-month td {
-        text-align: right;
-    }
-    .table-month .monthLabel {
-        text-align: center;
-    }
-</style>
 <div class="dropdown pull-right" style="margin-top: 20px;">
     <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 1.7em; padding: 0 10px;">
         @Model.Date.ToString(Consts.DateFormat)
         <span class="caret"></span>
     </button>
-    <div class="dropdown-menu">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12" style="text-align: center">
-                    <div class="calendar-year-nav" style="display: inline; font-weight: bold; font-size: 1.5em; text-align: center;">
-                        <a href="#" data-year="@(Model.Date.Year - 1)"><span class="glyphicon glyphicon-chevron-left"></span></a>
-                        <span>@Model.Date.Year</span>
-                        <a href="#" data-year="@(Model.Date.Year + 1)"><span class="glyphicon glyphicon-chevron-right"></span></a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                @for (var month = 5; month <= 8; ++month)
-                {
-                    var firstDay = new DateTime(Model.Date.Year, month, 1);
-                    var lastDay = new DateTime(Model.Date.Year, month + 1, 1) - TimeSpan.FromDays(1);
-                    var days = (lastDay - firstDay).Days + 1;
-                    var weeks = lastDay.WeekOfYear() - firstDay.WeekOfYear() + 1;
-                    var day = 1 - (int)firstDay.DayOfWeek;
-                    <div class="col-lg-3 col-md-4 col-sm-6 grid4321">
-                        <table class="table table-month">
-                            <thead>
-                            <tr>
-                                <th colspan="7" class="monthLabel" style="font-size: 1.1em;">@firstDay.ToString("MMMM")</th>
-                            </tr>
-                            <tr>
-                                <th>Su</th>
-                                <th>Mo</th>
-                                <th>Tu</th>
-                                <th>We</th>
-                                <th>Th</th>
-                                <th>Fr</th>
-                                <th>Sa</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @for (var week = 0; week < weeks; ++week)
-                            {
-                                <tr>
-                                    @for (var rowDay = 0; rowDay < 7; ++rowDay, ++day)
-                                    {
-                                        <td>@(day >= 1 && day <= days ? day.ToString() : "")</td>
-                                    }
-                                </tr>
-                            }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-            </div>
-        </div>
+    <div id="calendarContent" class="dropdown-menu">
     </div>
 </div>
 <h2>@title</h2>
@@ -123,11 +65,9 @@
 
             var year = $(this).data('year');
             if (year >= firstYear && year <= lastYear) {
-                $('.calendar-year-nav > span').text(year);
-                $('.calendar-year-nav > span').prev().data('year', year - 1);
-                $('.calendar-year-nav > span').next().data('year', year + 1);
-
                 // TODO: get data and update calendar
+                //$.ajax
+                //#calendarContent
             }
         });
     </script>
