@@ -4,17 +4,17 @@ var consts = {
     currentYear: 0
 }
 
-$('#calendarContent').on('click', '.calendar-year-nav a', function (e) {
-    e.stopPropagation();
+$('.calendar-content').on('click', '.calendar-year-nav a', function (e) {
+    //e.stopPropagation();
 
     var year = $(this).data('year');
     if (year >= consts.firstYear && year <= consts.currentYear) {
-        $('#calendarContent').load('/Schedule/YearCalendar/' + year);
+        $('.calendar-content').load('/Schedule/YearCalendar/' + year);
     }
 
-    e.preventDefault();
+    //e.preventDefault();
 });
 
-$('#calendarContent').click(function (e) {
-    e.stopPropagation();
-});
+//$('.calendar-content').click(function (e) {
+//    e.stopPropagation();
+//});
