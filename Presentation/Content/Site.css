@@ -136,7 +136,66 @@ textarea {
     pointer-events: none;
 }
 
+.calendar-modal .calendar-content .table-month {
+    border-collapse: separate;
+    border-spacing: 1px;
+    padding: 0 2px;
+}
+
 .calendar-modal .calendar-content .table-month th,
 .calendar-modal .calendar-content .table-month td {
     text-align: right;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 5px;
+    padding-right: 9px;
+}
+
+.calendar-modal .calendar-content .table-month td {
+    border: none;
+    border-radius: 4px;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.calendar-modal .calendar-content .table-month td.active {
+    background-color: #2fa4e7;
+    color: #fff;
+}
+
+.calendar-modal .calendar-content .table-month td.calendar-games {
+    background-color: #337ab7;
+}
+
+.calendar-modal .calendar-content .table-month td.calendar-games a {
+    color: #fff;
+}
+
+.calendar-modal .calendar-content .calendar-month, 
+.calendar-modal .modal-dialog {
+    width: 275px;
+}
+
+.calendar-modal .modal-dialog {
+    margin: 10px auto;
+}
+
+@media (min-width: 768px) {
+    .calendar-modal .modal-dialog {
+        margin: 30px auto;
+        width: 550px;
+    }
+}
+
+@media (min-width: 992px) {
+    .calendar-modal .modal-dialog {
+        margin: 30px auto;
+        width: 825px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .calendar-modal .modal-dialog {
+        margin: 30px auto;
+        width: 1100px;
+    }
 }

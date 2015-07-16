@@ -1,18 +1,18 @@
 ﻿@model ScheduleModel
 @{
     const string title = "Schedule";
-    ViewBag.Title = string.Format("{0} for {1}", title, Model.Date.ToString(Consts.DateFormat));
+    ViewBag.Title = string.Format("{0} for {1}", title, Model.Date.ToString(Consts.DateFormatDisplay));
 }
 <div class="modal calendar-modal">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content calendar-content">
-            @Html.Action("YearCalendar", new { year = Model.Date.Year })
+            @Html.Action("YearCalendar", new { year = Model.Date.Year, activeDate = Model.Date.ToString(Consts.DateFormat) })
         </div>
     </div>
 </div>
 <div class="dropdown calendar-dropdown pull-right">
     <button class="btn btn-info dropdown-toggle" type="button" data-toggle="modal" data-target=".calendar-modal">
-        @Model.Date.ToString(Consts.DateFormat)
+        @Model.Date.ToString(Consts.DateFormatDisplay)
         <span class="caret"></span>
     </button>
 </div>

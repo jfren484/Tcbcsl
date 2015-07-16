@@ -57,6 +57,7 @@ namespace Tcbcsl.Presentation.Models
     public class YearCalendarModel
     {
         public int Year { get; set; }
+        public DateTime ActiveDate { get; set; }
         public List<YearCalendarMonthModel> Months { get; set; }
     }
 
@@ -70,6 +71,7 @@ namespace Tcbcsl.Presentation.Models
     public class YearCalendarDayModel
     {
         public int Day { get; set; }
+        public DateTime Date { get; set; }
         public bool HasGames { get; set; }
     }
 

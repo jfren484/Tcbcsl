@@ -5,16 +5,10 @@ var consts = {
 }
 
 $('.calendar-content').on('click', '.calendar-year-nav a', function (e) {
-    //e.stopPropagation();
-
     var year = $(this).data('year');
     if (year >= consts.firstYear && year <= consts.currentYear) {
-        $('.calendar-content').load('/Schedule/YearCalendar/' + year);
+        $('.calendar-content').load('/Schedule/YearCalendar/' + year + '/' + $(this).data('active-date'));
     }
 
-    //e.preventDefault();
+    e.preventDefault();
 });
-
-//$('.calendar-content').click(function (e) {
-//    e.stopPropagation();
-//});

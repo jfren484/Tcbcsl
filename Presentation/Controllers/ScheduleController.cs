@@ -126,12 +126,13 @@ namespace Tcbcsl.Presentation.Controllers
 
         #region YearCalendar
 
-        [Route("Schedule/YearCalendar/{year:year}")]
-        public PartialViewResult YearCalendar(int year)
+        [Route("Schedule/YearCalendar/{year:year}/{activeDate:datetime}")]
+        public PartialViewResult YearCalendar(int year, DateTime activeDate)
         {
             var model = new YearCalendarModel
             {
                 Year = year,
+                ActiveDate = activeDate,
                 Months = new List<YearCalendarMonthModel>()
             };
 
@@ -156,6 +157,7 @@ namespace Tcbcsl.Presentation.Controllers
                                                     .Select(week => week.Select(day => new YearCalendarDayModel
                                                                                        {
                                                                                            Day = day,
+                                                                                           Date = day == 0 ? DateTime.MinValue : new DateTime(year, month, day),
                                                                                            HasGames = day != 0 && gameDatesInYear.Contains(new DateTime(year, month, day))
                                                                                        })
                                                                         .ToList())

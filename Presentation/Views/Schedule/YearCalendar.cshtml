@@ -1,15 +1,17 @@
 ﻿@model YearCalendarModel
 <div class="panel panel-primary">
     <div class="panel-heading calendar-year-nav">
-        <a href="#" class="@(Model.Year > Consts.FirstYear ? "" : "disabled")" data-year="@(Model.Year - 1)" role="button"><span class="glyphicon glyphicon-chevron-left"></span></a>
+        <a href="#" class="@(Model.Year > Consts.FirstYear ? "" : "disabled")" data-year="@(Model.Year - 1)" data-active-date="@Model.ActiveDate.ToString(Consts.DateFormat)"
+            role="button"><span class="glyphicon glyphicon-chevron-left"></span></a>
         <span>@Model.Year</span>
-        <a href="#" class="@(Model.Year < Consts.CurrentYear ? "" : "disabled")" data-year="@(Model.Year + 1)" role="button"><span class="glyphicon glyphicon-chevron-right"></span></a>
+        <a href="#" class="@(Model.Year < Consts.CurrentYear ? "" : "disabled")" data-year="@(Model.Year + 1)" data-active-date="@Model.ActiveDate.ToString(Consts.DateFormat)"
+            role="button"><span class="glyphicon glyphicon-chevron-right"></span></a>
     </div>
     <div class="panel-body container">
         <div class="row">
             @foreach (var monthModel in Model.Months)
             {
-                <div class="col-lg-3 col-md-4 col-sm-6 grid4321">
+                <div class="col-lg-3 col-md-4 col-sm-6 grid4321 calendar-month">
                     <div class="panel panel-primary">
                         <div class="panel-heading">@monthModel.MonthName</div>
                         <table class="table table-month">
@@ -32,20 +34,27 @@
                                         {
                                             if (dayModel.HasGames)
                                             {
-                                                <td>
-                                                    @Html.RouteLink(dayModel.Day.ToString(),
-                                                                new
-                                                                {
-                                                                    controller = "Schedule",
-                                                                    action = "Schedule",
-                                                                    date = new DateTime(Model.Year, monthModel.Month, dayModel.Day).ToString("yyyy-MM-dd")
-                                                                },
-                                                                null)
-                                                </td>
+                                                if (dayModel.Date == Model.ActiveDate)
+                                                {
+                                                    <td class="active">@dayModel.Day</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="calendar-games">
+                                                        @Html.RouteLink(dayModel.Day.ToString(),
+                                                                        new
+                                                                        {
+                                                                            controller = "Schedule",
+                                                                            action = "Schedule",
+                                                                            date = dayModel.Date.ToString(Consts.DateFormat)
+                                                                        },
+                                                                        null)
+                                                    </td>
+                                                }
                                             }
                                             else
                                             {
-                                                <td>@dayModel.Day.ToString("#;;''")</td>
+                                                <td class="calendar-no-games">@dayModel.Day.ToString("#;;''")</td>
                                             }
                                         }
                                     </tr>
