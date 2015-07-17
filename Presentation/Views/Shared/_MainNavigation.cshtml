@@ -37,14 +37,13 @@
                     @Html.Partial("_NavDropdownToggle", "Members")
                     <ul class="dropdown-menu">
                         <li>@Html.ActionLink("Churches", "Index", "Churches")</li>
-                        <li>
-                            @Html.RouteLink("Teams", new
+                        <li>@Html.ActionLink("Coaches", "Index", "Coaches")</li>
+                        <li>@Html.RouteLink("Teams", new
                                                      {
                                                          controller = "Team",
                                                          action = "Teams",
                                                          year = (int?)null
-                                                     }, null)
-                        </li>
+                                                     }, null)</li>
                     </ul>
                 </li>
                 <li>@Html.ActionLink("Rules", "LeagueRules", "Content")</li>
