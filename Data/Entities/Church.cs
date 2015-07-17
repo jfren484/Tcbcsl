@@ -13,6 +13,8 @@ namespace Tcbcsl.Data.Entities
         [MaxLength(100), Required]
         public string DisplayName { get; set; }
 
+        public string Website { get; set; }
+
         public string Information { get; set; }
 
         public virtual ICollection<TeamYear> TeamYears { get; set; }
