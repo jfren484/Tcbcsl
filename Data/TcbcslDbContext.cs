@@ -9,6 +9,7 @@ namespace Tcbcsl.Data
     {
         public TcbcslDbContext() : base("TcbcslDbContext", throwIfV1Schema: false) {}
 
+        public DbSet<Church> Churches { get; set; }
         public DbSet<Coach> Coaches { get; set; }
         public DbSet<Conference> Conferences { get; set; }
         public DbSet<ConferenceYear> ConferenceYears { get; set; }

@@ -1,0 +1,16 @@
+﻿@model AddressInfoModel
+<div class="address-map pull-right">
+    <a href="https://www.google.com/maps/place/@Model.AddressLinkParameter" target="_blank">
+        <div class="well">
+            <span class="glyphicon glyphicon-globe"></span><br/>
+            <span>map</span>
+        </div>
+    </a>
+</div>
+<div class="address-line1">@Model.Street1</div>
+<div class="address-line2">@Model.Street2</div>
+<div class="address-csz">
+    <span class="address-city">@Model.City</span>,
+    <span class="address-state">@Model.State</span>
+    <span class="address-zip">@Model.Zip</span>
+</div>

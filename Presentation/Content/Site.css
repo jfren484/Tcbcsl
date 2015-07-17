@@ -35,15 +35,17 @@ textarea {
     user-select: none;
 }
 
-/* Year dropdown */
+/* Address */
 
-.year-dropdown {
-    margin-top: 20px;
+.address-map .well {
+    margin: 0;
+    padding: 4px 10px;
+    text-align: center;
 }
 
-.year-dropdown .dropdown-toggle {
-    font-size: 1.7em;
-    padding: 0 15px;
+/* Church */
+.church h4 {
+    margin-top: 0;
 }
 
 /* Schedule */
@@ -196,4 +198,15 @@ textarea {
         margin: 30px auto;
         width: 1100px;
     }
+}
+
+/* Year dropdown */
+
+.year-dropdown {
+    margin-top: 20px;
+}
+
+.year-dropdown .dropdown-toggle {
+    font-size: 1.7em;
+    padding: 0 15px;
 }

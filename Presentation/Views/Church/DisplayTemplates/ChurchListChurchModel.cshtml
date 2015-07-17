@@ -1,0 +1,17 @@
+﻿@model ChurchListChurchModel
+<div class="col-lg-3 col-md-4 col-sm-6 grid4321">
+    <div class="church panel panel-default">
+        <div class="panel-body">
+            <h4>@Model.Name</h4>
+            <div class="church-address">
+                @Html.DisplayFor(m => m.ContactInfo.Address)
+            </div>
+        </div>
+        <ul class="list-group">
+            @Html.DisplayFor(m => m.Website, "ListGroupItem")
+            @Html.DisplayFor(m => m.ContactInfo.PhoneNumbers, new {DisplayType = Model.ContactInfo.PhoneNumbers.Count > 1})
+            @Html.DisplayFor(m => m.ContactInfo.EmailAddress, "ListGroupItem")
+            @Html.DisplayFor(m => m.Information, "ListGroupItem")
+        </ul>
+    </div>
+</div>

@@ -1,30 +1,40 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Models
 {
     public class ContactInfoModel
     {
+        public MvcHtmlString EmailAddress { get; set; }
         public AddressInfoModel Address { get; set; }
         public List<PhoneInfoModel> PhoneNumbers { get; set; }
-        public List<EmailInfoModel> EmailAddresses { get; set; }
     }
 
     public class AddressInfoModel
     {
-        public string AddressStreet1 { get; set; }
-        public string AddressStreet2 { get; set; }
-        public string AddressCityStateZip { get; set; }
+        public string Street1 { get; set; }
+        public string Street2 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Zip { get; set; }
+
+        public string AddressLinkParameter
+        {
+            get
+            {
+                var addressPieces = new[] { Street1, Street2, City, State, Zip };
+                var addressForLink = string.Join(" ", addressPieces.Where(s => !string.IsNullOrWhiteSpace(s)));
+
+                return HttpUtility.UrlEncode(addressForLink);
+            }
+        }
     }
 
     public class PhoneInfoModel
     {
         public string PhoneNumber { get; set; }
         public string PhoneType { get; set; }
-    }
-
-    public class EmailInfoModel
-    {
-        public string EmailAddress { get; set; }
-        public string EmailType { get; set; }
     }
 }

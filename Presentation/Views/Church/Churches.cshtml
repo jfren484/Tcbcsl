@@ -1,0 +1,10 @@
+﻿@model ChurchListModel
+@{
+    const string title = "Churches";
+    ViewBag.Title = title + Model.Year.AsTitleSuffix();
+}
+@Html.Partial("_YearPartial")
+<h2>@title in our League</h2>
+<div class="row">
+    @Html.DisplayFor(m => m.Churches)
+</div>
