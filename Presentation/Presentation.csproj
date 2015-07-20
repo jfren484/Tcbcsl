@@ -314,6 +314,8 @@
     <Content Include="Views\Shared\DisplayTemplates\ListGroupItemList.cshtml" />
     <Content Include="Views\Team\DisplayTemplates\StatsLeaderModel.cshtml" />
     <Content Include="Views\Team\DisplayTemplates\TeamScheduleModel.cshtml" />
+    <Content Include="Views\Standings\DisplayTemplates\StandingsTeamModel.cshtml" />
+    <Content Include="Views\Standings\DisplayTemplates\StandingsGroupModel.cshtml" />
     <None Include="Views\Team\View.cshtml" />
   </ItemGroup>
   <ItemGroup />

@@ -45,6 +45,7 @@ namespace Tcbcsl.Presentation.Controllers
                                      {
                                          Model = new StandingsTeamModel
                                                  {
+                                                     Year = year,
                                                      TeamId = gg.Key.TeamId,
                                                      TeamName = first.ChurchName + (string.IsNullOrEmpty(first.TeamName)
                                                                                         ? null
@@ -123,7 +124,7 @@ namespace Tcbcsl.Presentation.Controllers
                           orderby dy.ConferenceYear.Sort, dy.Sort
                           select new StandingsGroupModel
                                  {
-                                     Name = dy.Name,
+                                     Name = $"{dy.Name} Division",
                                      Teams = GetTeamsForGroup(dg)
                                  }).ToList();
 

@@ -1,0 +1,15 @@
+﻿@using Tcbcsl.Presentation.Services
+@model StandingsTeamModel
+<tr>
+    <td>@Html.TeamLink(Model.TeamName, Model.TeamId, Model.Year)</td>
+    <td>@Model.Wins</td>
+    <td>@Model.Losses</td>
+    <td class="tiesColumn">@Model.Ties</td>
+    <td>@Model.WinningPercentage.ToString(Consts.Decimal3PlacesFormat)</td>
+    <td>@Model.GamesBack.ToString(Consts.GamesBackFormat)</td>
+    <td class="hidden-xs">@ScheduleService.FormatRecord(Model.DivisionWins, Model.DivisionLosses, Model.DivisionTies)</td>
+    <td class="hidden-xs">@Model.RunsScored</td>
+    <td class="hidden-xs">@Model.RunsAllowed</td>
+    <td class="hidden-xs">@Consts.GameOutcomeVerbs[Model.StreakOutcome] @Model.StreakCount</td>
+    <td class="hidden-xs">@ScheduleService.FormatRecord(Model.Last5Wins, Model.Last5Losses, Model.Last5Ties)</td>
+</tr>
