@@ -20,6 +20,16 @@ namespace Tcbcsl.Presentation.Helpers
             return phoneNumber == null ? null : Regex.Replace(phoneNumber, @"(\d{3})(\d{3})(\d{4})", "($1) $2-$3");
         }
 
+        public static object GameStatsField(this HtmlHelper htmlHelper, object statInfo, int gameId)
+        {
+            if (!(statInfo is int))
+            {
+                return statInfo;
+            }
+
+            return htmlHelper.ActionLink(statInfo.ToString(), "Game", "Statistics", new { gameId }, null);
+        }
+
         public static MvcHtmlString TeamLink(this HtmlHelper htmlHelper, string teamName, int teamId, int year)
         {
             var extraParameters = new RouteValueDictionary

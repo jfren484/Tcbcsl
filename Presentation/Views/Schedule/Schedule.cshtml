@@ -17,45 +17,4 @@
     </button>
 </div>
 <h2>@title</h2>
-@foreach (var conference in Model.ConferenceModels)
-{
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            @conference.Label Games
-        </div>
-        <div class="panel-body">
-            <div class="row">
-                @foreach (var game in conference.Games)
-                {
-                    <div class="col-lg-3 col-md-4 col-sm-6 grid4321">
-                        <div class="schedule-game">
-                            <div class="container-fluid game-header">
-                                @Html.Partial("_ScheduleGameRow", new ScheduleGameRowModel
-                                                                  {
-                                                                      RowClasses = "row",
-                                                                      DisplayScores = game.IsComplete,
-                                                                      LabelHtml = MvcHtmlString.Create(game.DisplayOutcome ? game.Outcome : game.GameDate.ToString("t")),
-                                                                      Runs = "R",
-                                                                      Hits = "H"
-                                                                  })
-                            </div>
-                            <div class="container-fluid game-body">
-                                @foreach (var team in game.Teams)
-                                {
-                                    @Html.Partial("_ScheduleGameRow", new ScheduleGameRowModel
-                                                                      {
-                                                                          RowClasses = "row" + (team.IsWinner ? " winner" : ""),
-                                                                          DisplayScores = game.IsComplete,
-                                                                          LabelHtml = Html.Partial("_ScheduleTeamInfo", team),
-                                                                          Runs = Html.ActionLink(team.RunsScored.ToString(), "Game", "Statistics", new {game.GameId}, null),
-                                                                          Hits = team.Hits
-                                                                      })
-                                }
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-}
+@Html.DisplayFor(m => m.ConferenceModels)

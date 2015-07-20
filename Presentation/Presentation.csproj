@@ -301,8 +301,6 @@
     <Content Include="Views\Standings\Standings.cshtml" />
     <Content Include="Views\Shared\_YearPartial.cshtml" />
     <Content Include="Views\Schedule\Schedule.cshtml" />
-    <Content Include="Views\Schedule\_ScheduleTeamInfo.cshtml" />
-    <Content Include="Views\Schedule\_ScheduleGameRow.cshtml" />
     <Content Include="Views\Shared\_NavDropdownToggle.cshtml" />
     <Content Include="Views\Shared\_MainNavigation.cshtml" />
     <Content Include="Views\Schedule\YearCalendar.cshtml" />
@@ -316,6 +314,11 @@
     <Content Include="Views\Team\DisplayTemplates\TeamScheduleModel.cshtml" />
     <Content Include="Views\Standings\DisplayTemplates\StandingsTeamModel.cshtml" />
     <Content Include="Views\Standings\DisplayTemplates\StandingsGroupModel.cshtml" />
+    <Content Include="Views\Schedule\DisplayTemplates\ScheduleConferenceModel.cshtml" />
+    <Content Include="Views\Schedule\DisplayTemplates\ScheduleGameModel.cshtml" />
+    <Content Include="Views\Schedule\DisplayTemplates\ScheduleGameRowModel.cshtml" />
+    <Content Include="Views\Schedule\DisplayTemplates\ScheduleGameTeamModel.cshtml" />
+    <Content Include="Views\Schedule\DisplayTemplates\ScheduleGameHeaderModel.cshtml" />
     <None Include="Views\Team\View.cshtml" />
   </ItemGroup>
   <ItemGroup />

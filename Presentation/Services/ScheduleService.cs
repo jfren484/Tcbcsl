@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Models;
@@ -15,34 +14,58 @@ namespace Tcbcsl.Presentation.Services
 
         public static ScheduleGameModel GameModelFromGame(Game game)
         {
+            var teamRows = game.GameParticipants
+                               .OrderBy(gp => gp.IsHost)
+                               .Select(GameTeamRowModelFromParticipant)
+                               .ToList();
+
+            if (teamRows[0].Runs != teamRows[1].Runs)
+            {
+                teamRows.OrderByDescending(tr => tr.Runs)
+                        .First()
+                        .IsWinner = true;
+            }
+
             return new ScheduleGameModel
                    {
-                       GameId = game.GameId,
-                       GameDate = game.GameDate,
-                       DisplayOutcome = game.GameStatus.DisplayOutcome,
-                       IsComplete = game.GameStatus.IsComplete,
-                       Outcome = game.GameStatus.Description,
-                       Teams = game.GameParticipants
-                                   .OrderBy(gp => gp.IsHost)
-                                   .Select(GameTeamModelFromParticipant)
-                                   .ToList()
+                       HeaderRow = GameHeaderRowFromGame(game),
+                       RoadTeamRow = teamRows[0],
+                       HomeTeamRow = teamRows[1]
                    };
         }
 
-        private static ScheduleGameTeamModel GameTeamModelFromParticipant(GameParticipant gameParticipant)
+        private static ScheduleGameRowModel<IScheduleGameRowDataModel> GameHeaderRowFromGame(Game game)
         {
-            var opponent = gameParticipant.Game.GameParticipants.Single(gp2 => gp2.GameParticipantId != gameParticipant.GameParticipantId);
-
-            return new ScheduleGameTeamModel
+            return new ScheduleGameRowModel<IScheduleGameRowDataModel>
                    {
-                       TeamId = gameParticipant.TeamYear.TeamId,
-                       TeamName = gameParticipant.TeamYear.Church.DisplayName + (string.IsNullOrEmpty(gameParticipant.TeamYear.TeamName)
-                                                                                     ? null
-                                                                                     : " " + gameParticipant.TeamYear.TeamName),
-                       Year = gameParticipant.Game.GameDate.Year,
-                       IsWinner = gameParticipant.RunsScored > opponent.RunsScored,
-                       RecordInfo = null, // TODO: figure out a fast way to get this
-                       RunsScored = gameParticipant.RunsScored,
+                       LabelData = new ScheduleGameHeaderModel
+                                   {
+                                       DisplayOutcome = game.GameStatus.DisplayOutcome,
+                                       Outcome = game.GameStatus.Description,
+                                       GameDate = game.GameDate
+                                   },
+                       DisplayScores = game.GameStatus.IsComplete,
+                       Runs = "R",
+                       Hits = "H"
+                   };
+        }
+
+        private static ScheduleGameRowModel<IScheduleGameRowDataModel> GameTeamRowModelFromParticipant(GameParticipant gameParticipant)
+        {
+            return new ScheduleGameRowModel<IScheduleGameRowDataModel>
+                   {
+                       LabelData = new ScheduleGameTeamModel
+                                   {
+                                       Year = gameParticipant.Game.GameDate.Year,
+                                       TeamId = gameParticipant.TeamYear.TeamId,
+                                       TeamName = gameParticipant.TeamYear.Church.DisplayName + (string.IsNullOrEmpty(gameParticipant.TeamYear.TeamName)
+                                                                                                     ? null
+                                                                                                     : " " + gameParticipant.TeamYear.TeamName),
+                                       RecordInfo = null // TODO: figure out a fast way to get this
+                                   },
+                       GameId = gameParticipant.GameId,
+                       DisplayScores = gameParticipant.Game.GameStatus.IsComplete,
+                       Runs = gameParticipant.RunsScored,
                        Hits = gameParticipant.StatLines.Any() ? gameParticipant.StatLines.Sum(sl => sl.StatHits) : (int?)null
                    };
         }
@@ -59,29 +82,29 @@ namespace Tcbcsl.Presentation.Services
                                       + (gp.Game.GameStatusId == GameStatus.Forfeited ? " (F)" : string.Empty)
                     orderby gp.Game.GameDate
                     select new TeamGameModel
-                    {
-                        GameId = gp.Game.GameId,
-                        Date = gp.Game.GameDate,
-                        OpponentId = opponent.TeamYear.TeamId,
-                        OpponentName = opponent.TeamYear.Church.DisplayName
+                           {
+                               GameId = gp.Game.GameId,
+                               Date = gp.Game.GameDate,
+                               OpponentId = opponent.TeamYear.TeamId,
+                               OpponentName = opponent.TeamYear.Church.DisplayName
                                               + (string.IsNullOrEmpty(opponent.TeamYear.TeamName)
                                                      ? string.Empty
                                                      : " " + opponent.TeamYear.TeamName)
                                               + (gp.Game.GameTypeId == GameType.Exhibition ? " *" : string.Empty),
-                        IsGameCompleted = gp.Game.GameStatus.IsComplete,
-                        DidWin = won,
-                        DidLose = lost,
-                        IsHomeTeam = gp.IsHost,
-                        IsNeutralSite = gp.Game.GameTypeId == GameType.GamePlaceholder
+                               IsGameCompleted = gp.Game.GameStatus.IsComplete,
+                               DidWin = won,
+                               DidLose = lost,
+                               IsHomeTeam = gp.IsHost,
+                               IsNeutralSite = gp.Game.GameTypeId == GameType.GamePlaceholder
                                                || gp.Game.GameTypeId == GameType.PostSeason,
-                        IsPlaceholder = gp.Game.GameTypeId == GameType.GamePlaceholder,
-                        IsExhibition = gp.Game.GameTypeId == GameType.Exhibition,
-                        GameResultDescription = gp.Game.GameStatus.IsComplete
-                                                    ? winLossChar + " " + winnerRuns + "-" + loserRuns
-                                                    : gp.Game.GameStatusId != GameStatus.Scheduled
-                                                          ? gp.Game.GameStatus.Description
-                                                          : string.Empty
-                    })
+                               IsPlaceholder = gp.Game.GameTypeId == GameType.GamePlaceholder,
+                               IsExhibition = gp.Game.GameTypeId == GameType.Exhibition,
+                               GameResultDescription = gp.Game.GameStatus.IsComplete
+                                                           ? winLossChar + " " + winnerRuns + "-" + loserRuns
+                                                           : gp.Game.GameStatusId != GameStatus.Scheduled
+                                                                 ? gp.Game.GameStatus.Description
+                                                                 : string.Empty
+                           })
                 .ToList();
         }
 
