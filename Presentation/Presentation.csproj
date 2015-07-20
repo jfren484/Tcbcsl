@@ -199,6 +199,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CoachController.cs" />
     <Compile Include="Controllers\ChurchController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -308,8 +309,11 @@
     <Content Include="Views\Church\Churches.cshtml" />
     <Content Include="Views\Church\DisplayTemplates\ChurchListChurchModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AddressInfoModel.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\PhoneInfoModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ListGroupItem.cshtml" />
+    <Content Include="Views\Team\DisplayTemplates\TeamCoachModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ListGroupItemList.cshtml" />
+    <Content Include="Views\Team\DisplayTemplates\StatsLeaderModel.cshtml" />
+    <Content Include="Views\Team\DisplayTemplates\TeamScheduleModel.cshtml" />
     <None Include="Views\Team\View.cshtml" />
   </ItemGroup>
   <ItemGroup />

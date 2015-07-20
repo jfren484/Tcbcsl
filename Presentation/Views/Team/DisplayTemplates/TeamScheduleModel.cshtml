@@ -1,0 +1,49 @@
+﻿@model TeamScheduleModel
+<div class="panel panel-primary panel-schedule">
+    <div class="panel-heading">
+        Schedule
+    </div>
+    <table class="table table-schedule">
+        <tr>
+            <th>Date</th>
+            <th>Opponent</th>
+            <th>Result</th>
+        </tr>
+        @foreach (var game in Model.Games)
+        {
+            var resultClass = game.DidWin ? "text-success" : game.DidLose ? "text-danger" : string.Empty;
+            <tr class="@(game.IsNeutralSite ? "neutral" : game.IsHomeTeam ? "home" : "away")">
+                <td>@game.Date.ToString("MMM d - h:mm tt")</td>
+                <td>
+                    @if (game.IsPlaceholder)
+                    {
+                        @game.OpponentName
+                    }
+                    else
+                    {
+                        @Html.TeamLink(game.OpponentName, game.OpponentId, Model.Year)
+                    }
+                </td>
+                <td class="@resultClass">
+                    @if (!string.IsNullOrEmpty(game.GameResultDescription))
+                    {
+                        @Html.ActionLink(game.GameResultDescription, "Game", "Statistics", new { id = game.GameId }, new { @class = resultClass })
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="panel-footer">
+        @if (Model.Games.Any(tgm => tgm.IsExhibition))
+        {
+            <div>* Exhibition Game (does not count in standings).</div>
+        }
+        <div class="table-schedule-legend">
+            <div class="pull-left"><span class="home swatch"></span>Home</div>
+            <div class="pull-left"><span class="away swatch"></span>Away</div>
+            <div><span class="neutral swatch"></span>Post-Season</div>
+        </div>
+    </div>
+</div>
+
+

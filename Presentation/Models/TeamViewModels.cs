@@ -35,11 +35,18 @@ namespace Tcbcsl.Presentation.Models
         public string Comments { get; set; }
         public List<NewsItemViewModel> NewsItems { get; set; }
         public List<StatsLeaderModel> StatsLeaders { get; set; }
-        public List<TeamGameModel> Schedule { get; set; }
+        public TeamScheduleModel Schedule { get; set; }
+    }
+
+    public class TeamScheduleModel
+    {
+        public int Year { get; set; }
+        public List<TeamGameModel> Games { get; set; }
     }
 
     public class TeamCoachModel
     {
+        public int Year { get; set; }
         public int CoachId { get; set; }
         public string Name { get; set; }
         public string Comments { get; set; }
@@ -54,6 +61,8 @@ namespace Tcbcsl.Presentation.Models
 
     public class StatsLeaderModel
     {
+        public int TeamId { get; set; }
+        public int Year { get; set; }
         public StatsCategory Category { get; set; }
         public int? PlayerId { get; set; }
         public string Name { get; set; }

@@ -1,0 +1,18 @@
+﻿@model TeamCoachModel
+@Model.Name
+<a data-toggle="collapse" data-target="#coachInfo" href="javascript:void(0);" aria-expanded="false" aria-controls="collapseExample">
+    <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Display/Hide Contact Information"></span>
+</a>
+<div class="collapse" id="coachInfo">
+    <div class="list-group list-group-inside">
+        @Html.DisplayFor(m => m.ContactInfo.PhoneNumbers, "ListGroupItemList")
+        @Html.DisplayFor(m => m.ContactInfo.EmailAddress, "ListGroupItem")
+        @Html.DisplayFor(m => m.Comments, "ListGroupItem")
+    </div>
+    <a href="@Url.RouteUrl(new
+                           {
+                               controller = "Coach",
+                               action = "Coaches",
+                               year = Model.Year == Consts.CurrentYear ? (int?)null : Model.Year
+                           })">View all Coaches</a>
+</div>

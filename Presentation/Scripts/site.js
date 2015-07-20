@@ -12,3 +12,7 @@ $('.calendar-content').on('click', '.calendar-year-nav a', function (e) {
 
     e.preventDefault();
 });
+
+$(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+});

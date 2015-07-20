@@ -9,7 +9,7 @@ namespace Tcbcsl.Presentation.Models
     {
         public MvcHtmlString EmailAddress { get; set; }
         public AddressInfoModel Address { get; set; }
-        public List<PhoneInfoModel> PhoneNumbers { get; set; }
+        public List<string> PhoneNumbers { get; set; }
     }
 
     public class AddressInfoModel

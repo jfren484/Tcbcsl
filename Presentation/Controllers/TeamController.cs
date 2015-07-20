@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Models;
 using Tcbcsl.Presentation.Services;
 
@@ -10,7 +8,7 @@ namespace Tcbcsl.Presentation.Controllers
 {
     public class TeamController : ControllerBase
     {
-        private static readonly List<StatsCategory> statsCategories = new List<StatsCategory>
+        private static readonly List<StatsCategory> StatsCategories = new List<StatsCategory>
                                                                       {
                                                                           new StatsCategory {Name = "AVG", IsPercentage = true},
                                                                           new StatsCategory {Name = "HR"},
@@ -59,32 +57,37 @@ namespace Tcbcsl.Presentation.Controllers
                 .Single(ty => ty.TeamId == teamId && ty.Year == year);
 
             var model = new TeamViewModel
-            {
-                TeamId = teamYear.TeamId,
-                Year = teamYear.Year,
-                TeamName = string.IsNullOrEmpty(teamYear.TeamName)
-                    ? teamYear.Church.DisplayName
-                    : teamYear.Church.DisplayName + " " + teamYear.TeamName,
-                DivisionName = teamYear.DivisionYear.Name,
-                ChurchId = teamYear.ChurchId,
-                ChurchName = teamYear.Church.FullName,
-                Coach = new TeamCoachModel
-                {
-                    CoachId = teamYear.HeadCoachId,
-                    Name = teamYear.HeadCoach.FirstName + " " + teamYear.HeadCoach.LastName,
-                    Comments = teamYear.HeadCoach.Comments,
-                    ContactInfo = ContactInfoService.GetContactInfoModel(teamYear.HeadCoach)
-                },
-                Field = teamYear.Team.FieldInformation,
-                Comments = teamYear.Team.Comments,
-                NewsItems = new ContentService(DbContext).GetCurrentNews(teamYear.TeamId),
-                Schedule = ScheduleService.GetTeamSchedule(teamYear)
-            };
+                        {
+                            TeamId = teamYear.TeamId,
+                            Year = teamYear.Year,
+                            TeamName = string.IsNullOrEmpty(teamYear.TeamName)
+                                           ? teamYear.Church.DisplayName
+                                           : teamYear.Church.DisplayName + " " + teamYear.TeamName,
+                            DivisionName = teamYear.DivisionYear.Name,
+                            ChurchId = teamYear.ChurchId,
+                            ChurchName = teamYear.Church.FullName,
+                            Coach = new TeamCoachModel
+                                    {
+                                        CoachId = teamYear.HeadCoachId,
+                                        Year = year,
+                                        Name = teamYear.HeadCoach.FirstName + " " + teamYear.HeadCoach.LastName,
+                                        Comments = teamYear.HeadCoach.Comments,
+                                        ContactInfo = ContactInfoService.GetContactInfoModel(teamYear.HeadCoach)
+                                    },
+                            Field = teamYear.Team.FieldInformation,
+                            Comments = teamYear.Team.Comments,
+                            NewsItems = new ContentService(DbContext).GetCurrentNews(teamYear.TeamId),
+                            Schedule = new TeamScheduleModel
+                                       {
+                                           Year = year,
+                                           Games = ScheduleService.GetTeamSchedule(teamYear)
+                                       }
+                        };
 
             var teamGamesCount = teamYear.GameParticipants.Count(gp => gp.StatLines.Any());
             if (teamGamesCount > 0)
             {
-                model.StatsLeaders = statsCategories
+                model.StatsLeaders = StatsCategories
                     .Select(cat => GetStatsCategoryLeader(cat, model.TeamId, year, (teamGamesCount + 1) / 2))
                     .ToList();
             }
@@ -125,6 +128,8 @@ namespace Tcbcsl.Presentation.Controllers
 
             var leader = new StatsLeaderModel
                          {
+                             TeamId = teamId,
+                             Year = year,
                              Category = category,
                              PlayerId = topValue == null || topValue.Key == 0 || topValue.Count() > 1 ? (int?)null : topValue.Single().PlayerId,
                              Name = topValue == null || topValue.Key == 0

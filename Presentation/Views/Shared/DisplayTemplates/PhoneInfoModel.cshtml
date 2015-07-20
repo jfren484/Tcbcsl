@@ -1,8 +1,0 @@
-﻿@model PhoneInfoModel
-<li class="contact-phone list-group-item">
-    @Model.PhoneNumber
-    @if ((ViewBag.DisplayType ?? false) && Model.PhoneType != null)
-    {
-        <span class="contact-phone-type">(@Model.PhoneType)</span>
-    }
-</li>

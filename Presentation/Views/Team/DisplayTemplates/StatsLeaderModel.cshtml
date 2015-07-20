@@ -1,0 +1,17 @@
+﻿@model StatsLeaderModel
+<tr>
+    <th>@Html.ActionLink(Model.Category.Name, "Team", "Statistics", new {id = Model.TeamId, year = Model.Year, sort = Model.Category.Name}, null)</th>
+    <td>
+        @if (Model.PlayerId.HasValue)
+        {
+            @Html.ActionLink(Model.Name, "Player", "Statistics", new {id = Model.PlayerId, year = Model.Year}, null)
+        }
+        else
+        {
+            @Model.Name
+        }
+    </td>
+    <td>@(Model.Value.HasValue ? Model.Value.Value.ToString(Model.Category.IsPercentage
+                                                                ? Consts.Decimal3PlacesFormat
+                                                                : Consts.WholeNumberFormat) : null)</td>
+</tr>

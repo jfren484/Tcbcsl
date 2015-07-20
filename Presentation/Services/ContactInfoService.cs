@@ -11,16 +11,24 @@ namespace Tcbcsl.Presentation.Services
     {
         public static ContactInfoModel GetContactInfoModel(EntityWithContactInfo entity)
         {
+            var phoneNumbers = new List<PhoneInfoModel>
+                               {
+                                   GetPhoneInfoModel(entity.Phone1, entity.Phone1Type),
+                                   GetPhoneInfoModel(entity.Phone2, entity.Phone2Type)
+                               }
+                .Where(p => p != null)
+                .ToList();
+
             return new ContactInfoModel
                    {
-                       EmailAddress = string.IsNullOrWhiteSpace(entity.Email) ? null : MvcHtmlString.Create(entity.Email.Replace("@", "@<span style=\"display: none;\">null</span>")),
+                       EmailAddress = string.IsNullOrWhiteSpace(entity.Email)
+                                          ? null
+                                          : MvcHtmlString.Create(entity.Email.Replace("@", "@<span style=\"display: none;\">null</span>")),
                        Address = GetAddressInfoModel(entity),
-                       PhoneNumbers = new List<PhoneInfoModel>
-                                      {
-                                          GetPhoneInfoModel(entity.Phone1, entity.Phone1Type),
-                                          GetPhoneInfoModel(entity.Phone2, entity.Phone2Type)
-                                      }
-                           .Where(p => p != null)
+                       PhoneNumbers = phoneNumbers
+                           .Select(pi => pi.PhoneNumber + (phoneNumbers.Count == 1
+                                                               ? ""
+                                                               : pi.PhoneType))
                            .ToList()
                    };
         }
@@ -44,7 +52,7 @@ namespace Tcbcsl.Presentation.Services
                        : new PhoneInfoModel
                          {
                              PhoneNumber = phoneNumber.FormatPhoneNumber(),
-                             PhoneType = phoneType?.Description
+                             PhoneType = phoneType == null ? null : $" ({phoneType.Description})"
                          };
         }
     }

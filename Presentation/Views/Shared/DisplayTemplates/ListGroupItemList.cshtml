@@ -1,0 +1,5 @@
+﻿@model ICollection<string>
+@foreach (var obj in Model)
+{
+    @Html.DisplayFor(m => obj, "ListGroupItem")
+}

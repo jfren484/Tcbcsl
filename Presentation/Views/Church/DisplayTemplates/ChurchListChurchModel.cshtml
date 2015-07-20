@@ -7,11 +7,11 @@
                 @Html.DisplayFor(m => m.ContactInfo.Address)
             </div>
         </div>
-        <ul class="list-group">
+        <div class="list-group">
             @Html.DisplayFor(m => m.Website, "ListGroupItem")
-            @Html.DisplayFor(m => m.ContactInfo.PhoneNumbers, new {DisplayType = Model.ContactInfo.PhoneNumbers.Count > 1})
+            @Html.DisplayFor(m => m.ContactInfo.PhoneNumbers, "ListGroupItemList")
             @Html.DisplayFor(m => m.ContactInfo.EmailAddress, "ListGroupItem")
             @Html.DisplayFor(m => m.Information, "ListGroupItem")
-        </ul>
+        </div>
     </div>
 </div>

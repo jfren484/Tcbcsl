@@ -35,6 +35,13 @@ textarea {
     user-select: none;
 }
 
+/* Misc */
+
+.list-group-inside {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 /* Address */
 
 .address-map .well {
@@ -198,6 +205,32 @@ textarea {
         margin: 30px auto;
         width: 1100px;
     }
+}
+
+/* Team Schedule */
+
+.panel-schedule .home {
+    background-color: #fff;
+}
+
+.panel-schedule .away {
+    background-color: #daf2ff;
+}
+
+.panel-schedule .neutral {
+    background-color: #eeeeee;
+}
+
+.table-schedule-legend .swatch {
+    border: solid 1px #ddd;
+    border-radius: 4px;
+    box-shadow: 2px 2px 3px #ddd;
+    padding: 0 8px;
+    margin-right: 5px;
+}
+
+.table-schedule-legend > div {
+    margin-right: 15px;
 }
 
 /* Year dropdown */

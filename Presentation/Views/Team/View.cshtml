@@ -17,21 +17,14 @@
                 </tr>
                 <tr>
                     <th>Church</th>
-                    <td>@Html.ActionLink(Model.ChurchName, "View", "Church", new { id = Model.ChurchId, year = Model.Year }, null)</td>
+                    <td>@Html.ActionLink(Model.ChurchName, "Churches", "Church", new {year = Model.Year == Consts.CurrentYear ? (int?)null : Model.Year}, null)</td>
                 </tr>
                 @if (Model.Year >= 2007)
                 {
                     <tr>
                         <th>Coach</th>
                         <td>
-                            @Model.Coach.Name
-                            <a data-toggle="collapse" data-target="#coachInfo" href="javascript:void();" aria-expanded="false" aria-controls="collapseExample">
-                                <span class="glyphicon glyphicon-info-sign"></span>
-                            </a>
-                            <div class="collapse" id="coachInfo">
-                                @Model.Coach.ContactInfo.PhoneNumbers[0].PhoneNumber<br />
-                                @Model.Coach.ContactInfo.EmailAddress
-                            </div>
+                            @Html.DisplayFor(m => m.Coach)
                         </td>
                     </tr>
                 }
@@ -58,26 +51,9 @@
                     Stats Leaders
                 </div>
                 <table class="table">
-                    @foreach (var statsLeader in Model.StatsLeaders)
-                    {
-                        var valueFormat = statsLeader.Category.IsPercentage
-                                              ? Consts.Decimal3PlacesFormat
-                                              : Consts.WholeNumberFormat;
-                        <tr>
-                            <th>@Html.ActionLink(statsLeader.Category.Name, "Team", "Statistics", new { id = Model.TeamId, year = Model.Year, sort = statsLeader.Category.Name }, null)</th>
-                            <td>
-                                @if (statsLeader.PlayerId.HasValue)
-                                {
-                                    @Html.ActionLink(statsLeader.Name, "Player", "Statistics", new { id = statsLeader.PlayerId, year = Model.Year }, null)
-                                }
-                                else
-                                {
-                                    @statsLeader.Name
-                                }
-                            </td>
-                            <td>@(statsLeader.Value.HasValue ? statsLeader.Value.Value.ToString(valueFormat) : null)</td>
-                        </tr>
-                    }
+                    <tbody>
+                    @Html.DisplayFor(m => m.StatsLeaders)
+                    </tbody>
                 </table>
             </div>
         }
@@ -91,58 +67,6 @@
         }
     </div>
     <div class="col-md-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                Schedule
-            </div>
-            <table class="table table-schedule">
-                <tr>
-                    <th>Date</th>
-                    <th>Opponent</th>
-                    <th>Result</th>
-                </tr>
-                @foreach (var game in Model.Schedule)
-                {
-                    var resultClass = game.DidWin ? "text-success" : game.DidLose ? "text-danger" : string.Empty;
-                    <tr class="@(game.IsNeutralSite ? "neutral" : game.IsHomeTeam ? "home" : "away")">
-                        <td>@game.Date.ToString("MMM d - h:mmtt")</td>
-                        <td>
-                            @if (game.IsPlaceholder)
-                            {
-                                @game.OpponentName
-                            }
-                            else
-                            {
-                                @Html.TeamLink(game.OpponentName, game.OpponentId, Model.Year)
-                            }
-                        </td>
-                        <td class="@resultClass">
-                            @if (!string.IsNullOrEmpty(game.GameResultDescription))
-                            {
-                                @Html.ActionLink(game.GameResultDescription, "Game", "Statistics", new { id = game.GameId }, new { @class = resultClass })
-                            }
-                        </td>
-                    </tr>
-                }
-                <tr>
-                    <td colspan="3">
-                        @if (Model.Schedule.Any(tgm => tgm.IsExhibition))
-                        {
-                            <p>* Exhibition Game (does not count in standings).</p>
-                        }
-                        <table class="table-schedule-legend">
-                            <tr>
-                                <td class="home">&nbsp;</td>
-                                <td>Home</td>
-                                <td class="away">&nbsp;</td>
-                                <td>Away</td>
-                                <td class="neutral">&nbsp;</td>
-                                <td>Post-Season</td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-        </div>
+        @Html.DisplayFor(m => m.Schedule)
     </div>
 </div>
