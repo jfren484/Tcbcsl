@@ -30,13 +30,20 @@ namespace Tcbcsl.Presentation.Models
         public string DivisionName { get; set; }
         public int ChurchId { get; set; }
         public string ChurchName { get; set; }
-        public int CoachId { get; set; }
-        public string CoachName { get; set; }
+        public TeamCoachModel Coach { get; set; }
         public string Field { get; set; }
         public string Comments { get; set; }
         public List<NewsItemViewModel> NewsItems { get; set; }
         public List<StatsLeaderModel> StatsLeaders { get; set; }
         public List<TeamGameModel> Schedule { get; set; }
+    }
+
+    public class TeamCoachModel
+    {
+        public int CoachId { get; set; }
+        public string Name { get; set; }
+        public string Comments { get; set; }
+        public ContactInfoModel ContactInfo { get; set; }
     }
 
     public class StatsCategory

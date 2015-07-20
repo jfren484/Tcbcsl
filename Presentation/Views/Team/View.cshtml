@@ -23,7 +23,16 @@
                 {
                     <tr>
                         <th>Coach</th>
-                        <td>@Html.ActionLink(Model.CoachName, "View", "Coach", new { id = Model.CoachId, year = Model.Year }, null)</td>
+                        <td>
+                            @Model.Coach.Name
+                            <a data-toggle="collapse" data-target="#coachInfo" href="javascript:void();" aria-expanded="false" aria-controls="collapseExample">
+                                <span class="glyphicon glyphicon-info-sign"></span>
+                            </a>
+                            <div class="collapse" id="coachInfo">
+                                @Model.Coach.ContactInfo.PhoneNumbers[0].PhoneNumber<br />
+                                @Model.Coach.ContactInfo.EmailAddress
+                            </div>
+                        </td>
                     </tr>
                 }
                 @if (Model.Year == Consts.CurrentYear)
@@ -42,50 +51,42 @@
                 }
             </table>
         </div>
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                Stats Leaders
+        @if (Model.StatsLeaders != null)
+        {
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Stats Leaders
+                </div>
+                <table class="table">
+                    @foreach (var statsLeader in Model.StatsLeaders)
+                    {
+                        var valueFormat = statsLeader.Category.IsPercentage
+                                              ? Consts.Decimal3PlacesFormat
+                                              : Consts.WholeNumberFormat;
+                        <tr>
+                            <th>@Html.ActionLink(statsLeader.Category.Name, "Team", "Statistics", new { id = Model.TeamId, year = Model.Year, sort = statsLeader.Category.Name }, null)</th>
+                            <td>
+                                @if (statsLeader.PlayerId.HasValue)
+                                {
+                                    @Html.ActionLink(statsLeader.Name, "Player", "Statistics", new { id = statsLeader.PlayerId, year = Model.Year }, null)
+                                }
+                                else
+                                {
+                                    @statsLeader.Name
+                                }
+                            </td>
+                            <td>@(statsLeader.Value.HasValue ? statsLeader.Value.Value.ToString(valueFormat) : null)</td>
+                        </tr>
+                    }
+                </table>
             </div>
-            <table class="table">
-                @foreach (var statsLeader in Model.StatsLeaders)
-                {
-                    var valueFormat = statsLeader.Category.IsPercentage
-                                          ? Consts.Decimal3PlacesFormat
-                                          : Consts.WholeNumberFormat;
-                    <tr>
-                        <th>@Html.ActionLink(statsLeader.Category.Name, "Team", "Statistics", new { id = Model.TeamId, year = Model.Year, sort = statsLeader.Category.Name }, null)</th>
-                        <td>
-                            @if (statsLeader.PlayerId.HasValue)
-                            {
-                                @Html.ActionLink(statsLeader.Name, "Player", "Statistics", new { id = statsLeader.PlayerId, year = Model.Year }, null)
-                            }
-                            else
-                            {
-                                @statsLeader.Name
-                            }
-                        </td>
-                        <td>@(statsLeader.Value.HasValue ? statsLeader.Value.Value.ToString(valueFormat) : null)</td>
-                    </tr>
-                }
-            </table>
-        </div>
-        @if (Model.Year == Consts.CurrentYear)
+        }
+        @if (Model.Year == Consts.CurrentYear && Model.NewsItems.Any())
         {
             <h3>News</h3>
-            if (Model.NewsItems.Any())
+            foreach (var newsItem in Model.NewsItems)
             {
-                foreach (var newsItem in Model.NewsItems)
-                {
-                    @Html.DisplayFor(m => newsItem)
-                }
-            }
-            else
-            {
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        No current news.
-                    </div>
-                </div>
+                @Html.DisplayFor(m => newsItem)
             }
         }
     </div>
@@ -106,13 +107,13 @@
                     <tr class="@(game.IsNeutralSite ? "neutral" : game.IsHomeTeam ? "home" : "away")">
                         <td>@game.Date.ToString("MMM d - h:mmtt")</td>
                         <td>
-                            @if (!game.IsPlaceholder)
+                            @if (game.IsPlaceholder)
                             {
-                                @Html.ActionLink(game.OpponentName, "View", new { teamId = game.OpponentId, year = Model.Year })
+                                @game.OpponentName
                             }
                             else
                             {
-                                @game.OpponentName
+                                @Html.TeamLink(game.OpponentName, game.OpponentId, Model.Year)
                             }
                         </td>
                         <td class="@resultClass">

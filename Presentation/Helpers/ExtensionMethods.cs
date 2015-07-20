@@ -22,11 +22,11 @@ namespace Tcbcsl.Presentation.Helpers
 
         public static MvcHtmlString TeamLink(this HtmlHelper htmlHelper, string teamName, int teamId, int year)
         {
-            var extraParameters = new RouteValueDictionary { { "teamId", teamId } };
-            if (year != Consts.CurrentYear)
-            {
-                extraParameters.Add("year", year);
-            }
+            var extraParameters = new RouteValueDictionary
+                                  {
+                                      { "teamId", teamId },
+                                      { "year", year == Consts.CurrentYear ? (int?)null : year }
+                                  };
 
             return htmlHelper.ActionLink(teamName, "View", "Team", extraParameters, null);
         }

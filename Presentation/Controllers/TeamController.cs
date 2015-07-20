@@ -4,11 +4,23 @@ using System.Linq;
 using System.Web.Mvc;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Models;
+using Tcbcsl.Presentation.Services;
 
 namespace Tcbcsl.Presentation.Controllers
 {
     public class TeamController : ControllerBase
     {
+        private static readonly List<StatsCategory> statsCategories = new List<StatsCategory>
+                                                                      {
+                                                                          new StatsCategory {Name = "AVG", IsPercentage = true},
+                                                                          new StatsCategory {Name = "HR"},
+                                                                          new StatsCategory {Name = "BB"},
+                                                                          new StatsCategory {Name = "RBI"},
+                                                                          new StatsCategory {Name = "Runs"},
+                                                                          new StatsCategory {Name = "OPS", IsPercentage = true}
+                                                                      };
+
+
         [Route("Teams/{year:year?}")]
         public ActionResult Teams(int year = Consts.CurrentYear)
         {
@@ -42,90 +54,40 @@ namespace Tcbcsl.Presentation.Controllers
         [Route("Team/{teamId}/{year:year?}")]
         public ActionResult View(int teamId, int year = Consts.CurrentYear)
         {
-            var statsCategories = new List<StatsCategory>
-                                  {
-                                      new StatsCategory {Name = "AVG", IsPercentage = true},
-                                      new StatsCategory {Name = "HR"},
-                                      new StatsCategory {Name = "BB"},
-                                      new StatsCategory {Name = "RBI"},
-                                      new StatsCategory {Name = "Runs"},
-                                      new StatsCategory {Name = "OPS", IsPercentage = true}
-                                  };
-
-            var teamInfo = DbContext
+            var teamYear = DbContext
                 .TeamYears
-                .Select(ty => new
-                              {
-                                  TeamViewModel = new TeamViewModel
-                                                  {
-                                                      TeamId = ty.TeamId,
-                                                      Year = ty.Year,
-                                                      TeamName = string.IsNullOrEmpty(ty.TeamName)
-                                                                     ? ty.Church.DisplayName
-                                                                     : ty.Church.DisplayName + " " + ty.TeamName,
-                                                      DivisionName = ty.DivisionYear.Name,
-                                                      ChurchId = ty.ChurchId,
-                                                      ChurchName = ty.Church.FullName,
-                                                      CoachId = ty.HeadCoachId,
-                                                      CoachName = ty.HeadCoach.FirstName + " " + ty.HeadCoach.LastName,
-                                                      Field = ty.Team.FieldInformation,
-                                                      Comments = ty.Team.Comments,
-                                                      NewsItems = (from item in ty.Team.NewsItems
-                                                                   where item.IsActive
-                                                                         && item.StartDate < DateTime.Now
-                                                                         && item.EndDate > DateTime.Now
-                                                                   orderby item.StartDate descending
-                                                                   select new NewsItemViewModel
-                                                                          {
-                                                                              StartDate = item.StartDate,
-                                                                              Subject = item.Subject,
-                                                                              Content = item.Content
-                                                                          })
-                                                          .ToList(),
-                                                      Schedule = (from gp in ty.GameParticipants
-                                                                  let opponent = gp.Game.GameParticipants.FirstOrDefault(gp2 => gp2.GameParticipantId != gp.GameParticipantId)
-                                                                  let won = gp.RunsScored > opponent.RunsScored
-                                                                  let lost = gp.RunsScored < opponent.RunsScored
-                                                                  let winnerRuns = won ? gp.RunsScored : opponent.RunsScored
-                                                                  let loserRuns = lost ? gp.RunsScored : opponent.RunsScored
-                                                                  let winLossChar = (won ? "W" : lost ? "L" : "T")
-                                                                                    + (gp.Game.GameStatusId == GameStatus.Forfeited ? " (F)" : string.Empty)
-                                                                  orderby gp.Game.GameDate
-                                                                  select new TeamGameModel
-                                                                         {
-                                                                             GameId = gp.Game.GameId,
-                                                                             Date = gp.Game.GameDate,
-                                                                             OpponentId = opponent.TeamYear.TeamId,
-                                                                             OpponentName = opponent.TeamYear.Church.DisplayName
-                                                                                            + (string.IsNullOrEmpty(opponent.TeamYear.TeamName)
-                                                                                                   ? string.Empty
-                                                                                                   : " " + opponent.TeamYear.TeamName)
-                                                                                            + (gp.Game.GameTypeId == GameType.Exhibition ? " *" : string.Empty),
-                                                                             IsGameCompleted = gp.Game.GameStatus.IsComplete,
-                                                                             DidWin = won,
-                                                                             DidLose = lost,
-                                                                             IsHomeTeam = gp.IsHost,
-                                                                             IsNeutralSite = gp.Game.GameTypeId == GameType.GamePlaceholder
-                                                                                             || gp.Game.GameTypeId == GameType.PostSeason,
-                                                                             IsPlaceholder = gp.Game.GameTypeId == GameType.GamePlaceholder,
-                                                                             IsExhibition = gp.Game.GameTypeId == GameType.Exhibition,
-                                                                             GameResultDescription = gp.Game.GameStatus.IsComplete
-                                                                                                         ? winLossChar + " " + winnerRuns + "-" + loserRuns
-                                                                                                         : gp.Game.GameStatusId != GameStatus.Scheduled
-                                                                                                               ? gp.Game.GameStatus.Description
-                                                                                                               : string.Empty
-                                                                         })
-                                                          .ToList()
+                .Single(ty => ty.TeamId == teamId && ty.Year == year);
 
-                                                  },
-                                  TeamGamesThreshhold = ty.GameParticipants.Count(gp => gp.StatLines.Any())
-                              })
-                .Single(ti => ti.TeamViewModel.TeamId == teamId && ti.TeamViewModel.Year == year);
+            var model = new TeamViewModel
+            {
+                TeamId = teamYear.TeamId,
+                Year = teamYear.Year,
+                TeamName = string.IsNullOrEmpty(teamYear.TeamName)
+                    ? teamYear.Church.DisplayName
+                    : teamYear.Church.DisplayName + " " + teamYear.TeamName,
+                DivisionName = teamYear.DivisionYear.Name,
+                ChurchId = teamYear.ChurchId,
+                ChurchName = teamYear.Church.FullName,
+                Coach = new TeamCoachModel
+                {
+                    CoachId = teamYear.HeadCoachId,
+                    Name = teamYear.HeadCoach.FirstName + " " + teamYear.HeadCoach.LastName,
+                    Comments = teamYear.HeadCoach.Comments,
+                    ContactInfo = ContactInfoService.GetContactInfoModel(teamYear.HeadCoach)
+                },
+                Field = teamYear.Team.FieldInformation,
+                Comments = teamYear.Team.Comments,
+                NewsItems = new ContentService(DbContext).GetCurrentNews(teamYear.TeamId),
+                Schedule = ScheduleService.GetTeamSchedule(teamYear)
+            };
 
-            var model = teamInfo.TeamViewModel;
-            model.StatsLeaders = statsCategories
-                .Select(cat => GetStatsCategoryLeader(cat, model.TeamId, year, teamInfo.TeamGamesThreshhold))
-                .ToList();
+            var teamGamesCount = teamYear.GameParticipants.Count(gp => gp.StatLines.Any());
+            if (teamGamesCount > 0)
+            {
+                model.StatsLeaders = statsCategories
+                    .Select(cat => GetStatsCategoryLeader(cat, model.TeamId, year, (teamGamesCount + 1) / 2))
+                    .ToList();
+            }
 
             return View(model);
         }

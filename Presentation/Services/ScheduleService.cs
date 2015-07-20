@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Models;
 
@@ -43,6 +45,44 @@ namespace Tcbcsl.Presentation.Services
                        RunsScored = gameParticipant.RunsScored,
                        Hits = gameParticipant.StatLines.Any() ? gameParticipant.StatLines.Sum(sl => sl.StatHits) : (int?)null
                    };
+        }
+
+        public static List<TeamGameModel> GetTeamSchedule(TeamYear teamYear)
+        {
+            return (from gp in teamYear.GameParticipants
+                    let opponent = gp.Game.GameParticipants.FirstOrDefault(gp2 => gp2.GameParticipantId != gp.GameParticipantId)
+                    let won = gp.RunsScored > opponent.RunsScored
+                    let lost = gp.RunsScored < opponent.RunsScored
+                    let winnerRuns = won ? gp.RunsScored : opponent.RunsScored
+                    let loserRuns = lost ? gp.RunsScored : opponent.RunsScored
+                    let winLossChar = (won ? "W" : lost ? "L" : "T")
+                                      + (gp.Game.GameStatusId == GameStatus.Forfeited ? " (F)" : string.Empty)
+                    orderby gp.Game.GameDate
+                    select new TeamGameModel
+                    {
+                        GameId = gp.Game.GameId,
+                        Date = gp.Game.GameDate,
+                        OpponentId = opponent.TeamYear.TeamId,
+                        OpponentName = opponent.TeamYear.Church.DisplayName
+                                              + (string.IsNullOrEmpty(opponent.TeamYear.TeamName)
+                                                     ? string.Empty
+                                                     : " " + opponent.TeamYear.TeamName)
+                                              + (gp.Game.GameTypeId == GameType.Exhibition ? " *" : string.Empty),
+                        IsGameCompleted = gp.Game.GameStatus.IsComplete,
+                        DidWin = won,
+                        DidLose = lost,
+                        IsHomeTeam = gp.IsHost,
+                        IsNeutralSite = gp.Game.GameTypeId == GameType.GamePlaceholder
+                                               || gp.Game.GameTypeId == GameType.PostSeason,
+                        IsPlaceholder = gp.Game.GameTypeId == GameType.GamePlaceholder,
+                        IsExhibition = gp.Game.GameTypeId == GameType.Exhibition,
+                        GameResultDescription = gp.Game.GameStatus.IsComplete
+                                                    ? winLossChar + " " + winnerRuns + "-" + loserRuns
+                                                    : gp.Game.GameStatusId != GameStatus.Scheduled
+                                                          ? gp.Game.GameStatus.Description
+                                                          : string.Empty
+                    })
+                .ToList();
         }
 
         /* JAF - This works, but is way too slow
