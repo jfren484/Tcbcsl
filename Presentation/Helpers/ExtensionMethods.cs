@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
@@ -39,6 +41,11 @@ namespace Tcbcsl.Presentation.Helpers
                                   };
 
             return htmlHelper.ActionLink(teamName, "View", "Team", extraParameters, null);
+        }
+
+        public static MvcHtmlString ToLines<T>(this IEnumerable<T> items)
+        {
+            return MvcHtmlString.Create(string.Join("<br />", items.Where(i => i != null).Select(i => i.ToString())));
         }
 
         public static MvcHtmlString UrlToLink(this string url)

@@ -1,0 +1,29 @@
+﻿@model CoachListTeamModel
+<tr class="visible-xs hidden-print">
+    <td colspan="5">@Html.TeamLink(Model.TeamName, Model.TeamId, Model.Year)<br/>
+        @Model.Coach.Name<br />
+        @Model.Coach.ContactInfo.EmailAddress<br/>
+        @Model.Coach.ContactInfo.PhoneNumbers.ToLines()<br />
+        @Model.Coach.Comments</td>
+</tr>
+<tr class="visible-sm hidden-print">
+    <td>@Html.TeamLink(Model.TeamName, Model.TeamId, Model.Year)<br />
+        @Model.Coach.Name</td>
+    <td>@Model.Coach.ContactInfo.EmailAddress<br/>
+        @Model.Coach.ContactInfo.PhoneNumbers.ToLines()</td>
+    <td colspan="2">@Model.Coach.Comments</td>
+</tr>
+<tr class="visible-md hidden-print">
+    <td>@Html.TeamLink(Model.TeamName, Model.TeamId, Model.Year)</td>
+    <td>@Model.Coach.Name</td>
+    <td>@Model.Coach.ContactInfo.EmailAddress<br/>
+        @Model.Coach.ContactInfo.PhoneNumbers.ToLines()</td>
+    <td colspan="2">@Model.Coach.Comments</td>
+</tr>
+<tr class="visible-lg visible-print">
+    <td>@Html.TeamLink(Model.TeamName, Model.TeamId, Model.Year)</td>
+    <td>@Model.Coach.Name</td>
+    <td>@Model.Coach.ContactInfo.EmailAddress</td>
+    <td>@Model.Coach.ContactInfo.PhoneNumbers.ToLines()</td>
+    <td>@Model.Coach.Comments</td>
+</tr>

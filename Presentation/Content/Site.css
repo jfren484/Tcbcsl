@@ -51,8 +51,19 @@ textarea {
 }
 
 /* Church */
+
 .church h4 {
     margin-top: 0;
+}
+
+/* Coach */
+
+.table-coach td {
+    white-space: nowrap;
+}
+
+.table-coach td:last-child {
+    white-space: normal;
 }
 
 /* Schedule */
@@ -242,4 +253,31 @@ textarea {
 .year-dropdown .dropdown-toggle {
     font-size: 1.7em;
     padding: 0 15px;
+}
+
+/* Print overrides */
+
+@media print {
+    a[href]:after {
+        content: '';
+    }
+
+    body {
+        padding: 0;
+    }
+
+    .body-content > h2, .year-dropdown, .calendar-dropdown {
+        margin-top: 0;
+    }
+
+    .body-content > hr, .body-content > footer {
+        display: none;
+    }
+
+    .year-dropdown > .btn, .calendar-dropdown > .btn {
+        border: none;
+    }
+    .year-dropdown .caret, .calendar-dropdown .caret {
+        display: none;
+    }
 }

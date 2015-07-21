@@ -17,15 +17,15 @@ namespace Tcbcsl.Presentation.Models
 
     public class TeamsListTeamModel
     {
-        public int TeamId { get; set; }
         public int Year { get; set; }
+        public int TeamId { get; set; }
         public string TeamName { get; set; }
     }
 
     public class TeamViewModel
     {
-        public int TeamId { get; set; }
         public int Year { get; set; }
+        public int TeamId { get; set; }
         public string TeamName { get; set; }
         public string DivisionName { get; set; }
         public int ChurchId { get; set; }
@@ -46,8 +46,8 @@ namespace Tcbcsl.Presentation.Models
 
     public class TeamCoachModel
     {
-        public int Year { get; set; }
         public int CoachId { get; set; }
+        public int Year { get; set; }
         public string Name { get; set; }
         public string Comments { get; set; }
         public ContactInfoModel ContactInfo { get; set; }
