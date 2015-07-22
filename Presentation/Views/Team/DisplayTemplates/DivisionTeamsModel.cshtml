@@ -1,0 +1,11 @@
+﻿@model DivisionTeamsModel
+<div class="col-md-3 col-sm-6 grid4421">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            @Model.DivisionName Division
+        </div>
+        <table class="table">
+            @Html.DisplayFor(m => m.Teams)
+        </table>
+    </div>
+</div>
