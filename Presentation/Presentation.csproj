@@ -323,6 +323,8 @@
     <Content Include="Views\Coach\Coaches.cshtml" />
     <Content Include="Views\Coach\DisplayTemplates\CoachListDivisionModel.cshtml" />
     <Content Include="Views\Coach\DisplayTemplates\CoachListTeamModel.cshtml" />
+    <Content Include="Views\Team\DisplayTemplates\DivisionTeamsModel.cshtml" />
+    <Content Include="Views\Team\DisplayTemplates\TeamsListTeamModel.cshtml" />
     <None Include="Views\Team\View.cshtml" />
   </ItemGroup>
   <ItemGroup />

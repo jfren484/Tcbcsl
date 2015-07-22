@@ -11,7 +11,7 @@
         @Model.Coach.Name</td>
     <td>@Model.Coach.ContactInfo.EmailAddress<br/>
         @Model.Coach.ContactInfo.PhoneNumbers.ToLines()</td>
-    <td colspan="2">@Model.Coach.Comments</td>
+    <td colspan="3">@Model.Coach.Comments</td>
 </tr>
 <tr class="visible-md hidden-print">
     <td>@Html.TeamLink(Model.TeamName, Model.TeamId, Model.Year)</td>

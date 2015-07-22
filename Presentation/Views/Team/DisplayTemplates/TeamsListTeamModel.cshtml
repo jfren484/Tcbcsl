@@ -1,0 +1,7 @@
+﻿@model TeamsListTeamModel
+<tr>
+    <td>@Html.TeamLink(Model.TeamName, Model.TeamId, Model.Year)</td>
+    @*<td class="actions-row">
+            <a href="@Url.Action("Stats", new { id = Model.TeamId, year = Model.Year })" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Team Stats"><span class="glyphicon glyphicon-stats"></span></a>
+        </td>*@
+</tr>
