@@ -1,0 +1,13 @@
+﻿@model PageContentModel
+@{
+    ViewBag.Title = Model.Title;
+}
+<h2>@Model.Title</h2>
+@Model.Content
+@if (Model.Tag == "LeagueRules")
+{
+    <div class="row center">
+        <div class="col-lg-3 col-lg-offset-3 col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1"><img src="~/Content/Images/plate.gif" alt="Home Plate and Batter's Boxes" /></div>
+        <div class="col-md-2 col-md-offset-1 col-sm-3 col-sm-offset-1"><img src="~/Content/Images/carpet.gif" alt="Carpet"/></div>
+    </div>
+}

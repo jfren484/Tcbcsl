@@ -33,7 +33,7 @@ namespace Tcbcsl.Presentation.Models
         public TeamCoachModel Coach { get; set; }
         public string Field { get; set; }
         public string Comments { get; set; }
-        public List<NewsItemViewModel> NewsItems { get; set; }
+        public List<NewsItemModel> NewsItems { get; set; }
         public List<StatsLeaderModel> StatsLeaders { get; set; }
         public TeamScheduleModel Schedule { get; set; }
     }

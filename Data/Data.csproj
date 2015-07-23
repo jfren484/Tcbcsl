@@ -94,6 +94,10 @@
     <Compile Include="Migrations\201507171420527_AddWebsiteColumnToChurch.Designer.cs">
       <DependentUpon>201507171420527_AddWebsiteColumnToChurch.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507232059288_AddPageContentTitleColumn.cs" />
+    <Compile Include="Migrations\201507232059288_AddPageContentTitleColumn.Designer.cs">
+      <DependentUpon>201507232059288_AddPageContentTitleColumn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
     <Compile Include="Entities\PageContent.cs" />
@@ -126,6 +130,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507171420527_AddWebsiteColumnToChurch.resx">
       <DependentUpon>201507171420527_AddWebsiteColumnToChurch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507232059288_AddPageContentTitleColumn.resx">
+      <DependentUpon>201507232059288_AddPageContentTitleColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

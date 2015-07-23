@@ -204,6 +204,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
+    <Compile Include="Controllers\ContentItemController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\StandingsController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
@@ -232,6 +233,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\carpet.gif" />
+    <Content Include="Content\Images\plate.gif" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -325,6 +328,7 @@
     <Content Include="Views\Coach\DisplayTemplates\CoachListTeamModel.cshtml" />
     <Content Include="Views\Team\DisplayTemplates\DivisionTeamsModel.cshtml" />
     <Content Include="Views\Team\DisplayTemplates\TeamsListTeamModel.cshtml" />
+    <Content Include="Views\ContentItem\PageContent.cshtml" />
     <None Include="Views\Team\View.cshtml" />
   </ItemGroup>
   <ItemGroup />

@@ -39,6 +39,10 @@ textarea {
 
 /* Misc */
 
+.center {
+    text-align: center;
+}
+
 .list-group-inside {
     margin-top: 5px;
     margin-bottom: 5px;

@@ -11,12 +11,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    @Html.RouteLink("Schedule", new
-                                                {
-                                                    controller = "Schedule",
-                                                    action = "Schedule",
-                                                    date = (DateTime?)null
-                                                }, null)
+                    @Html.RouteLink("Schedule", new {controller = "Schedule", action = "Schedule", date = (DateTime?)null}, null)
                 </li>
                 <li class="dropdown">
                     @Html.Partial("_NavDropdownToggle", "Standings")
@@ -36,17 +31,19 @@
                 <li class="dropdown">
                     @Html.Partial("_NavDropdownToggle", "Members")
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Churches", "Index", "Churches")</li>
-                        <li>@Html.ActionLink("Coaches", "Index", "Coaches")</li>
-                        <li>@Html.RouteLink("Teams", new
-                                                     {
-                                                         controller = "Team",
-                                                         action = "Teams",
-                                                         year = (int?)null
-                                                     }, null)</li>
+                        <li>@Html.RouteLink("Churches", new {controller = "Church", action = "Churches", year = (int?)null}, null)</li>
+                        <li>@Html.RouteLink("Coaches", new {controller = "Coach", action = "Coaches", year = (int?)null}, null)</li>
+                        <li>@Html.RouteLink("Teams", new {controller = "Team", action = "Teams", year = (int?)null}, null)</li>
                     </ul>
                 </li>
-                <li>@Html.ActionLink("Rules", "LeagueRules", "Content")</li>
+                <li class="dropdown">
+                    @Html.Partial("_NavDropdownToggle", "Rules")
+                    <ul class="dropdown-menu">
+                        <li>@Html.RouteLink("League Rules", new { controller = "ContentItem", action = "PageContent", tag = "LeagueRules" }, null)</li>
+                        <li>@Html.RouteLink("Umpire Guidelines", new { controller = "ContentItem", action = "PageContent", tag = "UmpireGuidelines" }, null)</li>
+                        <li>@Html.RouteLink("Tournament Rules", new { controller = "ContentItem", action = "PageContent", tag = "TournamentRules" }, null)</li>
+                    </ul>
+                </li>
             </ul>
             @Html.Partial("_LoginPartial")
         </div>

@@ -15,7 +15,7 @@ namespace Tcbcsl.Presentation.Services
             _db = dbContext;
         }
 
-        public List<NewsItemViewModel> GetCurrentNews(int? teamId = null)
+        public List<NewsItemModel> GetCurrentNews(int? teamId = null)
         {
             var now = DateTime.Now;
 
@@ -28,7 +28,7 @@ namespace Tcbcsl.Presentation.Services
 
             return news
                 .OrderByDescending(n => n.StartDate)
-                .Select(n => new NewsItemViewModel
+                .Select(n => new NewsItemModel
                 {
                     StartDate = n.StartDate,
                     Subject = n.Subject,

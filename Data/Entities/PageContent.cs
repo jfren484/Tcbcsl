@@ -9,6 +9,9 @@ namespace Tcbcsl.Data.Entities
         [MaxLength(30), Required]
         public string PageTag { get; set; }
 
+        [MaxLength(50), Required]
+        public string Title { get; set; }
+
         [Required]
         public string Content { get; set; }
     }
