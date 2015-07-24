@@ -89,7 +89,7 @@ textarea {
   text-align: left;
 }
 .schedule-game .game-header {
-  background-color: #f8f8f8;
+  background-color: #eeeeee;
   border-bottom: solid 1px #dddddd;
 }
 .schedule-game .game-header .schedule-game-cell {
@@ -102,8 +102,6 @@ textarea {
 .schedule-game .game-body .winner {
   font-weight: bold;
 }
-/* Schedule Calendar */
-
 .calendar-dropdown {
   margin-top: 20px;
 }
@@ -112,8 +110,8 @@ textarea {
   padding: 0 15px;
 }
 .calendar-modal .modal-dialog {
-  width: 275px;
   margin: 10px auto;
+  width: 275px;
 }
 .calendar-modal .modal-dialog .calendar-content > .panel {
   margin: 0;
@@ -133,7 +131,7 @@ textarea {
   color: white;
 }
 .calendar-modal .modal-dialog .calendar-content .calendar-year-nav a:hover {
-  color: #337ab7;
+  color: #157ab5;
 }
 .calendar-modal .modal-dialog .calendar-content .calendar-year-nav a.disabled {
   pointer-events: none;
@@ -148,15 +146,15 @@ textarea {
 }
 .calendar-modal .modal-dialog .calendar-content .calendar-month .table-month th {
   text-align: right;
-  padding: 6px 2px 6px 9px;
+  padding: 6px 9px 6px 2px;
 }
 .calendar-modal .modal-dialog .calendar-content .calendar-month .table-month td {
   text-align: right;
-  padding: 6px 2px 6px 9px;
+  padding: 6px 9px 6px 2px;
   border: none;
   border-radius: 4px;
   text-shadow: 0 -1px 0 black;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 .calendar-modal .modal-dialog .calendar-content .calendar-month .table-month td.active {
   background-color: #2fa4e7;
@@ -178,29 +176,25 @@ textarea {
     width: 1100px;
   }
 }
-/* Team Schedule */
-
-.panel-schedule .home {
+.team-schedule .home {
   background-color: white;
 }
-.panel-schedule .away {
-  background-color: #daf2ff;
+.team-schedule .away {
+  background-color: #ddf0fb;
 }
-.panel-schedule .neutral {
+.team-schedule .neutral {
   background-color: #eeeeee;
 }
-.table-schedule-legend .swatch {
+.team-schedule .table-schedule-legend .swatch {
   border: solid 1px #dddddd;
   border-radius: 4px;
   box-shadow: 2px 2px 3px #dddddd;
   padding: 0 8px;
   margin-right: 5px;
 }
-.table-schedule-legend > div {
+.team-schedule .table-schedule-legend > div {
   margin-right: 15px;
 }
-/* Year dropdown */
-
 .year-dropdown {
   margin-top: 20px;
 }

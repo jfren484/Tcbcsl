@@ -1,5 +1,7 @@
 ﻿@import "variables";
 
+@border-size-tiny: 1px;
+
 /* Save room for nav-bar */
 body {
     padding-top: 50px;
@@ -57,51 +59,51 @@ textarea {
 
 /* Grid Clearing */
 
-@media (min-width: 768px) and (max-width: 1199px) {
+@media (min-width: @screen-sm) and (max-width: @screen-md-max) {
     .grid4221:nth-child(2n + 1) {
         clear: left;
     }
 }
 
-@media (min-width: 992px) {
+@media (min-width: @screen-md) {
     .grid4221:nth-child(4n + 1) {
         clear: left;
     }
 }
 
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: @screen-sm) and (max-width: @screen-sm-max) {
     .grid4321:nth-child(2n + 1) {
         clear: left;
     }
 }
 
-@media (min-width: 992px) and (max-width: 1199px) {
+@media (min-width: @screen-md) and (max-width: @screen-md-max) {
     .grid4321:nth-child(3n + 1) {
         clear: left;
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: @screen-lg) {
     .grid4321:nth-child(4n + 1) {
         clear: left;
     }
 }
 
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: @screen-sm) and (max-width: @screen-sm-max) {
     .grid4421:nth-child(2n + 1) {
         clear: left;
     }
 }
 
-@media (min-width: 992px) {
+@media (min-width: @screen-md) {
     .grid4421:nth-child(4n + 1) {
         clear: left;
     }
 }
 
 .schedule-game {
-    margin-bottom: 20px;
-    border: solid 1px #ddd;
+    margin-bottom: @line-height-computed;
+    border: solid @border-size-tiny @table-border-color;
 
     .schedule-game-cell {
         text-align: right;
@@ -112,8 +114,8 @@ textarea {
     }
 
     .game-header {
-        background-color: #f8f8f8;
-        border-bottom: solid 1px #ddd;
+        background-color: @gray-lighter;
+        border-bottom: solid @border-size-tiny @table-border-color;
 
         .schedule-game-cell {
             padding: 0 5px;
@@ -132,10 +134,8 @@ textarea {
     }
 }
 
-/* Schedule Calendar */
-
 .calendar-dropdown {
-    margin-top: 20px;
+    margin-top: @line-height-computed;
 
     .dropdown-toggle {
         font-size: 1.7em;
@@ -145,7 +145,6 @@ textarea {
 
 .calendar-modal {
     .modal-dialog {
-        width: 275px;
         margin: 10px auto;
 
         .calendar-content {
@@ -167,10 +166,10 @@ textarea {
                 font-size: 1.5em;
 
                 a {
-                    color: white;
+                    color: @panel-primary-text;
 
                     &:hover {
-                        color: #337ab7;
+                        color: @link-hover-color;
                     }
 
                     &.disabled {
@@ -180,7 +179,7 @@ textarea {
             }
 
             .calendar-month {
-                width: 275px;
+                width: @calendarMonthWidth;
 
                 .table-month {
                     border-collapse: separate;
@@ -189,7 +188,7 @@ textarea {
 
                     .tableMonthCell() {
                         text-align: right;
-                        padding: 6px 2px 6px 9px;
+                        padding: 6px 9px 6px 2px;
                     }
 
                     th {
@@ -200,13 +199,13 @@ textarea {
                         .tableMonthCell();
 
                         border: none;
-                        border-radius: 4px;
-                        text-shadow: 0 -1px 0 black;
-                        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+                        border-radius: @border-radius-base;
+                        text-shadow: 0 -1px 0 @gray-base;
+                        text-shadow: 0 -1px 0 @modal-content-border-color;
 
                         &.active {
-                            background-color: #2fa4e7;
-                            color: #fff;
+                            background-color: @brand-primary;
+                            color: @panel-primary-text;
                             text-shadow: none;
                         }
 
@@ -221,52 +220,56 @@ textarea {
             }
         }
 
-        @media (min-width: 768px) {
+        // Default xs width and overrides
+        @calendarMonthWidth: 275px;
+        width: @calendarMonthWidth;
+
+        @media (min-width: @screen-sm) {
             margin: 30px auto;
             width: 550px;
         }
 
-        @media (min-width: 1200px) {
+        @media (min-width: @screen-lg) {
             width: 1100px;
         }
     }
 }
 
-/* Team Schedule */
+.team-schedule {
+    .home {
+        background-color: white;
+    }
 
-.panel-schedule .home {
-    background-color: #fff;
+    .away {
+        background-color: lighten(@brand-primary, 38%);
+    }
+
+    .neutral {
+        background-color: @gray-lighter;
+    }
+
+    .table-schedule-legend {
+        .swatch {
+            border: solid @border-size-tiny @table-border-color;
+            border-radius: @border-radius-base;
+            box-shadow: 2px 2px 3px @table-border-color;
+            padding: 0 8px;
+            margin-right: 5px;
+        }
+
+        & > div {
+            margin-right: 15px;
+        }
+    }
 }
-
-.panel-schedule .away {
-    background-color: #daf2ff;
-}
-
-.panel-schedule .neutral {
-    background-color: #eeeeee;
-}
-
-.table-schedule-legend .swatch {
-    border: solid 1px #ddd;
-    border-radius: 4px;
-    box-shadow: 2px 2px 3px #ddd;
-    padding: 0 8px;
-    margin-right: 5px;
-}
-
-.table-schedule-legend > div {
-    margin-right: 15px;
-}
-
-/* Year dropdown */
 
 .year-dropdown {
-    margin-top: 20px;
-}
+    margin-top: @line-height-computed;
 
-.year-dropdown .dropdown-toggle {
-    font-size: 1.7em;
-    padding: 0 15px;
+    .dropdown-toggle {
+        font-size: 1.7em;
+        padding: 0 15px;
+    }
 }
 
 /* Print overrides */
