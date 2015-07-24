@@ -1,309 +1,237 @@
-﻿/* VS default provided styles */
+﻿/* Save room for nav-bar */
 
 body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+  padding-top: 50px;
 }
-
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
-}
-
 /* Set width on the form input elements since they're 100% wide by default */
+
 input,
 select,
 textarea {
-    max-width: 280px;
+  max-width: 280px;
 }
-
 /* Hide something by making it transparent (but take up space in the document) #kludge */
 
 .pseudo-hidden {
-    /* ReSharper disable once RequiresFallbackColor */
-    color: rgba(0, 0, 0, 0.0);
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
-
-/* Misc */
-
-.center {
-    text-align: center;
-}
-
-.list-group-inside {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-/* Address */
-
 .address-map .well {
-    margin: 0;
-    padding: 4px 10px;
-    text-align: center;
+  margin: 0;
+  padding: 4px 10px;
+  text-align: center;
 }
-
-/* Church */
-
+.center {
+  text-align: center;
+}
 .church h4 {
-    margin-top: 0;
+  margin-top: 0;
 }
-
-/* Coach */
-
-.table-coach td {
-    white-space: nowrap;
+.coach-table td {
+  white-space: nowrap;
 }
-
-.table-coach td:last-child {
-    white-space: normal;
+.coach-table td:last-child {
+  white-space: normal;
 }
-
+.list-group-inside {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 /* Grid Clearing */
 
 @media (min-width: 768px) and (max-width: 1199px) {
-    .grid4221:nth-child(2n + 1) {
-        clear: left;
-    }
+  .grid4221:nth-child(2n + 1) {
+    clear: left;
+  }
 }
-
 @media (min-width: 992px) {
-    .grid4221:nth-child(4n + 1) {
-        clear: left;
-    }
+  .grid4221:nth-child(4n + 1) {
+    clear: left;
+  }
 }
-
 @media (min-width: 768px) and (max-width: 991px) {
-    .grid4321:nth-child(2n + 1) {
-        clear: left;
-    }
+  .grid4321:nth-child(2n + 1) {
+    clear: left;
+  }
 }
-
 @media (min-width: 992px) and (max-width: 1199px) {
-    .grid4321:nth-child(3n + 1) {
-        clear: left;
-    }
+  .grid4321:nth-child(3n + 1) {
+    clear: left;
+  }
 }
-
 @media (min-width: 1200px) {
-    .grid4321:nth-child(4n + 1) {
-        clear: left;
-    }
+  .grid4321:nth-child(4n + 1) {
+    clear: left;
+  }
 }
-
 @media (min-width: 768px) and (max-width: 991px) {
-    .grid4421:nth-child(2n + 1) {
-        clear: left;
-    }
+  .grid4421:nth-child(2n + 1) {
+    clear: left;
+  }
 }
-
 @media (min-width: 992px) {
-    .grid4421:nth-child(4n + 1) {
-        clear: left;
-    }
+  .grid4421:nth-child(4n + 1) {
+    clear: left;
+  }
 }
-
-/* Schedule */
-
 .schedule-game {
-    margin-bottom: 20px;
-    border: solid 1px #ddd;
+  margin-bottom: 20px;
+  border: solid 1px #dddddd;
 }
-
+.schedule-game .schedule-game-cell {
+  text-align: right;
+}
+.schedule-game .schedule-game-cell:first-child {
+  text-align: left;
+}
 .schedule-game .game-header {
-    background-color: #f8f8f8;
-    border-bottom: solid 1px #ddd;
+  background-color: #f8f8f8;
+  border-bottom: solid 1px #dddddd;
 }
-
-.schedule-game .game-header .row div {
-    padding: 0 5px;
-    font-weight: bold;
-    text-align: right;
+.schedule-game .game-header .schedule-game-cell {
+  padding: 0 5px;
+  font-weight: bold;
 }
-
-.schedule-game .game-body .row div {
-    padding: 10px 5px;
-    text-align: right;
+.schedule-game .game-body .schedule-game-cell {
+  padding: 10px 5px;
 }
-
-.schedule-game .row div:first-child {
-    text-align: left;
-}
-
 .schedule-game .game-body .winner {
-    font-weight: bold;
+  font-weight: bold;
 }
-
 /* Schedule Calendar */
 
 .calendar-dropdown {
-    margin-top: 20px;
+  margin-top: 20px;
 }
-
 .calendar-dropdown .dropdown-toggle {
-    font-size: 1.7em;
-    padding: 0 15px;
+  font-size: 1.7em;
+  padding: 0 15px;
 }
-
-.calendar-modal .calendar-content > .panel {
-    margin: 0;
-    border: none;
-}
-
-.calendar-modal .calendar-content > .panel > .panel-body {
-    padding-bottom: 0;
-}
-
-.calendar-modal .calendar-content .panel-heading {
-    text-align: center;
-    font-size: 1.1em;
-}
-
-.calendar-modal .calendar-content .calendar-year-nav {
-    font-size: 1.5em;
-}
-
-.calendar-modal .calendar-content .calendar-year-nav a {
-    color: white;
-}
-
-.calendar-modal .calendar-content .calendar-year-nav a:hover {
-    color: #337ab7;
-}
-
-.calendar-modal .calendar-content .calendar-year-nav a.disabled {
-    pointer-events: none;
-}
-
-.calendar-modal .calendar-content .table-month {
-    border-collapse: separate;
-    border-spacing: 2px;
-    padding: 0 3px;
-}
-
-.calendar-modal .calendar-content .table-month th,
-.calendar-modal .calendar-content .table-month td {
-    text-align: right;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    padding-left: 2px;
-    padding-right: 9px;
-}
-
-.calendar-modal .calendar-content .table-month td {
-    border: none;
-    border-radius: 4px;
-    text-shadow: 0 -1px 0 #000000;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-}
-
-.calendar-modal .calendar-content .table-month td.active {
-    background-color: #2fa4e7;
-    color: #fff;
-    text-shadow: none;
-}
-
-.calendar-modal .calendar-content .table-month td.calendar-games a {
-    font-weight: bold;
-    text-shadow: none;
-}
-
-.calendar-modal .calendar-content .calendar-month, 
 .calendar-modal .modal-dialog {
-    width: 275px;
+  width: 275px;
+  margin: 10px auto;
 }
-
-.calendar-modal .modal-dialog {
-    margin: 10px auto;
+.calendar-modal .modal-dialog .calendar-content > .panel {
+  margin: 0;
+  border: none;
 }
-
+.calendar-modal .modal-dialog .calendar-content > .panel > .panel-body {
+  padding-bottom: 0;
+}
+.calendar-modal .modal-dialog .calendar-content .panel-heading {
+  text-align: center;
+  font-size: 1.1em;
+}
+.calendar-modal .modal-dialog .calendar-content .calendar-year-nav {
+  font-size: 1.5em;
+}
+.calendar-modal .modal-dialog .calendar-content .calendar-year-nav a {
+  color: white;
+}
+.calendar-modal .modal-dialog .calendar-content .calendar-year-nav a:hover {
+  color: #337ab7;
+}
+.calendar-modal .modal-dialog .calendar-content .calendar-year-nav a.disabled {
+  pointer-events: none;
+}
+.calendar-modal .modal-dialog .calendar-content .calendar-month {
+  width: 275px;
+}
+.calendar-modal .modal-dialog .calendar-content .calendar-month .table-month {
+  border-collapse: separate;
+  border-spacing: 2px;
+  padding: 0 3px;
+}
+.calendar-modal .modal-dialog .calendar-content .calendar-month .table-month th {
+  text-align: right;
+  padding: 6px 2px 6px 9px;
+}
+.calendar-modal .modal-dialog .calendar-content .calendar-month .table-month td {
+  text-align: right;
+  padding: 6px 2px 6px 9px;
+  border: none;
+  border-radius: 4px;
+  text-shadow: 0 -1px 0 black;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.calendar-modal .modal-dialog .calendar-content .calendar-month .table-month td.active {
+  background-color: #2fa4e7;
+  color: white;
+  text-shadow: none;
+}
+.calendar-modal .modal-dialog .calendar-content .calendar-month .table-month td.calendar-games a {
+  font-weight: bold;
+  text-shadow: none;
+}
 @media (min-width: 768px) {
-    .calendar-modal .modal-dialog {
-        margin: 30px auto;
-        width: 550px;
-    }
+  .calendar-modal .modal-dialog {
+    margin: 30px auto;
+    width: 550px;
+  }
 }
-
 @media (min-width: 1200px) {
-    .calendar-modal .modal-dialog {
-        margin: 30px auto;
-        width: 1100px;
-    }
+  .calendar-modal .modal-dialog {
+    width: 1100px;
+  }
 }
-
 /* Team Schedule */
 
 .panel-schedule .home {
-    background-color: #fff;
+  background-color: white;
 }
-
 .panel-schedule .away {
-    background-color: #daf2ff;
+  background-color: #daf2ff;
 }
-
 .panel-schedule .neutral {
-    background-color: #eeeeee;
+  background-color: #eeeeee;
 }
-
 .table-schedule-legend .swatch {
-    border: solid 1px #ddd;
-    border-radius: 4px;
-    box-shadow: 2px 2px 3px #ddd;
-    padding: 0 8px;
-    margin-right: 5px;
+  border: solid 1px #dddddd;
+  border-radius: 4px;
+  box-shadow: 2px 2px 3px #dddddd;
+  padding: 0 8px;
+  margin-right: 5px;
 }
-
 .table-schedule-legend > div {
-    margin-right: 15px;
+  margin-right: 15px;
 }
-
 /* Year dropdown */
 
 .year-dropdown {
-    margin-top: 20px;
+  margin-top: 20px;
 }
-
 .year-dropdown .dropdown-toggle {
-    font-size: 1.7em;
-    padding: 0 15px;
+  font-size: 1.7em;
+  padding: 0 15px;
 }
-
 /* Print overrides */
 
 @media print {
-    a[href]:after {
-        content: '';
-    }
-
-    body {
-        padding: 0;
-    }
-
-    .body-content > h2, .year-dropdown, .calendar-dropdown {
-        margin-top: 0;
-    }
-
-    .body-content > hr, .body-content > footer {
-        display: none;
-    }
-
-    .year-dropdown > .btn, .calendar-dropdown > .btn {
-        border: none;
-    }
-    .year-dropdown .caret, .calendar-dropdown .caret {
-        display: none;
-    }
+  a[href]:after {
+    content: '';
+  }
+  body {
+    padding: 0;
+  }
+  .body-content > h2,
+  .year-dropdown,
+  .calendar-dropdown {
+    margin-top: 0;
+  }
+  .body-content > hr,
+  .body-content > footer {
+    display: none;
+  }
+  .year-dropdown > .btn,
+  .calendar-dropdown > .btn {
+    border: none;
+  }
+  .year-dropdown .caret,
+  .calendar-dropdown .caret {
+    display: none;
+  }
 }

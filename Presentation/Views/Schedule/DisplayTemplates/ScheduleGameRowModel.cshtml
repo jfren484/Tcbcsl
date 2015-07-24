@@ -1,6 +1,6 @@
 ﻿@model ScheduleGameRowModel<IScheduleGameRowDataModel>
 <div class="row @(Model.IsWinner ? "winner" : "")">
-    <div class="col-xs-@(Model.DisplayScores ? 8 : 12)">@Html.DisplayFor(m => m.LabelData)</div>
+    <div class="col-xs-@(Model.DisplayScores ? 8 : 12) schedule-game-cell">@Html.DisplayFor(m => m.LabelData)</div>
     @if (Model.DisplayScores)
     {
         <div class="col-xs-2">@Html.GameStatsField(Model.Runs, Model.GameId)</div>
