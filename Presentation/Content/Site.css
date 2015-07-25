@@ -15,6 +15,54 @@ textarea {
   padding: 4px 10px;
   text-align: center;
 }
+.calendar-dropdown {
+  margin-top: 20px;
+}
+.calendar-dropdown .dropdown-toggle {
+  font-size: 1.7em;
+  padding: 0 15px;
+}
+.calendar-modal .modal-dialog {
+  margin: 10px auto;
+  width: 275px;
+}
+@media (min-width: 768px) {
+  .calendar-modal .modal-dialog {
+    margin: 30px auto;
+    width: 550px;
+  }
+}
+@media (min-width: 1200px) {
+  .calendar-modal .modal-dialog {
+    width: 1100px;
+  }
+}
+.calendar-content > .panel {
+  margin: 0;
+  border: none;
+}
+.calendar-content > .panel > .panel-body {
+  padding-bottom: 0;
+}
+.calendar-content .panel-heading {
+  text-align: center;
+  font-size: 1.1em;
+}
+.calendar-year-nav {
+  font-size: 1.5em;
+}
+.calendar-year-nav a {
+  color: white;
+}
+.calendar-year-nav a:hover {
+  color: #157ab5;
+}
+.calendar-year-nav a.disabled {
+  pointer-events: none;
+}
+.calendar-month {
+  width: 275px;
+}
 .center {
   text-align: center;
 }
@@ -26,10 +74,6 @@ textarea {
 }
 .coach-table td:last-child {
   white-space: normal;
-}
-.list-group-inside {
-  margin-top: 5px;
-  margin-bottom: 5px;
 }
 /* Grid Clearing */
 
@@ -68,6 +112,10 @@ textarea {
     clear: left;
   }
 }
+.list-group-inside {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 /* Hide something by making it transparent (but take up space in the document) #kludge */
 
 .pseudo-hidden {
@@ -102,53 +150,16 @@ textarea {
 .schedule-game .game-body .winner {
   font-weight: bold;
 }
-.calendar-dropdown {
-  margin-top: 20px;
-}
-.calendar-dropdown .dropdown-toggle {
-  font-size: 1.7em;
-  padding: 0 15px;
-}
-.calendar-modal .modal-dialog {
-  margin: 10px auto;
-  width: 275px;
-}
-.calendar-modal .modal-dialog .calendar-content > .panel {
-  margin: 0;
-  border: none;
-}
-.calendar-modal .modal-dialog .calendar-content > .panel > .panel-body {
-  padding-bottom: 0;
-}
-.calendar-modal .modal-dialog .calendar-content .panel-heading {
-  text-align: center;
-  font-size: 1.1em;
-}
-.calendar-modal .modal-dialog .calendar-content .calendar-year-nav {
-  font-size: 1.5em;
-}
-.calendar-modal .modal-dialog .calendar-content .calendar-year-nav a {
-  color: white;
-}
-.calendar-modal .modal-dialog .calendar-content .calendar-year-nav a:hover {
-  color: #157ab5;
-}
-.calendar-modal .modal-dialog .calendar-content .calendar-year-nav a.disabled {
-  pointer-events: none;
-}
-.calendar-modal .modal-dialog .calendar-content .calendar-month {
-  width: 275px;
-}
-.calendar-modal .modal-dialog .calendar-content .calendar-month .table-month {
+.table-month {
   border-collapse: separate;
   border-spacing: 2px;
   padding: 0 3px;
 }
-.calendar-modal .modal-dialog .calendar-content .calendar-month .table-month th {
+.table-month th {
   text-align: right;
   padding: 6px 9px 6px 2px;
 }
-.calendar-modal .modal-dialog .calendar-content .calendar-month .table-month td {
+.table-month td {
   text-align: right;
   padding: 6px 9px 6px 2px;
   border: none;
@@ -156,25 +167,14 @@ textarea {
   text-shadow: 0 -1px 0 #555555;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
-.calendar-modal .modal-dialog .calendar-content .calendar-month .table-month td.active {
+.table-month td.active {
   background-color: #2fa4e7;
   color: white;
   text-shadow: none;
 }
-.calendar-modal .modal-dialog .calendar-content .calendar-month .table-month td.calendar-games a {
+.table-month td.calendar-games a {
   font-weight: bold;
   text-shadow: none;
-}
-@media (min-width: 768px) {
-  .calendar-modal .modal-dialog {
-    margin: 30px auto;
-    width: 550px;
-  }
-}
-@media (min-width: 1200px) {
-  .calendar-modal .modal-dialog {
-    width: 1100px;
-  }
 }
 .team-schedule .home {
   background-color: white;
@@ -185,14 +185,14 @@ textarea {
 .team-schedule .neutral {
   background-color: #eeeeee;
 }
-.team-schedule .table-schedule-legend .swatch {
+.table-schedule-legend .swatch {
   border: solid 1px #dddddd;
   border-radius: 4px;
   box-shadow: 2px 2px 3px #dddddd;
   padding: 0 8px;
   margin-right: 5px;
 }
-.team-schedule .table-schedule-legend > div {
+.table-schedule-legend > div {
   margin-right: 15px;
 }
 .year-dropdown {
@@ -210,20 +210,18 @@ textarea {
     padding: 0;
   }
   .body-content > h2,
-  .year-dropdown,
-  .calendar-dropdown {
+  .calendar-dropdown,
+  .year-dropdown {
     margin-top: 0;
   }
   .body-content > hr,
-  .body-content > footer {
+  .body-content > footer,
+  .calendar-dropdown .caret,
+  .year-dropdown .caret {
     display: none;
   }
   .year-dropdown > .btn,
   .calendar-dropdown > .btn {
     border: none;
-  }
-  .year-dropdown .caret,
-  .calendar-dropdown .caret {
-    display: none;
   }
 }

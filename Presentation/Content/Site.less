@@ -2,6 +2,8 @@
 
 @border-size-tiny: 1px;
 
+@calendarMonthWidth: 275px;
+
 /* Save room for nav-bar */
 body {
     padding-top: @navbar-height;
@@ -22,6 +24,69 @@ textarea {
     }
 }
 
+.calendar-dropdown {
+    margin-top: @line-height-computed;
+
+    .dropdown-toggle {
+        font-size: 1.7em;
+        padding: 0 15px;
+    }
+}
+
+.calendar-modal {
+    .modal-dialog {
+        margin: 10px auto;
+
+        // Default xs width and overrides
+        width: @calendarMonthWidth;
+
+        @media (min-width: @screen-sm) {
+            margin: 30px auto;
+            width: (@calendarMonthWidth * 2);
+        }
+
+        @media (min-width: @screen-lg) {
+            width: (@calendarMonthWidth * 4);
+        }
+    }
+}
+
+.calendar-content {
+    & > .panel {
+        margin: 0;
+        border: none;
+
+        & > .panel-body {
+            padding-bottom: 0;
+        }
+    }
+
+    .panel-heading {
+        text-align: center;
+        font-size: 1.1em;
+    }
+}
+
+.calendar-year-nav {
+    font-size: 1.5em;
+
+    a {
+        color: @panel-primary-text;
+
+        &:hover {
+            color: @link-hover-color;
+        }
+
+        &.disabled {
+            pointer-events: none;
+        }
+    }
+}
+
+.calendar-month {
+    width: @calendarMonthWidth;
+}
+
 .center {
     text-align: center;
 }
@@ -40,11 +105,6 @@ textarea {
             white-space: normal;
         }
     }
-}
-
-.list-group-inside {
-    margin-top: 5px;
-    margin-bottom: 5px;
 }
 
 /* Grid Clearing */
@@ -91,6 +151,11 @@ textarea {
     }
 }
 
+.list-group-inside {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 /* Hide something by making it transparent (but take up space in the document) #kludge */
 .pseudo-hidden {
     color: transparent;
@@ -134,103 +199,39 @@ textarea {
     }
 }
 
-.calendar-dropdown {
-    margin-top: @line-height-computed;
+.table-month {
+    border-collapse: separate;
+    border-spacing: 2px;
+    padding: 0 3px;
 
-    .dropdown-toggle {
-        font-size: 1.7em;
-        padding: 0 15px;
+    .tableMonthCell() {
+        text-align: right;
+        padding: 6px 9px 6px 2px;
     }
-}
 
-.calendar-modal {
-    .modal-dialog {
-        margin: 10px auto;
+    th {
+        .tableMonthCell();
+    }
 
-        .calendar-content {
-            & > .panel {
-                margin: 0;
-                border: none;
+    td {
+        .tableMonthCell();
 
-                & > .panel-body {
-                    padding-bottom: 0;
-                }
-            }
+        border: none;
+        border-radius: @border-radius-base;
+        text-shadow: 0 -1px 0 @gray;
+        text-shadow: 0 -1px 0 @modal-content-border-color;
 
-            .panel-heading {
-                text-align: center;
-                font-size: 1.1em;
-            }
-
-            .calendar-year-nav {
-                font-size: 1.5em;
-
-                a {
-                    color: @panel-primary-text;
-
-                    &:hover {
-                        color: @link-hover-color;
-                    }
-
-                    &.disabled {
-                        pointer-events: none;
-                    }
-                }
-            }
-
-            .calendar-month {
-                width: @calendarMonthWidth;
-
-                .table-month {
-                    border-collapse: separate;
-                    border-spacing: 2px;
-                    padding: 0 3px;
-
-                    .tableMonthCell() {
-                        text-align: right;
-                        padding: 6px 9px 6px 2px;
-                    }
-
-                    th {
-                        .tableMonthCell();
-                    }
-
-                    td {
-                        .tableMonthCell();
-
-                        border: none;
-                        border-radius: @border-radius-base;
-                        text-shadow: 0 -1px 0 @gray;
-                        text-shadow: 0 -1px 0 @modal-content-border-color;
-
-                        &.active {
-                            background-color: @brand-primary;
-                            color: @panel-primary-text;
-                            text-shadow: none;
-                        }
-
-                        &.calendar-games {
-                            a {
-                                font-weight: bold;
-                                text-shadow: none;
-                            }
-                        }
-                    }
-                }
-            }
+        &.active {
+            background-color: @brand-primary;
+            color: @panel-primary-text;
+            text-shadow: none;
         }
 
-        // Default xs width and overrides
-        @calendarMonthWidth: 275px;
-        width: @calendarMonthWidth;
-
-        @media (min-width: @screen-sm) {
-            margin: 30px auto;
-            width: (@calendarMonthWidth * 2);
-        }
-
-        @media (min-width: @screen-lg) {
-            width: (@calendarMonthWidth * 4);
+        &.calendar-games {
+            a {
+                font-weight: bold;
+                text-shadow: none;
+            }
         }
     }
 }
@@ -247,19 +248,19 @@ textarea {
     .neutral {
         background-color: @gray-lighter;
     }
+}
 
-    .table-schedule-legend {
-        .swatch {
-            border: solid @border-size-tiny @table-border-color;
-            border-radius: @border-radius-base;
-            box-shadow: 2px 2px 3px @table-border-color;
-            padding: 0 8px;
-            margin-right: 5px;
-        }
+.table-schedule-legend {
+    .swatch {
+        border: solid @border-size-tiny @table-border-color;
+        border-radius: @border-radius-base;
+        box-shadow: 2px 2px 3px @table-border-color;
+        padding: 0 8px;
+        margin-right: 5px;
+    }
 
-        & > div {
-            margin-right: 15px;
-        }
+    & > div {
+        margin-right: 15px;
     }
 }
 
@@ -281,19 +282,21 @@ textarea {
         padding: 0;
     }
 
-    .body-content > h2, .year-dropdown, .calendar-dropdown {
+    .body-content > h2,
+    .calendar-dropdown,
+    .year-dropdown {
         margin-top: 0;
     }
 
-    .body-content > hr, .body-content > footer {
+    .body-content > hr,
+    .body-content > footer,
+    .calendar-dropdown .caret,
+    .year-dropdown .caret {
         display: none;
     }
 
-    .year-dropdown > .btn, .calendar-dropdown > .btn {
+    .year-dropdown > .btn,
+    .calendar-dropdown > .btn {
         border: none;
-    }
-
-    .year-dropdown .caret, .calendar-dropdown .caret {
-        display: none;
     }
 }
