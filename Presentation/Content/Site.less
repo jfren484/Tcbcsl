@@ -4,7 +4,7 @@
 
 /* Save room for nav-bar */
 body {
-    padding-top: 50px;
+    padding-top: @navbar-height;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -12,16 +12,6 @@ input,
 select,
 textarea {
     max-width: 280px;
-}
-
-/* Hide something by making it transparent (but take up space in the document) #kludge */
-.pseudo-hidden {
-    color: transparent;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .address-map {
@@ -99,6 +89,16 @@ textarea {
     .grid4421:nth-child(4n + 1) {
         clear: left;
     }
+}
+
+/* Hide something by making it transparent (but take up space in the document) #kludge */
+.pseudo-hidden {
+    color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .schedule-game {
@@ -200,7 +200,7 @@ textarea {
 
                         border: none;
                         border-radius: @border-radius-base;
-                        text-shadow: 0 -1px 0 @gray-base;
+                        text-shadow: 0 -1px 0 @gray;
                         text-shadow: 0 -1px 0 @modal-content-border-color;
 
                         &.active {
@@ -226,11 +226,11 @@ textarea {
 
         @media (min-width: @screen-sm) {
             margin: 30px auto;
-            width: 550px;
+            width: (@calendarMonthWidth * 2);
         }
 
         @media (min-width: @screen-lg) {
-            width: 1100px;
+            width: (@calendarMonthWidth * 4);
         }
     }
 }
@@ -271,8 +271,6 @@ textarea {
         padding: 0 15px;
     }
 }
-
-/* Print overrides */
 
 @media print {
     a[href]:after {

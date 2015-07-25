@@ -10,16 +10,6 @@ select,
 textarea {
   max-width: 280px;
 }
-/* Hide something by making it transparent (but take up space in the document) #kludge */
-
-.pseudo-hidden {
-  color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
 .address-map .well {
   margin: 0;
   padding: 4px 10px;
@@ -77,6 +67,16 @@ textarea {
   .grid4421:nth-child(4n + 1) {
     clear: left;
   }
+}
+/* Hide something by making it transparent (but take up space in the document) #kludge */
+
+.pseudo-hidden {
+  color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .schedule-game {
   margin-bottom: 20px;
@@ -153,7 +153,7 @@ textarea {
   padding: 6px 9px 6px 2px;
   border: none;
   border-radius: 4px;
-  text-shadow: 0 -1px 0 black;
+  text-shadow: 0 -1px 0 #555555;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 .calendar-modal .modal-dialog .calendar-content .calendar-month .table-month td.active {
@@ -202,8 +202,6 @@ textarea {
   font-size: 1.7em;
   padding: 0 15px;
 }
-/* Print overrides */
-
 @media print {
   a[href]:after {
     content: '';
