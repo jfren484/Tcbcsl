@@ -1,10 +1,8 @@
-﻿/* Save room for nav-bar */
-
+/* Save room for nav-bar */
 body {
   padding-top: 50px;
 }
 /* Set width on the form input elements since they're 100% wide by default */
-
 input,
 select,
 textarea {
@@ -52,7 +50,7 @@ textarea {
   font-size: 1.5em;
 }
 .calendar-year-nav a {
-  color: white;
+  color: #ffffff;
 }
 .calendar-year-nav a:hover {
   color: #157ab5;
@@ -62,6 +60,32 @@ textarea {
 }
 .calendar-month {
   width: 275px;
+}
+.calendar-month .table-month {
+  border-collapse: separate;
+  border-spacing: 2px;
+  padding: 0 3px;
+}
+.calendar-month .table-month th {
+  text-align: right;
+  padding: 6px 9px 6px 2px;
+}
+.calendar-month .table-month td {
+  text-align: right;
+  padding: 6px 9px 6px 2px;
+  border: none;
+  border-radius: 4px;
+  text-shadow: 0 -1px 0 #555555;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+.calendar-month .table-month td.active {
+  background-color: #2fa4e7;
+  color: #ffffff;
+  text-shadow: none;
+}
+.calendar-month .table-month td.calendar-games a {
+  font-weight: bold;
+  text-shadow: none;
 }
 .center {
   text-align: center;
@@ -75,20 +99,20 @@ textarea {
 .coach-table td:last-child {
   white-space: normal;
 }
-/* Grid Clearing */
-
+@media (min-width: 768px) and (max-width: 991px) {
+  .grid4321:nth-child(2n + 1),
+  .grid4421:nth-child(2n + 1) {
+    clear: left;
+  }
+}
 @media (min-width: 768px) and (max-width: 1199px) {
   .grid4221:nth-child(2n + 1) {
     clear: left;
   }
 }
 @media (min-width: 992px) {
-  .grid4221:nth-child(4n + 1) {
-    clear: left;
-  }
-}
-@media (min-width: 768px) and (max-width: 991px) {
-  .grid4321:nth-child(2n + 1) {
+  .grid4221:nth-child(4n + 1),
+  .grid4421:nth-child(4n + 1) {
     clear: left;
   }
 }
@@ -102,22 +126,11 @@ textarea {
     clear: left;
   }
 }
-@media (min-width: 768px) and (max-width: 991px) {
-  .grid4421:nth-child(2n + 1) {
-    clear: left;
-  }
-}
-@media (min-width: 992px) {
-  .grid4421:nth-child(4n + 1) {
-    clear: left;
-  }
-}
 .list-group-inside {
   margin-top: 5px;
   margin-bottom: 5px;
 }
 /* Hide something by making it transparent (but take up space in the document) #kludge */
-
 .pseudo-hidden {
   color: transparent;
   -webkit-touch-callout: none;
@@ -149,32 +162,6 @@ textarea {
 }
 .schedule-game .game-body .winner {
   font-weight: bold;
-}
-.table-month {
-  border-collapse: separate;
-  border-spacing: 2px;
-  padding: 0 3px;
-}
-.table-month th {
-  text-align: right;
-  padding: 6px 9px 6px 2px;
-}
-.table-month td {
-  text-align: right;
-  padding: 6px 9px 6px 2px;
-  border: none;
-  border-radius: 4px;
-  text-shadow: 0 -1px 0 #555555;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-}
-.table-month td.active {
-  background-color: #2fa4e7;
-  color: white;
-  text-shadow: none;
-}
-.table-month td.calendar-games a {
-  font-weight: bold;
-  text-shadow: none;
 }
 .team-schedule .home {
   background-color: white;

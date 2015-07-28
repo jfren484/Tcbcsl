@@ -1,4 +1,4 @@
-﻿@import "variables";
+﻿@import "variables.less";
 
 @border-size-tiny: 1px;
 
@@ -40,12 +40,12 @@ textarea {
         // Default xs width and overrides
         width: @calendarMonthWidth;
 
-        @media (min-width: @screen-sm) {
+        @media (min-width: @screen-sm-min) {
             margin: 30px auto;
             width: (@calendarMonthWidth * 2);
         }
 
-        @media (min-width: @screen-lg) {
+        @media (min-width: @screen-lg-min) {
             width: (@calendarMonthWidth * 4);
         }
     }
@@ -85,6 +85,43 @@ textarea {
 
 .calendar-month {
     width: @calendarMonthWidth;
+
+    .table-month {
+        border-collapse: separate;
+        border-spacing: 2px;
+        padding: 0 3px;
+
+        .tableMonthCell() {
+            text-align: right;
+            padding: 6px 9px 6px 2px;
+        }
+
+        th {
+            .tableMonthCell();
+        }
+
+        td {
+            .tableMonthCell();
+
+            border: none;
+            border-radius: @border-radius-base;
+            text-shadow: 0 -1px 0 @gray;
+            text-shadow: 0 -1px 0 @modal-content-border-color;
+
+            &.active {
+                background-color: @brand-primary;
+                color: @panel-primary-text;
+                text-shadow: none;
+            }
+
+            &.calendar-games {
+                a {
+                    font-weight: bold;
+                    text-shadow: none;
+                }
+            }
+        }
+    }
 }
 
 .center {
@@ -107,46 +144,36 @@ textarea {
     }
 }
 
-/* Grid Clearing */
+@media (min-width: @screen-sm-min) {
+    @media (max-width: @screen-sm-max) {
+        .grid4321:nth-child(2n + 1),
+        .grid4421:nth-child(2n + 1) {
+            clear: left;
+        }
+    }
 
-@media (min-width: @screen-sm) and (max-width: @screen-md-max) {
-    .grid4221:nth-child(2n + 1) {
-        clear: left;
+    @media (max-width: @screen-md-max) {
+        .grid4221:nth-child(2n + 1) {
+            clear: left;
+        }
     }
 }
 
-@media (min-width: @screen-md) {
-    .grid4221:nth-child(4n + 1) {
-        clear: left;
-    }
-}
-
-@media (min-width: @screen-sm) and (max-width: @screen-sm-max) {
-    .grid4321:nth-child(2n + 1) {
-        clear: left;
-    }
-}
-
-@media (min-width: @screen-md) and (max-width: @screen-md-max) {
-    .grid4321:nth-child(3n + 1) {
-        clear: left;
-    }
-}
-
-@media (min-width: @screen-lg) {
-    .grid4321:nth-child(4n + 1) {
-        clear: left;
-    }
-}
-
-@media (min-width: @screen-sm) and (max-width: @screen-sm-max) {
-    .grid4421:nth-child(2n + 1) {
-        clear: left;
-    }
-}
-
-@media (min-width: @screen-md) {
+@media (min-width: @screen-md-min) {
+    .grid4221:nth-child(4n + 1),
     .grid4421:nth-child(4n + 1) {
+        clear: left;
+    }
+
+    @media (max-width: @screen-md-max) {
+        .grid4321:nth-child(3n + 1) {
+            clear: left;
+        }
+    }
+}
+
+@media (min-width: @screen-lg-min) {
+    .grid4321:nth-child(4n + 1) {
         clear: left;
     }
 }
@@ -195,43 +222,6 @@ textarea {
 
         .winner {
             font-weight: bold;
-        }
-    }
-}
-
-.table-month {
-    border-collapse: separate;
-    border-spacing: 2px;
-    padding: 0 3px;
-
-    .tableMonthCell() {
-        text-align: right;
-        padding: 6px 9px 6px 2px;
-    }
-
-    th {
-        .tableMonthCell();
-    }
-
-    td {
-        .tableMonthCell();
-
-        border: none;
-        border-radius: @border-radius-base;
-        text-shadow: 0 -1px 0 @gray;
-        text-shadow: 0 -1px 0 @modal-content-border-color;
-
-        &.active {
-            background-color: @brand-primary;
-            color: @panel-primary-text;
-            text-shadow: none;
-        }
-
-        &.calendar-games {
-            a {
-                font-weight: bold;
-                text-shadow: none;
-            }
         }
     }
 }
