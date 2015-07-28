@@ -1,10 +1,24 @@
 ﻿@model StatsLeaderModel
 <tr>
-    <th>@Html.ActionLink(Model.Category.Name, "Team", "Statistics", new {id = Model.TeamId, year = Model.Year, sort = Model.Category.Name}, null)</th>
+    <th>
+        @Html.RouteLink(Model.Category.Name, new
+                                             {
+                                                 Controller = "Statistics",
+                                                 TeamId = Model.TeamId,
+                                                 Year = Model.Year,
+                                                 Sort = Model.Category.Name
+                                             }, null)
+    </th>
     <td>
         @if (Model.PlayerId.HasValue)
         {
-            @Html.ActionLink(Model.Name, "Player", "Statistics", new {id = Model.PlayerId, year = Model.Year}, null)
+            @Html.RouteLink(Model.Name, new
+                                        {
+                                            Controller = "Statistics",
+                                            PlayerId = Model.PlayerId,
+                                            Year = Model.Year,
+                                            Sort = Model.Category.Name
+                                        }, null)
         }
         else
         {

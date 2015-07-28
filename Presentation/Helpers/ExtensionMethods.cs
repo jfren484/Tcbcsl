@@ -29,7 +29,11 @@ namespace Tcbcsl.Presentation.Helpers
                 return statInfo;
             }
 
-            return htmlHelper.ActionLink(statInfo.ToString(), "Game", "Statistics", new { gameId }, null);
+            return htmlHelper.RouteLink(statInfo.ToString(), new
+                                                             {
+                                                                 Controller = "Statistics",
+                                                                 GameId = gameId
+                                                             }, null);
         }
 
         public static MvcHtmlString TeamLink(this HtmlHelper htmlHelper, string teamName, int teamId, int year)

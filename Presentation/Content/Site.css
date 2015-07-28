@@ -49,15 +49,6 @@ textarea {
 .calendar-year-nav {
   font-size: 1.5em;
 }
-.calendar-year-nav a {
-  color: #ffffff;
-}
-.calendar-year-nav a:hover {
-  color: #157ab5;
-}
-.calendar-year-nav a.disabled {
-  pointer-events: none;
-}
 .calendar-month {
   width: 275px;
 }
@@ -129,6 +120,15 @@ textarea {
 .list-group-inside {
   margin-top: 5px;
   margin-bottom: 5px;
+}
+.panel-heading a {
+  color: #ffffff;
+}
+.panel-heading a:hover {
+  color: #157ab5;
+}
+.panel-heading a.disabled {
+  pointer-events: none;
 }
 /* Hide something by making it transparent (but take up space in the document) #kludge */
 .pseudo-hidden {

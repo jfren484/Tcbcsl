@@ -48,7 +48,12 @@
         {
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    Stats Leaders
+                    @Html.RouteLink("Stats Leaders", new
+                                                     {
+                                                         Controller = "Statistics",
+                                                         TeamId = Model.TeamId,
+                                                         Year = Model.Year
+                                                     }, null)
                 </div>
                 <table class="table">
                     <tbody>

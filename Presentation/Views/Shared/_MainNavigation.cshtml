@@ -27,7 +27,7 @@
                         </li>
                     </ul>
                 </li>
-                <li>@Html.ActionLink("Statistics", "League", "Statistics")</li>
+                <li>@Html.RouteLink("Statistics", new {Controller = "Statistics"}, null)</li>
                 <li class="dropdown">
                     @Html.Partial("_NavDropdownToggle", "Members")
                     <ul class="dropdown-menu">

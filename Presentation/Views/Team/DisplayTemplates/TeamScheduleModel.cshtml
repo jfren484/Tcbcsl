@@ -27,7 +27,11 @@
                 <td class="@resultClass">
                     @if (!string.IsNullOrEmpty(game.GameResultDescription))
                     {
-                        @Html.ActionLink(game.GameResultDescription, "Game", "Statistics", new { id = game.GameId }, new { @class = resultClass })
+                        @Html.RouteLink(game.GameResultDescription, new
+                                                                    {
+                                                                        Controller = "Statistics",
+                                                                        GameId = game.GameId
+                                                                    }, new {@class = resultClass})
                     }
                 </td>
             </tr>

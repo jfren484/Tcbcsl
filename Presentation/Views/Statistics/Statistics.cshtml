@@ -1,0 +1,8 @@
+﻿@using Newtonsoft.Json
+@model StatisticsFilterModel
+@{
+    const string title = "Statistics";
+    ViewBag.Title = title;
+}
+<h2>@title</h2>
+<div><pre>@JsonConvert.SerializeObject(Model)</pre></div>
