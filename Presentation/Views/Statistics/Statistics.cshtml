@@ -1,8 +1,64 @@
-﻿@using Newtonsoft.Json
-@model StatisticsFilterModel
+﻿@model StatisticsFilterModel
 @{
     const string title = "Statistics";
     ViewBag.Title = title;
 }
 <h2>@title</h2>
-<div><pre>@JsonConvert.SerializeObject(Model)</pre></div>
+<style>
+    #statsTable {
+        font-size: 0.85714286em;
+    }
+</style>
+<form id="filter">
+    @Html.HiddenFor(m => m.GameId)
+    @Html.HiddenFor(m => m.TeamId)
+    @Html.HiddenFor(m => m.PlayerId)
+    @Html.HiddenFor(m => m.Year)
+</form>
+<table id="statsTable" class="table table-bordered table-condensed table-striped">
+    <thead>
+        <tr class="info">
+            <th>Name</th>
+            <th>Team</th>
+            <th>G</th>
+            <th>PA</th>
+            <th>AB</th>
+            <th>H</th>
+            <th>TB</th>
+            <th>AVG</th>
+            <th>OBP</th>
+            <th>SLG</th>
+            <th>OPS</th>
+            <th>R</th>
+            <th>RBI</th>
+            <th>1B</th>
+            <th>2B</th>
+            <th>3B</th>
+            <th>HR</th>
+            <th>BB</th>
+            <th>SF</th>
+            <th>O</th>
+            <th>FC</th>
+            <th>E</th>
+            <th>SO</th>
+        </tr>
+    </thead>
+</table>
+@section scripts
+{
+    <script>
+        $(function() {
+            var data = $('#filter').serializeObject();
+
+            $('#statsTable').dataTable({
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': '/Statistics/Data',
+                    'type': 'POST',
+                    'dataSrc': ''
+                }
+            });
+        });
+    </script>
+}
