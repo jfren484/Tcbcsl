@@ -30,6 +30,7 @@
                         @Html.RouteLink(game.GameResultDescription, new
                                                                     {
                                                                         Controller = "Statistics",
+                                                                        Action = "StatisticsForGame",
                                                                         GameId = game.GameId
                                                                     }, new {@class = resultClass})
                     }

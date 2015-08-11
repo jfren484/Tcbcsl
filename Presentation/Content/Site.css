@@ -1,4 +1,4 @@
-/* Save room for nav-bar */
+﻿/* Save room for nav-bar */
 body {
   padding-top: 50px;
 }
@@ -162,6 +162,9 @@ textarea {
 }
 .schedule-game .game-body .winner {
   font-weight: bold;
+}
+.stats-table {
+  font-size: 0.85714286em;
 }
 .team-schedule .home {
   background-color: white;

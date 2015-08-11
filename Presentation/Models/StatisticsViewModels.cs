@@ -6,5 +6,6 @@
         public int? TeamId { get; set; }
         public int? PlayerId { get; set; }
         public int? Year { get; set; }
+        public string[] ColumnHeaders { get; set; }
     }
 }

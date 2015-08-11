@@ -423,6 +423,8 @@
     <Content Include="Views\Team\DisplayTemplates\TeamsListTeamModel.cshtml" />
     <Content Include="Views\ContentItem\PageContent.cshtml" />
     <Content Include="Views\Statistics\Statistics.cshtml" />
+    <None Include="Views\Statistics\StatisticsForGame.cshtml" />
+    <Content Include="Views\Statistics\_CommonColumns.cshtml" />
     <None Include="Views\Team\View.cshtml" />
   </ItemGroup>
   <ItemGroup />
