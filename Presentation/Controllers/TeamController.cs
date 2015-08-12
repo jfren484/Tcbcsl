@@ -34,6 +34,7 @@ namespace Tcbcsl.Presentation.Controllers
                                             .Select(ty => new TeamsListTeamModel
                                                           {
                                                               TeamId = ty.TeamId,
+                                                              Year = year,
                                                               TeamName = string.IsNullOrEmpty(ty.TeamName)
                                                                              ? ty.Church.DisplayName
                                                                              : ty.Church.DisplayName + " " + ty.TeamName
@@ -70,7 +71,7 @@ namespace Tcbcsl.Presentation.Controllers
                                     {
                                         CoachId = teamYear.HeadCoachId,
                                         Year = year,
-                                        Name = teamYear.HeadCoach.FirstName + " " + teamYear.HeadCoach.LastName,
+                                        Name = teamYear.HeadCoach.FullName,
                                         Comments = teamYear.HeadCoach.Comments,
                                         ContactInfo = ContactInfoService.GetContactInfoModel(teamYear.HeadCoach)
                                     },
@@ -168,7 +169,7 @@ namespace Tcbcsl.Presentation.Controllers
                    select new PlayerStats
                           {
                               PlayerId = lineGroup.Key.PlayerId,
-                              Name = (lineGroup.Key.NameFirst + " " + lineGroup.Key.NameLast).Trim(),
+                              Name = lineGroup.Key.FullName,
                               Games = lineGroup.Count(),
                               AVG = lineGroup.Sum(line => line.StatHits) / (decimal)lineGroup.Sum(line => line.StatAtBats),
                               HR = lineGroup.Sum(line => line.StatHomeRuns),

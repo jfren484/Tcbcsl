@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tcbcsl.Data.Entities
 {
@@ -14,6 +15,9 @@ namespace Tcbcsl.Data.Entities
         public string FirstName { get; set; }
 
         public string Comments { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public string FullName { get; private set; }
 
         public virtual ICollection<TeamYear> TeamYears { get; set; }
     }

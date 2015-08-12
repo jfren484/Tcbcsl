@@ -55,7 +55,7 @@ namespace Tcbcsl.Presentation.Controllers
                                       .OrderBy(sl => sl.BattingOrderPosition)
                                       .Select(sl => new GamePlayerStatisticsModel
                                                     {
-                                                        PlayerName = sl.Player.NameFirst + " " + sl.Player.NameLast,
+                                                        PlayerName = sl.Player.FullName,
                                                         PlateAppearances = sl.StatPlateAppearances,
                                                         AtBats = sl.StatAtBats,
                                                         Hits = sl.StatHits,
