@@ -13,7 +13,8 @@ namespace Tcbcsl.Presentation
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/DataTables/dataTables.bootstrap.js",
                 "~/Scripts/respond.js",
-                "~/Scripts/site.js"));
+                "~/Scripts/site.js",
+                "~/Scripts/stats.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery.validate*"));

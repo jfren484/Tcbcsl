@@ -1,28 +1,17 @@
-﻿@model StatisticsFilterModel
+﻿@model GameStatisticsModel
 @{
-    const string title = "Statistics - ";
-    ViewBag.Title = title;
+    var title = "Statistics - " + Model.GameDate.ToString(Consts.DateFormatDisplay);
+    ViewBag.Title = title + " - " + Model.RoadTeam.TeamName + " vs. " + Model.HomeTeam.TeamName;
 }
 <h2>@title</h2>
-<table id="statsTable" class="table table-bordered table-condensed table-striped stats-table">
-    <thead>
-        <tr class="info">
-            <th>Name</th>
-            @Html.Partial("_CommonColumns")
-        </tr>
-    </thead>
-</table>
+@Html.DisplayFor(m => m.RoadTeam)
+@Html.DisplayFor(m => m.HomeTeam)
 @section scripts
 {
     <script>
         $(function() {
-            $('#statsTable').dataTable({
-                'ajax': {
-                    'url': '/Statistics/GameData/@Model.GameId',
-                    'type': 'POST',
-                    'dataSrc': ''
-                }
-            });
+            statstable_RenderGameStats('#statsTableRoad', @Model.RoadTeam.GameParticipantId);
+            statstable_RenderGameStats('#statsTableHome', @Model.HomeTeam.GameParticipantId);
         });
     </script>
 }

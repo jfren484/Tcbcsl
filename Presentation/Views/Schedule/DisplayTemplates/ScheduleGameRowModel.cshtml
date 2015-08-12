@@ -3,7 +3,7 @@
     <div class="col-xs-@(Model.DisplayScores ? 8 : 12) schedule-game-cell">@Html.DisplayFor(m => m.LabelData)</div>
     @if (Model.DisplayScores)
     {
-        <div class="col-xs-2">@Html.GameStatsField(Model.Runs, Model.GameId)</div>
-        <div class="col-xs-2">@Html.GameStatsField(Model.Hits, Model.GameId)</div>
+        <div class="col-xs-2 schedule-game-cell">@Html.GameStatsField(Model.Runs, Model.GameId)</div>
+        <div class="col-xs-2 schedule-game-cell">@Html.GameStatsField(Model.Hits, Model.GameId)</div>
     }
 </div>

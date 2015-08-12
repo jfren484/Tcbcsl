@@ -1,5 +1,5 @@
-﻿using System.Web.Mvc;
-using DataTables.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Controllers
@@ -13,34 +13,68 @@ namespace Tcbcsl.Presentation.Controllers
             return View(filterModel);
         }
 
-        [Route("Game")]
-        public ActionResult StatisticsForGame(StatisticsFilterModel filterModel)
+        [Route("Game/{gameId}")]
+        public ActionResult StatisticsForGame(int gameId)
         {
-            return View(filterModel);
+            var game = DbContext.Games.SingleOrDefault(g => g.GameId == gameId);
+            if (game == null)
+            {
+                return HttpNotFound();
+            }
+
+            var teams = game.GameParticipants
+                            .OrderBy(gp => gp.IsHost)
+                            .Select(gp => new GameStatisticsTeamModel
+                                          {
+                                              GameParticipantId = gp.GameParticipantId,
+                                              HostLabel = gp.IsHost ? "Home" : "Road",
+                                              TeamName = gp.TeamYear.Church.DisplayName + " " + gp.TeamYear.TeamName
+                                          })
+                            .ToList();
+
+            var model = new GameStatisticsModel
+                        {
+                            GameDate = game.GameDate,
+                            RoadTeam = teams[0],
+                            HomeTeam = teams[1]
+                        };
+
+            return View(model);
         }
 
-        //[HttpPost]
-        [Route("GameData/{gameId}")]
-        public JsonResult GameData(int gameId)
+        [Route("GameData/{gameParticipantId}")]
+        public ActionResult GameData(int gameParticipantId)
         {
-            var data = new[]
+            var gameParticipant = DbContext.GameParticipants.SingleOrDefault(gp => gp.GameParticipantId == gameParticipantId);
+            if (gameParticipant == null)
             {
-                new[] {"Ian McLeish", gameId.ToString(), "10", "4", "4", "3", "3", "0.750", "0.750", "0.750", "1.500", "2", "1", "3", "0", "0", "0", "0", "0", "1", "0", "0", "0"},
-                new[] {"Les Leith", "Fourth TimberCats", "10", "4", "4", "3", "3", "0.750", "0.750", "0.750", "1.500", "3", "0", "3", "0", "0", "0", "0", "0", "1", "0", "0", "0"},
-                new[] {"Ryan Lohse", "Fourth TimberCats", "10", "3", "3", "2", "2", "0.667", "0.667", "0.667", "1.333", "2", "1", "2", "0", "0", "0", "0", "0", "1", "0", "0", "0"},
-                new[] {"Ryan Laco", "Fourth TimberCats", "10", "3", "3", "2", "2", "0.667", "0.667", "0.667", "1.333", "0", "1", "2", "0", "0", "0", "0", "0", "1", "0", "0", "0"},
-                new[] {"Rory Martin", "Fourth TimberCats", "10", "3", "2", "2", "2", "1.000", "1.000", "1.000", "2.000", "3", "1", "2", "0", "0", "0", "1", "0", "0", "0", "0", "0"},
-                new[] {"Dave Ruegemer", "Fourth TimberCats", "10", "3", "3", "2", "2", "0.667", "0.667", "0.667", "1.333", "2", "3", "2", "0", "0", "0", "0", "0", "0", "1", "0", "0"},
-                new[] {"Matt Morrell", "Fourth TimberCats", "10", "3", "3", "3", "3", "1.000", "1.000", "1.000", "2.000", "1", "3", "3", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                new[] {"Jared Leith", "Fourth TimberCats", "10", "3", "2", "1", "1", "0.500", "0.333", "0.500", "0.833", "1", "1", "1", "0", "0", "0", "0", "1", "1", "0", "0", "0"},
-                new[] {"Jay French", "Fourth TimberCats", "10", "3", "3", "3", "3", "1.000", "1.000", "1.000", "2.000", "0", "3", "3", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                new[] {"Will Nething", "Fourth TimberCats", "10", "3", "3", "2", "2", "0.667", "0.667", "0.667", "1.333", "1", "1", "2", "0", "0", "0", "0", "0", "0", "1", "0", "0"},
-                new[] {"Jay Russell", "Fourth TimberCats", "10", "3", "3", "0", "0", "0.000", "0.000", "0.000", "0.000", "0", "0", "0", "0", "0", "0", "0", "0", "2", "1", "0", "1"},
-                new[] {"Aaron Davis", "Fourth TimberCats", "10", "3", "3", "3", "5", "1.000", "1.000", "1.667", "2.667", "1", "1", "2", "0", "1", "0", "0", "0", "0", "0", "0", "0"},
-                new[] {"Matthew Bruffey", "Fourth TimberCats", "10", "3", "3", "0", "0", "0.000", "0.000", "0.000", "0.000", "0", "0", "0", "0", "0", "0", "0", "0", "2", "1", "0", "0"}
-            };
+                return HttpNotFound();
+            }
 
-            return Json(data, JsonRequestBehavior.AllowGet);
+            var data = gameParticipant.StatLines
+                                      .OrderBy(sl => sl.BattingOrderPosition)
+                                      .Select(sl => new GamePlayerStatisticsModel
+                                                    {
+                                                        PlayerName = sl.Player.NameFirst + " " + sl.Player.NameLast,
+                                                        PlateAppearances = sl.StatPlateAppearances,
+                                                        AtBats = sl.StatAtBats,
+                                                        Hits = sl.StatHits,
+                                                        TotalBases = sl.StatTotalBases,
+                                                        Runs = sl.StatRuns,
+                                                        RunsBattedIn = sl.StatRunsBattedIn,
+                                                        Singles = sl.StatSingles,
+                                                        Doubles = sl.StatDoubles,
+                                                        Triples = sl.StatTriples,
+                                                        HomeRuns = sl.StatHomeRuns,
+                                                        Walks = sl.StatWalks,
+                                                        SacrificeFlies = sl.StatSacrificeFlies,
+                                                        Outs = sl.StatOuts,
+                                                        FieldersChoices = sl.StatFieldersChoices,
+                                                        ReachedByErrors = sl.StatReachedByErrors,
+                                                        Strikeouts = sl.StatStrikeouts,
+                                                    });
+
+            return Json(data);
         }
     }
 }

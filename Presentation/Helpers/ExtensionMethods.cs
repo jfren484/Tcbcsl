@@ -32,6 +32,7 @@ namespace Tcbcsl.Presentation.Helpers
             return htmlHelper.RouteLink(statInfo.ToString(), new
                                                              {
                                                                  Controller = "Statistics",
+                                                                 Action = "StatisticsForGame",
                                                                  GameId = gameId
                                                              }, null);
         }
