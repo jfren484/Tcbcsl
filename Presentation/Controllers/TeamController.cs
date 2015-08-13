@@ -10,12 +10,12 @@ namespace Tcbcsl.Presentation.Controllers
     {
         private static readonly List<StatsCategory> StatsCategories = new List<StatsCategory>
                                                                       {
-                                                                          new StatsCategory {Name = "AVG", IsPercentage = true},
-                                                                          new StatsCategory {Name = "HR"},
-                                                                          new StatsCategory {Name = "BB"},
-                                                                          new StatsCategory {Name = "RBI"},
-                                                                          new StatsCategory {Name = "Runs"},
-                                                                          new StatsCategory {Name = "OPS", IsPercentage = true}
+                                                                          new StatsCategory {Name = "Batting Average (AVG)",     Field = "AVG", IsPercentage = true},
+                                                                          new StatsCategory {Name = "Home Runs (HR)",            Field = "HR"},
+                                                                          new StatsCategory {Name = "Walks (BB)",                Field = "BB"},
+                                                                          new StatsCategory {Name = "Runs Batted In (RBI)",      Field = "RBI"},
+                                                                          new StatsCategory {Name = "Runs (R)",                  Field = "R"},
+                                                                          new StatsCategory {Name = "On-base + Slugging (OPS)",  Field = "OPS", IsPercentage = true}
                                                                       };
 
 
@@ -105,15 +105,15 @@ namespace Tcbcsl.Presentation.Controllers
                               {
                                   ps.PlayerId,
                                   ps.Name,
-                                  Value = category.Name == "AVG"
+                                  Value = category.Field == "AVG"
                                               ? ps.AVG
-                                              : category.Name == "HR"
+                                              : category.Field == "HR"
                                                     ? ps.HR
-                                                    : category.Name == "BB"
+                                                    : category.Field == "BB"
                                                           ? ps.BB
-                                                          : category.Name == "RBI"
+                                                          : category.Field == "RBI"
                                                                 ? ps.RBI
-                                                                : category.Name == "Runs"
+                                                                : category.Field == "R"
                                                                       ? ps.Runs
                                                                       : ps.OPS
                               });

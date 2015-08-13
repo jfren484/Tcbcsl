@@ -4,9 +4,10 @@
         @Html.RouteLink(Model.Category.Name, new
                                              {
                                                  Controller = "Statistics",
+                                                 Action = "StatisticsForTeam",
                                                  TeamId = Model.TeamId,
                                                  Year = Model.Year,
-                                                 Sort = Model.Category.Name
+                                                 Sort = Model.Category.Field
                                              }, null)
     </th>
     <td>

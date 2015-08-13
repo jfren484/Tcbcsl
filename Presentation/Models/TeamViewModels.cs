@@ -56,6 +56,7 @@ namespace Tcbcsl.Presentation.Models
     public class StatsCategory
     {
         public string Name { get; set; }
+        public string Field { get; set; }
         public bool IsPercentage { get; set; }
     }
 
