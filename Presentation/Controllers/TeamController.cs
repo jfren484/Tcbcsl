@@ -57,8 +57,8 @@ namespace Tcbcsl.Presentation.Controllers
 
             var model = new TeamViewModel
                         {
-                            TeamId = teamYear.TeamId,
                             Year = teamYear.Year,
+                            TeamId = teamYear.TeamId,
                             TeamName = teamYear.FullName,
                             DivisionName = teamYear.DivisionYear.Name,
                             ChurchId = teamYear.ChurchId,
@@ -125,8 +125,8 @@ namespace Tcbcsl.Presentation.Controllers
 
             var leader = new StatsLeaderModel
                          {
-                             TeamId = teamId,
                              Year = year,
+                             TeamId = teamId,
                              Category = category,
                              PlayerId = topValue == null || topValue.Key == 0 || topValue.Count() > 1 ? (int?)null : topValue.Single().PlayerId,
                              Name = topValue == null || topValue.Key == 0

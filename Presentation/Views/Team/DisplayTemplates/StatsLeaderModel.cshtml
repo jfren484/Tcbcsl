@@ -6,7 +6,7 @@
                                                  Controller = "Statistics",
                                                  Action = "StatisticsForTeam",
                                                  TeamId = Model.TeamId,
-                                                 Year = Model.Year,
+                                                 Year = Model.Year == Consts.CurrentYear ? (YearEnum?)null : (YearEnum)Model.Year,
                                                  Sort = Model.Category.Field
                                              }, null)
     </th>
@@ -17,7 +17,7 @@
                                         {
                                             Controller = "Statistics",
                                             PlayerId = Model.PlayerId,
-                                            Year = Model.Year
+                                            Year = Model.Year == Consts.CurrentYear ? (YearEnum?)null : (YearEnum)Model.Year
                                         }, null)
         }
         else

@@ -11,7 +11,7 @@ namespace Tcbcsl.Presentation.Models
         public int? GameId { get; set; }
         public int? TeamId { get; set; }
         public int? PlayerId { get; set; }
-        public int? Year { get; set; }
+        public YearEnum? Year { get; set; }
         public string[] ColumnHeaders { get; set; }
     }
 
@@ -28,15 +28,15 @@ namespace Tcbcsl.Presentation.Models
     {
         public int GameParticipantId { get; set; }
         public string HostLabel { get; set; }
-        public int TeamId { get; set; }
         public int Year { get; set; }
+        public int TeamId { get; set; }
         public string TeamName { get; set; }
     }
 
     public class TeamStatisticsModel
     {
-        public int TeamYearId { get; set; }
-        public int Year { get; set; }
+        public YearEnum Year { get; set; }
+        public int TeamId { get; set; }
         public string TeamName { get; set; }
         public string SortColumn { get; set; }
     }

@@ -5,11 +5,33 @@ using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
+using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Helpers
 {
     public static class ExtensionMethods
     {
+        public static string AsDisplay(this YearEnum year)
+        {
+            return year == YearEnum.All
+                       ? Consts.AllTime
+                       : ((int)year).ToString();
+        }
+
+        public static string AsRouteParameter(this YearEnum year)
+        {
+            return year == YearEnum.All
+                       ? year.ToString()
+                       : ((int)year).ToString();
+        }
+
+        public static string AsTitleSuffix(this YearEnum year)
+        {
+            return year == YearEnum.All
+                       ? " - " + Consts.AllTime
+                       : ((int)year).AsTitleSuffix();
+        }
+
         public static string AsTitleSuffix(this int year)
         {
             return year == Consts.CurrentYear

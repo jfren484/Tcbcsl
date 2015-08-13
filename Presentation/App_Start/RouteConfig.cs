@@ -12,7 +12,8 @@ namespace Tcbcsl.Presentation
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             var constraintsResolver = new DefaultInlineConstraintResolver();
-            constraintsResolver.ConstraintMap.Add("year", typeof(YearRouteConstraint));
+            constraintsResolver.ConstraintMap.Add("year", typeof(NumericYearRouteConstraint));
+            constraintsResolver.ConstraintMap.Add("years", typeof(FlexYearRouteConstraint));
             routes.MapMvcAttributeRoutes(constraintsResolver);
 
             routes.MapRoute(

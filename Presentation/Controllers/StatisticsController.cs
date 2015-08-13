@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
+using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Controllers
@@ -85,10 +87,12 @@ namespace Tcbcsl.Presentation.Controllers
 
         #region Team
 
-        [Route("Team/{teamId}/{year:year?}")]
-        public ActionResult StatisticsForTeam(int teamId, int year = Consts.CurrentYear, string sort = null)
+        [Route("Team/{teamId}/{year:years?}")]
+        public ActionResult StatisticsForTeam(int teamId, YearEnum year = (YearEnum)Consts.CurrentYear, string sort = null)
         {
-            var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamId == teamId && ty.Year == year);
+            var teamYear = DbContext.TeamYears
+                                    .OrderByDescending(ty => ty.Year)
+                                    .FirstOrDefault(ty => ty.TeamId == teamId && (year == YearEnum.All || ty.Year == (int)year));
             if (teamYear == null)
             {
                 return HttpNotFound();
@@ -96,8 +100,8 @@ namespace Tcbcsl.Presentation.Controllers
 
             var model = new TeamStatisticsModel
             {
-                TeamYearId = teamYear.TeamYearId,
                 Year = year,
+                TeamId = teamYear.TeamId,
                 TeamName = teamYear.FullName,
                 SortColumn = sort
             };
@@ -105,39 +109,55 @@ namespace Tcbcsl.Presentation.Controllers
             return View(model);
         }
 
-        [Route("TeamData/{teamYearId}")]
-        public ActionResult TeamData(int teamYearId)
+        [Route("TeamData/{teamId}/{year:years}")]
+        public ActionResult TeamData(int teamId, YearEnum year)
         {
-            var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamYearId == teamYearId);
-            if (teamYear == null)
+            IEnumerable<GameParticipant> gameParticipants;
+            if (year == YearEnum.All)
             {
-                return HttpNotFound();
-            }
+                var team = DbContext.Teams.SingleOrDefault(ty => ty.TeamId == teamId);
+                if (team == null)
+                {
+                    return HttpNotFound();
+                }
 
-            var data = teamYear.GameParticipants
-                               .SelectMany(gp => gp.StatLines)
-                               .GroupBy(sl => new {sl.PlayerId, sl.Player.FullName})
-                               .Select(slg => new TeamPlayerStatisticsModel
-                                              {
-                                                  PlayerName = slg.Key.FullName,
-                                                  Games = slg.Count(),
-                                                  PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
-                                                  AtBats = slg.Sum(sl => sl.StatAtBats),
-                                                  Hits = slg.Sum(sl => sl.StatHits),
-                                                  TotalBases = slg.Sum(sl => sl.StatTotalBases),
-                                                  Runs = slg.Sum(sl => sl.StatRuns),
-                                                  RunsBattedIn = slg.Sum(sl => sl.StatRunsBattedIn),
-                                                  Singles = slg.Sum(sl => sl.StatSingles),
-                                                  Doubles = slg.Sum(sl => sl.StatDoubles),
-                                                  Triples = slg.Sum(sl => sl.StatTriples),
-                                                  HomeRuns = slg.Sum(sl => sl.StatHomeRuns),
-                                                  Walks = slg.Sum(sl => sl.StatWalks),
-                                                  SacrificeFlies = slg.Sum(sl => sl.StatSacrificeFlies),
-                                                  Outs = slg.Sum(sl => sl.StatOuts),
-                                                  FieldersChoices = slg.Sum(sl => sl.StatFieldersChoices),
-                                                  ReachedByErrors = slg.Sum(sl => sl.StatReachedByErrors),
-                                                  Strikeouts = slg.Sum(sl => sl.StatStrikeouts),
-                                              });
+                gameParticipants = team.TeamYears.SelectMany(ty => ty.GameParticipants);
+            }
+            else
+            {
+                var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamId == teamId && ty.Year == (int)year);
+                if (teamYear == null)
+                {
+                    return HttpNotFound();
+                }
+
+                gameParticipants = teamYear.GameParticipants;
+
+            }
+            var data = gameParticipants
+                .SelectMany(gp => gp.StatLines)
+                .GroupBy(sl => new {sl.PlayerId, sl.Player.FullName})
+                .Select(slg => new TeamPlayerStatisticsModel
+                               {
+                                   PlayerName = slg.Key.FullName,
+                                   Games = slg.Count(),
+                                   PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
+                                   AtBats = slg.Sum(sl => sl.StatAtBats),
+                                   Hits = slg.Sum(sl => sl.StatHits),
+                                   TotalBases = slg.Sum(sl => sl.StatTotalBases),
+                                   Runs = slg.Sum(sl => sl.StatRuns),
+                                   RunsBattedIn = slg.Sum(sl => sl.StatRunsBattedIn),
+                                   Singles = slg.Sum(sl => sl.StatSingles),
+                                   Doubles = slg.Sum(sl => sl.StatDoubles),
+                                   Triples = slg.Sum(sl => sl.StatTriples),
+                                   HomeRuns = slg.Sum(sl => sl.StatHomeRuns),
+                                   Walks = slg.Sum(sl => sl.StatWalks),
+                                   SacrificeFlies = slg.Sum(sl => sl.StatSacrificeFlies),
+                                   Outs = slg.Sum(sl => sl.StatOuts),
+                                   FieldersChoices = slg.Sum(sl => sl.StatFieldersChoices),
+                                   ReachedByErrors = slg.Sum(sl => sl.StatReachedByErrors),
+                                   Strikeouts = slg.Sum(sl => sl.StatStrikeouts),
+                               });
 
             return Json(data);
         }

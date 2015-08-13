@@ -8,6 +8,8 @@ namespace Tcbcsl.Presentation
         public const int FirstYear = 2001;
         public const int CurrentYear = 2015;
 
+        public const string AllTime = "All-Time";
+
         public const string WholeNumberFormat = "N0";
         public const string Decimal3PlacesFormat = "N3";
         public const string DateFormat = "yyyy-MM-dd";

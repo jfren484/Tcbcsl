@@ -1,21 +1,26 @@
-﻿@{ 
+﻿@model YearEnum
+@{ 
     var dict = ViewContext.RouteData.Values;
+    var modelYear = Model.AsRouteParameter();
+    var years = new[] {YearEnum.All.ToString()}.Concat(Enumerable.Range(Consts.FirstYear, Consts.CurrentYear - Consts.FirstYear + 1)
+                                                                 .OrderByDescending(i => i)
+                                                                 .Select(i => i.ToString()));
 }
 <div class="dropdown year-dropdown pull-right">
     <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        @Model.Year
+        @Model.AsDisplay()
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-        @for (var year = Consts.CurrentYear; year >= Consts.FirstYear; --year)
+        @foreach (var year in years)
         {
-            if (year == Model.Year)
+            if (year == modelYear)
             {
-                <li class="active"><a>@year</a></li>
+                <li class="active"><a>@(year == YearEnum.All.ToString() ? Consts.AllTime : year)</a></li>
             }
             else
             {
-                if (year == Consts.CurrentYear)
+                if (year == Consts.CurrentYear.ToString())
                 {
                     dict.Remove("year");
                 }

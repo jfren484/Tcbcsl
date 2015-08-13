@@ -46,8 +46,8 @@ namespace Tcbcsl.Presentation.Models
 
     public class TeamCoachModel
     {
-        public int CoachId { get; set; }
         public int Year { get; set; }
+        public int CoachId { get; set; }
         public string Name { get; set; }
         public string Comments { get; set; }
         public ContactInfoModel ContactInfo { get; set; }
@@ -62,8 +62,8 @@ namespace Tcbcsl.Presentation.Models
 
     public class StatsLeaderModel
     {
-        public int TeamId { get; set; }
         public int Year { get; set; }
+        public int TeamId { get; set; }
         public StatsCategory Category { get; set; }
         public int? PlayerId { get; set; }
         public string Name { get; set; }
