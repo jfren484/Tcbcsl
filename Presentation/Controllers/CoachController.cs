@@ -23,9 +23,7 @@ namespace Tcbcsl.Presentation.Controllers
                                                           {
                                                               TeamId = ty.TeamId,
                                                               Year = year,
-                                                              TeamName = string.IsNullOrEmpty(ty.TeamName)
-                                                                             ? ty.Church.DisplayName
-                                                                             : ty.Church.DisplayName + " " + ty.TeamName,
+                                                              TeamName = ty.FullName,
                                                               HeadCoach = ty.HeadCoach
                                                           })
                                             .ToList()

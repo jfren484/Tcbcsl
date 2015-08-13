@@ -102,6 +102,14 @@
     <Compile Include="Migrations\201508122212538_AddComputedNameColumns.Designer.cs">
       <DependentUpon>201508122212538_AddComputedNameColumns.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508131456203_AddTeamYearFullNameColumn.cs" />
+    <Compile Include="Migrations\201508131456203_AddTeamYearFullNameColumn.Designer.cs">
+      <DependentUpon>201508131456203_AddTeamYearFullNameColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508131513364_MakeTeamYearFullNameRequired.cs" />
+    <Compile Include="Migrations\201508131513364_MakeTeamYearFullNameRequired.Designer.cs">
+      <DependentUpon>201508131513364_MakeTeamYearFullNameRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
     <Compile Include="Entities\PageContent.cs" />
@@ -140,6 +148,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508122212538_AddComputedNameColumns.resx">
       <DependentUpon>201508122212538_AddComputedNameColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508131456203_AddTeamYearFullNameColumn.resx">
+      <DependentUpon>201508131456203_AddTeamYearFullNameColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508131513364_MakeTeamYearFullNameRequired.resx">
+      <DependentUpon>201508131513364_MakeTeamYearFullNameRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

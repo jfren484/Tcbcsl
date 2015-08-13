@@ -47,9 +47,7 @@ namespace Tcbcsl.Presentation.Controllers
                                                  {
                                                      Year = year,
                                                      TeamId = gg.Key.TeamId,
-                                                     TeamName = first.ChurchName + (string.IsNullOrEmpty(first.TeamName)
-                                                                                        ? null
-                                                                                        : " " + first.TeamName),
+                                                     TeamName = first.TeamFullName,
                                                      Wins = wins,
                                                      Losses = losses,
                                                      Ties = ties,
@@ -88,8 +86,7 @@ namespace Tcbcsl.Presentation.Controllers
                           {
                               DivisionYearId = gp1.TeamYear.DivisionYearId,
                               TeamId = gp1.TeamYear.TeamId,
-                              TeamName = gp1.TeamYear.TeamName,
-                              ChurchName = gp1.TeamYear.Church.DisplayName,
+                              TeamFullName = gp1.TeamYear.FullName,
                               GameDate = gp1.Game.GameDate,
                               RunsScored = gp1.RunsScored,
                               RunsAllowed = gp2.RunsScored,
@@ -171,8 +168,7 @@ namespace Tcbcsl.Presentation.Controllers
         {
             public int DivisionYearId { get; set; }
             public int TeamId { get; set; }
-            public string TeamName { get; set; }
-            public string ChurchName { get; set; }
+            public string TeamFullName { get; set; }
             public DateTime GameDate { get; set; }
             public int RunsScored { get; set; }
             public int RunsAllowed { get; set; }

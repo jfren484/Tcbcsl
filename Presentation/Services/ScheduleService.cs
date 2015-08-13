@@ -58,9 +58,7 @@ namespace Tcbcsl.Presentation.Services
                                    {
                                        Year = gameParticipant.Game.GameDate.Year,
                                        TeamId = gameParticipant.TeamYear.TeamId,
-                                       TeamName = gameParticipant.TeamYear.Church.DisplayName + (string.IsNullOrEmpty(gameParticipant.TeamYear.TeamName)
-                                                                                                     ? null
-                                                                                                     : " " + gameParticipant.TeamYear.TeamName),
+                                       TeamName = gameParticipant.TeamYear.FullName,
                                        RecordInfo = null // TODO: figure out a fast way to get this
                                    },
                        GameId = gameParticipant.GameId,
@@ -86,11 +84,7 @@ namespace Tcbcsl.Presentation.Services
                                GameId = gp.Game.GameId,
                                Date = gp.Game.GameDate,
                                OpponentId = opponent.TeamYear.TeamId,
-                               OpponentName = opponent.TeamYear.Church.DisplayName
-                                              + (string.IsNullOrEmpty(opponent.TeamYear.TeamName)
-                                                     ? string.Empty
-                                                     : " " + opponent.TeamYear.TeamName)
-                                              + (gp.Game.GameTypeId == GameType.Exhibition ? " *" : string.Empty),
+                               OpponentName = opponent.TeamYear.FullName + (gp.Game.GameTypeId == GameType.Exhibition ? " *" : string.Empty),
                                IsGameCompleted = gp.Game.GameStatus.IsComplete,
                                DidWin = won,
                                DidLose = lost,

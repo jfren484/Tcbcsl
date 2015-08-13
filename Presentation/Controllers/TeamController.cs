@@ -35,9 +35,7 @@ namespace Tcbcsl.Presentation.Controllers
                                                           {
                                                               TeamId = ty.TeamId,
                                                               Year = year,
-                                                              TeamName = string.IsNullOrEmpty(ty.TeamName)
-                                                                             ? ty.Church.DisplayName
-                                                                             : ty.Church.DisplayName + " " + ty.TeamName
+                                                              TeamName = ty.FullName
                                                           })
                                             .ToList()
                               })
@@ -61,9 +59,7 @@ namespace Tcbcsl.Presentation.Controllers
                         {
                             TeamId = teamYear.TeamId,
                             Year = teamYear.Year,
-                            TeamName = string.IsNullOrEmpty(teamYear.TeamName)
-                                           ? teamYear.Church.DisplayName
-                                           : teamYear.Church.DisplayName + " " + teamYear.TeamName,
+                            TeamName = teamYear.FullName,
                             DivisionName = teamYear.DivisionYear.Name,
                             ChurchId = teamYear.ChurchId,
                             ChurchName = teamYear.Church.FullName,

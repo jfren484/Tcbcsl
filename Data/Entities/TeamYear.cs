@@ -17,6 +17,9 @@ namespace Tcbcsl.Data.Entities
         [MaxLength(50)]
         public string TeamName { get; set; }
 
+        [MaxLength(151), Required]
+        public string FullName { get; set; }
+
         [Required]
         public int DivisionYearId { get; set; }
 
