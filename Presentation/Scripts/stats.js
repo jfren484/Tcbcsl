@@ -27,6 +27,16 @@ var gameStatsColumns = [
     { 'title': 'Player', 'data': 'PlayerName' }
 ].concat(commonStatsColumns);
 
+var playerCareerStatsColumns = [
+    { 'title': 'Year', 'data': 'Year' },
+    { 'title': 'G', 'data': 'Games' }
+].concat(commonStatsColumns);
+
+var playerSeasonStatsColumns = [
+    { 'title': 'Date', 'data': 'GameDate', 'render': statstable_RenderGameDate },
+    { 'title': 'Opponent', 'data': 'OpponentName' }
+].concat(commonStatsColumns);
+
 var teamStatsColumns = [
     { 'title': 'Player', 'data': 'PlayerName', 'orderSequence': ['asc', 'desc'] },
     { 'title': 'G',      'data': 'Games' }
@@ -39,6 +49,12 @@ var teamStatsColumns = [
 function statstable_RenderPct(data, type) {
     return type === 'display'
         ? Number(data).toFixed(3)
+        : data;
+}
+
+function statstable_RenderGameDate(data, type, row, meta) {
+    return type === 'display'
+        ? data //data.getMonth() + ' ' + data.getDate()
         : data;
 }
 
@@ -77,12 +93,36 @@ function statstable_RenderGameStats(tableSelector, data) {
     });
 }
 
+function statstable_RenderPlayerCareerStats(data) {
+    var matches = teamStatsColumns.filter(function (col) { return col.title === 'Year' });
+    var sortColumnIndex = teamStatsColumns.indexOf(matches[0]);
+
+    statstable_RenderBase({
+        'tableSelector': '#statsTable',
+        'dataUrl': '/Statistics/PlayerData/' + data,
+        'columns': playerCareerStatsColumns,
+        'sorting': true,
+        'paging': false,
+        'order': [[0, 'asc']]
+    });
+}
+
+function statstable_RenderPlayerSeasonStats(data) {
+    statstable_RenderBase({
+        'tableSelector': '#statsTable',
+        'dataUrl': '/Statistics/PlayerData/' + data,
+        'columns': playerSeasonStatsColumns,
+        'sorting': false,
+        'paging': false
+    });
+}
+
 function statstable_RenderTeamStats(data, sortColumn) {
-    var match = teamStatsColumns.filter(function (col) { return col.title === sortColumn });
-    if (match.length === 0) {
-        match = teamStatsColumns.filter(function (col) { return col.title === 'AVG' });
+    var matches = teamStatsColumns.filter(function (col) { return col.title === sortColumn });
+    if (matches.length === 0) {
+        matches = teamStatsColumns.filter(function (col) { return col.title === 'AVG' });
     }
-    var sortColumnIndex = teamStatsColumns.indexOf(match[0]);
+    var sortColumnIndex = teamStatsColumns.indexOf(matches[0]);
 
     statstable_RenderBase({
         'tableSelector': '#statsTable',

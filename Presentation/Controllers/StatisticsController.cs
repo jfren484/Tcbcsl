@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Tcbcsl.Data.Entities;
@@ -9,12 +10,6 @@ namespace Tcbcsl.Presentation.Controllers
     [RoutePrefix("Statistics")]
     public class StatisticsController : ControllerBase
     {
-        [Route("")]
-        public ActionResult Statistics(StatisticsFilterModel filterModel)
-        {
-            return View(filterModel);
-        }
-
         #region Game
 
         [Route("Game/{gameId}")]
@@ -85,6 +80,105 @@ namespace Tcbcsl.Presentation.Controllers
 
         #endregion
 
+        #region Player
+
+        [Route("Player/{playerId}/{year:years?}")]
+        public ActionResult StatisticsForPlayer(int playerId, YearEnum year = (YearEnum)Consts.CurrentYear)
+        {
+            var player = DbContext.Players.FirstOrDefault(ty => ty.PlayerId == playerId);
+            if (player == null)
+            {
+                return HttpNotFound();
+            }
+
+            var model = new PlayerStatisticsModel
+            {
+                Year = year,
+                PlayerId = player.PlayerId,
+                PlayerName = player.FullName
+            };
+
+            return View(model);
+        }
+
+        [Route("PlayerData/{playerId}/{year:years}")]
+        public ActionResult PlayerData(int playerId, YearEnum year)
+        {
+            var player = DbContext.Players.FirstOrDefault(ty => ty.PlayerId == playerId);
+            if (player == null)
+            {
+                return HttpNotFound();
+            }
+
+            var data = year == YearEnum.All
+                ? GetPlayerCareerData(player)
+                : GetPlayerSeasonData(player, (int)year);
+
+            return Json(data);
+        }
+
+        private object GetPlayerCareerData(Player player)
+        {
+            return player.StatLines
+                         .GroupBy(sl => sl.GameParticipant.Game.GameDate.Year)
+                         .Select(slg => new PlayerCareerStatisticsModel
+                         {
+                             Year = slg.Key,
+                             Games = slg.Count(),
+                             PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
+                             AtBats = slg.Sum(sl => sl.StatAtBats),
+                             Hits = slg.Sum(sl => sl.StatHits),
+                             TotalBases = slg.Sum(sl => sl.StatTotalBases),
+                             Runs = slg.Sum(sl => sl.StatRuns),
+                             RunsBattedIn = slg.Sum(sl => sl.StatRunsBattedIn),
+                             Singles = slg.Sum(sl => sl.StatSingles),
+                             Doubles = slg.Sum(sl => sl.StatDoubles),
+                             Triples = slg.Sum(sl => sl.StatTriples),
+                             HomeRuns = slg.Sum(sl => sl.StatHomeRuns),
+                             Walks = slg.Sum(sl => sl.StatWalks),
+                             SacrificeFlies = slg.Sum(sl => sl.StatSacrificeFlies),
+                             Outs = slg.Sum(sl => sl.StatOuts),
+                             FieldersChoices = slg.Sum(sl => sl.StatFieldersChoices),
+                             ReachedByErrors = slg.Sum(sl => sl.StatReachedByErrors),
+                             Strikeouts = slg.Sum(sl => sl.StatStrikeouts),
+                         });
+        }
+
+        private object GetPlayerSeasonData(Player player, int year)
+        {
+            return player.StatLines
+                         .Where(sl => sl.GameParticipant.Game.GameDate.Year == year)
+                         .OrderBy(sl => sl.GameParticipant.Game.GameDate)
+                         .Select(sl => new PlayerSeasonStatisticsModel
+                         {
+                             GameId = sl.GameParticipant.GameId,
+                             GameDate = sl.GameParticipant.Game.GameDate.ToString(Consts.DateFormat),
+                             OpponentName = sl.GameParticipant.Game
+                                              .GameParticipants
+                                              .Single(gp => gp.GameParticipantId != sl.GameParticipantId)
+                                              .TeamYear
+                                              .FullName,
+                             PlateAppearances = sl.StatPlateAppearances,
+                             AtBats = sl.StatAtBats,
+                             Hits = sl.StatHits,
+                             TotalBases = sl.StatTotalBases,
+                             Runs = sl.StatRuns,
+                             RunsBattedIn = sl.StatRunsBattedIn,
+                             Singles = sl.StatSingles,
+                             Doubles = sl.StatDoubles,
+                             Triples = sl.StatTriples,
+                             HomeRuns = sl.StatHomeRuns,
+                             Walks = sl.StatWalks,
+                             SacrificeFlies = sl.StatSacrificeFlies,
+                             Outs = sl.StatOuts,
+                             FieldersChoices = sl.StatFieldersChoices,
+                             ReachedByErrors = sl.StatReachedByErrors,
+                             Strikeouts = sl.StatStrikeouts,
+                         });
+        }
+
+        #endregion
+
         #region Team
 
         [Route("Team/{teamId}/{year:years?}")]
@@ -132,8 +226,8 @@ namespace Tcbcsl.Presentation.Controllers
                 }
 
                 gameParticipants = teamYear.GameParticipants;
-
             }
+
             var data = gameParticipants
                 .SelectMany(gp => gp.StatLines)
                 .GroupBy(sl => new {sl.PlayerId, sl.Player.FullName})

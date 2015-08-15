@@ -1,0 +1,33 @@
+﻿@model PlayerStatisticsModel
+@{
+    var title = "Statistics - " + Model.PlayerName;
+    ViewBag.Title = title + Model.Year.AsTitleSuffix();
+
+    var ajaxData = Model.PlayerId + "/" + Model.Year.AsRouteParameter();
+}
+@Html.Partial("_YearsPartial", Model.Year)
+<h2>@title</h2>
+<table id="statsTable" class="table table-bordered table-condensed table-striped stats-table">
+    <thead>
+        <tr class="info"></tr>
+    </thead>
+</table>
+@section scripts
+{
+    @if (Model.Year == YearEnum.All)
+    {
+        <script>
+            $(function () {
+                statstable_RenderPlayerCareerStats('@ajaxData');
+            });
+        </script>
+    }
+    else
+    {
+        <script>
+            $(function () {
+                statstable_RenderPlayerSeasonStats('@ajaxData');
+            });
+        </script>
+    }
+}

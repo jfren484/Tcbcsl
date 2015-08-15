@@ -6,15 +6,6 @@
 
 namespace Tcbcsl.Presentation.Models
 {
-    public class StatisticsFilterModel
-    {
-        public int? GameId { get; set; }
-        public int? TeamId { get; set; }
-        public int? PlayerId { get; set; }
-        public YearEnum? Year { get; set; }
-        public string[] ColumnHeaders { get; set; }
-    }
-
     #region Models for primary Actions
 
     public class GameStatisticsModel
@@ -31,6 +22,13 @@ namespace Tcbcsl.Presentation.Models
         public int Year { get; set; }
         public int TeamId { get; set; }
         public string TeamName { get; set; }
+    }
+
+    public class PlayerStatisticsModel
+    {
+        public YearEnum Year { get; set; }
+        public int PlayerId { get; set; }
+        public string PlayerName { get; set; }
     }
 
     public class TeamStatisticsModel
@@ -121,6 +119,19 @@ namespace Tcbcsl.Presentation.Models
     public class GamePlayerStatisticsModel : CommonStatisticsModel
     {
         public string PlayerName { get; set; }
+    }
+
+    public class PlayerCareerStatisticsModel : CommonStatisticsModel
+    {
+        public int Year { get; set; }
+        public int Games { get; set; }
+    }
+
+    public class PlayerSeasonStatisticsModel : CommonStatisticsModel
+    {
+        public int GameId { get; set; }
+        public string GameDate { get; set; }
+        public string OpponentName { get; set; }
     }
 
     public class TeamPlayerStatisticsModel : CommonStatisticsModel
