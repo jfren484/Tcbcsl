@@ -24,27 +24,33 @@ var commonStatsColumns = [
 ];
 
 var gameStatsColumns = [
-    { 'title': 'Player', 'data': 'PlayerName' }
+    { 'title': 'Player', 'data': 'PlayerName', 'render': statstable_RenderPlayerLink }
 ].concat(commonStatsColumns);
 
 var playerCareerStatsColumns = [
-    { 'title': 'Year', 'data': 'Year' },
+    { 'title': 'Year', 'data': 'Year', 'render': statstable_RenderPlayerLink },
     { 'title': 'G', 'data': 'Games' }
 ].concat(commonStatsColumns);
 
 var playerSeasonStatsColumns = [
-    { 'title': 'Date', 'data': 'GameDate', 'render': statstable_RenderGameDate },
-    { 'title': 'Opponent', 'data': 'OpponentName' }
+    { 'title': 'Date',     'data': 'GameDate',     'render': statstable_RenderGameDate },
+    { 'title': 'Opponent', 'data': 'OpponentName', 'render': statstable_RenderTeamLink }
 ].concat(commonStatsColumns);
 
 var teamStatsColumns = [
-    { 'title': 'Player', 'data': 'PlayerName', 'orderSequence': ['asc', 'desc'] },
+    { 'title': 'Player', 'data': 'PlayerName', 'render': statstable_RenderPlayerLink, 'orderSequence': ['asc', 'desc'] },
     { 'title': 'G',      'data': 'Games' }
 ].concat(commonStatsColumns);
 
 //#endregion
 
-//#region Rendering Functions
+//#region Field-Rendering Functions
+
+function statstable_RenderGameDate(data, type, row) {
+    return type === 'display'
+        ? '<a href="/Statistics/Game/' + row.GameId + '">' + moment(data).format('MMMM D') + '</a>'
+        : data;
+}
 
 function statstable_RenderPct(data, type) {
     return type === 'display'
@@ -52,11 +58,21 @@ function statstable_RenderPct(data, type) {
         : data;
 }
 
-function statstable_RenderGameDate(data, type, row, meta) {
+function statstable_RenderPlayerLink(data, type, row) {
     return type === 'display'
-        ? data //data.getMonth() + ' ' + data.getDate()
+        ? '<a href="/Statistics/Player/' + row.PlayerId + (row.Year === consts.currentYear ? '' : '/' + (row.Year === 0 ? 'All' : row.Year)) + '">' + data + '</a>'
         : data;
 }
+
+function statstable_RenderTeamLink(data, type, row) {
+    return type === 'display'
+        ? '<a href="/Team/' + row.OpponentTeamId + (row.OpponentTeamYear === consts.currentYear ? '' : '/' + row.OpponentTeamYear) + '">' + data + '</a>'
+        : data;
+}
+
+//#endregion
+
+//#region TableRendering Functions
 
 function statstable_RenderBase(options) {
     var headerRow = $(options.tableSelector + ' thead tr:last');
@@ -94,8 +110,8 @@ function statstable_RenderGameStats(tableSelector, data) {
 }
 
 function statstable_RenderPlayerCareerStats(data) {
-    var matches = teamStatsColumns.filter(function (col) { return col.title === 'Year' });
-    var sortColumnIndex = teamStatsColumns.indexOf(matches[0]);
+    var matches = playerCareerStatsColumns.filter(function (col) { return col.title === 'Year' });
+    var sortColumnIndex = playerCareerStatsColumns.indexOf(matches[0]);
 
     statstable_RenderBase({
         'tableSelector': '#statsTable',
@@ -103,7 +119,7 @@ function statstable_RenderPlayerCareerStats(data) {
         'columns': playerCareerStatsColumns,
         'sorting': true,
         'paging': false,
-        'order': [[0, 'asc']]
+        'order': [[sortColumnIndex, 'asc']]
     });
 }
 

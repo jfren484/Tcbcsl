@@ -118,12 +118,15 @@ namespace Tcbcsl.Presentation.Models
 
     public class GamePlayerStatisticsModel : CommonStatisticsModel
     {
+        public int Year { get; set; }
+        public int PlayerId { get; set; }
         public string PlayerName { get; set; }
     }
 
     public class PlayerCareerStatisticsModel : CommonStatisticsModel
     {
         public int Year { get; set; }
+        public int PlayerId { get; set; }
         public int Games { get; set; }
     }
 
@@ -131,11 +134,15 @@ namespace Tcbcsl.Presentation.Models
     {
         public int GameId { get; set; }
         public string GameDate { get; set; }
+        public int OpponentTeamYear { get; set; }
+        public int OpponentTeamId { get; set; }
         public string OpponentName { get; set; }
     }
 
     public class TeamPlayerStatisticsModel : CommonStatisticsModel
     {
+        public YearEnum Year { get; set; }
+        public int PlayerId { get; set; }
         public string PlayerName { get; set; }
         public int Games { get; set; }
     }

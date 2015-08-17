@@ -13,6 +13,7 @@ namespace Tcbcsl.Presentation
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/DataTables/dataTables.bootstrap.js",
                 "~/Scripts/respond.js",
+                "~/Scripts/moment.js",
                 "~/Scripts/site.js",
                 "~/Scripts/stats.js"));
 

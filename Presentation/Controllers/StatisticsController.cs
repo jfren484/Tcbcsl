@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Tcbcsl.Data.Entities;
@@ -56,6 +55,8 @@ namespace Tcbcsl.Presentation.Controllers
                                       .OrderBy(sl => sl.BattingOrderPosition)
                                       .Select(sl => new GamePlayerStatisticsModel
                                                     {
+                                                        Year = gameParticipant.Game.GameDate.Year,
+                                                        PlayerId = sl.PlayerId,
                                                         PlayerName = sl.Player.FullName,
                                                         PlateAppearances = sl.StatPlateAppearances,
                                                         AtBats = sl.StatAtBats,
@@ -92,11 +93,11 @@ namespace Tcbcsl.Presentation.Controllers
             }
 
             var model = new PlayerStatisticsModel
-            {
-                Year = year,
-                PlayerId = player.PlayerId,
-                PlayerName = player.FullName
-            };
+                        {
+                            Year = year,
+                            PlayerId = player.PlayerId,
+                            PlayerName = player.FullName
+                        };
 
             return View(model);
         }
@@ -111,70 +112,74 @@ namespace Tcbcsl.Presentation.Controllers
             }
 
             var data = year == YearEnum.All
-                ? GetPlayerCareerData(player)
-                : GetPlayerSeasonData(player, (int)year);
+                           ? GetPlayerCareerData(player)
+                           : GetPlayerSeasonData(player, (int)year);
 
             return Json(data);
         }
 
-        private object GetPlayerCareerData(Player player)
+        private static IEnumerable<object> GetPlayerCareerData(Player player)
         {
             return player.StatLines
                          .GroupBy(sl => sl.GameParticipant.Game.GameDate.Year)
                          .Select(slg => new PlayerCareerStatisticsModel
-                         {
-                             Year = slg.Key,
-                             Games = slg.Count(),
-                             PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
-                             AtBats = slg.Sum(sl => sl.StatAtBats),
-                             Hits = slg.Sum(sl => sl.StatHits),
-                             TotalBases = slg.Sum(sl => sl.StatTotalBases),
-                             Runs = slg.Sum(sl => sl.StatRuns),
-                             RunsBattedIn = slg.Sum(sl => sl.StatRunsBattedIn),
-                             Singles = slg.Sum(sl => sl.StatSingles),
-                             Doubles = slg.Sum(sl => sl.StatDoubles),
-                             Triples = slg.Sum(sl => sl.StatTriples),
-                             HomeRuns = slg.Sum(sl => sl.StatHomeRuns),
-                             Walks = slg.Sum(sl => sl.StatWalks),
-                             SacrificeFlies = slg.Sum(sl => sl.StatSacrificeFlies),
-                             Outs = slg.Sum(sl => sl.StatOuts),
-                             FieldersChoices = slg.Sum(sl => sl.StatFieldersChoices),
-                             ReachedByErrors = slg.Sum(sl => sl.StatReachedByErrors),
-                             Strikeouts = slg.Sum(sl => sl.StatStrikeouts),
-                         });
+                                        {
+                                            Year = slg.Key,
+                                            PlayerId = player.PlayerId,
+                                            Games = slg.Count(),
+                                            PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
+                                            AtBats = slg.Sum(sl => sl.StatAtBats),
+                                            Hits = slg.Sum(sl => sl.StatHits),
+                                            TotalBases = slg.Sum(sl => sl.StatTotalBases),
+                                            Runs = slg.Sum(sl => sl.StatRuns),
+                                            RunsBattedIn = slg.Sum(sl => sl.StatRunsBattedIn),
+                                            Singles = slg.Sum(sl => sl.StatSingles),
+                                            Doubles = slg.Sum(sl => sl.StatDoubles),
+                                            Triples = slg.Sum(sl => sl.StatTriples),
+                                            HomeRuns = slg.Sum(sl => sl.StatHomeRuns),
+                                            Walks = slg.Sum(sl => sl.StatWalks),
+                                            SacrificeFlies = slg.Sum(sl => sl.StatSacrificeFlies),
+                                            Outs = slg.Sum(sl => sl.StatOuts),
+                                            FieldersChoices = slg.Sum(sl => sl.StatFieldersChoices),
+                                            ReachedByErrors = slg.Sum(sl => sl.StatReachedByErrors),
+                                            Strikeouts = slg.Sum(sl => sl.StatStrikeouts),
+                                        });
         }
 
-        private object GetPlayerSeasonData(Player player, int year)
+        private static IEnumerable<object> GetPlayerSeasonData(Player player, int year)
         {
-            return player.StatLines
-                         .Where(sl => sl.GameParticipant.Game.GameDate.Year == year)
-                         .OrderBy(sl => sl.GameParticipant.Game.GameDate)
-                         .Select(sl => new PlayerSeasonStatisticsModel
-                         {
-                             GameId = sl.GameParticipant.GameId,
-                             GameDate = sl.GameParticipant.Game.GameDate.ToString(Consts.DateFormat),
-                             OpponentName = sl.GameParticipant.Game
-                                              .GameParticipants
-                                              .Single(gp => gp.GameParticipantId != sl.GameParticipantId)
-                                              .TeamYear
-                                              .FullName,
-                             PlateAppearances = sl.StatPlateAppearances,
-                             AtBats = sl.StatAtBats,
-                             Hits = sl.StatHits,
-                             TotalBases = sl.StatTotalBases,
-                             Runs = sl.StatRuns,
-                             RunsBattedIn = sl.StatRunsBattedIn,
-                             Singles = sl.StatSingles,
-                             Doubles = sl.StatDoubles,
-                             Triples = sl.StatTriples,
-                             HomeRuns = sl.StatHomeRuns,
-                             Walks = sl.StatWalks,
-                             SacrificeFlies = sl.StatSacrificeFlies,
-                             Outs = sl.StatOuts,
-                             FieldersChoices = sl.StatFieldersChoices,
-                             ReachedByErrors = sl.StatReachedByErrors,
-                             Strikeouts = sl.StatStrikeouts,
-                         });
+            return from sl in player.StatLines
+                   where sl.GameParticipant.Game.GameDate.Year == year
+                   orderby sl.GameParticipant.Game.GameDate
+                   let opponent = sl.GameParticipant
+                                               .Game
+                                               .GameParticipants
+                                               .Single(gp => gp.GameParticipantId != sl.GameParticipantId)
+                                               .TeamYear
+                   select new PlayerSeasonStatisticsModel
+                          {
+                              GameId = sl.GameParticipant.GameId,
+                              GameDate = sl.GameParticipant.Game.GameDate.ToString(Consts.DateFormat),
+                              OpponentTeamId = opponent.TeamId,
+                              OpponentTeamYear = opponent.Year,
+                              OpponentName = opponent.FullName,
+                              PlateAppearances = sl.StatPlateAppearances,
+                              AtBats = sl.StatAtBats,
+                              Hits = sl.StatHits,
+                              TotalBases = sl.StatTotalBases,
+                              Runs = sl.StatRuns,
+                              RunsBattedIn = sl.StatRunsBattedIn,
+                              Singles = sl.StatSingles,
+                              Doubles = sl.StatDoubles,
+                              Triples = sl.StatTriples,
+                              HomeRuns = sl.StatHomeRuns,
+                              Walks = sl.StatWalks,
+                              SacrificeFlies = sl.StatSacrificeFlies,
+                              Outs = sl.StatOuts,
+                              FieldersChoices = sl.StatFieldersChoices,
+                              ReachedByErrors = sl.StatReachedByErrors,
+                              Strikeouts = sl.StatStrikeouts,
+                          };
         }
 
         #endregion
@@ -193,12 +198,12 @@ namespace Tcbcsl.Presentation.Controllers
             }
 
             var model = new TeamStatisticsModel
-            {
-                Year = year,
-                TeamId = teamYear.TeamId,
-                TeamName = teamYear.FullName,
-                SortColumn = sort
-            };
+                        {
+                            Year = year,
+                            TeamId = teamYear.TeamId,
+                            TeamName = teamYear.FullName,
+                            SortColumn = sort
+                        };
 
             return View(model);
         }
@@ -233,6 +238,8 @@ namespace Tcbcsl.Presentation.Controllers
                 .GroupBy(sl => new {sl.PlayerId, sl.Player.FullName})
                 .Select(slg => new TeamPlayerStatisticsModel
                                {
+                                   Year = year,
+                                   PlayerId = slg.Key.PlayerId,
                                    PlayerName = slg.Key.FullName,
                                    Games = slg.Count(),
                                    PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
