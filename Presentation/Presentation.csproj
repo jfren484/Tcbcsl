@@ -431,6 +431,7 @@
     <Content Include="Views\Statistics\StatisticsForLeagueIndividual.cshtml" />
     <Content Include="Views\Statistics\StatisticsForLeagueTeam.cshtml" />
     <None Include="Views\Statistics\StatisticsForTeam.cshtml" />
+    <Content Include="Views\Statistics\_StatsTable.cshtml" />
     <None Include="Views\Team\View.cshtml" />
   </ItemGroup>
   <ItemGroup />
