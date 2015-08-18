@@ -1,6 +1,6 @@
 ﻿@model PlayerStatisticsPageModel
 @{
-    var title = "Statistics - " + Model.Player.PlayerName;
+    var title = "Statistics - " + Model.Player.PlayerFirstName + " " + Model.Player.PlayerLastName;
     ViewBag.Title = title + Model.Year.AsTitleSuffix();
 
     var ajaxData = Model.Player.PlayerId + "/" + Model.Year.AsRouteParameter();

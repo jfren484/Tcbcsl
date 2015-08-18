@@ -135,7 +135,11 @@ namespace Tcbcsl.Presentation.Models
     public class StatisticsPlayerInfoModel
     {
         public int PlayerId { get; set; }
-        public string PlayerName { get; set; }
+        public string PlayerFirstName { get; set; }
+        public string PlayerLastName { get; set; }
+
+        public string DisplayName => $"{PlayerFirstName} {PlayerLastName}";
+        public string SortName => $"{PlayerLastName}, {PlayerFirstName}";
     }
 
     public class StatisticsTeamInfoModel

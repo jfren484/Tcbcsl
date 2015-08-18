@@ -67,7 +67,7 @@ namespace Tcbcsl.Presentation.Controllers
                                     {
                                         CoachId = teamYear.HeadCoachId,
                                         Year = year,
-                                        Name = teamYear.HeadCoach.FullName,
+                                        Name = $"{teamYear.HeadCoach.FirstName} {teamYear.HeadCoach.LastName}",
                                         Comments = teamYear.HeadCoach.Comments,
                                         ContactInfo = ContactInfoService.GetContactInfoModel(teamYear.HeadCoach)
                                     },
@@ -165,7 +165,7 @@ namespace Tcbcsl.Presentation.Controllers
                    select new PlayerStats
                           {
                               PlayerId = lineGroup.Key.PlayerId,
-                              Name = lineGroup.Key.FullName,
+                              Name = lineGroup.Key.NameFirst + " " + lineGroup.Key.NameLast,
                               Games = lineGroup.Count(),
                               AVG = lineGroup.Sum(line => line.StatHits) / (decimal)lineGroup.Sum(line => line.StatAtBats),
                               HR = lineGroup.Sum(line => line.StatHomeRuns),

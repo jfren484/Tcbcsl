@@ -44,7 +44,7 @@ namespace Tcbcsl.Presentation.Controllers
                                                               TeamName = ty.TeamName,
                                                               Coach = new CoachListCoachModel
                                                                       {
-                                                                          Name = ty.HeadCoach.FullName,
+                                                                          Name = $"{ty.HeadCoach.FirstName} {ty.HeadCoach.LastName}",
                                                                           Comments = string.IsNullOrWhiteSpace(ty.HeadCoach.Comments)
                                                                                          ? null
                                                                                          : MvcHtmlString.Create(ty.HeadCoach.Comments),

@@ -28,12 +28,12 @@ var gameStatsColumns = [
 ].concat(commonStatsColumns);
 
 var leagueTeamStatsColumns = [
-    { 'title': 'Team', 'data': 'Team', 'render': statstable_RenderTeamLink },
+    { 'title': 'Team', 'data': 'Team', 'render': statstable_RenderTeamLink, 'orderSequence': ['asc', 'desc'] },
     { 'title': 'G', 'data': 'Games' }
 ].concat(commonStatsColumns);
 
 var leagueIndividualStatsColumns = [
-    { 'title': 'Player', 'data': 'Player', 'render': statstable_RenderPlayerLink }
+    { 'title': 'Player', 'data': 'Player', 'render': statstable_RenderPlayerLink, 'orderSequence': ['asc', 'desc'] }
 ].concat(leagueTeamStatsColumns);
 
 var playerCareerStatsColumns = [
@@ -55,14 +55,6 @@ var teamStatsColumns = [
 
 //#region Field-Rendering Functions
 
-function yearAsRouteParameter(year) {
-    return year === consts.currentYear
-        ? ''
-        : '/' + (year === 0
-            ? 'All'
-            : year);
-}
-
 function statstable_RenderGameDate(data, type, row) {
     return type === 'display'
         ? '<a href="/Statistics/Game/' + row.GameId + '">' + moment(data).format('MMMM D') + '</a>'
@@ -77,8 +69,10 @@ function statstable_RenderPct(data, type) {
 
 function statstable_RenderPlayerLink(data, type, row) {
     return type === 'display'
-        ? '<a href="/Statistics/Player/' + data.PlayerId + yearAsRouteParameter(row.Year) + '">' + data.PlayerName + '</a>'
-        : data.PlayerName;
+        ? '<a href="/Statistics/Player/' + data.PlayerId + yearAsRouteParameter(row.Year) + '">' + data.DisplayName + '</a>'
+        : type === 'sort'
+            ? data.SortName
+            : data.DisplayName;
 }
 
 function statstable_RenderPlayerYearLink(data, type, row) {
@@ -136,8 +130,7 @@ function statstable_RenderGameStats(tableSelector, data) {
 }
 
 function statstable_RenderLeagueIndividualStats(data) {
-    var matches = leagueIndividualStatsColumns.filter(function (col) { return col.title === 'AVG' });
-    var sortColumnIndex = leagueIndividualStatsColumns.indexOf(matches[0]);
+    var sortColumnIndex = findColumnIndex(leagueIndividualStatsColumns, 'AVG');
 
     statstable_RenderBase({
         'tableSelector': '#statsTable',
@@ -150,8 +143,7 @@ function statstable_RenderLeagueIndividualStats(data) {
 }
 
 function statstable_RenderLeagueTeamStats(data) {
-    var matches = leagueTeamStatsColumns.filter(function (col) { return col.title === 'AVG' });
-    var sortColumnIndex = leagueTeamStatsColumns.indexOf(matches[0]);
+    var sortColumnIndex = findColumnIndex(leagueTeamStatsColumns, 'AVG');
 
     statstable_RenderBase({
         'tableSelector': '#statsTable',
@@ -164,8 +156,7 @@ function statstable_RenderLeagueTeamStats(data) {
 }
 
 function statstable_RenderPlayerCareerStats(data) {
-    var matches = playerCareerStatsColumns.filter(function (col) { return col.title === 'Year' });
-    var sortColumnIndex = playerCareerStatsColumns.indexOf(matches[0]);
+    var sortColumnIndex = findColumnIndex(playerCareerStatsColumns, 'Year');
 
     statstable_RenderBase({
         'tableSelector': '#statsTable',
@@ -188,11 +179,7 @@ function statstable_RenderPlayerSeasonStats(data) {
 }
 
 function statstable_RenderTeamStats(data, sortColumn) {
-    var matches = teamStatsColumns.filter(function (col) { return col.title === sortColumn });
-    if (matches.length === 0) {
-        matches = teamStatsColumns.filter(function (col) { return col.title === 'AVG' });
-    }
-    var sortColumnIndex = teamStatsColumns.indexOf(matches[0]);
+    var sortColumnIndex = findColumnIndex(teamStatsColumns, sortColumn) || findColumnIndex(teamStatsColumns, 'AVG');
 
     statstable_RenderBase({
         'tableSelector': '#statsTable',
@@ -202,6 +189,26 @@ function statstable_RenderTeamStats(data, sortColumn) {
         'paging': false,
         'order': [[sortColumnIndex, 'desc']]
     });
+}
+
+//#endregion
+
+//#region Helpers
+
+function findColumnIndex(columnArray, columnTitle) {
+    var matches = columnArray.filter(function (col) { return col.title === columnTitle });
+
+    return matches.length === 0
+        ? undefined
+        : columnArray.indexOf(matches[0]);
+}
+
+function yearAsRouteParameter(year) {
+    return year === consts.currentYear
+        ? ''
+        : '/' + (year === 0
+            ? 'All'
+            : year);
 }
 
 //#endregion

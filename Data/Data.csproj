@@ -110,6 +110,10 @@
     <Compile Include="Migrations\201508131513364_MakeTeamYearFullNameRequired.Designer.cs">
       <DependentUpon>201508131513364_MakeTeamYearFullNameRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508181722375_RemoveComputedNameColumns.cs" />
+    <Compile Include="Migrations\201508181722375_RemoveComputedNameColumns.Designer.cs">
+      <DependentUpon>201508181722375_RemoveComputedNameColumns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
     <Compile Include="Entities\PageContent.cs" />
@@ -154,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508131513364_MakeTeamYearFullNameRequired.resx">
       <DependentUpon>201508131513364_MakeTeamYearFullNameRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508181722375_RemoveComputedNameColumns.resx">
+      <DependentUpon>201508181722375_RemoveComputedNameColumns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
