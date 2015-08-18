@@ -12,6 +12,7 @@ namespace Tcbcsl.Presentation.Controllers
             _contentService = contentService;
         }
 
+        [Route("")]
         public ActionResult Index()
         {
             return View(_contentService.GetCurrentNews());

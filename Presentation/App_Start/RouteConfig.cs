@@ -15,12 +15,6 @@ namespace Tcbcsl.Presentation
             constraintsResolver.ConstraintMap.Add("year", typeof(NumericYearRouteConstraint));
             constraintsResolver.ConstraintMap.Add("years", typeof(FlexYearRouteConstraint));
             routes.MapMvcAttributeRoutes(constraintsResolver);
-
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
         }
     }
 }
