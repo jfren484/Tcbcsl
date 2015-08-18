@@ -1,8 +1,8 @@
-﻿@model GameStatisticsTeamModel
+﻿@model GameStatisticsPageTeamModel
 <table id="statsTable@(Model.HostLabel)" class="table table-bordered table-condensed table-striped stats-table">
     <thead>
         <tr class="info">
-            <th class="center" colspan="21">@Model.HostLabel Team: @Html.TeamLink(Model.TeamName, Model.TeamId, Model.Year)</th>
+            <th class="center" colspan="21">@Model.HostLabel Team: @Html.TeamLink(Model.TeamInfo.TeamName, Model.TeamInfo.TeamId, Model.Year)</th>
         </tr>
         <tr class="info"></tr>
     </thead>

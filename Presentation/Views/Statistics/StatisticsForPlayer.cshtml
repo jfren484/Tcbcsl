@@ -1,9 +1,9 @@
 ﻿@model PlayerStatisticsPageModel
 @{
-    var title = "Statistics - " + Model.PlayerName;
+    var title = "Statistics - " + Model.Player.PlayerName;
     ViewBag.Title = title + Model.Year.AsTitleSuffix();
 
-    var ajaxData = Model.PlayerId + "/" + Model.Year.AsRouteParameter();
+    var ajaxData = Model.Player.PlayerId + "/" + Model.Year.AsRouteParameter();
 }
 @Html.Partial("_YearsPartial", Model.Year)
 <h2>@title</h2>

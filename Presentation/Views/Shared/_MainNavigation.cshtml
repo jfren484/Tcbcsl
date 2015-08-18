@@ -27,7 +27,17 @@
                         </li>
                     </ul>
                 </li>
-                <li>@Html.RouteLink("Statistics", new {Controller = "Statistics"}, null)</li>
+                <li class="dropdown">
+                    @Html.Partial("_NavDropdownToggle", "Statistics")
+                    <ul class="dropdown-menu">
+                        <li>
+                            @Html.RouteLink("Individual", new {controller = "Statistics", action = "StatisticsForLeagueIndividual", year = (YearEnum?)null }, null)
+                        </li>
+                        <li>
+                            @Html.RouteLink("Teams", new {controller = "Statistics", action = "StatisticsForLeagueTeam", year = (YearEnum?)null}, null)
+                        </li>
+                    </ul>
+                </li>
                 <li class="dropdown">
                     @Html.Partial("_NavDropdownToggle", "Members")
                     <ul class="dropdown-menu">

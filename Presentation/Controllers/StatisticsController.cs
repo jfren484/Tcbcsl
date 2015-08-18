@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Tcbcsl.Data.Entities;
@@ -27,9 +26,12 @@ namespace Tcbcsl.Presentation.Controllers
                                           {
                                               GameParticipantId = gp.GameParticipantId,
                                               HostLabel = gp.IsHost ? "Home" : "Road",
-                                              TeamId = gp.TeamYear.TeamId,
                                               Year = gp.TeamYear.Year,
-                                              TeamName = gp.TeamYear.FullName
+                                              TeamInfo = new StatisticsTeamInfoModel
+                                                     {
+                                                         TeamId = gp.TeamYear.TeamId,
+                                                         TeamName = gp.TeamYear.FullName
+                                                     }
                                           })
                             .ToList();
 
@@ -57,9 +59,12 @@ namespace Tcbcsl.Presentation.Controllers
                                       .OrderBy(sl => sl.BattingOrderPosition)
                                       .Select(sl => new GamePlayerStatisticsRowModel
                                                     {
-                                                        Year = gameParticipant.Game.GameDate.Year,
-                                                        PlayerId = sl.PlayerId,
-                                                        PlayerName = sl.Player.FullName,
+                                                        Year = (YearEnum)gameParticipant.Game.GameDate.Year,
+                                                        Player = new StatisticsPlayerInfoModel
+                                                                 {
+                                                                     PlayerId = sl.PlayerId,
+                                                                     PlayerName = sl.Player.FullName
+                                                                 },
                                                         PlateAppearances = sl.StatPlateAppearances,
                                                         AtBats = sl.StatAtBats,
                                                         Hits = sl.StatHits,
@@ -77,7 +82,6 @@ namespace Tcbcsl.Presentation.Controllers
                                                         ReachedByErrors = sl.StatReachedByErrors,
                                                         Strikeouts = sl.StatStrikeouts,
                                                     });
-
             return Json(data);
         }
 
@@ -88,7 +92,7 @@ namespace Tcbcsl.Presentation.Controllers
         [Route("League/Individual/{year:years?}")]
         public ActionResult StatisticsForLeagueIndividual(YearEnum year = (YearEnum)Consts.CurrentYear)
         {
-            var model = new LeagueIndividualStatisticsPageModel
+            var model = new LeagueStatisticsPageModel
             {
                 Year = year
             };
@@ -96,7 +100,7 @@ namespace Tcbcsl.Presentation.Controllers
             return View(model);
         }
 
-        //[HttpPost]
+        [HttpPost]
         [Route("LeagueData/Individual/{year:years}")]
         public ActionResult LeagueIndividualData(YearEnum year)
         {
@@ -109,39 +113,108 @@ namespace Tcbcsl.Presentation.Controllers
 
             var data = statLines
                 .GroupBy(sl => new
-                {
-                    PlayerId = sl.PlayerId,
-                    PlayerName = sl.Player.FullName,
-                    TeamId = sl.GameParticipant.TeamYear.TeamId,
-                    TeamName = sl.GameParticipant.TeamYear.FullName
-                })
+                               {
+                                   PlayerId = sl.PlayerId,
+                                   PlayerName = sl.Player.FullName,
+                                   TeamId = sl.GameParticipant.TeamYear.TeamId,
+                                   TeamName = sl.GameParticipant.TeamYear.FullName
+                               })
                 .Select(slg => new LeagueIndividualStatisticsRowModel
-                {
-                    Year = year,
-                    PlayerId = slg.Key.PlayerId,
-                    PlayerName = slg.Key.PlayerName,
-                    TeamId = slg.Key.TeamId,
-                    TeamName = slg.Key.TeamName,
-                    Games = slg.Count(),
-                    PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
-                    AtBats = slg.Sum(sl => sl.StatAtBats),
-                    Hits = slg.Sum(sl => sl.StatHits),
-                    TotalBases = slg.Sum(sl => sl.StatTotalBases),
-                    Runs = slg.Sum(sl => sl.StatRuns),
-                    RunsBattedIn = slg.Sum(sl => sl.StatRunsBattedIn),
-                    Singles = slg.Sum(sl => sl.StatSingles),
-                    Doubles = slg.Sum(sl => sl.StatDoubles),
-                    Triples = slg.Sum(sl => sl.StatTriples),
-                    HomeRuns = slg.Sum(sl => sl.StatHomeRuns),
-                    Walks = slg.Sum(sl => sl.StatWalks),
-                    SacrificeFlies = slg.Sum(sl => sl.StatSacrificeFlies),
-                    Outs = slg.Sum(sl => sl.StatOuts),
-                    FieldersChoices = slg.Sum(sl => sl.StatFieldersChoices),
-                    ReachedByErrors = slg.Sum(sl => sl.StatReachedByErrors),
-                    Strikeouts = slg.Sum(sl => sl.StatStrikeouts),
-                });
+                               {
+                                   Year = year,
+                                   Player = new StatisticsPlayerInfoModel
+                                            {
+                                                PlayerId = slg.Key.PlayerId,
+                                                PlayerName = slg.Key.PlayerName
+                                            },
+                                   Team = new StatisticsTeamInfoModel
+                                          {
+                                              TeamId = slg.Key.TeamId,
+                                              TeamName = slg.Key.TeamName,
+                                          },
+                                   Games = slg.Count(),
+                                   PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
+                                   AtBats = slg.Sum(sl => sl.StatAtBats),
+                                   Hits = slg.Sum(sl => sl.StatHits),
+                                   TotalBases = slg.Sum(sl => sl.StatTotalBases),
+                                   Runs = slg.Sum(sl => sl.StatRuns),
+                                   RunsBattedIn = slg.Sum(sl => sl.StatRunsBattedIn),
+                                   Singles = slg.Sum(sl => sl.StatSingles),
+                                   Doubles = slg.Sum(sl => sl.StatDoubles),
+                                   Triples = slg.Sum(sl => sl.StatTriples),
+                                   HomeRuns = slg.Sum(sl => sl.StatHomeRuns),
+                                   Walks = slg.Sum(sl => sl.StatWalks),
+                                   SacrificeFlies = slg.Sum(sl => sl.StatSacrificeFlies),
+                                   Outs = slg.Sum(sl => sl.StatOuts),
+                                   FieldersChoices = slg.Sum(sl => sl.StatFieldersChoices),
+                                   ReachedByErrors = slg.Sum(sl => sl.StatReachedByErrors),
+                                   Strikeouts = slg.Sum(sl => sl.StatStrikeouts),
+                               });
 
-            return Json(data, JsonRequestBehavior.AllowGet);
+            return Json(data);
+        }
+
+        #endregion
+
+        #region League Team
+
+        [Route("League/Team/{year:years?}")]
+        public ActionResult StatisticsForLeagueTeam(YearEnum year = (YearEnum)Consts.CurrentYear)
+        {
+            var model = new LeagueStatisticsPageModel
+            {
+                Year = year
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("LeagueData/Team/{year:years}")]
+        public ActionResult LeagueTeamData(YearEnum year)
+        {
+            var statLines = DbContext.StatLines.AsQueryable();
+
+            if (year != YearEnum.All)
+            {
+                statLines = statLines.Where(sl => sl.GameParticipant.Game.GameDate.Year == (int)year);
+            }
+
+            var data = statLines
+                .GroupBy(sl => new
+                               {
+                                   TeamId = sl.GameParticipant.TeamYear.TeamId,
+                                   TeamName = sl.GameParticipant.TeamYear.FullName,
+                                   Games = sl.GameParticipant.TeamYear.GameParticipants.Count(gp => gp.StatLines.Any())
+                               })
+                .Select(slg => new LeagueTeamStatisticsRowModel
+                               {
+                                   Year = year,
+                                   Team = new StatisticsTeamInfoModel
+                                          {
+                                              TeamId = slg.Key.TeamId,
+                                              TeamName = slg.Key.TeamName,
+                                          },
+                                   Games = slg.Key.Games,
+                                   PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
+                                   AtBats = slg.Sum(sl => sl.StatAtBats),
+                                   Hits = slg.Sum(sl => sl.StatHits),
+                                   TotalBases = slg.Sum(sl => sl.StatTotalBases),
+                                   Runs = slg.Sum(sl => sl.StatRuns),
+                                   RunsBattedIn = slg.Sum(sl => sl.StatRunsBattedIn),
+                                   Singles = slg.Sum(sl => sl.StatSingles),
+                                   Doubles = slg.Sum(sl => sl.StatDoubles),
+                                   Triples = slg.Sum(sl => sl.StatTriples),
+                                   HomeRuns = slg.Sum(sl => sl.StatHomeRuns),
+                                   Walks = slg.Sum(sl => sl.StatWalks),
+                                   SacrificeFlies = slg.Sum(sl => sl.StatSacrificeFlies),
+                                   Outs = slg.Sum(sl => sl.StatOuts),
+                                   FieldersChoices = slg.Sum(sl => sl.StatFieldersChoices),
+                                   ReachedByErrors = slg.Sum(sl => sl.StatReachedByErrors),
+                                   Strikeouts = slg.Sum(sl => sl.StatStrikeouts),
+                               });
+
+            return Json(data);
         }
 
         #endregion
@@ -160,8 +233,11 @@ namespace Tcbcsl.Presentation.Controllers
             var model = new PlayerStatisticsPageModel
                         {
                             Year = year,
-                            PlayerId = player.PlayerId,
-                            PlayerName = player.FullName
+                            Player = new StatisticsPlayerInfoModel
+                                     {
+                                         PlayerId = player.PlayerId,
+                                         PlayerName = player.FullName
+                                     }
                         };
 
             return View(model);
@@ -190,8 +266,11 @@ namespace Tcbcsl.Presentation.Controllers
                          .GroupBy(sl => sl.GameParticipant.Game.GameDate.Year)
                          .Select(slg => new PlayerCareerStatisticsRowModel
                                         {
-                                            Year = slg.Key,
-                                            PlayerId = player.PlayerId,
+                                            Year = (YearEnum)slg.Key,
+                                            Player = new StatisticsPlayerInfoModel
+                                                     {
+                                                         PlayerId = player.PlayerId
+                                                     },
                                             Games = slg.Count(),
                                             PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
                                             AtBats = slg.Sum(sl => sl.StatAtBats),
@@ -218,17 +297,20 @@ namespace Tcbcsl.Presentation.Controllers
                    where sl.GameParticipant.Game.GameDate.Year == year
                    orderby sl.GameParticipant.Game.GameDate
                    let opponent = sl.GameParticipant
-                                               .Game
-                                               .GameParticipants
-                                               .Single(gp => gp.GameParticipantId != sl.GameParticipantId)
-                                               .TeamYear
+                                    .Game
+                                    .GameParticipants
+                                    .Single(gp => gp.GameParticipantId != sl.GameParticipantId)
+                                    .TeamYear
                    select new PlayerSeasonStatisticsRowModel
                           {
                               GameId = sl.GameParticipant.GameId,
                               GameDate = sl.GameParticipant.Game.GameDate.ToString(Consts.DateFormat),
-                              Year = year,
-                              TeamId = opponent.TeamId,
-                              TeamName = opponent.FullName,
+                              Year = (YearEnum)year,
+                              Opponent = new StatisticsTeamInfoModel
+                                     {
+                                         TeamId = opponent.TeamId,
+                                         TeamName = opponent.FullName,
+                                     },
                               PlateAppearances = sl.StatPlateAppearances,
                               AtBats = sl.StatAtBats,
                               Hits = sl.StatHits,
@@ -266,8 +348,11 @@ namespace Tcbcsl.Presentation.Controllers
             var model = new TeamStatisticsPageModel
                         {
                             Year = year,
-                            TeamId = teamYear.TeamId,
-                            TeamName = teamYear.FullName,
+                            Team = new StatisticsTeamInfoModel
+                                   {
+                                       TeamId = teamYear.TeamId,
+                                       TeamName = teamYear.FullName
+                                   },
                             SortColumn = sort
                         };
 
@@ -306,8 +391,11 @@ namespace Tcbcsl.Presentation.Controllers
                 .Select(slg => new TeamPlayerStatisticsRowModel
                                {
                                    Year = year,
-                                   PlayerId = slg.Key.PlayerId,
-                                   PlayerName = slg.Key.FullName,
+                                   Player = new StatisticsPlayerInfoModel
+                                            {
+                                                PlayerId = slg.Key.PlayerId,
+                                                PlayerName = slg.Key.FullName
+                                            },
                                    Games = slg.Count(),
                                    PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
                                    AtBats = slg.Sum(sl => sl.StatAtBats),

@@ -20,11 +20,10 @@ namespace Tcbcsl.Presentation.Models
         public int GameParticipantId { get; set; }
         public string HostLabel { get; set; }
         public int Year { get; set; }
-        public int TeamId { get; set; }
-        public string TeamName { get; set; }
+        public StatisticsTeamInfoModel TeamInfo { get; set; }
     }
 
-    public class LeagueIndividualStatisticsPageModel
+    public class LeagueStatisticsPageModel
     {
         public YearEnum Year { get; set; }
     }
@@ -32,15 +31,13 @@ namespace Tcbcsl.Presentation.Models
     public class PlayerStatisticsPageModel
     {
         public YearEnum Year { get; set; }
-        public int PlayerId { get; set; }
-        public string PlayerName { get; set; }
+        public StatisticsPlayerInfoModel Player { get; set; }
     }
 
     public class TeamStatisticsPageModel
     {
         public YearEnum Year { get; set; }
-        public int TeamId { get; set; }
-        public string TeamName { get; set; }
+        public StatisticsTeamInfoModel Team { get; set; }
         public string SortColumn { get; set; }
     }
 
@@ -48,8 +45,11 @@ namespace Tcbcsl.Presentation.Models
 
     #region Models for Data methods
 
-    public class CommonStatisticsRowModel
+    #region Base Models
+
+    public class BaseStatisticsRowModel
     {
+        public YearEnum Year { get; set; }
         public int PlateAppearances { get; set; }
         public int AtBats { get; set; }
         public int Hits { get; set; }
@@ -127,45 +127,55 @@ namespace Tcbcsl.Presentation.Models
         }
     }
 
-    public class GamePlayerStatisticsRowModel : CommonStatisticsRowModel
+    public class CommonStatisticsRowModel : BaseStatisticsRowModel
     {
-        public int Year { get; set; }
+        public int Games { get; set; }
+    }
+
+    public class StatisticsPlayerInfoModel
+    {
         public int PlayerId { get; set; }
         public string PlayerName { get; set; }
     }
 
-    public class LeagueIndividualStatisticsRowModel : CommonStatisticsRowModel
+    public class StatisticsTeamInfoModel
     {
-        public YearEnum Year { get; set; }
-        public int PlayerId { get; set; }
-        public string PlayerName { get; set; }
         public int TeamId { get; set; }
         public string TeamName { get; set; }
-        public int Games { get; set; }
+    }
+
+    #endregion
+
+    public class GamePlayerStatisticsRowModel : BaseStatisticsRowModel
+    {
+        public StatisticsPlayerInfoModel Player { get; set; }
+    }
+
+    public class LeagueIndividualStatisticsRowModel : LeagueTeamStatisticsRowModel
+    {
+        public StatisticsPlayerInfoModel Player { get; set; }
+    }
+
+    public class LeagueTeamStatisticsRowModel : CommonStatisticsRowModel
+    {
+        public StatisticsTeamInfoModel Team { get; set; }
     }
 
     public class PlayerCareerStatisticsRowModel : CommonStatisticsRowModel
     {
-        public int Year { get; set; }
-        public int PlayerId { get; set; }
-        public int Games { get; set; }
+        public StatisticsPlayerInfoModel Player { get; set; }
     }
 
-    public class PlayerSeasonStatisticsRowModel : CommonStatisticsRowModel
+    public class PlayerSeasonStatisticsRowModel : BaseStatisticsRowModel
     {
         public int GameId { get; set; }
         public string GameDate { get; set; }
-        public int Year { get; set; }
-        public int TeamId { get; set; }
-        public string TeamName { get; set; }
+        public StatisticsTeamInfoModel Opponent { get; set; }
     }
 
     public class TeamPlayerStatisticsRowModel : CommonStatisticsRowModel
     {
-        public YearEnum Year { get; set; }
-        public int PlayerId { get; set; }
-        public string PlayerName { get; set; }
-        public int Games { get; set; }
+        public StatisticsPlayerInfoModel Player { get; set; }
     }
 
     #endregion
