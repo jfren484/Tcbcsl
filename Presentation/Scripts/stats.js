@@ -27,14 +27,20 @@ var gameStatsColumns = [
     { 'title': 'Player', 'data': 'PlayerName', 'render': statstable_RenderPlayerLink }
 ].concat(commonStatsColumns);
 
+var leagueIndividualStatsColumns = [
+    { 'title': 'Player', 'data': 'PlayerName', 'render': statstable_RenderPlayerLink },
+    { 'title': 'Team',   'data': 'TeamName',   'render': statstable_RenderTeamLink },
+    { 'title': 'G',      'data': 'Games' }
+].concat(commonStatsColumns);
+
 var playerCareerStatsColumns = [
     { 'title': 'Year', 'data': 'Year', 'render': statstable_RenderPlayerLink },
-    { 'title': 'G', 'data': 'Games' }
+    { 'title': 'G',    'data': 'Games' }
 ].concat(commonStatsColumns);
 
 var playerSeasonStatsColumns = [
-    { 'title': 'Date',     'data': 'GameDate',     'render': statstable_RenderGameDate },
-    { 'title': 'Opponent', 'data': 'OpponentName', 'render': statstable_RenderTeamLink }
+    { 'title': 'Date',     'data': 'GameDate', 'render': statstable_RenderGameDate },
+    { 'title': 'Opponent', 'data': 'TeamName', 'render': statstable_RenderTeamLink }
 ].concat(commonStatsColumns);
 
 var teamStatsColumns = [
@@ -66,7 +72,7 @@ function statstable_RenderPlayerLink(data, type, row) {
 
 function statstable_RenderTeamLink(data, type, row) {
     return type === 'display'
-        ? '<a href="/Team/' + row.OpponentTeamId + (row.OpponentTeamYear === consts.currentYear ? '' : '/' + row.OpponentTeamYear) + '">' + data + '</a>'
+        ? '<a href="/Team/' + row.TeamId + (row.Year === consts.currentYear ? '' : '/' + row.Year) + '">' + data + '</a>'
         : data;
 }
 
@@ -106,6 +112,20 @@ function statstable_RenderGameStats(tableSelector, data) {
         'columns': gameStatsColumns,
         'sorting': false,
         'paging': false
+    });
+}
+
+function statstable_RenderLeagueIndividualStats(data) {
+    var matches = leagueIndividualStatsColumns.filter(function (col) { return col.title === 'AVG' });
+    var sortColumnIndex = leagueIndividualStatsColumns.indexOf(matches[0]);
+
+    statstable_RenderBase({
+        'tableSelector': '#statsTable',
+        'dataUrl': '/Statistics/LeagueData/Individual/' + data,
+        'columns': leagueIndividualStatsColumns,
+        'sorting': true,
+        'paging': false,
+        'order': [[sortColumnIndex, 'desc']]
     });
 }
 

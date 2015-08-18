@@ -1,6 +1,6 @@
-﻿@model TeamStatisticsPageModel
+﻿@model LeagueIndividualStatisticsPageModel
 @{
-    var title = "Statistics - " + Model.TeamName;
+    const string title = "Statistics - League - Individual";
     ViewBag.Title = title + Model.Year.AsTitleSuffix();
 }
 @Html.Partial("_YearsPartial", Model.Year)
@@ -14,7 +14,7 @@
 {
     <script>
         $(function () {
-            statstable_RenderTeamStats('@(Model.TeamId + "/" + Model.Year.AsRouteParameter())', '@Model.SortColumn');
+            statstable_RenderLeagueIndividualStats('@Model.Year.AsRouteParameter()');
         });
     </script>
 }

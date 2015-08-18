@@ -8,14 +8,14 @@ namespace Tcbcsl.Presentation.Models
 {
     #region Models for primary Actions
 
-    public class GameStatisticsModel
+    public class GameStatisticsPageModel
     {
         public DateTime GameDate { get; set; }
-        public GameStatisticsTeamModel RoadTeam { get; set; }
-        public GameStatisticsTeamModel HomeTeam { get; set; }
+        public GameStatisticsPageTeamModel RoadTeam { get; set; }
+        public GameStatisticsPageTeamModel HomeTeam { get; set; }
     }
 
-    public class GameStatisticsTeamModel
+    public class GameStatisticsPageTeamModel
     {
         public int GameParticipantId { get; set; }
         public string HostLabel { get; set; }
@@ -24,14 +24,19 @@ namespace Tcbcsl.Presentation.Models
         public string TeamName { get; set; }
     }
 
-    public class PlayerStatisticsModel
+    public class LeagueIndividualStatisticsPageModel
+    {
+        public YearEnum Year { get; set; }
+    }
+
+    public class PlayerStatisticsPageModel
     {
         public YearEnum Year { get; set; }
         public int PlayerId { get; set; }
         public string PlayerName { get; set; }
     }
 
-    public class TeamStatisticsModel
+    public class TeamStatisticsPageModel
     {
         public YearEnum Year { get; set; }
         public int TeamId { get; set; }
@@ -43,7 +48,7 @@ namespace Tcbcsl.Presentation.Models
 
     #region Models for Data methods
 
-    public class CommonStatisticsModel
+    public class CommonStatisticsRowModel
     {
         public int PlateAppearances { get; set; }
         public int AtBats { get; set; }
@@ -70,7 +75,9 @@ namespace Tcbcsl.Presentation.Models
             {
                 if (_battingAverage < 0)
                 {
-                    _battingAverage = Hits / (double)AtBats;
+                    _battingAverage = AtBats == 0 
+                        ? 0
+                        : Hits / (double)AtBats;
                 }
                 return _battingAverage;
             }
@@ -83,7 +90,9 @@ namespace Tcbcsl.Presentation.Models
             {
                 if (_onBasePercentage < 0)
                 {
-                    _onBasePercentage = (Hits + Walks) / (double)(AtBats + Walks + SacrificeFlies);
+                    _onBasePercentage = (AtBats + Walks + SacrificeFlies) == 0
+                        ? 0
+                        : (Hits + Walks) / (double)(AtBats + Walks + SacrificeFlies);
                 }
                 return _onBasePercentage;
             }
@@ -96,7 +105,9 @@ namespace Tcbcsl.Presentation.Models
             {
                 if (_sluggingPercentage < 0)
                 {
-                    _sluggingPercentage = TotalBases / (double)AtBats;
+                    _sluggingPercentage = AtBats == 0
+                        ? 0
+                        : TotalBases / (double)AtBats;
                 }
                 return _sluggingPercentage;
             }
@@ -116,30 +127,40 @@ namespace Tcbcsl.Presentation.Models
         }
     }
 
-    public class GamePlayerStatisticsModel : CommonStatisticsModel
+    public class GamePlayerStatisticsRowModel : CommonStatisticsRowModel
     {
         public int Year { get; set; }
         public int PlayerId { get; set; }
         public string PlayerName { get; set; }
     }
 
-    public class PlayerCareerStatisticsModel : CommonStatisticsModel
+    public class LeagueIndividualStatisticsRowModel : CommonStatisticsRowModel
+    {
+        public YearEnum Year { get; set; }
+        public int PlayerId { get; set; }
+        public string PlayerName { get; set; }
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
+        public int Games { get; set; }
+    }
+
+    public class PlayerCareerStatisticsRowModel : CommonStatisticsRowModel
     {
         public int Year { get; set; }
         public int PlayerId { get; set; }
         public int Games { get; set; }
     }
 
-    public class PlayerSeasonStatisticsModel : CommonStatisticsModel
+    public class PlayerSeasonStatisticsRowModel : CommonStatisticsRowModel
     {
         public int GameId { get; set; }
         public string GameDate { get; set; }
-        public int OpponentTeamYear { get; set; }
-        public int OpponentTeamId { get; set; }
-        public string OpponentName { get; set; }
+        public int Year { get; set; }
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
     }
 
-    public class TeamPlayerStatisticsModel : CommonStatisticsModel
+    public class TeamPlayerStatisticsRowModel : CommonStatisticsRowModel
     {
         public YearEnum Year { get; set; }
         public int PlayerId { get; set; }
