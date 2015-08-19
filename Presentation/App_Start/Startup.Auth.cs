@@ -6,6 +6,8 @@ using Microsoft.Owin.Security.Cookies;
 using Owin;
 using Tcbcsl.Data;
 using Tcbcsl.Data.Identity;
+using Microsoft.Owin.Security.Google;
+using System.Configuration;
 
 namespace Tcbcsl.Presentation
 {
@@ -58,11 +60,11 @@ namespace Tcbcsl.Presentation
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions
+            {
+                ClientId = ConfigurationManager.AppSettings["Google.ClientId"],
+                ClientSecret = ConfigurationManager.AppSettings["Google.ClientSecret"]
+            });
         }
     }
 }

@@ -213,6 +213,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Models\YearEnum.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -318,10 +319,6 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootswatch.less" />
     <Content Include="Content\variables.less" />
-    <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -442,13 +439,16 @@
     <None Include="Views\Statistics\StatisticsForTeam.cshtml" />
     <Content Include="Views\Statistics\_StatsTable.cshtml" />
     <None Include="Views\Team\View.cshtml" />
+    <None Include="Web.Sensitive.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Manage\Models\" />
     <Folder Include="Areas\Manage\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
