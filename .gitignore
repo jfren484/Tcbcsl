@@ -7,6 +7,8 @@
 *.sln.docstates
 .vs/
 
+*.Sensitive.config
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
