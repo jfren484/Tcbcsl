@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -7,6 +6,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Tcbcsl.Presentation.Models;
 using Tcbcsl.Data.Identity;
+
+// ReSharper disable  RedundantCaseLabel
 
 namespace Tcbcsl.Presentation.Controllers
 {
@@ -25,26 +26,26 @@ namespace Tcbcsl.Presentation.Controllers
         }
 
         private ApplicationUserManager _userManager;
-        public ApplicationUserManager UserManager
+        private ApplicationUserManager UserManager
         {
             get
             {
                 return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
-            private set
+            set
             {
                 _userManager = value;
             }
         }
 
         private ApplicationSignInManager _signInManager;
-        public ApplicationSignInManager SignInManager
+        private ApplicationSignInManager SignInManager
         {
             get
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set
+            set
             {
                 _signInManager = value;
             }
@@ -61,6 +62,7 @@ namespace Tcbcsl.Presentation.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("Login")]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
@@ -77,57 +79,9 @@ namespace Tcbcsl.Presentation.Controllers
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
-            }
-        }
-
-        [AllowAnonymous]
-        public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
-        {
-            // Require that the user has already logged in via username/password or external login
-            if (!await SignInManager.HasBeenVerifiedAsync())
-            {
-                return View("Error");
-            }
-
-            var user = await UserManager.FindByIdAsync(await SignInManager.GetVerifiedUserIdAsync());
-            if (user != null)
-            {
-                var code = await UserManager.GenerateTwoFactorTokenAsync(user.Id, provider);
-            }
-
-            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            // The following code protects for brute force attacks against the two factor codes. 
-            // If a user enters incorrect codes for a specified amount of time then the user account 
-            // will be locked out for a specified amount of time. 
-            // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(model.ReturnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid code.");
                     return View(model);
             }
         }
@@ -142,6 +96,7 @@ namespace Tcbcsl.Presentation.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("Register")]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -169,6 +124,7 @@ namespace Tcbcsl.Presentation.Controllers
         }
 
         [AllowAnonymous]
+        [Route("ConfirmEmail")]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
@@ -181,6 +137,7 @@ namespace Tcbcsl.Presentation.Controllers
         }
 
         [AllowAnonymous]
+        [Route("ForgotPassword")]
         public ActionResult ForgotPassword()
         {
             return View();
@@ -189,6 +146,7 @@ namespace Tcbcsl.Presentation.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("ForgotPassword")]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -213,12 +171,14 @@ namespace Tcbcsl.Presentation.Controllers
         }
 
         [AllowAnonymous]
+        [Route("ForgotPasswordConfirmation")]
         public ActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
 
         [AllowAnonymous]
+        [Route("ResetPassword")]
         public ActionResult ResetPassword(string code)
         {
             return code == null ? View("Error") : View();
@@ -227,6 +187,7 @@ namespace Tcbcsl.Presentation.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("ResetPassword")]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -253,6 +214,7 @@ namespace Tcbcsl.Presentation.Controllers
         }
 
         [AllowAnonymous]
+        [Route("ResetPasswordConfirmation")]
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
@@ -261,6 +223,7 @@ namespace Tcbcsl.Presentation.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("ExternalLogin")]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
             // Request a redirect to the external login provider
@@ -268,38 +231,7 @@ namespace Tcbcsl.Presentation.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
-        {
-            var userId = await SignInManager.GetVerifiedUserIdAsync();
-            if (userId == null)
-            {
-                return View("Error");
-            }
-            var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
-            var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
-            return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SendCode(SendCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-
-            // Generate the token and send it
-            if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
-            {
-                return View("Error");
-            }
-
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
-        }
-
-        [AllowAnonymous]
+        [Route("ExternalLoginCallback")]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
@@ -316,8 +248,6 @@ namespace Tcbcsl.Presentation.Controllers
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
                 default:
                     // If the user does not have an account, then prompt the user to create an account
@@ -330,6 +260,7 @@ namespace Tcbcsl.Presentation.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("ExternalLoginConfirmation")]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
             if (User.Identity.IsAuthenticated)
@@ -367,6 +298,7 @@ namespace Tcbcsl.Presentation.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("LogOff")]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
@@ -374,6 +306,7 @@ namespace Tcbcsl.Presentation.Controllers
         }
 
         [AllowAnonymous]
+        [Route("ExternalLoginFailure")]
         public ActionResult ExternalLoginFailure()
         {
             return View();
@@ -384,13 +317,7 @@ namespace Tcbcsl.Presentation.Controllers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         private void AddErrors(IdentityResult result)
         {
