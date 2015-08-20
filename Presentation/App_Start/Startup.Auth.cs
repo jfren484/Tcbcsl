@@ -39,6 +39,17 @@ namespace Tcbcsl.Presentation
             });            
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
+            app.UseFacebookAuthentication(
+                appId: ConfigurationManager.AppSettings["Facebook.AppId"],
+                appSecret: ConfigurationManager.AppSettings["Facebook.AppSecret"]
+            );
+
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions
+            {
+                ClientId = ConfigurationManager.AppSettings["Google.ClientId"],
+                ClientSecret = ConfigurationManager.AppSettings["Google.ClientSecret"]
+            });
+
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(
             //    clientId: "",
@@ -47,16 +58,6 @@ namespace Tcbcsl.Presentation
             //app.UseTwitterAuthentication(
             //   consumerKey: "",
             //   consumerSecret: "");
-
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
-
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions
-            {
-                ClientId = ConfigurationManager.AppSettings["Google.ClientId"],
-                ClientSecret = ConfigurationManager.AppSettings["Google.ClientSecret"]
-            });
         }
     }
 }
