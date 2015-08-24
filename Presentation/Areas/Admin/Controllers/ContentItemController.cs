@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
 
-namespace Tcbcsl.Presentation.Areas.Manage.Controllers
+namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
-    [RouteArea("Manage")]
+    [RouteArea("Admin")]
     [RoutePrefix("Content")]
     public class ContentItemController : Controller
     {
