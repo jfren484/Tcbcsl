@@ -1,0 +1,11 @@
+﻿@model PageContentEditModel
+@{
+    var action = Model.IsCreate ? "Create" : "Edit";
+    var title = action + " Content";
+    ViewBag.Title = title;
+}
+<h2>@title</h2>
+@using (Html.BeginForm("Edit", "ContentItem", FormMethod.Post))
+{
+    @Html.EditorForModel()
+}
