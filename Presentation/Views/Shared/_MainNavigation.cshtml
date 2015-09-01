@@ -60,7 +60,7 @@
                         @Html.Partial("_NavDropdownToggle", "Admin")
                         <ul class="dropdown-menu">
                             <li>@Html.RouteLink("Account", new { area = "", controller = "Manage", action = "Index" }, new { @class = "visible-sm" })</li>
-                            <li>@Html.RouteLink("League Rules", new { area = "Admin", controller = "ContentItem", action = "List" }, null)</li>
+                            <li>@Html.RouteLink("Page Content", new { area = "Admin", controller = "ContentItem", action = "List" }, null)</li>
                         </ul>
                     </li>
                 }

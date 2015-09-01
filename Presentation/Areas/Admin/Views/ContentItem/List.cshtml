@@ -4,4 +4,61 @@
     ViewBag.Title = title;
 }
 <h2>@title</h2>
-page content items go here
+<style>
+    .stats-content td {
+        overflow: hidden;
+    }
+
+    .stats-content td .partial-content {
+        max-height: 10em;
+    }
+</style>
+<table id="contentTable" class="table table-bordered table-condensed table-striped stats-content">
+    <thead>
+        <tr class="info"></tr>
+    </thead>
+</table>
+@section scripts
+{
+    <script>
+        var commonStatsColumns = [
+                    { 'title': 'Id',      'data': 'PageContentId' },
+                    { 'title': 'Tag',     'data': 'PageTag'       },
+                    { 'title': 'Title',   'data': 'Title'         },
+                    { 'title': 'Content', 'data': 'Content', 'render': renderContentCell },
+                    { 'title': '',        'data': '',        'render': renderEditLink    }
+        ];
+
+        var headerRow = $('#contentTable thead tr:last');
+        for (var i = 0; i < commonStatsColumns.length; ++i) {
+            headerRow.append('<th></th>');
+        }
+
+        $(function() {
+            $('#contentTable').dataTable({
+                'ajax': {
+                    'url': '/Admin/Content/Data',
+                    'type': 'POST',
+                    'dataSrc': ''
+                },
+                'info': false,
+                'ordering': false,
+                'paging': false,
+                'searching': false,
+                'columns': commonStatsColumns
+            });
+        });
+
+        function renderContentCell(data, type) {
+            return type === 'display'
+                ? '<div class="partial-content">' + data + '</div>'
+                : data;
+        }
+
+        function renderEditLink(data, type, row) {
+            return type === 'display'
+                ? '<a href="/Admin/Content/Edit/' + row.PageContentId + '">edit</a>'
+                : 0;
+        }
+    </script>
+}
