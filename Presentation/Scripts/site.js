@@ -16,3 +16,10 @@ $('.calendar-content').on('click', '.calendar-year-nav a', function (e) {
 $(function() {
     $('[data-toggle="tooltip"]').tooltip();
 });
+
+function addDataTableHeaderCells(tableSelector, columnArray) {
+    var headerRow = $(tableSelector + '>thead>tr:last');
+    for (var i = 0; i < columnArray.length; ++i) {
+        headerRow.append('<th></th>');
+    }
+}

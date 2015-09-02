@@ -92,10 +92,7 @@ function statstable_RenderTeamLink(data, type, row) {
 //#region TableRendering Functions
 
 function statstable_RenderBase(options) {
-    var headerRow = $(options.tableSelector + ' thead tr:last');
-    for (var i = 0; i < options.columns.length; ++i) {
-        headerRow.append('<th></th>');
-    }
+    addDataTableHeaderCells(options.tableSelector, options.columns);
 
     $(options.tableSelector).dataTable({
         'ajax': {

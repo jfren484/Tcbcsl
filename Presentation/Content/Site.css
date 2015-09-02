@@ -94,6 +94,12 @@ textarea {
 .coach-table td:last-child {
   white-space: normal;
 }
+.content-list-table td {
+  overflow: hidden;
+}
+.content-list-table td .partial-content {
+  max-height: 10em;
+}
 @media (min-width: 768px) and (max-width: 991px) {
   .grid4321:nth-child(2n + 1),
   .grid4421:nth-child(2n + 1) {

@@ -4,16 +4,7 @@
     ViewBag.Title = title;
 }
 <h2>@title</h2>
-<style>
-    .stats-content td {
-        overflow: hidden;
-    }
-
-    .stats-content td .partial-content {
-        max-height: 10em;
-    }
-</style>
-<table id="contentTable" class="table table-bordered table-condensed table-striped stats-content">
+<table id="contentTable" class="table table-bordered table-condensed table-striped content-list-table">
     <thead>
         <tr class="info"></tr>
     </thead>
@@ -21,7 +12,7 @@
 @section scripts
 {
     <script>
-        var commonStatsColumns = [
+        var columns = [
                     { 'title': 'Id',      'data': 'PageContentId' },
                     { 'title': 'Tag',     'data': 'PageTag'       },
                     { 'title': 'Title',   'data': 'Title'         },
@@ -29,10 +20,7 @@
                     { 'title': '',        'data': '',        'render': renderEditLink    }
         ];
 
-        var headerRow = $('#contentTable thead tr:last');
-        for (var i = 0; i < commonStatsColumns.length; ++i) {
-            headerRow.append('<th></th>');
-        }
+        addDataTableHeaderCells('#contentTable', columns);
 
         $(function() {
             $('#contentTable').dataTable({
@@ -45,7 +33,7 @@
                 'ordering': false,
                 'paging': false,
                 'searching': false,
-                'columns': commonStatsColumns
+                'columns': columns
             });
         });
 
@@ -58,7 +46,7 @@
         function renderEditLink(data, type, row) {
             return type === 'display'
                 ? '<a href="/Admin/Content/Edit/' + row.PageContentId + '">edit</a>'
-                : 0;
+                : '';
         }
     </script>
 }
