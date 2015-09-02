@@ -9,6 +9,9 @@ namespace Tcbcsl.Presentation
         public static void RegisterMappings()
         {
             Mapper.CreateMap<PageContent, PageContentEditModel>();
+
+            Mapper.CreateMap<PageContentEditModel, PageContent>()
+                  .ForMember(pc => pc.PageContentId, exp => exp.Ignore());
         }
     }
 }

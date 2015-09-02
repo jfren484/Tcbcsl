@@ -1,5 +1,4 @@
-﻿@model List<Tcbcsl.Data.Entities.PageContent>
-@{
+﻿@{
     const string title = "Manage Content";
     ViewBag.Title = title;
 }
@@ -13,11 +12,11 @@
 {
     <script>
         var columns = [
-                    { 'title': 'Id',      'data': 'PageContentId' },
-                    { 'title': 'Tag',     'data': 'PageTag'       },
-                    { 'title': 'Title',   'data': 'Title'         },
-                    { 'title': 'Content', 'data': 'Content', 'render': renderContentCell },
-                    { 'title': '',        'data': '',        'render': renderEditLink    }
+            { 'title': 'Id', 'data': 'PageContentId' },
+            { 'title': 'Tag', 'data': 'PageTag' },
+            { 'title': 'Title', 'data': 'Title' },
+            { 'title': 'Content', 'data': 'Content', 'render': renderContentCell },
+            { 'title': '', 'data': '', 'render': renderEditLink }
         ];
 
         addDataTableHeaderCells('#contentTable', columns);

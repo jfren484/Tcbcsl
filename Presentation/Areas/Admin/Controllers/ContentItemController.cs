@@ -53,10 +53,21 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             return View(model);
         }
 
-        [Route("Edit")]
-        public ActionResult Edit(PageContentEditModel model)
+        [HttpPost]
+        [Route("Edit/{id:int}")]
+        public ActionResult Edit(int id, PageContentEditModel model)
         {
-            return View(model);
+            var contentItem = DbContext.PageContents.SingleOrDefault(pc => pc.PageContentId == id);
+            if (contentItem == null)
+            {
+                return HttpNotFound();
+            }
+
+            Mapper.Map(model, contentItem);
+            // TODO: set modby, moddate
+            DbContext.SaveChanges();
+
+            return RedirectToAction("List");
         }
 
         #endregion

@@ -2,12 +2,6 @@
 body {
   padding-top: 50px;
 }
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-  max-width: 280px;
-}
 /* Fix DataTables page length formatting */
 .dataTables_length {
   padding-top: 5px;
@@ -99,6 +93,9 @@ textarea {
 }
 .content-list-table td .partial-content {
   max-height: 10em;
+}
+.form-with-validation {
+  /* Used for selecting */
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .grid4321:nth-child(2n + 1),

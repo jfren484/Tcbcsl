@@ -1,10 +1,25 @@
-﻿namespace Tcbcsl.Presentation.Areas.Admin.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+
+namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
     public class PageContentEditModel : EditModelBase
     {
-            public int PageContentId { get; set; }
-            public string PageTag { get; set; }
-            public string Title { get; set; }
-            public string Content { get; set; }
+        public int PageContentId { get; set; }
+
+        [MaxLength(30), Required]
+        [RegularExpression("^\\S+$", ErrorMessage = "Tag may not contain whitespace")]
+        [Display(Name = "Tag")]
+        [UIHint("TextSingleLine")]
+        public string PageTag { get; set; }
+
+        [MaxLength(50), Required]
+        [UIHint("TextSingleLine")]
+        public string Title { get; set; }
+
+        [Required]
+        [UIHint("TextMultiLine")]
+        [AllowHtml]
+        public string Content { get; set; }
     }
 }

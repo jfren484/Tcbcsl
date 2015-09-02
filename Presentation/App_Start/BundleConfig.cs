@@ -17,6 +17,9 @@ namespace Tcbcsl.Presentation
                 "~/Scripts/site.js",
                 "~/Scripts/stats.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/admin").Include(
+                "~/Scripts/admin.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery.validate*"));
 
