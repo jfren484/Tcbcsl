@@ -1,25 +1,19 @@
 ﻿@model PageContentEditModel
 @{
-    var title = Model.IsCreate ? "Create Content Item" : "Edit " + Model.Title;
+    var title = Model.PageContentId == 0 ? "Create Content Item" : "Edit " + Model.Title;
     ViewBag.Title = title;
 }
 <div class="well">
     @using (Html.BeginForm("Edit", "ContentItem", FormMethod.Post, new {@class = "form-horizontal form-with-validation"}))
     {
         @Html.HiddenFor(m => m.PageContentId)
-        @Html.HiddenFor(m => m.IsCreate)
 
         <fieldset>
             <legend>@title</legend>
             @Html.EditorFor(m => m.PageTag)
             @Html.EditorFor(m => m.Title)
             @Html.EditorFor(m => m.Content)
-            <div class="form-group">
-                <div class="col-sm-10 col-sm-offset-2">
-                    <button type="reset" class="btn btn-default">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            </div>
+            @Html.Partial("_FormCancelSubmit", Url.Action("List"))
         </fieldset>
     }
 </div>

@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Tcbcsl.Presentation.Areas.Admin.Models;
-using System;
 using Tcbcsl.Data.Entities;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
@@ -20,13 +18,22 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             return View();
         }
 
-        [HttpPost]
+        //[HttpPost]
         [Route("Data")]
         public JsonResult Data()
         {
-            var data = Mapper.Map<List<PageContentEditModel>>(DbContext.PageContents.OrderBy(pc => pc.PageContentId));
+            var data = DbContext.PageContents
+                                .OrderBy(pc => pc.PageContentId)
+                                .ToList()
+                                .Select(pc =>
+                                        {
+                                            var model = Mapper.Map<PageContentEditModel>(pc);
+                                            model.EditUrl = Url.Action("Edit", new {id = model.PageContentId});
 
-            return Json(data);
+                                            return model;
+                                        });
+
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -36,9 +43,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Create")]
         public ActionResult Create()
         {
-            var model = new PageContentEditModel {IsCreate = true};
-
-            return View("Edit", model);
+            return View("Edit", new PageContentEditModel());
         }
 
         [HttpPost]

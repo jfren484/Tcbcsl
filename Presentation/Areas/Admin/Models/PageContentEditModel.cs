@@ -5,6 +5,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
     public class PageContentEditModel : EditModelBase
     {
+        [Display(Name = "Id")]
         public int PageContentId { get; set; }
 
         [MaxLength(30), Required]

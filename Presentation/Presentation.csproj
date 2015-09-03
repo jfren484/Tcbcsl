@@ -204,7 +204,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminControllerBase.cs" />
     <Compile Include="Areas\Admin\Controllers\ContentItemController.cs" />
-    <Compile Include="Areas\Admin\Models\EditModelBase.cs" />
+    <Compile Include="Areas\Admin\Models\SharedModels.cs" />
     <Compile Include="Areas\Admin\Models\PageContentEditModel.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -319,6 +319,8 @@
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\TextSingleLine.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\TextMultiLine.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_AdminListTable.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_FormCancelSubmit.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />

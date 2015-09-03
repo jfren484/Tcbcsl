@@ -1,8 +1,12 @@
 ﻿@import "variables.less";
 
+/* ReSharper disable DeclarationIsEmpty */
+
 @border-size-tiny: 1px;
 
 @calendarMonthWidth: 275px;
+
+@spacing-default: 5px;
 
 /* Save room for nav-bar */
 body {
@@ -11,14 +15,29 @@ body {
 
 /* Fix DataTables page length formatting */
 .dataTables_length {
-    padding-top: 5px;
+    padding-top: @spacing-default;
 }
+
+/* Classes used for selecting elements */
+.form-with-validation { /**/ }
+.html-editor { /**/ }
 
 .address-map {
     .well {
         margin: 0;
         padding: 4px 10px;
         text-align: center;
+    }
+}
+
+.admin-list-table td {
+    overflow: hidden;
+
+    .partial-content {
+        max-height: 10em;
+        overflow-y: scroll;
+        padding: @spacing-default;
+        margin: -@spacing-default;
     }
 }
 
@@ -130,18 +149,6 @@ body {
     }
 }
 
-.content-list-table td {
-    overflow: hidden;
-
-    .partial-content {
-        max-height: 10em;
-    }
-}
-
-.form-with-validation {
-    /* Used for selecting */
-}
-
 @media (min-width: @screen-sm-min) {
     @media (max-width: @screen-sm-max) {
         .grid4321:nth-child(2n + 1),
@@ -177,8 +184,8 @@ body {
 }
 
 .list-group-inside {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: @spacing-default;
+    margin-bottom: @spacing-default;
 }
 
 .panel-heading {
@@ -205,6 +212,10 @@ body {
     user-select: none;
 }
 
+.return-link {
+    float: right;
+}
+
 .schedule-game {
     margin-bottom: @line-height-computed;
     border: solid @border-size-tiny @table-border-color;
@@ -222,14 +233,14 @@ body {
         border-bottom: solid @border-size-tiny @table-border-color;
 
         .schedule-game-cell {
-            padding: 0 5px;
+            padding: 0 @spacing-default;
             font-weight: bold;
         }
     }
 
     .game-body {
         .schedule-game-cell {
-            padding: 10px 5px;
+            padding: (@spacing-default * 2) @spacing-default;
         }
 
         .winner {
@@ -263,7 +274,7 @@ body {
         border-radius: @border-radius-base;
         box-shadow: 2px 2px 3px @table-border-color;
         padding: 0 8px;
-        margin-right: 5px;
+        margin-right: @spacing-default;
     }
 
     & > div {

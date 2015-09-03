@@ -89,7 +89,7 @@ function statstable_RenderTeamLink(data, type, row) {
 
 //#endregion
 
-//#region TableRendering Functions
+//#region Table-Rendering Functions
 
 function statstable_RenderBase(options) {
     addDataTableHeaderCells(options.tableSelector, options.columns);

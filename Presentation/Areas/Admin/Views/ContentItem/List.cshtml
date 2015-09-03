@@ -1,40 +1,29 @@
-﻿@{
+﻿@model PageContentEditModel
+@{
     const string title = "Manage Content";
     ViewBag.Title = title;
 }
 <h2>@title</h2>
-<a href="/Admin/Content/Create"><span class="glyphicon glyphicon-plus"></span> Add new Content</a>
-<table id="contentTable" class="table table-bordered table-condensed table-striped content-list-table">
-    <thead>
-        <tr class="info"></tr>
-    </thead>
-</table>
+@Html.Partial("_AdminListTable", new AdminListTableModel {ListItemName = "Content", CreateItemUrl = Url.Action("Create")})
+
 @section scripts
 {
     <script>
         var columns = [
-            { 'title': 'Id',      'data': 'PageContentId' },
-            { 'title': 'Tag',     'data': 'PageTag' },
-            { 'title': 'Title',   'data': 'Title' },
-            { 'title': 'Content', 'data': 'Content', 'render': renderPartialContent },
-            { 'title': '',        'data': 'EditUrl', 'render': renderEditLink }
+            { 'title': '@Html.DisplayNameFor(m => m.PageContentId)', 'data': 'PageContentId' },
+            { 'title': '@Html.DisplayNameFor(m => m.PageTag)',       'data': 'PageTag' },
+            { 'title': '@Html.DisplayNameFor(m => m.Title)',         'data': 'Title' },
+            { 'title': '@Html.DisplayNameFor(m => m.Content)',       'data': 'Content',      'render': renderPartialContent },
+            { 'title': '@Html.DisplayNameFor(m => m.AuditDetails)',  'data': 'AuditDetails', 'render': renderAuditData },
+            { 'title': '@Html.DisplayNameFor(m => m.EditUrl)',       'data': 'EditUrl',      'render': renderEditLink }
         ];
 
-        addDataTableHeaderCells('#contentTable', columns);
-
-        $(function() {
-            $('#contentTable').dataTable({
-                'ajax': {
-                    'url': '/Admin/Content/Data',
-                    'type': 'POST',
-                    'dataSrc': ''
-                },
-                'info': false,
-                'ordering': false,
-                'paging': false,
-                'searching': false,
-                'columns': columns
-            });
+        datatable_RenderList({
+            'tableSelector': '.admin-list-table',
+            'dataUrl': '@Url.Action("Data")',
+            'columns': columns,
+            'sorting': false,
+            'paging': false
         });
     </script>
 }

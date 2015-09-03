@@ -8,11 +8,19 @@ namespace Tcbcsl.Presentation
     {
         public static void RegisterMappings()
         {
+            Mapper.CreateMap<EntityModifiable, AuditDetailsModel>();
+
             Mapper.CreateMap<PageContent, PageContentEditModel>()
-                  .ForMember(m => m.EditUrl, exp => exp.MapFrom(pc => $"/Admin/Conent/Edit/{pc.PageContentId}"));
+                  .ForMember(m => m.EditUrl, exp => exp.Ignore())
+                  .ForMember(m => m.AuditDetails, exp => exp.MapFrom(pc => Mapper.Map<AuditDetailsModel>(pc)));
 
             Mapper.CreateMap<PageContentEditModel, PageContent>()
-                  .ForMember(pc => pc.PageContentId, exp => exp.Ignore());
+                  .ForMember(pc => pc.CreatedBy, exp => exp.Ignore())
+                  .ForMember(pc => pc.Created, exp => exp.Ignore())
+                  .ForMember(pc => pc.Modified, exp => exp.Ignore())
+                  .ForMember(pc => pc.ModifiedBy, exp => exp.Ignore());
+
+            Mapper.AssertConfigurationIsValid();
         }
     }
 }

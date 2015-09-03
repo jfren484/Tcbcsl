@@ -27,14 +27,46 @@
     tinymce.init({ selector: '.html-editor' });
 });
 
+//#region Table-Rendering Functions
+
+function datatable_RenderList(options) {
+    addDataTableHeaderCells(options.tableSelector, options.columns);
+
+    $(options.tableSelector).dataTable({
+        'ajax': {
+            'url': options.dataUrl,
+            'type': 'POST',
+            'dataSrc': ''
+        },
+        'info': options.paging,
+        'ordering': options.sorting,
+        'paging': options.paging,
+        'pagingType': 'full_numbers',
+        'pageLength': 25,
+        'searching': false,
+        'order': options.order,
+        'columns': options.columns
+    });
+}
+
+function renderAuditData(data, type) {
+    return type === 'display'
+        ? 'Created by ' + data.CreatedBy + ' on ' + data.Created + (data.Modified
+            ? '<br />Last modified by ' + data.ModifiedBy + ' on ' + data.Modified
+            : '')
+        : data;
+}
+
+function renderEditLink(data, type) {
+    return type === 'display'
+        ? '<a href="' + data + '" title="edit"><span class="glyphicon glyphicon-edit"></span></a>'
+        : data;
+}
+
 function renderPartialContent(data, type) {
     return type === 'display'
         ? '<div class="partial-content">' + data + '</div>'
         : data;
 }
 
-function renderEditLink(data, type) {
-    return type === 'display'
-        ? '<a href="' + data + '">edit</a>'
-        : data;
-}
+//#endregion
