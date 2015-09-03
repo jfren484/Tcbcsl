@@ -3,6 +3,7 @@
     ViewBag.Title = title;
 }
 <h2>@title</h2>
+<a href="/Admin/Content/Create"><span class="glyphicon glyphicon-plus"></span> Add new Content</a>
 <table id="contentTable" class="table table-bordered table-condensed table-striped content-list-table">
     <thead>
         <tr class="info"></tr>
@@ -12,11 +13,11 @@
 {
     <script>
         var columns = [
-            { 'title': 'Id', 'data': 'PageContentId' },
-            { 'title': 'Tag', 'data': 'PageTag' },
-            { 'title': 'Title', 'data': 'Title' },
-            { 'title': 'Content', 'data': 'Content', 'render': renderContentCell },
-            { 'title': '', 'data': '', 'render': renderEditLink }
+            { 'title': 'Id',      'data': 'PageContentId' },
+            { 'title': 'Tag',     'data': 'PageTag' },
+            { 'title': 'Title',   'data': 'Title' },
+            { 'title': 'Content', 'data': 'Content', 'render': renderPartialContent },
+            { 'title': '',        'data': 'EditUrl', 'render': renderEditLink }
         ];
 
         addDataTableHeaderCells('#contentTable', columns);
@@ -35,17 +36,5 @@
                 'columns': columns
             });
         });
-
-        function renderContentCell(data, type) {
-            return type === 'display'
-                ? '<div class="partial-content">' + data + '</div>'
-                : data;
-        }
-
-        function renderEditLink(data, type, row) {
-            return type === 'display'
-                ? '<a href="/Admin/Content/Edit/' + row.PageContentId + '">edit</a>'
-                : '';
-        }
     </script>
 }

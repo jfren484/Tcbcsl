@@ -8,7 +8,8 @@ namespace Tcbcsl.Presentation
     {
         public static void RegisterMappings()
         {
-            Mapper.CreateMap<PageContent, PageContentEditModel>();
+            Mapper.CreateMap<PageContent, PageContentEditModel>()
+                  .ForMember(m => m.EditUrl, exp => exp.MapFrom(pc => $"/Admin/Conent/Edit/{pc.PageContentId}"));
 
             Mapper.CreateMap<PageContentEditModel, PageContent>()
                   .ForMember(pc => pc.PageContentId, exp => exp.Ignore());

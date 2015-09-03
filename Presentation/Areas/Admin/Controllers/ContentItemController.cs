@@ -3,12 +3,14 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Tcbcsl.Presentation.Areas.Admin.Models;
+using System;
+using Tcbcsl.Data.Entities;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
     [RouteArea("Admin")]
     [RoutePrefix("Content")]
-    public class ContentItemController : Presentation.Controllers.ControllerBase
+    public class ContentItemController : AdminControllerBase
     {
         #region List
 
@@ -39,6 +41,18 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             return View("Edit", model);
         }
 
+        [HttpPost]
+        [Route("Create")]
+        public ActionResult Create(PageContentEditModel model)
+        {
+            var contentItem = Mapper.Map<PageContent>(model);
+            UpdateCreatedFields(contentItem);
+            DbContext.PageContents.Add(contentItem);
+            DbContext.SaveChanges();
+
+            return RedirectToAction("List");
+        }
+
         [Route("Edit/{id:int}")]
         public ActionResult Edit(int id)
         {
@@ -64,7 +78,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             Mapper.Map(model, contentItem);
-            // TODO: set modby, moddate
+            UpdateModifiedFields(contentItem);
             DbContext.SaveChanges();
 
             return RedirectToAction("List");

@@ -18,6 +18,7 @@ namespace Tcbcsl.Presentation
                 "~/Scripts/stats.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/admin").Include(
+                "~/Scripts/tinymce/tinymce.js",
                 "~/Scripts/admin.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

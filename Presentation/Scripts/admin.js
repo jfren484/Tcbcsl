@@ -23,4 +23,18 @@
             baseSuccess(label);
         };
     }
+
+    tinymce.init({ selector: '.html-editor' });
 });
+
+function renderPartialContent(data, type) {
+    return type === 'display'
+        ? '<div class="partial-content">' + data + '</div>'
+        : data;
+}
+
+function renderEditLink(data, type) {
+    return type === 'display'
+        ? '<a href="' + data + '">edit</a>'
+        : data;
+}
