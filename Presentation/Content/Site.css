@@ -1,4 +1,7 @@
 ﻿/* ReSharper disable DeclarationIsEmpty */
+a {
+  cursor: pointer;
+}
 /* Save room for nav-bar */
 body {
   padding-top: 50px;
@@ -19,10 +22,10 @@ body {
   padding: 4px 10px;
   text-align: center;
 }
-.admin-list-table td {
+.admin-list td {
   overflow: hidden;
 }
-.admin-list-table td .partial-content {
+.admin-list td .partial-content {
   max-height: 10em;
   overflow-y: scroll;
   padding: 5px;
@@ -104,6 +107,9 @@ body {
 }
 .coach-table td:last-child {
   white-space: normal;
+}
+.datatable-settings th {
+  display: none;
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .grid4321:nth-child(2n + 1),

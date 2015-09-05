@@ -8,7 +8,9 @@ namespace Tcbcsl.Presentation
     {
         public static void RegisterMappings()
         {
-            Mapper.CreateMap<EntityModifiable, AuditDetailsModel>();
+            Mapper.CreateMap<EntityModifiable, AuditDetailsModel>()
+                  .ForMember(m => m.Created, exp => exp.MapFrom(e => $"{e.Created:u}"))
+                  .ForMember(m => m.Modified, exp => exp.MapFrom(e => $"{e.Modified:u}"));
 
             Mapper.CreateMap<PageContent, PageContentEditModel>()
                   .ForMember(m => m.EditUrl, exp => exp.Ignore())

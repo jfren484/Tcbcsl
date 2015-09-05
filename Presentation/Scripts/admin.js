@@ -19,7 +19,7 @@
             // validation error messages as the plugin is going to remove it anyway
             label.parents('.form-group').removeClass('has-error');
 
-            // Call oldoriginal handler to do rest of the work
+            // Call original handler to do rest of the work
             baseSuccess(label);
         };
     }
@@ -32,29 +32,37 @@
 function datatable_RenderList(options) {
     addDataTableHeaderCells(options.tableSelector, options.columns);
 
-    $(options.tableSelector).dataTable({
+    var list = $('.datatable-settings th');
+    list.attr('colspan', options.columns.length);
+    for (var i = 0; i < options.columns.length - 1; ++i) {
+        $('<a class="column-toggle">')
+            .appendTo($('<div>').appendTo(list))
+            .attr('data-column', i)
+            .append(options.columns[i].title);
+
+        /*
+                    <label class="btn btn-primary active">
+                        <input type="checkbox" autocomplete="off" checked> Checkbox 1 (pre-checked)
+                    </label>
+         */
+    }
+
+    return $(options.tableSelector).DataTable({
         'ajax': {
             'url': options.dataUrl,
             'type': 'POST',
             'dataSrc': ''
         },
+        'columns': options.columns,
         'info': options.paging,
+        'order': options.order,
+        'orderCellsTop': false,
         'ordering': options.sorting,
+        'pageLength': 25,
         'paging': options.paging,
         'pagingType': 'full_numbers',
-        'pageLength': 25,
-        'searching': false,
-        'order': options.order,
-        'columns': options.columns
+        'searching': false
     });
-}
-
-function renderAuditData(data, type) {
-    return type === 'display'
-        ? 'Created by ' + data.CreatedBy + ' on ' + data.Created + (data.Modified
-            ? '<br />Last modified by ' + data.ModifiedBy + ' on ' + data.Modified
-            : '')
-        : data;
 }
 
 function renderEditLink(data, type) {

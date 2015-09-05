@@ -18,7 +18,7 @@ $(function() {
 });
 
 function addDataTableHeaderCells(tableSelector, columnArray) {
-    var headerRow = $(tableSelector + '>thead>tr:last');
+    var headerRow = $(tableSelector + '>thead>tr.datatable-headers');
     for (var i = 0; i < columnArray.length; ++i) {
         headerRow.append('<th></th>');
     }

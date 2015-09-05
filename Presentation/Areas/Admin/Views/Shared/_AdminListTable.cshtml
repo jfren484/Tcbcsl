@@ -1,7 +1,22 @@
 ﻿@model AdminListTableModel
 <a href="@Model.CreateItemUrl"><span class="glyphicon glyphicon-plus"></span> Add new @Model.ListItemName</a>
-<table class="table table-bordered table-condensed table-striped admin-list-table">
+<table class="table table-bordered table-condensed table-striped admin-list">
     <thead>
-        <tr class="info"></tr>
+        <tr class="info datatable-headers"></tr>
+        <tr class="info datatable-settings">
+            <th>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                        <input type="checkbox" autocomplete="off" checked> Checkbox 1 (pre-checked)
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off"> Checkbox 2
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off"> Checkbox 3
+                    </label>
+                </div>
+            </th>
+        </tr>
     </thead>
 </table>

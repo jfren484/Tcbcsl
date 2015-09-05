@@ -8,6 +8,10 @@
 
 @spacing-default: 5px;
 
+a {
+    cursor: pointer;
+}
+
 /* Save room for nav-bar */
 body {
     padding-top: @navbar-height;
@@ -30,14 +34,16 @@ body {
     }
 }
 
-.admin-list-table td {
-    overflow: hidden;
+.admin-list {
+    td {
+        overflow: hidden;
 
-    .partial-content {
-        max-height: 10em;
-        overflow-y: scroll;
-        padding: @spacing-default;
-        margin: -@spacing-default;
+        .partial-content {
+            max-height: 10em;
+            overflow-y: scroll;
+            padding: @spacing-default;
+            margin: -@spacing-default;
+        }
     }
 }
 
@@ -147,6 +153,10 @@ body {
             white-space: normal;
         }
     }
+}
+
+.datatable-settings th {
+    display: none;
 }
 
 @media (min-width: @screen-sm-min) {

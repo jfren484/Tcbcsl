@@ -18,7 +18,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             return View();
         }
 
-        //[HttpPost]
+        [HttpPost]
         [Route("Data")]
         public JsonResult Data()
         {
@@ -33,7 +33,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                             return model;
                                         });
 
-            return Json(data, JsonRequestBehavior.AllowGet);
+            return Json(data);
         }
 
         #endregion
