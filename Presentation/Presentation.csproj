@@ -618,9 +618,7 @@
     <None Include="Views\Team\View.cshtml" />
     <None Include="Web.Sensitive.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\Admin\Views\AdminControllerBase\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config">
       <SubType>Designer</SubType>

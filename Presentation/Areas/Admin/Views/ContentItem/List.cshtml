@@ -18,25 +18,15 @@
             { 'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'data': 'AuditDetails.Created',    'visible': false},
             { 'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'data': 'AuditDetails.ModifiedBy', 'visible': false},
             { 'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'data': 'AuditDetails.Modified',   'visible': false},
-            { 'title': '<a class="admin-list-settings"><span class="glyphicon glyphicon-cog"></span></a>',                 'data': 'EditUrl', 'render': renderEditLink }
+            { 'title': settingsLink,                                           'data': 'EditUrl',                 'render':  renderEditLink }
         ];
 
-        var listTable = datatable_RenderList({
+        datatable_RenderList({
             'tableSelector': '.admin-list',
             'dataUrl': '@Url.Action("Data")',
             'columns': columns,
             'sorting': false,
             'paging': false
-        });
-
-        $('.admin-list-settings').on('click', function () {
-            $('.datatable-settings th').slideToggle();
-        });
-
-        $('a.column-toggle').on('click', function() {
-            var column = listTable.column($(this).attr('data-column'));
-
-            column.visible(!column.visible());
         });
     </script>
 }

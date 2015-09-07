@@ -155,8 +155,12 @@ body {
     }
 }
 
-.datatable-settings th {
+.datatable-settings {
     display: none;
+
+    th {
+        padding: (@spacing-default * 2) (@spacing-default * 4) !important
+    }
 }
 
 @media (min-width: @screen-sm-min) {

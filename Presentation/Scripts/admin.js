@@ -29,25 +29,31 @@
 
 //#region Table-Rendering Functions
 
+var settingsLink = '<a class="admin-list-settings"><span class="glyphicon glyphicon-cog"></span></a>';
+
 function datatable_RenderList(options) {
     addDataTableHeaderCells(options.tableSelector, options.columns);
 
-    var list = $('.datatable-settings th');
-    list.attr('colspan', options.columns.length);
+    $('.datatable-settings th').attr('colspan', options.columns.length);
+    var list = $('.datatable-settings th div.btn-group');
     for (var i = 0; i < options.columns.length - 1; ++i) {
-        $('<a class="column-toggle">')
-            .appendTo($('<div>').appendTo(list))
-            .attr('data-column', i)
-            .append(options.columns[i].title);
+        //$('<a class="column-toggle">')
+        //    .appendTo($('<div>').appendTo(list))
+        //    .attr('data-column', i)
+        //    .append(options.columns[i].title);
+        var label = $('<label class="btn btn-primary column-toggle">').appendTo(list);
+        label.attr('data-column', i);
 
-        /*
-                    <label class="btn btn-primary active">
-                        <input type="checkbox" autocomplete="off" checked> Checkbox 1 (pre-checked)
-                    </label>
-         */
+        var input = $('<input type="checkbox" autocomplete="off">').appendTo(label);
+        label.append(options.columns[i].title);
+
+        if (options.columns[i].visible !== false) {
+            label.addClass('active');
+            input.prop('checked', true);
+        }
     }
 
-    return $(options.tableSelector).DataTable({
+    $(options.tableSelector).DataTable({
         'ajax': {
             'url': options.dataUrl,
             'type': 'POST',
@@ -76,5 +82,20 @@ function renderPartialContent(data, type) {
         ? '<div class="partial-content">' + data + '</div>'
         : data;
 }
+
+//#endregion
+
+//#region List Table Settings Functions
+
+$('.admin-list').on('click', '.admin-list-settings', function () {
+    $('.datatable-settings').toggle();
+});
+
+$('.admin-list').on('click', '.column-toggle', function () {
+    var index = $(this).attr('data-column');
+    var column = $('.admin-list').DataTable().column(index);
+
+    column.visible(!column.visible());
+});
 
 //#endregion

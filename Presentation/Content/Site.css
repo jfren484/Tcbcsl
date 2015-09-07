@@ -108,8 +108,11 @@ body {
 .coach-table td:last-child {
   white-space: normal;
 }
-.datatable-settings th {
+.datatable-settings {
   display: none;
+}
+.datatable-settings th {
+  padding: 10px 20px !important;
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .grid4321:nth-child(2n + 1),
