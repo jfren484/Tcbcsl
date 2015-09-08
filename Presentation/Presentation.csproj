@@ -207,8 +207,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminControllerBase.cs" />
+    <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ContentItemController.cs" />
     <Compile Include="Areas\Admin\Models\AuditDetailsModel.cs" />
+    <Compile Include="Areas\Admin\Models\NewsEditModel.cs" />
     <Compile Include="Areas\Admin\Models\SharedModels.cs" />
     <Compile Include="Areas\Admin\Models\PageContentEditModel.cs" />
     <Compile Include="Consts.cs" />
@@ -326,6 +328,8 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_AdminListTable.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_FormCancelSubmit.cshtml" />
+    <Content Include="Areas\Admin\Views\News\List.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />

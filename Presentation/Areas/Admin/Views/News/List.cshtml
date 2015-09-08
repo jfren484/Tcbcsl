@@ -1,0 +1,35 @@
+﻿@model NewsEditModel
+@{
+    const string title = "Manage News";
+    ViewBag.Title = title;
+}
+<h2>@title</h2>
+@Html.Partial("_AdminListTable", new AdminListTableModel {ListItemName = "News", CreateItemUrl = Url.Action("Create")})
+
+@section scripts
+{
+    <script>
+        var columns = [
+            { 'title': '@Html.DisplayNameFor(m => m.NewsItemId)',              'data': 'NewsItemId',              'visible': false },
+            { 'title': '@Html.DisplayNameFor(m => m.TeamName)',                'data': 'TeamName' },
+            { 'title': '@Html.DisplayNameFor(m => m.IsActive)',                'data': 'IsActive',                'render': renderActiveCell },
+            { 'title': '@Html.DisplayNameFor(m => m.StartDate)',               'data': 'StartDate' },
+            { 'title': '@Html.DisplayNameFor(m => m.EndDate)',                 'data': 'EndDate' },
+            { 'title': '@Html.DisplayNameFor(m => m.Subject)',                 'data': 'Subject' },
+            { 'title': '@Html.DisplayNameFor(m => m.Content)',                 'data': 'Content',                 'render': renderPartialContent },
+            { 'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'data': 'AuditDetails.CreatedBy',  'visible': false },
+            { 'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'data': 'AuditDetails.Created',    'visible': false },
+            { 'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'data': 'AuditDetails.ModifiedBy', 'visible': false },
+            { 'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'data': 'AuditDetails.Modified',   'visible': false },
+            { 'title': settingsLink,                                           'data': 'EditUrl',                 'orderable': false, 'render':  renderEditLink }
+        ];
+
+        datatable_RenderList({
+            'tableSelector': '.admin-list',
+            'dataUrl': '@Url.Action("Data")',
+            'columns': columns,
+            'sorting': true,
+            'paging': true
+        });
+    </script>
+}

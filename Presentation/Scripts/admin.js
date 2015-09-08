@@ -34,24 +34,7 @@ var settingsLink = '<a class="admin-list-settings"><span class="glyphicon glyphi
 function datatable_RenderList(options) {
     addDataTableHeaderCells(options.tableSelector, options.columns);
 
-    $('.datatable-settings th').attr('colspan', options.columns.length);
-    var list = $('.datatable-settings th div.btn-group');
-    for (var i = 0; i < options.columns.length - 1; ++i) {
-        //$('<a class="column-toggle">')
-        //    .appendTo($('<div>').appendTo(list))
-        //    .attr('data-column', i)
-        //    .append(options.columns[i].title);
-        var label = $('<label class="btn btn-primary column-toggle">').appendTo(list);
-        label.attr('data-column', i);
-
-        var input = $('<input type="checkbox" autocomplete="off">').appendTo(label);
-        label.append(options.columns[i].title);
-
-        if (options.columns[i].visible !== false) {
-            label.addClass('active');
-            input.prop('checked', true);
-        }
-    }
+    datatable_AddTableSettingsColumns(options.columns);
 
     $(options.tableSelector).DataTable({
         'ajax': {
@@ -69,6 +52,29 @@ function datatable_RenderList(options) {
         'pagingType': 'full_numbers',
         'searching': false
     });
+}
+
+function datatable_AddTableSettingsColumns(columns) {
+    $('.datatable-settings th').attr('colspan', columns.length);
+    var list = $('.datatable-settings th div.btn-group');
+    for (var i = 0; i < columns.length - 1; ++i) {
+        var label = $('<label class="btn btn-primary column-toggle">').appendTo(list);
+        label.attr('data-column', i);
+
+        var input = $('<input type="checkbox" autocomplete="off">').appendTo(label);
+        label.append(columns[i].title);
+
+        if (columns[i].visible !== false) {
+            label.addClass('active');
+            input.prop('checked', true);
+        }
+    }
+}
+
+function renderActiveCell(data, type) {
+    return type === 'display'
+        ? '<span class="glyphicon glyphicon-' + (data ? 'ok' : 'remove') + '"></span>'
+        : data;
 }
 
 function renderEditLink(data, type) {

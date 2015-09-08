@@ -1,0 +1,18 @@
+﻿@model NewsEditModel
+@{
+    var title = (Model.NewsItemId == 0 ? "Create" : "Edit") + " News Item";
+    ViewBag.Title = title;
+}
+<div class="well">
+    @using (Html.BeginForm("Edit", "News", FormMethod.Post, new {@class = "form-horizontal form-with-validation"}))
+    {
+        @Html.HiddenFor(m => m.NewsItemId)
+
+        <fieldset>
+            <legend>@title</legend>
+            @Html.EditorFor(m => m.Subject)
+            @Html.EditorFor(m => m.Content)
+            @Html.Partial("_FormCancelSubmit", Url.Action("List"))
+        </fieldset>
+    }
+</div>
