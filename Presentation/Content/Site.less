@@ -159,8 +159,20 @@ body {
     }
 }
 
+.datatable-headers {
+    th:last-child {
+        padding-right: @spacing-default !important
+    }
+}
+
 .datatable-settings {
     display: none;
+
+    .admin-list-settings {
+        float: right;
+        margin-top: -@spacing-default;
+        margin-right: -(@spacing-default * 3);
+    }
 
     th {
         padding: (@spacing-default * 2) (@spacing-default * 4) !important

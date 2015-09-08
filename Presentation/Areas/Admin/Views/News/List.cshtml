@@ -10,18 +10,18 @@
 {
     <script>
         var columns = [
-            { 'title': '@Html.DisplayNameFor(m => m.NewsItemId)',              'data': 'NewsItemId',              'visible': false },
-            { 'title': '@Html.DisplayNameFor(m => m.TeamName)',                'data': 'TeamName' },
-            { 'title': '@Html.DisplayNameFor(m => m.IsActive)',                'data': 'IsActive',                'render': renderActiveCell },
-            { 'title': '@Html.DisplayNameFor(m => m.StartDate)',               'data': 'StartDate' },
-            { 'title': '@Html.DisplayNameFor(m => m.EndDate)',                 'data': 'EndDate' },
-            { 'title': '@Html.DisplayNameFor(m => m.Subject)',                 'data': 'Subject' },
-            { 'title': '@Html.DisplayNameFor(m => m.Content)',                 'data': 'Content',                 'render': renderPartialContent },
-            { 'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'data': 'AuditDetails.CreatedBy',  'visible': false },
-            { 'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'data': 'AuditDetails.Created',    'visible': false },
-            { 'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'data': 'AuditDetails.ModifiedBy', 'visible': false },
-            { 'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'data': 'AuditDetails.Modified',   'visible': false },
-            { 'title': settingsLink,                                           'data': 'EditUrl',                 'orderable': false, 'render':  renderEditLink }
+            { 'data': 'NewsItemId',              'title': '@Html.DisplayNameFor(m => m.NewsItemId)',              'visible': false },
+            { 'data': 'TeamName',                'title': '@Html.DisplayNameFor(m => m.TeamName)' },
+            { 'data': 'IsActive',                'title': '@Html.DisplayNameFor(m => m.IsActive)',                'render': renderActiveCell },
+            { 'data': 'StartDate',               'title': '@Html.DisplayNameFor(m => m.StartDate)' },
+            { 'data': 'EndDate',                 'title': '@Html.DisplayNameFor(m => m.EndDate)' },
+            { 'data': 'Subject',                 'title': '@Html.DisplayNameFor(m => m.Subject)' },
+            { 'data': 'Content',                 'title': '@Html.DisplayNameFor(m => m.Content)',                 'render': renderPartialContent },
+            { 'data': 'AuditDetails.CreatedBy',  'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible': false },
+            { 'data': 'AuditDetails.Created',    'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'visible': false },
+            { 'data': 'AuditDetails.ModifiedBy', 'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'visible': false },
+            { 'data': 'AuditDetails.Modified',   'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'visible': false },
+            { 'data': 'EditUrl',                 'orderable': false,                                              'render': renderEditLink }
         ];
 
         datatable_RenderList({

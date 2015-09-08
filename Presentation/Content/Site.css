@@ -111,8 +111,16 @@ body {
 .coach-table td:last-child {
   white-space: normal;
 }
+.datatable-headers th:last-child {
+  padding-right: 5px !important;
+}
 .datatable-settings {
   display: none;
+}
+.datatable-settings .admin-list-settings {
+  float: right;
+  margin-top: -5px;
+  margin-right: -15px;
 }
 .datatable-settings th {
   padding: 10px 20px !important;

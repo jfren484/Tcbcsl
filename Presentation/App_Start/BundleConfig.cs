@@ -14,6 +14,7 @@ namespace Tcbcsl.Presentation
                 "~/Scripts/DataTables/dataTables.bootstrap.js",
                 "~/Scripts/respond.js",
                 "~/Scripts/moment.js",
+                "~/Scripts/knockout-{version}.debug.js",
                 "~/Scripts/site.js",
                 "~/Scripts/stats.js"));
 

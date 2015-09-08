@@ -1,4 +1,6 @@
-﻿$(function () {
+﻿//#region Handle Bootstrap classes for form controls during validation
+
+$(function () {
     var validationForms = $('.form-with-validation');
     if (validationForms.length > 0) {
         var settings = $.data(validationForms[0]).validator.settings,
@@ -27,14 +29,14 @@
     tinymce.init({ selector: '.html-editor' });
 });
 
+//#endregion
+
 //#region Table-Rendering Functions
 
-var settingsLink = '<a class="admin-list-settings"><span class="glyphicon glyphicon-cog"></span></a>';
-
 function datatable_RenderList(options) {
-    addDataTableHeaderCells(options.tableSelector, options.columns);
-
-    datatable_AddTableSettingsColumns(options.columns);
+    ko.applyBindings({
+        columns: options.columns.slice(0, -1)
+    });
 
     $(options.tableSelector).DataTable({
         'ajax': {
@@ -52,23 +54,6 @@ function datatable_RenderList(options) {
         'pagingType': 'full_numbers',
         'searching': false
     });
-}
-
-function datatable_AddTableSettingsColumns(columns) {
-    $('.datatable-settings th').attr('colspan', columns.length);
-    var list = $('.datatable-settings th div.btn-group');
-    for (var i = 0; i < columns.length - 1; ++i) {
-        var label = $('<label class="btn btn-primary column-toggle">').appendTo(list);
-        label.attr('data-column', i);
-
-        var input = $('<input type="checkbox" autocomplete="off">').appendTo(label);
-        label.append(columns[i].title);
-
-        if (columns[i].visible !== false) {
-            label.addClass('active');
-            input.prop('checked', true);
-        }
-    }
 }
 
 function renderActiveCell(data, type) {
