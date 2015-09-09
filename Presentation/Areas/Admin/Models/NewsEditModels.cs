@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
@@ -22,10 +25,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public bool IsActive { get; set; }
 
         [Display(Name = "Team")]
-        public int? TeamId { get; set; }
-
-        [Display(Name = "Team")]
-        public string TeamName { get; set; }
+        public NewsEditTeamModel TeamModel { get; set; }
 
         [MaxLength(255)]
         [UIHint("TextSingleLine")]
@@ -35,5 +35,17 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [UIHint("TextMultiLine")]
         [AllowHtml]
         public string Content { get; set; }
+    }
+
+    public class NewsEditTeamListModel
+    {
+        public int? TeamId { get; set; }
+        public string TeamName { get; set; }
+    }
+
+    public class NewsEditTeamModel : NewsEditTeamListModel
+    {
+        public bool IsReadonly { get; set; }
+        public List<NewsEditTeamListModel> Teams { get; set; }
     }
 }

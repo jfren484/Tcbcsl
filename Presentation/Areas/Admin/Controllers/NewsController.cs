@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Tcbcsl.Presentation.Areas.Admin.Models;
@@ -23,7 +24,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public JsonResult Data()
         {
             var data = DbContext.NewsItems
-                                .OrderBy(n => n.Created)
+                                .OrderByDescending(n => n.Created)
                                 .ToList()
                                 .Select(n =>
                                         {
@@ -43,7 +44,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Create")]
         public ActionResult Create()
         {
-            return View("Edit", new NewsEditModel());
+            return View("Edit", new NewsEditModel {TeamModel = new NewsEditTeamModel {Teams = GetTeams(Consts.CurrentYear)}});
         }
 
         [HttpPost]
@@ -68,6 +69,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             var model = Mapper.Map<NewsEditModel>(newsItem);
+            model.TeamModel.Teams = GetTeams(newsItem.Created.Year);
 
             return View(model);
         }
@@ -87,6 +89,21 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             DbContext.SaveChanges();
 
             return RedirectToAction("List");
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private List<NewsEditTeamListModel> GetTeams(int year)
+        {
+            return DbContext.TeamYears
+                            .Where(ty => ty.Year == year && ty.DivisionYear.IsInLeague)
+                            .Select(ty => new NewsEditTeamListModel {TeamId = ty.TeamId, TeamName = ty.FullName})
+                            .ToList()
+                            .Concat(new[] {new NewsEditTeamListModel {TeamName = Consts.LeagueNameForList}})
+                            .OrderBy(t => t.TeamName)
+                            .ToList();
         }
 
         #endregion

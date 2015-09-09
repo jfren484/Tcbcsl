@@ -189,23 +189,3 @@ function statstable_RenderTeamStats(data, sortColumn) {
 }
 
 //#endregion
-
-//#region Helpers
-
-function findColumnIndex(columnArray, columnTitle) {
-    var matches = columnArray.filter(function (col) { return col.title === columnTitle });
-
-    return matches.length === 0
-        ? undefined
-        : columnArray.indexOf(matches[0]);
-}
-
-function yearAsRouteParameter(year) {
-    return year === consts.currentYear
-        ? ''
-        : '/' + (year === 0
-            ? 'All'
-            : year);
-}
-
-//#endregion

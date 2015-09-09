@@ -1,0 +1,19 @@
+﻿@model NewsEditTeamModel
+@{
+    var teamSelectList = new SelectList(Model.Teams.Select(t => new SelectListItem {Value = t.TeamId.ToString(), Text = t.TeamName}), "Value", "Text", Model);
+}
+<div class="form-group">
+    @Html.LabelForModel(new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @if (Model.IsReadonly)
+        {
+            @Html.HiddenFor(m => m.TeamId)
+            <p class="form-control-static">@Model.TeamName</p>
+        }
+        else
+        {
+            @Html.DropDownListFor(m => m.TeamId, teamSelectList, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.TeamId)
+        }
+    </div>
+</div>

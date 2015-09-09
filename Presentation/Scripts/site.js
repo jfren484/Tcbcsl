@@ -18,9 +18,29 @@ $(function() {
     $('[data-toggle="tooltip"]').tooltip();
 });
 
-function addDataTableHeaderCells(tableSelector, columnArray) {
+//#region Helpers
+
+function addDataTableHeaderCells(tableSelector, columnArray) { // TODO: this should go away by using Knockout in the stats tables
     var headerRow = $(tableSelector + '>thead>tr.datatable-headers');
     for (var i = 0; i < columnArray.length; ++i) {
         headerRow.append('<th></th>');
     }
 }
+
+function findColumnIndex(columnArray, columnFieldOrTitle) {
+    var matches = columnArray.filter(function (col) { return col.data === columnFieldOrTitle || col.title === columnFieldOrTitle });
+
+    return matches.length === 0
+        ? undefined
+        : columnArray.indexOf(matches[0]);
+}
+
+function yearAsRouteParameter(year) {
+    return year === consts.currentYear
+        ? ''
+        : '/' + (year === 0
+            ? 'All'
+            : year);
+}
+
+//#endregion

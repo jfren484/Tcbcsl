@@ -11,7 +11,7 @@
     <script>
         var columns = [
             { 'data': 'NewsItemId',              'title': '@Html.DisplayNameFor(m => m.NewsItemId)',              'visible': false },
-            { 'data': 'TeamName',                'title': '@Html.DisplayNameFor(m => m.TeamName)' },
+            { 'data': 'TeamModel',               'title': '@Html.DisplayNameFor(m => m.TeamModel)',                                               'render': 'TeamName' },
             { 'data': 'IsActive',                'title': '@Html.DisplayNameFor(m => m.IsActive)',                                                'render': renderActiveCell },
             { 'data': 'StartDate',               'title': '@Html.DisplayNameFor(m => m.StartDate)',                                               'render': renderDate },
             { 'data': 'EndDate',                 'title': '@Html.DisplayNameFor(m => m.EndDate)',                                                 'render': renderDate },
@@ -29,7 +29,8 @@
             'dataUrl': '@Url.Action("Data")',
             'columns': columns,
             'sorting': true,
-            'paging': true
+            'paging': true,
+            'order': [[findColumnIndex(columns, 'NewsItemId'), 'desc']]
         });
     </script>
 }

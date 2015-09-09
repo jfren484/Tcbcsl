@@ -9,6 +9,7 @@ namespace Tcbcsl.Presentation
         public const int CurrentYear = 2015;
 
         public const string AllTime = "All-Time";
+        public const string LeagueNameForList = "*League*";
 
         public const string WholeNumberFormat = "N0";
         public const string Decimal3PlacesFormat = "N3";

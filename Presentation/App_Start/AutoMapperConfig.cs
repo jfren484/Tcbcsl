@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using AutoMapper;
 using System.Linq;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
@@ -17,13 +19,19 @@ namespace Tcbcsl.Presentation
             Mapper.CreateMap<PageContentEditModel, PageContent>()
                   .MapEntityModifiable();
 
+            Mapper.CreateMap<NewsItem, NewsEditTeamModel>()
+                  .ForMember(m => m.IsReadonly, exp => exp.MapFrom(e => (DateTime.Now - e.Created) > TimeSpan.FromDays(30)))
+                  .ForMember(m => m.TeamName, exp => exp.MapFrom(e => GetTeamNameFromNewsItem(e) ?? Consts.LeagueNameForList))
+                  .ForMember(m => m.Teams, exp => exp.MapFrom(e => new List<NewsEditTeamListModel>()));
+
             Mapper.CreateMap<NewsItem, NewsEditModel>()
                   .MapEditModelBase()
-                  .ForMember(m => m.TeamName, exp => exp.MapFrom(n => GetTeamNameFromNewsItem(n)));
+                  .ForMember(m => m.TeamModel, exp => exp.MapFrom(e => Mapper.Map<NewsEditTeamModel>(e)));
 
             Mapper.CreateMap<NewsEditModel, NewsItem>()
                   .MapEntityModifiable()
-                  .ForMember(pc => pc.Team, exp => exp.Ignore());
+                  .ForMember(e => e.TeamId, exp => exp.MapFrom(m => m.TeamModel.TeamId))
+                  .ForMember(e => e.Team, exp => exp.Ignore());
 
             Mapper.AssertConfigurationIsValid();
         }
@@ -46,13 +54,12 @@ namespace Tcbcsl.Presentation
                           .ForMember(e => e.ModifiedBy, exp => exp.Ignore());
         }
 
-        private static string GetTeamNameFromNewsItem(NewsItem n)
+        private static string GetTeamNameFromNewsItem(NewsItem newsItem)
         {
-            return n.Team?
-                    .TeamYears
-                    .SingleOrDefault(ty => ty.Year == n.StartDate.Year)?
-                    .FullName
-                ?? "League";
+            return newsItem.Team?
+                           .TeamYears
+                           .SingleOrDefault(ty => ty.Year == newsItem.StartDate.Year)?
+                           .FullName;
         }
     }
 }

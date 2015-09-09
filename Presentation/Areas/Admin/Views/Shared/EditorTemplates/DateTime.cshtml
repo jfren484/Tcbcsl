@@ -10,10 +10,10 @@
         else
         {
             <div class="input-group datetime-picker" id="datetimePicker_@Html.IdForModel()">
-                @Html.TextBoxFor(m => m, new { @class = "form-control" })
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
+                @Html.TextBoxFor(m => m, new { @class = "form-control" })
             </div>
             @Html.ValidationMessageFor(m => m)
         }
