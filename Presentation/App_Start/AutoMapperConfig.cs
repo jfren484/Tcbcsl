@@ -9,9 +9,7 @@ namespace Tcbcsl.Presentation
     {
         public static void RegisterMappings()
         {
-            Mapper.CreateMap<EntityModifiable, AuditDetailsModel>()
-                  .ForMember(m => m.Created, exp => exp.MapFrom(e => $"{e.Created:u}"))
-                  .ForMember(m => m.Modified, exp => exp.MapFrom(e => $"{e.Modified:u}"));
+            Mapper.CreateMap<EntityModifiable, AuditDetailsModel>();
 
             Mapper.CreateMap<PageContent, PageContentEditModel>()
                   .ForMember(m => m.EditUrl, exp => exp.Ignore())
@@ -25,8 +23,6 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<NewsItem, NewsEditModel>()
                   .ForMember(m => m.TeamName, exp => exp.MapFrom(n => GetTeamNameFromNewsItem(n)))
-                  .ForMember(m => m.StartDate, exp => exp.MapFrom(n => $"{n.StartDate:u}"))
-                  .ForMember(m => m.EndDate, exp => exp.MapFrom(n => $"{n.EndDate:u}"))
                   .ForMember(m => m.EditUrl, exp => exp.Ignore())
                   .ForMember(m => m.AuditDetails, exp => exp.MapFrom(n => Mapper.Map<AuditDetailsModel>(n)));
 

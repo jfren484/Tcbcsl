@@ -1,7 +1,8 @@
-﻿// Declare constants here to make ReSharper/Intellisense happy in views that use them. Values will be set in _Layout.cshtml
+﻿// Declare constants here to make ReSharper/Intellisense happy in views that use them. Values for years will be set in _Layout.cshtml
 var consts = {
     firstYear: 0,
-    currentYear: 0
+    currentYear: 0,
+    tableDateFormat: 'MMM D, YYYY, h:mm a'
 }
 
 $('.calendar-content').on('click', '.calendar-year-nav a', function (e) {

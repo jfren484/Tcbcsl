@@ -62,6 +62,14 @@ function renderActiveCell(data, type) {
         : data;
 }
 
+function renderDate(data, type) {
+    return data === ''
+        ? ''
+        : type === 'display'
+            ? moment(data).format(consts.tableDateFormat)
+            : moment(data).unix();
+}
+
 function renderEditLink(data, type) {
     return type === 'display'
         ? '<a href="' + data + '" title="edit"><span class="glyphicon glyphicon-edit"></span></a>'

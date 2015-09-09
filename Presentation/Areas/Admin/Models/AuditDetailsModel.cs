@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using JetBrains.Annotations;
 
 // ReSharper disable UnusedMxember.Global
@@ -13,12 +14,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public string CreatedBy { get; set; }
 
         [Display(Name = "Created")]
-        public string Created { get; set; }
+        public DateTime Created { get; set; }
 
         [Display(Name = "Modified By")]
         public string ModifiedBy { get; set; }
 
         [Display(Name = "Modified")]
-        public string Modified { get; set; }
+        public DateTime Modified { get; set; }
     }
 }

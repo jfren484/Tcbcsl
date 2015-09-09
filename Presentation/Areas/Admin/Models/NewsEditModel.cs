@@ -11,11 +11,11 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         [Required]
         [Display(Name = "Start Date")]
-        public string StartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Required]
         [Display(Name = "End Date")]
-        public string EndDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         [Required]
         [Display(Name = "Active")]
