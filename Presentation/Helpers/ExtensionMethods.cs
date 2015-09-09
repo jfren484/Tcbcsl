@@ -75,6 +75,18 @@ namespace Tcbcsl.Presentation.Helpers
             return MvcHtmlString.Create(string.Join("<br />", items.Where(i => i != null).Select(i => i.ToString())));
         }
 
+        public static SelectList ToSelectList(this bool? value)
+        {
+            return new SelectList(new[]
+                                  {
+                                      new SelectListItem {Value = "True", Text = "Yes"},
+                                      new SelectListItem {Value = "False", Text = "No"}
+                                  },
+                                  "Value",
+                                  "Text",
+                                  value);
+        }
+
         public static MvcHtmlString UrlToLink(this string url)
         {
             return url == null

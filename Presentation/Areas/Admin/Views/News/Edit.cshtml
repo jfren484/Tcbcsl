@@ -7,9 +7,13 @@
     @using (Html.BeginForm("Edit", "News", FormMethod.Post, new {@class = "form-horizontal form-with-validation"}))
     {
         @Html.HiddenFor(m => m.NewsItemId)
+        @Html.HiddenFor(m => m.TeamId)
 
         <fieldset>
             <legend>@title</legend>
+            @Html.EditorFor(m => m.IsActive)
+            @Html.EditorFor(m => m.StartDate)
+            @Html.EditorFor(m => m.EndDate)
             @Html.EditorFor(m => m.Subject)
             @Html.EditorFor(m => m.Content)
             @Html.Partial("_FormCancelSubmit", Url.Action("List"))

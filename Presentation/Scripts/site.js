@@ -2,7 +2,7 @@
 var consts = {
     firstYear: 0,
     currentYear: 0,
-    tableDateFormat: 'MMM D, YYYY, h:mm a'
+    tableDateFormat: 'MMM D, YYYY, h:mm A'
 }
 
 $('.calendar-content').on('click', '.calendar-year-nav a', function (e) {

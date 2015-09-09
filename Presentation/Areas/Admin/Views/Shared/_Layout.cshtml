@@ -1,6 +1,11 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section head
+{
+    @Styles.Render("~/Content/admin")
+    @RenderSection("head", required: false)
+}
 @RenderBody()
 @section scripts
 {

@@ -1,12 +1,10 @@
 ﻿[
   {
     "outputFile": "Content/Site.css",
-    "inputFile": "Content/Site.less",
-    "minify": {
-      "enabled": true
-    },
-    "includeInProject": true,
-    "sourceMap": false,
-    "options": {}
+    "inputFile": "Content/Site.less"
+  },
+  {
+    "outputFile": "Content/bootstrap-datetimepicker-build.css",
+    "inputFile": "Content/bootstrap-datetimepicker-build.less"
   }
 ]

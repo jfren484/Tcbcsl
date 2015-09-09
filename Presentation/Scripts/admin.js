@@ -1,13 +1,22 @@
-﻿//#region Handle Bootstrap classes for form controls during validation
+﻿$(function () {
+    fixValidationClassesForBootstrap();
 
-$(function () {
+    $('.datetime-picker').datetimepicker({ sideBySide: true });
+
+    tinymce.init({ selector: '.html-editor' });
+});
+
+//#region Handle Bootstrap classes for form controls during validation
+
+function fixValidationClassesForBootstrap() {
     var validationForms = $('.form-with-validation');
+
     if (validationForms.length > 0) {
         var settings = $.data(validationForms[0]).validator.settings,
             baseErrorPlacement = settings.errorPlacement,
             baseSuccess = settings.success;
 
-        settings.errorPlacement = function(label, element) {
+        settings.errorPlacement = function (label, element) {
             // Call original handler so it can update the HTML
             baseErrorPlacement(label, element);
 
@@ -16,7 +25,7 @@ $(function () {
             label.addClass('text-danger');
         };
 
-        settings.success = function(label) {
+        settings.success = function (label) {
             // Remove error class from <div class="form-group">, but don't worry about
             // validation error messages as the plugin is going to remove it anyway
             label.parents('.form-group').removeClass('has-error');
@@ -25,9 +34,7 @@ $(function () {
             baseSuccess(label);
         };
     }
-
-    tinymce.init({ selector: '.html-editor' });
-});
+}
 
 //#endregion
 

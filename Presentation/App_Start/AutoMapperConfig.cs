@@ -12,28 +12,38 @@ namespace Tcbcsl.Presentation
             Mapper.CreateMap<EntityModifiable, AuditDetailsModel>();
 
             Mapper.CreateMap<PageContent, PageContentEditModel>()
-                  .ForMember(m => m.EditUrl, exp => exp.Ignore())
-                  .ForMember(m => m.AuditDetails, exp => exp.MapFrom(pc => Mapper.Map<AuditDetailsModel>(pc)));
+                  .MapEditModelBase();
 
             Mapper.CreateMap<PageContentEditModel, PageContent>()
-                  .ForMember(pc => pc.CreatedBy, exp => exp.Ignore())
-                  .ForMember(pc => pc.Created, exp => exp.Ignore())
-                  .ForMember(pc => pc.Modified, exp => exp.Ignore())
-                  .ForMember(pc => pc.ModifiedBy, exp => exp.Ignore());
+                  .MapEntityModifiable();
 
             Mapper.CreateMap<NewsItem, NewsEditModel>()
-                  .ForMember(m => m.TeamName, exp => exp.MapFrom(n => GetTeamNameFromNewsItem(n)))
-                  .ForMember(m => m.EditUrl, exp => exp.Ignore())
-                  .ForMember(m => m.AuditDetails, exp => exp.MapFrom(n => Mapper.Map<AuditDetailsModel>(n)));
+                  .MapEditModelBase()
+                  .ForMember(m => m.TeamName, exp => exp.MapFrom(n => GetTeamNameFromNewsItem(n)));
 
             Mapper.CreateMap<NewsEditModel, NewsItem>()
-                  .ForMember(pc => pc.Team, exp => exp.Ignore())
-                  .ForMember(pc => pc.CreatedBy, exp => exp.Ignore())
-                  .ForMember(pc => pc.Created, exp => exp.Ignore())
-                  .ForMember(pc => pc.Modified, exp => exp.Ignore())
-                  .ForMember(pc => pc.ModifiedBy, exp => exp.Ignore());
+                  .MapEntityModifiable()
+                  .ForMember(pc => pc.Team, exp => exp.Ignore());
 
             Mapper.AssertConfigurationIsValid();
+        }
+
+        private static IMappingExpression<TEntity, TModel> MapEditModelBase<TEntity, TModel>(this IMappingExpression<TEntity, TModel> mapping)
+            where TEntity : EntityModifiable
+            where TModel : EditModelBase
+        {
+            return mapping.ForMember(m => m.EditUrl, exp => exp.Ignore())
+                          .ForMember(m => m.AuditDetails, exp => exp.MapFrom(e => Mapper.Map<AuditDetailsModel>(e)));
+        }
+
+        private static IMappingExpression<TModel, TEntity> MapEntityModifiable<TModel, TEntity>(this IMappingExpression<TModel, TEntity> mapping)
+            where TEntity : EntityModifiable
+            where TModel : EditModelBase
+        {
+            return mapping.ForMember(e => e.CreatedBy, exp => exp.Ignore())
+                          .ForMember(e => e.Created, exp => exp.Ignore())
+                          .ForMember(e => e.Modified, exp => exp.Ignore())
+                          .ForMember(e => e.ModifiedBy, exp => exp.Ignore());
         }
 
         private static string GetTeamNameFromNewsItem(NewsItem n)

@@ -19,6 +19,7 @@ namespace Tcbcsl.Presentation
                 "~/Scripts/stats.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/admin").Include(
+                "~/Scripts/bootstrap-datetimepicker.js",
                 "~/Scripts/tinymce/tinymce.js",
                 "~/Scripts/admin.js"));
 
@@ -34,6 +35,9 @@ namespace Tcbcsl.Presentation
                 "~/Content/bootstrap.css",
                 "~/Content/DataTables/css/dataTables.bootstrap.css",
                 "~/Content/Site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/admin").Include(
+                "~/Content/bootstrap-datetimepicker-build.css"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
