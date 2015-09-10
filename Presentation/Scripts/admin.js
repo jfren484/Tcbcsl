@@ -1,7 +1,7 @@
 ﻿$(function () {
     fixValidationClassesForBootstrap();
 
-    $('.datetime-picker').datetimepicker({ sideBySide: true });
+    $('.datetime-picker').datetimepicker({ sideBySide: true, format: consts.editorDateFormat });
 
     tinymce.init({ selector: '.html-editor' });
 });

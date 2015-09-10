@@ -1,7 +1,8 @@
-﻿// Declare constants here to make ReSharper/Intellisense happy in views that use them. Values for years will be set in _Layout.cshtml
+﻿// Declare constants here to make ReSharper/Intellisense happy in views that use them. Some values will be set in _Layout.cshtml
 var consts = {
     firstYear: 0,
     currentYear: 0,
+    editorDateFormat: 'MMMM D, YYYY, h:mm A',
     tableDateFormat: 'MMM D, YYYY, h:mm A'
 }
 
