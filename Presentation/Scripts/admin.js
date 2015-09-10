@@ -3,7 +3,10 @@
 
     $('.datetime-picker').datetimepicker({ sideBySide: true, format: consts.editorDateFormat });
 
-    tinymce.init({ selector: '.html-editor' });
+    tinymce.init({
+        plugins: 'autolink autosave image imagetools link lists table',
+        selector: '.html-editor'
+    });
 });
 
 //#region Handle Bootstrap classes for form controls during validation

@@ -4,6 +4,7 @@ using AutoMapper;
 using System.Linq;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
+using Tcbcsl.Presentation.Helpers;
 
 namespace Tcbcsl.Presentation
 {
@@ -17,11 +18,12 @@ namespace Tcbcsl.Presentation
                   .MapEditModelBase();
 
             Mapper.CreateMap<PageContentEditModel, PageContent>()
-                  .MapEntityModifiable();
+                  .MapEntityModifiable()
+                  .ForMember(e => e.Content, exp => exp.MapFrom(m => m.Content.Sanitize()));
 
             Mapper.CreateMap<NewsItem, NewsEditTeamModel>()
                   .ForMember(m => m.IsReadonly, exp => exp.MapFrom(e => (DateTime.Now - e.Created) > TimeSpan.FromDays(30)))
-                  .ForMember(m => m.TeamName, exp => exp.MapFrom(e => GetTeamNameFromNewsItem(e) ?? Consts.LeagueNameForList))
+                  .ForMember(m => m.TeamName, exp => exp.MapFrom(e => e.GetTeamName() ?? Consts.LeagueNameForList))
                   .ForMember(m => m.Teams, exp => exp.MapFrom(e => new List<NewsEditTeamListModel>()));
 
             Mapper.CreateMap<NewsItem, NewsEditModel>()
@@ -31,9 +33,20 @@ namespace Tcbcsl.Presentation
             Mapper.CreateMap<NewsEditModel, NewsItem>()
                   .MapEntityModifiable()
                   .ForMember(e => e.TeamId, exp => exp.MapFrom(m => m.TeamModel.TeamId))
-                  .ForMember(e => e.Team, exp => exp.Ignore());
+                  .ForMember(e => e.Team, exp => exp.Ignore())
+                  .ForMember(e => e.Content, exp => exp.MapFrom(m => m.Content.Sanitize()));
 
             Mapper.AssertConfigurationIsValid();
+        }
+
+        #region Mapping Extension Methods
+
+        private static string GetTeamName(this NewsItem newsItem)
+        {
+            return newsItem.Team?
+                           .TeamYears
+                           .SingleOrDefault(ty => ty.Year == newsItem.StartDate.Year)?
+                           .FullName;
         }
 
         private static IMappingExpression<TEntity, TModel> MapEditModelBase<TEntity, TModel>(this IMappingExpression<TEntity, TModel> mapping)
@@ -54,12 +67,6 @@ namespace Tcbcsl.Presentation
                           .ForMember(e => e.ModifiedBy, exp => exp.Ignore());
         }
 
-        private static string GetTeamNameFromNewsItem(NewsItem newsItem)
-        {
-            return newsItem.Team?
-                           .TeamYears
-                           .SingleOrDefault(ty => ty.Year == newsItem.StartDate.Year)?
-                           .FullName;
-        }
+        #endregion
     }
 }

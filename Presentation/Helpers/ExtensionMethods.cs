@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
+using Ganss.XSS;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Helpers
@@ -57,6 +58,12 @@ namespace Tcbcsl.Presentation.Helpers
                                                                  Action = "StatisticsForGame",
                                                                  GameId = gameId
                                                              }, null);
+        }
+
+        public static string Sanitize(this string htmlString)
+        {
+            var sanitizer = new HtmlSanitizer();
+            return sanitizer.Sanitize(htmlString);
         }
 
         public static MvcHtmlString TeamLink(this HtmlHelper htmlHelper, string teamName, int teamId, int year)

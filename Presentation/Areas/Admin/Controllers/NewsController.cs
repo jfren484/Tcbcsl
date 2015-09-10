@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
@@ -44,7 +45,13 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Create")]
         public ActionResult Create()
         {
-            return View("Edit", new NewsEditModel {TeamModel = new NewsEditTeamModel {Teams = GetTeams(Consts.CurrentYear)}});
+            return View("Edit", new NewsEditModel
+                                {
+                                    IsActive = true,
+                                    StartDate = DateTime.Now,
+                                    EndDate = DateTime.Today.AddDays(14),
+                                    TeamModel = new NewsEditTeamModel {Teams = GetTeams(Consts.CurrentYear)}
+                                });
         }
 
         [HttpPost]
