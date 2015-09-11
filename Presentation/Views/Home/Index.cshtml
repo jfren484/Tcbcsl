@@ -9,7 +9,7 @@
         {
             <div class="col-md-4">
                 <h2>@newsItem.StartDate - @newsItem.Subject</h2>
-                <p>@newsItem.Content</p>
+                <p>@Html.Raw(newsItem.Content)</p>
             </div>
         }
     </div>

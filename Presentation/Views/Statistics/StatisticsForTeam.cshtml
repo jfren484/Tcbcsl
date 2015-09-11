@@ -1,6 +1,6 @@
 ﻿@model TeamStatisticsPageModel
 @{
-    var title = "Statistics - " + Model.Team.TeamName;
+    var title = $"Statistics - {Model.Team.TeamName}";
     ViewBag.Title = title + Model.Year.AsTitleSuffix();
 }
 @Html.Partial("_YearsPartial", Model.Year)

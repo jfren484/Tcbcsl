@@ -1,7 +1,7 @@
 ﻿@model ScheduleModel
 @{
     const string title = "Schedule";
-    ViewBag.Title = string.Format("{0} for {1}", title, Model.Date.ToString(Consts.DateFormatDisplay));
+    ViewBag.Title = $"{title} for {Model.Date.ToString(Consts.DateFormatDisplay)}";
 }
 <div class="modal calendar-modal">
     <div class="modal-dialog">

@@ -1,7 +1,7 @@
 ﻿@model GameStatisticsPageModel
 @{
-    var title = "Statistics - " + Model.GameDate.ToString(Consts.DateFormatDisplay);
-    ViewBag.Title = title + " - " + Model.RoadTeam.TeamInfo.TeamName + " vs. " + Model.HomeTeam.TeamInfo.TeamName;
+    var title = $"Statistics - {Model.GameDate.ToString(Consts.DateFormatDisplay)}";
+    ViewBag.Title = $"{title} - {Model.RoadTeam.TeamInfo.TeamName} vs. {Model.HomeTeam.TeamInfo.TeamName}";
 }
 <h2>@title</h2>
 @Html.DisplayFor(m => m.RoadTeam)

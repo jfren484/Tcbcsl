@@ -17,7 +17,7 @@
                 </tr>
                 <tr>
                     <th>Church</th>
-                    <td>@Html.ActionLink(Model.ChurchName, "Churches", "Church", new {year = Model.Year == Consts.CurrentYear ? (int?)null : (int)Model.Year}, null)</td>
+                    <td>@Html.ActionLink(Model.ChurchName, "Churches", "Church", new {year = Model.Year == Consts.CurrentYear ? (int?)null : Model.Year}, null)</td>
                 </tr>
                 @if (Model.Year >= 2007)
                 {
@@ -53,7 +53,7 @@
                                                          Controller = "Statistics",
                                                          Action = "StatisticsForTeam",
                                                          TeamId = Model.TeamId,
-                                                         Year = Model.Year == Consts.CurrentYear ? (int?)null : (int)Model.Year
+                                                         Year = Model.Year == Consts.CurrentYear ? (int?)null : Model.Year
                                                      }, null)
                 </div>
                 <table class="table">

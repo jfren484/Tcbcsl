@@ -25,7 +25,8 @@
             @Model.Name
         }
     </td>
-    <td>@(Model.Value.HasValue ? Model.Value.Value.ToString(Model.Category.IsPercentage
-                                                                ? Consts.Decimal3PlacesFormat
-                                                                : Consts.WholeNumberFormat) : null)</td>
+    <td>
+        @(Model.Value?.ToString(Model.Category.IsPercentage
+            ? Consts.Decimal3PlacesFormat
+            : Consts.WholeNumberFormat))</td>
 </tr>
