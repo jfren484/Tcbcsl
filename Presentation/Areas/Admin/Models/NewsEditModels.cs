@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
-    public class NewsEditModel : EditModelBase
+    public class NewsEditModel : EditModelBaseWithAudit
     {
         [Display(Name = "Id")]
         public int NewsItemId { get; set; }

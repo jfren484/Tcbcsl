@@ -1,5 +1,8 @@
 ﻿@model AdminListTableModel
-<a href="@Model.CreateItemUrl"><span class="glyphicon glyphicon-plus"></span> Add new @Model.ListItemName</a>
+@if (Model.CreateItemUrl != null)
+{
+    <a href="@Model.CreateItemUrl"><span class="glyphicon glyphicon-plus"></span> Add new @Model.ListItemName</a>
+}
 <table class="table table-bordered table-condensed table-striped admin-list">
     <thead>
         <tr class="info datatable-settings">

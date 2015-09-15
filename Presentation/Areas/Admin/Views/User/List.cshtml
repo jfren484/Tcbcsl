@@ -1,0 +1,28 @@
+﻿@model UserEditModel
+@{
+    const string title = "Manage Users";
+    ViewBag.Title = title;
+}
+<h2>@title</h2>
+@Html.Partial("_AdminListTable", new AdminListTableModel { ListItemName = "User" })
+
+@section scripts
+{
+    <script>
+        var columns = [
+            { 'data': 'Id',       'title': '@Html.DisplayNameFor(m => m.Id)',      'visible': false },
+            { 'data': 'UserName', 'title': '@Html.DisplayNameFor(m => m.UserName)' },
+            { 'data': 'Email',    'title': '@Html.DisplayNameFor(m => m.Email)' },
+            { 'data': 'EditUrl',                                                   'orderable': false, 'render': renderEditLink }
+        ];
+
+        datatable_RenderList({
+            'tableSelector': '.admin-list',
+            'dataUrl': '@Url.Action("Data")',
+            'columns': columns,
+            'sorting': true,
+            'paging': true,
+            'order': [[findColumnIndex(columns, 'UserName'), 'asc']]
+        });
+    </script>
+}

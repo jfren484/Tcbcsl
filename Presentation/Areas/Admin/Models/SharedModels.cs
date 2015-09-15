@@ -10,10 +10,13 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
     public abstract class EditModelBase
     {
-        [Display(Name = "History")]
-        public AuditDetailsModel AuditDetails { get; set; }
-
         [Display(Name = "")]
         public string EditUrl { get; set; }
+    }
+
+    public abstract class EditModelBaseWithAudit : EditModelBase
+    {
+        [Display(Name = "History")]
+        public AuditDetailsModel AuditDetails { get; set; }
     }
 }

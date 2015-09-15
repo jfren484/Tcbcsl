@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
-    public class PageContentEditModel : EditModelBase
+    public class PageContentEditModel : EditModelBaseWithAudit
     {
         [Display(Name = "Id")]
         public int PageContentId { get; set; }
