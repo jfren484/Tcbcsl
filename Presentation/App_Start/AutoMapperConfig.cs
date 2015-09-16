@@ -55,6 +55,7 @@ namespace Tcbcsl.Presentation
                   .MapEditModelBase();
 
             Mapper.CreateMap<UserEditModel, TcbcslUser>()
+                  .ForMember(e => e.Roles, exp => exp.Ignore())
                   .IgnoreTheRest();
 
             #endregion

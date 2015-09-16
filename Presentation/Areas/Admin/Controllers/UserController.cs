@@ -22,12 +22,16 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Data")]
         public JsonResult Data()
         {
+            var roles = DbContext.Roles;
             var data = DbContext.Users
                                 .ToList()
                                 .Select(u =>
                                 {
+                                    var userRoleIds = u.Roles.Select(r => r.RoleId);
                                     var model = Mapper.Map<UserEditModel>(u);
+
                                     model.EditUrl = Url.Action("Edit", new { id = model.Id });
+                                    model.Roles = string.Join(", ", roles.Where(r => userRoleIds.Contains(r.Id)).Select(r => r.Name));
 
                                     return model;
                                 });
@@ -38,24 +42,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         #endregion
 
         #region Create/Edit
-
-        [Route("Create")]
-        public ActionResult Create()
-        {
-            return View("Edit", new UserEditModel());
-        }
-
-        [HttpPost]
-        [Route("Create")]
-        public ActionResult Create(UserEditModel model)
-        {
-            var user = Mapper.Map<TcbcslUser>(model);
-            //UpdateCreatedFields(user);
-            DbContext.Users.Add(user);
-            DbContext.SaveChanges();
-
-            return RedirectToAction("List");
-        }
 
         [Route("Edit/{id}")]
         public ActionResult Edit(string id)
@@ -80,7 +66,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             Mapper.Map(model, user);
-            //UpdateModifiedFields(user);
             DbContext.SaveChanges();
 
             return RedirectToAction("List");

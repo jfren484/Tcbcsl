@@ -13,5 +13,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "Email Address")]
         [UIHint("TextSingleLine")]
         public string Email { get; set; }
+
+        public string Roles { get; set; }
     }
 }

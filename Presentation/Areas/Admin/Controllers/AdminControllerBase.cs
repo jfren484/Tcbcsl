@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Web.Mvc;
 using Tcbcsl.Data.Entities;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
+    [Authorize(Roles="Team Coach")]
     public abstract class AdminControllerBase : Presentation.Controllers.ControllerBase
     {
         protected void UpdateCreatedFields(EntityModifiable entity)
