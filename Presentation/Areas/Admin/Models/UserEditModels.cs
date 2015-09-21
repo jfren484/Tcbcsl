@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
@@ -14,6 +15,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [UIHint("TextSingleLine")]
         public string Email { get; set; }
 
-        public string Roles { get; set; }
+        public string RoleList { get; set; }
+
+        [Display(Name = "Roles")]
+        public List<string> RoleIds { get; set; }
     }
 }

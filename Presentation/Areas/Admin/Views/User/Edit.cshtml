@@ -1,1 +1,19 @@
-﻿
+﻿@model UserEditModel
+@{
+    var title = "Manage" + Model.UserName;
+    ViewBag.Title = title;
+}
+<div class="well">
+    @using (Html.BeginForm("Edit", "News", FormMethod.Post, new { @class = "form-horizontal form-with-validation" }))
+    {
+        @Html.HiddenFor(m => m.Id)
+
+        <fieldset>
+            <legend>@title</legend>
+            @Html.EditorFor(m => m.UserName, new { IsReadonly = true })
+            @Html.EditorFor(m => m.Email, new { IsReadonly = true })
+            @Html.EditorFor(m => m.RoleIds)
+            @Html.Partial("_FormCancelSubmit", Url.Action("List"))
+        </fieldset>
+    }
+</div>

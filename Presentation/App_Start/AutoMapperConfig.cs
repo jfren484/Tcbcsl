@@ -52,6 +52,8 @@ namespace Tcbcsl.Presentation
             #region Users
 
             Mapper.CreateMap<TcbcslUser, UserEditModel>()
+                  .ForMember(m => m.RoleIds, exp => exp.MapFrom(e => e.Roles.Select(r => r.RoleId).ToList()))
+                  .ForMember(m => m.RoleList, exp => exp.Ignore())
                   .MapEditModelBase();
 
             Mapper.CreateMap<UserEditModel, TcbcslUser>()

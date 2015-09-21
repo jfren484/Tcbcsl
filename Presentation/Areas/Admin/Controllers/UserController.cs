@@ -22,7 +22,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Data")]
         public JsonResult Data()
         {
-            var roles = DbContext.Roles;
             var data = DbContext.Users
                                 .ToList()
                                 .Select(u =>
@@ -31,7 +30,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                     var model = Mapper.Map<UserEditModel>(u);
 
                                     model.EditUrl = Url.Action("Edit", new { id = model.Id });
-                                    model.Roles = string.Join(", ", roles.Where(r => userRoleIds.Contains(r.Id)).Select(r => r.Name));
+                                    model.RoleList = string.Join(", ", DbContext.Roles.Where(r => userRoleIds.Contains(r.Id)).Select(r => r.Name));
 
                                     return model;
                                 });
@@ -46,7 +45,16 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Edit/{id}")]
         public ActionResult Edit(string id)
         {
-            var user = DbContext.Users.SingleOrDefault(u => u.Id == id);
+            var user = DbContext.Users
+                                .ToList()
+                                .Select(u =>
+                                {
+                                    var model = Mapper.Map<UserEditModel>(u);
+
+                                    //model.RoleIds = DbContext.Roles.Where(r => userRoleIds.Contains(r.Id)).Select(r => r.Id).ToList();
+
+                                    return model;
+                                }).SingleOrDefault(u => u.Id == id);
             if (user == null)
             {
                 return HttpNotFound();
