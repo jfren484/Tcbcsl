@@ -9,7 +9,7 @@
         }
         else
         {
-            @Html.ListBoxFor(m => m.RoleIds, Model.AllRoles, new { @class = "form-control" })
+            @Html.ListBoxFor(m => m.RoleIds, Model.AllRoles, new { @class = "form-control multi" })
             @Html.ValidationMessageFor(m => m.RoleIds)
         }
     </div>

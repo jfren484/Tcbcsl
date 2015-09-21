@@ -3,6 +3,8 @@
 
     $('.datetime-picker').datetimepicker({ sideBySide: true, format: consts.editorDateFormat });
 
+    $('.multi').multiselect();
+
     tinymce.init({
         plugins: 'autolink autosave image imagetools link lists table',
         selector: '.html-editor'
