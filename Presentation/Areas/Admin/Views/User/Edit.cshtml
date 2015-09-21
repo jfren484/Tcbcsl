@@ -1,6 +1,6 @@
 ﻿@model UserEditModel
 @{
-    var title = "Manage" + Model.UserName;
+    var title = "Manage User " + Model.UserName;
     ViewBag.Title = title;
 }
 <div class="well">
@@ -12,7 +12,7 @@
             <legend>@title</legend>
             @Html.EditorFor(m => m.UserName, new { IsReadonly = true })
             @Html.EditorFor(m => m.Email, new { IsReadonly = true })
-            @Html.EditorFor(m => m.RoleIds)
+            @Html.EditorFor(m => m.Roles)
             @Html.Partial("_FormCancelSubmit", Url.Action("List"))
         </fieldset>
     }

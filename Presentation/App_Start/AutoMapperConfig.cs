@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using AutoMapper;
 using System.Linq;
+using System.Web.Mvc;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Data.Identity;
 using Tcbcsl.Presentation.Areas.Admin.Models;
@@ -49,12 +51,17 @@ namespace Tcbcsl.Presentation
 
             #endregion
 
-            #region Users
+            #region User Management
 
             Mapper.CreateMap<TcbcslUser, UserEditModel>()
-                  .ForMember(m => m.RoleIds, exp => exp.MapFrom(e => e.Roles.Select(r => r.RoleId).ToList()))
+                  .ForMember(m => m.Roles, exp => exp.MapFrom(e => new RolesEditModel {RoleIds = e.Roles.Select(r => r.RoleId).ToList()}))
                   .ForMember(m => m.RoleList, exp => exp.Ignore())
                   .MapEditModelBase();
+
+            Mapper.CreateMap<IdentityRole, SelectListItem>()
+                  .ForMember(m => m.Value, exp => exp.MapFrom(e => e.Id))
+                  .ForMember(m => m.Text, exp => exp.MapFrom(e => e.Name))
+                  .IgnoreTheRest();
 
             Mapper.CreateMap<UserEditModel, TcbcslUser>()
                   .ForMember(e => e.Roles, exp => exp.Ignore())

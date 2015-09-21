@@ -114,6 +114,10 @@
     <Compile Include="Migrations\201508181722375_RemoveComputedNameColumns.Designer.cs">
       <DependentUpon>201508181722375_RemoveComputedNameColumns.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509211952243_AddRoles.cs" />
+    <Compile Include="Migrations\201509211952243_AddRoles.Designer.cs">
+      <DependentUpon>201509211952243_AddRoles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
     <Compile Include="Entities\PageContent.cs" />
@@ -161,6 +165,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508181722375_RemoveComputedNameColumns.resx">
       <DependentUpon>201508181722375_RemoveComputedNameColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509211952243_AddRoles.resx">
+      <DependentUpon>201509211952243_AddRoles.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
@@ -18,6 +19,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public string RoleList { get; set; }
 
         [Display(Name = "Roles")]
+        public RolesEditModel Roles { get; set; }
+    }
+
+    public class RolesEditModel
+    {
         public List<string> RoleIds { get; set; }
+        public List<SelectListItem> AllRoles { get; set; }
     }
 }

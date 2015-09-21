@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using Tcbcsl.Data.Identity;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "League Commissioner")]
     [RouteArea("Admin")]
     [RoutePrefix("User")]
     public class UserController : AdminControllerBase
@@ -47,25 +48,21 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         {
             var user = DbContext.Users
                                 .ToList()
-                                .Select(u =>
-                                {
-                                    var model = Mapper.Map<UserEditModel>(u);
-
-                                    //model.RoleIds = DbContext.Roles.Where(r => userRoleIds.Contains(r.Id)).Select(r => r.Id).ToList();
-
-                                    return model;
-                                }).SingleOrDefault(u => u.Id == id);
+                                .Select(Mapper.Map<UserEditModel>)
+                                .SingleOrDefault(u => u.Id == id);
             if (user == null)
             {
                 return HttpNotFound();
             }
+
+            user.Roles.AllRoles = Mapper.Map<List<SelectListItem>>(DbContext.Roles);
 
             return View(user);
         }
 
         [HttpPost]
         [Route("Edit/{id}")]
-        public ActionResult Edit(string id, NewsEditModel model)
+        public ActionResult Edit(string id, UserEditModel model)
         {
             var user = DbContext.Users.SingleOrDefault(u => u.Id == id);
             if (user == null)
@@ -74,7 +71,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             Mapper.Map(model, user);
-            DbContext.SaveChanges();
+            //DbContext.SaveChanges();
 
             return RedirectToAction("List");
         }
