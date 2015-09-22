@@ -7,8 +7,8 @@ namespace Tcbcsl.Data.Migrations
     {
         public override void Up()
         {
-            Sql("INSERT AspNetRoles VALUES ('LeagueCommissioner', 'League Commissioner')");
-            Sql("INSERT AspNetRoles VALUES ('TeamCoach', 'Team Coach')");
+            Sql("INSERT AspNetRoles VALUES ('SA', 'League Commissioner')");
+            Sql("INSERT AspNetRoles VALUES ('Coach', 'Team Coach')");
             Sql("INSERT AspNetUserRoles SELECT u.Id, r.Id FROM AspNetUsers u, AspNetRoles r WHERE Email LIKE 'jay%'");
         }
 
