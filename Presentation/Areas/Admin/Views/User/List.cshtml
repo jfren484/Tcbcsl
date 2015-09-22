@@ -10,11 +10,12 @@
 {
     <script>
         var columns = [
-            { 'data': 'Id',       'title': '@Html.DisplayNameFor(m => m.Id)',       'visible':   false },
-            { 'data': 'UserName', 'title': '@Html.DisplayNameFor(m => m.UserName)' },
-            { 'data': 'Email',    'title': '@Html.DisplayNameFor(m => m.Email)' },
-            { 'data': 'Roles',    'title': '@Html.DisplayNameFor(m => m.Roles)',    'orderable': false, 'render': {'_': 'SelectedRoleNames'} },
-            { 'data': 'EditUrl',                                                    'orderable': false, 'render': renderEditLink }
+            { 'data': 'Id',            'title': '@Html.DisplayNameFor(m => m.Id)',            'visible':   false },
+            { 'data': 'UserName',      'title': '@Html.DisplayNameFor(m => m.UserName)' },
+            { 'data': 'Email',         'title': '@Html.DisplayNameFor(m => m.Email)' },
+            { 'data': 'Roles',         'title': '@Html.DisplayNameFor(m => m.Roles)',         'orderable': false, 'render': {'_': 'SelectedRoleNames'} },
+            { 'data': 'AssignedTeams', 'title': '@Html.DisplayNameFor(m => m.AssignedTeams)', 'orderable': false, 'render': {'_': 'SelectedTeamNames'} },
+            { 'data': 'EditUrl',                                                              'orderable': false, 'render': renderEditLink }
         ];
 
         datatable_RenderList({

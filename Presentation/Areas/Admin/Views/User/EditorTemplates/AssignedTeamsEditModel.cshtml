@@ -1,0 +1,16 @@
+﻿@model AssignedTeamsEditModel
+<div class="form-group">
+    @Html.LabelForModel(new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @if (ViewBag.IsReadonly ?? false)
+        {
+            @Html.HiddenFor(m => m)
+            <p class="form-control-static">@Model.SelectedTeamNames</p>
+        }
+        else
+        {
+            @Html.ListBoxFor(m => m.TeamIds, Model.AllTeams, new {@class = "form-control multi-select"})
+            @Html.ValidationMessageFor(m => m.TeamIds)
+        }
+    </div>
+</div>

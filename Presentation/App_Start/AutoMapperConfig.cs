@@ -55,6 +55,11 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<TcbcslUser, UserEditModel>()
                   .ForMember(m => m.Roles, exp => exp.MapFrom(e => new RolesEditModel {RoleIds = e.Roles.Select(r => r.RoleId).ToList()}))
+                  .ForMember(m => m.AssignedTeams, exp => exp.MapFrom(e => new AssignedTeamsEditModel
+                                                                           {
+                                                                               TeamIds = e.AssignedTeams.Select(r => r.TeamId).ToList(),
+                                                                               SelectedTeamNames = string.Join(", ", e.AssignedTeams.Select(t => Mapper.Map<string>(t.TeamYears.Last())))
+                                                                           }))
                   .MapEditModelBase();
 
             Mapper.CreateMap<IEnumerable<IdentityRole>, string>()
@@ -65,8 +70,17 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.Text, exp => exp.MapFrom(e => e.Name))
                   .IgnoreTheRest();
 
+            Mapper.CreateMap<Team, SelectListItem>()
+                  .ForMember(m => m.Value, exp => exp.MapFrom(e => e.TeamId))
+                  .ForMember(m => m.Text, exp => exp.MapFrom(e => Mapper.Map<string>(e.TeamYears.OrderByDescending(ty => ty.Year).First())))
+                  .IgnoreTheRest();
+
+            Mapper.CreateMap<TeamYear, string>()
+                  .ConvertUsing(ty => $"{ty.FullName} ({ty.Year})");
+
             Mapper.CreateMap<UserEditModel, TcbcslUser>()
                   .ForMember(e => e.Roles, exp => exp.MapFrom(m => m.Roles.RoleIds.Select(id => new IdentityUserRole {UserId = m.Id, RoleId = id})))
+                  .ForMember(e => e.AssignedTeams, exp => exp.Ignore())
                   .IgnoreTheRest();
 
             #endregion

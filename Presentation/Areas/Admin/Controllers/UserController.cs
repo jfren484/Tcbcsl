@@ -27,11 +27,11 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 .ToList()
                                 .Select(u =>
                                 {
-                                    var userRoleIds = u.Roles.Select(r => r.RoleId).ToList();
                                     var model = Mapper.Map<UserEditModel>(u);
-
-                                    model.Roles.SelectedRoleNames = Mapper.Map<string>(DbContext.Roles.Where(r => userRoleIds.Contains(r.Id)));
                                     model.EditUrl = Url.Action("Edit", new { id = model.Id });
+
+                                    var userRoleIds = u.Roles.Select(r => r.RoleId).ToList();
+                                    model.Roles.SelectedRoleNames = Mapper.Map<string>(DbContext.Roles.Where(r => userRoleIds.Contains(r.Id)));
 
                                     return model;
                                 });
@@ -55,6 +55,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             user.Roles.SelectedRoleNames = Mapper.Map<string>(DbContext.Roles.Where(r => user.Roles.RoleIds.Contains(r.Id)));
             user.Roles.AllRoles = Mapper.Map<List<SelectListItem>>(DbContext.Roles);
+            user.AssignedTeams.AllTeams = Mapper.Map<List<SelectListItem>>(DbContext.Teams.Where(t => t.TeamYears.Any()).OrderByDescending(t => t.TeamYears.OrderByDescending(ty => ty.Year).FirstOrDefault().Year).ThenBy(t => t.TeamYears.OrderByDescending(ty => ty.Year).FirstOrDefault().FullName));
 
             return View(user);
         }
