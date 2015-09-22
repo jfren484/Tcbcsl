@@ -5,11 +5,11 @@
         @if (ViewBag.IsReadonly ?? false)
         {
             @Html.HiddenFor(m => m)
-            <p class="form-control-static">@Model.RoleIds.FirstOrDefault()</p>
+            <p class="form-control-static">@Model.SelectedRoleNames</p>
         }
         else
         {
-            @Html.ListBoxFor(m => m.RoleIds, Model.AllRoles, new { @class = "form-control multi" })
+            @Html.ListBoxFor(m => m.RoleIds, Model.AllRoles, new {@class = "form-control multi-select"})
             @Html.ValidationMessageFor(m => m.RoleIds)
         }
     </div>

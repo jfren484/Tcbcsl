@@ -4,7 +4,7 @@
     ViewBag.Title = title;
 }
 <div class="well">
-    @using (Html.BeginForm("Edit", "News", FormMethod.Post, new { @class = "form-horizontal form-with-validation" }))
+    @using (Html.BeginForm("Edit", "User", FormMethod.Post, new { @class = "form-horizontal" }))
     {
         @Html.HiddenFor(m => m.Id)
 

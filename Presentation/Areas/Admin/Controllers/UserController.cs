@@ -27,11 +27,11 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 .ToList()
                                 .Select(u =>
                                 {
-                                    var userRoleIds = u.Roles.Select(r => r.RoleId);
+                                    var userRoleIds = u.Roles.Select(r => r.RoleId).ToList();
                                     var model = Mapper.Map<UserEditModel>(u);
 
+                                    model.Roles.SelectedRoleNames = Mapper.Map<string>(DbContext.Roles.Where(r => userRoleIds.Contains(r.Id)));
                                     model.EditUrl = Url.Action("Edit", new { id = model.Id });
-                                    model.RoleList = string.Join(", ", DbContext.Roles.Where(r => userRoleIds.Contains(r.Id)).Select(r => r.Name));
 
                                     return model;
                                 });
@@ -46,15 +46,14 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Edit/{id}")]
         public ActionResult Edit(string id)
         {
-            var user = DbContext.Users
-                                .ToList()
-                                .Select(Mapper.Map<UserEditModel>)
-                                .SingleOrDefault(u => u.Id == id);
+            var user = Mapper.Map<List<UserEditModel>>(DbContext.Users)
+                             .SingleOrDefault(u => u.Id == id);
             if (user == null)
             {
                 return HttpNotFound();
             }
 
+            user.Roles.SelectedRoleNames = Mapper.Map<string>(DbContext.Roles.Where(r => user.Roles.RoleIds.Contains(r.Id)));
             user.Roles.AllRoles = Mapper.Map<List<SelectListItem>>(DbContext.Roles);
 
             return View(user);
@@ -71,7 +70,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             Mapper.Map(model, user);
-            //DbContext.SaveChanges();
+            DbContext.SaveChanges();
 
             return RedirectToAction("List");
         }

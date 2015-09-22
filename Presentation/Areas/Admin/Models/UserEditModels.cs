@@ -16,8 +16,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [UIHint("TextSingleLine")]
         public string Email { get; set; }
 
-        public string RoleList { get; set; }
-
         [Display(Name = "Roles")]
         public RolesEditModel Roles { get; set; }
     }
@@ -26,5 +24,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
     {
         public List<string> RoleIds { get; set; }
         public List<SelectListItem> AllRoles { get; set; }
+
+        public string SelectedRoleNames { get; set; }
     }
 }

@@ -8,6 +8,7 @@ using Tcbcsl.Data.Entities;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "League Commissioner, Team Coach")]
     [RouteArea("Admin")]
     [RoutePrefix("News")]
     public class NewsController : AdminControllerBase

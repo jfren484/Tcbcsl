@@ -6,6 +6,7 @@ using Tcbcsl.Data.Entities;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "League Commissioner")]
     [RouteArea("Admin")]
     [RoutePrefix("Content")]
     public class ContentItemController : AdminControllerBase

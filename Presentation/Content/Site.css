@@ -156,6 +156,9 @@ body {
   margin-top: 5px;
   margin-bottom: 5px;
 }
+.multi-select {
+  display: none;
+}
 .panel-heading a {
   color: #ffffff;
 }

@@ -55,8 +55,10 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<TcbcslUser, UserEditModel>()
                   .ForMember(m => m.Roles, exp => exp.MapFrom(e => new RolesEditModel {RoleIds = e.Roles.Select(r => r.RoleId).ToList()}))
-                  .ForMember(m => m.RoleList, exp => exp.Ignore())
                   .MapEditModelBase();
+
+            Mapper.CreateMap<IEnumerable<IdentityRole>, string>()
+                  .ConvertUsing(en => string.Join(", ", en.Select(r => r.Name)));
 
             Mapper.CreateMap<IdentityRole, SelectListItem>()
                   .ForMember(m => m.Value, exp => exp.MapFrom(e => e.Id))
@@ -64,7 +66,7 @@ namespace Tcbcsl.Presentation
                   .IgnoreTheRest();
 
             Mapper.CreateMap<UserEditModel, TcbcslUser>()
-                  .ForMember(e => e.Roles, exp => exp.Ignore())
+                  .ForMember(e => e.Roles, exp => exp.MapFrom(m => m.Roles.RoleIds.Select(id => new IdentityUserRole {UserId = m.Id, RoleId = id})))
                   .IgnoreTheRest();
 
             #endregion
