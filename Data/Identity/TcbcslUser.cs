@@ -1,12 +1,16 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Tcbcsl.Data.Entities;
 
 namespace Tcbcsl.Data.Identity
 {
     public class TcbcslUser : IdentityUser
     {
+        public virtual ICollection<Team> AssignedTeams { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<TcbcslUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

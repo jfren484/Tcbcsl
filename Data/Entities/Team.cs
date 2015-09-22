@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Tcbcsl.Data.Identity;
 
 namespace Tcbcsl.Data.Entities
 {
@@ -14,5 +15,7 @@ namespace Tcbcsl.Data.Entities
 
         [InverseProperty("CurrentTeam")]
         public virtual ICollection<Player> Players { get; set; }
+
+        public virtual ICollection<TcbcslUser> ManagingUsers { get; set; }
     }
 }
