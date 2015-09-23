@@ -5,6 +5,9 @@ using System.Web.Mvc;
 using AutoMapper;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Data.Entities;
+using Microsoft.AspNet.Identity;
+using System.Web;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
@@ -25,7 +28,17 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Data")]
         public JsonResult Data()
         {
-            var data = DbContext.NewsItems
+            var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = userManager.FindById(User.Identity.GetUserId());
+
+            var newsItems = DbContext.NewsItems.AsQueryable();
+            //if (!userManager.IsInRole(user.Id, "League Commissioner"))
+            {
+                var teamIds = user.AssignedTeams.Select(at => (int?)at.TeamId).ToList();
+                newsItems = newsItems.Where(n => teamIds.Contains(n.TeamId));
+            }
+
+            var data = newsItems
                                 .OrderByDescending(n => n.Created)
                                 .ToList()
                                 .Select(n =>

@@ -71,6 +71,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             Mapper.Map(model, user);
+            user.AssignedTeams = DbContext.Teams.Where(t => model.AssignedTeams.TeamIds.Contains(t.TeamId)).ToList();
             DbContext.SaveChanges();
 
             return RedirectToAction("List");
