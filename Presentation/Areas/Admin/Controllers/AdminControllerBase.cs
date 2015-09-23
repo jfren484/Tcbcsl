@@ -1,5 +1,4 @@
-﻿using System;
-using Tcbcsl.Data.Entities;
+﻿using Tcbcsl.Data.Entities;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
@@ -7,14 +6,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
     {
         protected void UpdateCreatedFields(EntityModifiable entity)
         {
-            entity.Created = DateTime.Now;
-            entity.CreatedBy = User.Identity.Name;
+            entity.UpdateCreatedFields(User.Identity.Name);
         }
 
         protected void UpdateModifiedFields(EntityModifiable entity)
         {
-            entity.Modified = DateTime.Now;
-            entity.ModifiedBy = User.Identity.Name;
+            entity.UpdateModifiedFields(User.Identity.Name);
         }
     }
 }

@@ -13,5 +13,17 @@ namespace Tcbcsl.Data.Entities
 
         public string ModifiedBy { get; set; }
         public DateTime? Modified { get; set; }
+
+        public void UpdateCreatedFields(string username)
+        {
+            Created = DateTime.Now;
+            CreatedBy = username;
+        }
+
+        public void UpdateModifiedFields(string username)
+        {
+            Modified = DateTime.Now;
+            ModifiedBy = username;
+        }
     }
 }

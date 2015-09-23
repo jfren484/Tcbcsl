@@ -5,9 +5,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Data.Entities;
-using Microsoft.AspNet.Identity;
-using System.Web;
-using Microsoft.AspNet.Identity.Owin;
+using Tcbcsl.Presentation.Helpers;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
@@ -21,24 +19,18 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("")]
         public ActionResult List()
         {
-            return View();
+            return View(new NewsEditModel
+            {
+                TeamModel = new NewsEditTeamModel { Teams = GetTeams(Consts.CurrentYear) }
+            });
         }
 
         [HttpPost]
         [Route("Data")]
         public JsonResult Data()
         {
-            var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var user = userManager.FindById(User.Identity.GetUserId());
-
-            var newsItems = DbContext.NewsItems.AsQueryable();
-            //if (!userManager.IsInRole(user.Id, "League Commissioner"))
-            {
-                var teamIds = user.AssignedTeams.Select(at => (int?)at.TeamId).ToList();
-                newsItems = newsItems.Where(n => teamIds.Contains(n.TeamId));
-            }
-
-            var data = newsItems
+            var data = DbContext.NewsItems
+                                .FilterTeamsForUser(User, n => n.TeamId)
                                 .OrderByDescending(n => n.Created)
                                 .ToList()
                                 .Select(n =>
@@ -59,19 +51,31 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Create")]
         public ActionResult Create()
         {
-            return View("Edit", new NewsEditModel
-                                {
-                                    IsActive = true,
-                                    StartDate = DateTime.Now,
-                                    EndDate = DateTime.Today.AddDays(14),
-                                    TeamModel = new NewsEditTeamModel {Teams = GetTeams(Consts.CurrentYear)}
-                                });
+            var model = new NewsEditModel
+                        {
+                            IsActive = true,
+                            StartDate = DateTime.Now,
+                            EndDate = DateTime.Today.AddDays(14),
+                            TeamModel = new NewsEditTeamModel {Teams = GetTeams(Consts.CurrentYear)}
+                        };
+
+            if (model.TeamModel.Teams.Count == 1)
+            {
+                model.TeamModel.TeamId = model.TeamModel.Teams[0].TeamId;
+            }
+
+            return View("Edit", model);
         }
 
         [HttpPost]
         [Route("Create")]
         public ActionResult Create(NewsEditModel model)
         {
+            if (!User.IsTeamIdValidForUser(model.TeamModel.TeamId))
+            {
+                return HttpNotFound();
+            }
+
             var newsItem = Mapper.Map<NewsItem>(model);
             UpdateCreatedFields(newsItem);
             DbContext.NewsItems.Add(newsItem);
@@ -100,7 +104,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Edit(int id, NewsEditModel model)
         {
             var newsItem = DbContext.NewsItems.SingleOrDefault(n => n.NewsItemId == id);
-            if (newsItem == null)
+            if (newsItem == null || !User.IsTeamIdValidForUser(model.TeamModel.TeamId))
             {
                 return HttpNotFound();
             }
@@ -123,6 +127,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                             .Select(ty => new NewsEditTeamListModel {TeamId = ty.TeamId, TeamName = ty.FullName})
                             .ToList()
                             .Concat(new[] {new NewsEditTeamListModel {TeamName = Consts.LeagueNameForList}})
+                            .FilterTeamsForUser(User, n => n.TeamId)
                             .OrderBy(t => t.TeamName)
                             .ToList();
         }
