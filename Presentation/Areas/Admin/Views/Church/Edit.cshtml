@@ -1,0 +1,21 @@
+﻿@model ChurchEditModel
+@{
+    var title = (Model.ChurchId == 0 ? "Create" : "Edit") + " Church";
+    ViewBag.Title = title;
+}
+<div class="well">
+    @using (Html.BeginForm("Edit", "Church", FormMethod.Post, new { @class = "form-horizontal form-with-validation" }))
+    {
+        @Html.HiddenFor(m => m.ChurchId)
+
+        <fieldset>
+            <legend>@title</legend>
+            @Html.EditorFor(m => m.FullName)
+            @Html.EditorFor(m => m.DisplayName)
+            @Html.EditorFor(m => m.ContactInfo)
+            @Html.EditorFor(m => m.Website)
+            @Html.EditorFor(m => m.Information)
+            @Html.Partial("_FormCancelSubmit", Url.Action("List"))
+        </fieldset>
+    }
+</div>

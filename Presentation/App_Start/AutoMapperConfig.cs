@@ -19,6 +19,20 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<EntityModifiable, AuditDetailsModel>();
 
+            Mapper.CreateMap<EntityWithContactInfo, ContactInfoEditModel>()
+                  .ForMember(m => m.PrimaryPhoneNumber,
+                             exp => exp.MapFrom(e => new PhoneEditModel {PhoneNumber = e.Phone1, PhoneTypeId = e.Phone1TypeId, PhoneTypeName = e.Phone1Type == null ? null : e.Phone1Type.Description}))
+                  .ForMember(m => m.SecondaryPhoneNumber,
+                             exp => exp.MapFrom(e => new PhoneEditModel {PhoneNumber = e.Phone2, PhoneTypeId = e.Phone2TypeId, PhoneTypeName = e.Phone2Type == null ? null : e.Phone1Type.Description}))
+                  .ForMember(m => m.State, exp => exp.MapFrom(e => new StateEditModel {StateId = e.StateId, StateName = e.State.Name}));
+
+            #endregion
+
+            #region Church
+
+            Mapper.CreateMap<Church, ChurchEditModel>()
+                  .MapEditModelBaseWithContactInfo();
+
             #endregion
 
             #region NewsItem
@@ -126,6 +140,14 @@ namespace Tcbcsl.Presentation
         {
             return mapping.ForMember(m => m.AuditDetails, exp => exp.MapFrom(e => Mapper.Map<AuditDetailsModel>(e)))
                           .MapEditModelBase();
+        }
+
+        private static IMappingExpression<TEntity, TModel> MapEditModelBaseWithContactInfo<TEntity, TModel>(this IMappingExpression<TEntity, TModel> mapping)
+            where TEntity : EntityWithContactInfo
+            where TModel : EditModelBaseWithContactInfo
+        {
+            return mapping.ForMember(m => m.ContactInfo, exp => exp.MapFrom(e => Mapper.Map<ContactInfoEditModel>(e)))
+                          .MapEditModelBaseWithAudit();
         }
 
         private static IMappingExpression<TModel, TEntity> MapEntityModifiable<TModel, TEntity>(this IMappingExpression<TModel, TEntity> mapping)

@@ -1,0 +1,35 @@
+﻿@model ChurchEditModel
+@{
+    const string title = "Manage Churches";
+    ViewBag.Title = title;
+}
+<h2>@title</h2>
+@Html.Partial("_AdminListTable", new AdminListTableModel { ListItemName = "Churches", CreateItemUrl = Url.Action("Create") })
+
+@section scripts
+{
+    <script>
+        var columns = [
+            { 'data': 'ChurchId',                       'title': '@Html.DisplayNameFor(m => m.ChurchId)',               'visible': false },
+            { 'data': 'FullName',                       'title': '@Html.DisplayNameFor(m => m.FullName)' },
+            { 'data': 'DisplayName',                    'title': '@Html.DisplayNameFor(m => m.DisplayName)' },
+            { 'data': 'ContactInfo.PrimaryPhoneNumber', 'title': '@Html.DisplayNameFor(m => m.ContactInfo.PrimaryPhoneNumber)',                'render': 'PhoneNumber' },
+            { 'data': 'Website',                        'title': '@Html.DisplayNameFor(m => m.Website)' },
+            { 'data': 'Information',                    'title': '@Html.DisplayNameFor(m => m.Information)',                                   'render': renderPartialContent },
+            { 'data': 'AuditDetails.CreatedBy',         'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible':   false },
+            { 'data': 'AuditDetails.Created',           'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'visible':   false,   'render': renderDate },
+            { 'data': 'AuditDetails.ModifiedBy',        'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'visible':   false },
+            { 'data': 'AuditDetails.Modified',          'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'visible':   false,   'render': renderDate },
+            { 'data': 'EditUrl',                                                                                         'orderable': false,   'render': renderEditLink }
+        ];
+
+        datatable_RenderList({
+            'tableSelector': '.admin-list',
+            'dataUrl': '@Url.Action("Data")',
+            'columns': columns,
+            'sorting': true,
+            'paging': true,
+            'order': [[findColumnIndex(columns, 'FullName'), 'asc']]
+        });
+    </script>
+}
