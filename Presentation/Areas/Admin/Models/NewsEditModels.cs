@@ -28,11 +28,10 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public NewsEditTeamModel TeamModel { get; set; }
 
         [MaxLength(255)]
-        [UIHint("TextSingleLine")]
         public string Subject { get; set; }
 
         [Required]
-        [UIHint("TextMultiLine")]
+        [UIHint("HtmlEditor")]
         [AllowHtml]
         public string Content { get; set; }
     }

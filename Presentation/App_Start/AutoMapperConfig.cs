@@ -9,6 +9,8 @@ using Tcbcsl.Data.Identity;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
 
+// ReSharper disable UnusedMethodReturnValue.Local
+
 namespace Tcbcsl.Presentation
 {
     public static class AutoMapperConfig
@@ -19,12 +21,14 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<EntityModifiable, AuditDetailsModel>();
 
+            Mapper.CreateMap<EntityWithContactInfo, StateEditModel>()
+                  .ForMember(m => m.StateName, exp => exp.MapFrom(e => e.State.Name))
+                  .ForMember(m => m.States, exp => exp.Ignore());
+
             Mapper.CreateMap<EntityWithContactInfo, ContactInfoEditModel>()
-                  .ForMember(m => m.PrimaryPhoneNumber,
-                             exp => exp.MapFrom(e => new PhoneEditModel {PhoneNumber = e.Phone1, PhoneTypeId = e.Phone1TypeId, PhoneTypeName = e.Phone1Type == null ? null : e.Phone1Type.Description}))
-                  .ForMember(m => m.SecondaryPhoneNumber,
-                             exp => exp.MapFrom(e => new PhoneEditModel {PhoneNumber = e.Phone2, PhoneTypeId = e.Phone2TypeId, PhoneTypeName = e.Phone2Type == null ? null : e.Phone1Type.Description}))
-                  .ForMember(m => m.State, exp => exp.MapFrom(e => new StateEditModel {StateId = e.StateId, StateName = e.State.Name}));
+                  .ForMember(m => m.PrimaryPhone, exp => exp.MapFrom(e => new PhoneEditModel {PhoneNumber = e.Phone1, PhoneTypeId = e.Phone1TypeId, PhoneTypeName = e.Phone1Type.Description}))
+                  .ForMember(m => m.SecondaryPhone, exp => exp.MapFrom(e => new PhoneEditModel {PhoneNumber = e.Phone2, PhoneTypeId = e.Phone2TypeId, PhoneTypeName = e.Phone1Type.Description}))
+                  .ForMember(m => m.State, exp => exp.MapFrom(e => Mapper.Map<StateEditModel>(e)));
 
             #endregion
 

@@ -94,6 +94,14 @@ function renderPartialContent(data, type) {
         : data;
 }
 
+function renderPhone(data, type) {
+    return data == null
+        ? null
+        : type === 'display'
+            ? data.PhoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
+            : data.PhoneNumber;
+}
+
 //#endregion
 
 //#region List Table Settings Functions

@@ -254,6 +254,8 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
+    <Compile Include="Helpers\InputTypeAttribute.cs" />
+    <Compile Include="Helpers\MetadataProvider.cs" />
     <Compile Include="Models\YearEnum.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CoachViewModels.cs" />
@@ -357,8 +359,8 @@
     <Content Include="Areas\Admin\Views\Church\List.cshtml" />
     <Content Include="Areas\Admin\Views\Church\Edit.cshtml" />
     <None Include="Areas\Admin\Views\ContentItem\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\TextSingleLine.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\TextMultiLine.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\String.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\HtmlEditor.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_AdminListTable.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_FormCancelSubmit.cshtml" />
@@ -371,6 +373,7 @@
     <Content Include="Areas\Admin\Views\User\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\User\EditorTemplates\RolesEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\User\EditorTemplates\AssignedTeamsEditModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\ContactInfoEditModel.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />

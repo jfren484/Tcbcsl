@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using Tcbcsl.Presentation.Helpers;
+using InputType = Tcbcsl.Presentation.Helpers.InputType;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
@@ -9,19 +11,17 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public int ChurchId { get; set; }
 
         [Required, MaxLength(100)]
-        [UIHint("TextSingleLine")]
         [Display(Name = "Full Name")]
         public string FullName { get; set; }
 
         [Required, MaxLength(100)]
-        [UIHint("TextSingleLine")]
         [Display(Name = "Display Name")]
         public string DisplayName { get; set; }
 
-        [UIHint("TextSingleLine")]
+        [InputType(InputType.Url)]
         public string Website { get; set; }
 
-        [UIHint("TextMultiLine")]
+        [UIHint("HtmlEditor")]
         [AllowHtml]
         public string Information { get; set; }
     }

@@ -21,11 +21,11 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [MaxLength(10)]
         public string Zip { get; set; }
 
-        [Display(Name = "Pimary Phone Number")]
-        public PhoneEditModel PrimaryPhoneNumber { get; set; }
+        [Display(Name = "Pimary Phone")]
+        public PhoneEditModel PrimaryPhone { get; set; }
 
-        [Display(Name = "Secondary Phone Number")]
-        public PhoneEditModel SecondaryPhoneNumber { get; set; }
+        [Display(Name = "Secondary Phone")]
+        public PhoneEditModel SecondaryPhone { get; set; }
 
         [MaxLength(100)]
         [Display(Name = "Email Address")]

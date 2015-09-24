@@ -11,15 +11,13 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [MaxLength(30), Required]
         [RegularExpression("^\\S+$", ErrorMessage = "Tag may not contain whitespace")]
         [Display(Name = "Tag")]
-        [UIHint("TextSingleLine")]
         public string PageTag { get; set; }
 
         [MaxLength(50), Required]
-        [UIHint("TextSingleLine")]
         public string Title { get; set; }
 
         [Required]
-        [UIHint("TextMultiLine")]
+        [UIHint("HtmlEditor")]
         [AllowHtml]
         public string Content { get; set; }
     }

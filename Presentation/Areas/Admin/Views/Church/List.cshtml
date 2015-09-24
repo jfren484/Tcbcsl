@@ -10,17 +10,17 @@
 {
     <script>
         var columns = [
-            { 'data': 'ChurchId',                       'title': '@Html.DisplayNameFor(m => m.ChurchId)',               'visible': false },
-            { 'data': 'FullName',                       'title': '@Html.DisplayNameFor(m => m.FullName)' },
-            { 'data': 'DisplayName',                    'title': '@Html.DisplayNameFor(m => m.DisplayName)' },
-            { 'data': 'ContactInfo.PrimaryPhoneNumber', 'title': '@Html.DisplayNameFor(m => m.ContactInfo.PrimaryPhoneNumber)',                'render': 'PhoneNumber' },
-            { 'data': 'Website',                        'title': '@Html.DisplayNameFor(m => m.Website)' },
-            { 'data': 'Information',                    'title': '@Html.DisplayNameFor(m => m.Information)',                                   'render': renderPartialContent },
-            { 'data': 'AuditDetails.CreatedBy',         'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible':   false },
-            { 'data': 'AuditDetails.Created',           'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'visible':   false,   'render': renderDate },
-            { 'data': 'AuditDetails.ModifiedBy',        'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'visible':   false },
-            { 'data': 'AuditDetails.Modified',          'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'visible':   false,   'render': renderDate },
-            { 'data': 'EditUrl',                                                                                         'orderable': false,   'render': renderEditLink }
+            { 'data': 'ChurchId',                 'title': '@Html.DisplayNameFor(m => m.ChurchId)',                'visible':   false },
+            { 'data': 'FullName',                 'title': '@Html.DisplayNameFor(m => m.FullName)' },
+            { 'data': 'DisplayName',              'title': '@Html.DisplayNameFor(m => m.DisplayName)' },
+            { 'data': 'ContactInfo.PrimaryPhone', 'title': '@Html.DisplayNameFor(m => m.ContactInfo.PrimaryPhone)',                      'render': renderPhone },
+            { 'data': 'Website',                  'title': '@Html.DisplayNameFor(m => m.Website)' },
+            { 'data': 'Information',              'title': '@Html.DisplayNameFor(m => m.Information)',                                   'render': renderPartialContent },
+            { 'data': 'AuditDetails.CreatedBy',   'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible':   false },
+            { 'data': 'AuditDetails.Created',     'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'visible':   false,   'render': renderDate },
+            { 'data': 'AuditDetails.ModifiedBy',  'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'visible':   false },
+            { 'data': 'AuditDetails.Modified',    'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'visible':   false,   'render': renderDate },
+            { 'data': 'EditUrl',                                                                                   'orderable': false,   'render': renderEditLink }
         ];
 
         datatable_RenderList({
