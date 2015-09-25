@@ -5,20 +5,20 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
     public class ContactInfoEditModel
     {
-        [MaxLength(50)]
+        [StringLength(50)]
         [Display(Name = "Street Address 1")]
         public string Street1 { get; set; }
 
-        [MaxLength(50)]
+        [StringLength(50)]
         [Display(Name = "Street Address 2")]
         public string Street2 { get; set; }
 
-        [MaxLength(30)]
+        [StringLength(30)]
         public string City { get; set; }
 
         public StateEditModel State { get; set; }
 
-        [MaxLength(10)]
+        [StringLength(10)]
         public string Zip { get; set; }
 
         [Display(Name = "Pimary Phone")]
@@ -27,8 +27,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "Secondary Phone")]
         public PhoneEditModel SecondaryPhone { get; set; }
 
-        [MaxLength(100)]
+        [StringLength(100)]
         [Display(Name = "Email Address")]
+        [EmailAddress]
         public string Email { get; set; }
     }
 
@@ -53,7 +54,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
     {
         public List<PhoneTypeModel> PhoneTypes { get; set; }
 
-        [MaxLength(10)]
         public string PhoneNumber { get; set; }
     }
 }

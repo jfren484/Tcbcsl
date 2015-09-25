@@ -3,7 +3,9 @@
 
     $('.datetime-picker').datetimepicker({ sideBySide: true, format: consts.editorDateFormat });
 
-    $('.multi-select').multiselect({buttonWidth: '100%'});
+    $('.multi-select').multiselect({ buttonWidth: '100%' });
+
+    $('input[type="tel"]').mask('(999) 999-9999');
 
     tinymce.init({
         plugins: 'autolink autosave image imagetools link lists table',

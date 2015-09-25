@@ -27,7 +27,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "Team")]
         public NewsEditTeamModel TeamModel { get; set; }
 
-        [MaxLength(255)]
+        [StringLength(255)]
         public string Subject { get; set; }
 
         [Required]

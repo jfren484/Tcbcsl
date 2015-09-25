@@ -8,12 +8,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "Id")]
         public int PageContentId { get; set; }
 
-        [MaxLength(30), Required]
+        [StringLength(30), Required]
         [RegularExpression("^\\S+$", ErrorMessage = "Tag may not contain whitespace")]
         [Display(Name = "Tag")]
         public string PageTag { get; set; }
 
-        [MaxLength(50), Required]
+        [StringLength(50), Required]
         public string Title { get; set; }
 
         [Required]

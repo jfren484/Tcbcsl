@@ -229,7 +229,7 @@
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\AuditDetailsModel.cs" />
     <Compile Include="Areas\Admin\Models\ChurchEditModels.cs" />
-    <Compile Include="Areas\Admin\Models\ContactInfoEditModel.cs" />
+    <Compile Include="Areas\Admin\Models\ContactInfoEditModels.cs" />
     <Compile Include="Areas\Admin\Models\EditModelBaseWithContactInfo.cs" />
     <Compile Include="Areas\Admin\Models\NewsEditModels.cs" />
     <Compile Include="Areas\Admin\Models\AdminListTableModel.cs" />
@@ -254,8 +254,6 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
-    <Compile Include="Helpers\InputTypeAttribute.cs" />
-    <Compile Include="Helpers\MetadataProvider.cs" />
     <Compile Include="Models\YearEnum.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CoachViewModels.cs" />
@@ -374,6 +372,9 @@
     <Content Include="Areas\Admin\Views\User\EditorTemplates\RolesEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\User\EditorTemplates\AssignedTeamsEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\ContactInfoEditModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\Url.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\EmailAddress.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\PhoneEditModel.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />
@@ -499,6 +500,8 @@
     <Content Include="Scripts\jquery-2.1.4.min.map" />
     <None Include="Scripts\jquery-2.1.4-vsdoc.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.maskedinput.js" />
+    <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
