@@ -30,12 +30,21 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.SecondaryPhone, exp => exp.MapFrom(e => new PhoneEditModel {PhoneNumber = e.Phone2, PhoneTypeId = e.Phone2TypeId, PhoneTypeName = e.Phone1Type.Description}))
                   .ForMember(m => m.State, exp => exp.MapFrom(e => Mapper.Map<StateEditModel>(e)));
 
+            //Mapper.CreateMap<EditModelBaseWithContactInfo, EntityWithContactInfo>()
+            //      .ForSourceMember(m => m.ContactInfo, exp => exp.MapFrom);
+
+            //Mapper.CreateMap<ContactInfoEditModel, EntityWithContactInfo>();
+
             #endregion
 
             #region Church
 
             Mapper.CreateMap<Church, ChurchEditModel>()
                   .MapEditModelBaseWithContactInfo();
+
+            Mapper.CreateMap<ChurchEditModel, Church>()
+                  .MapEntityWithContactInfo()
+                  .ForMember(m => m.TeamYears, exp => exp.Ignore());
 
             #endregion
 
@@ -155,13 +164,21 @@ namespace Tcbcsl.Presentation
         }
 
         private static IMappingExpression<TModel, TEntity> MapEntityModifiable<TModel, TEntity>(this IMappingExpression<TModel, TEntity> mapping)
-            where TEntity : EntityModifiable
             where TModel : EditModelBaseWithAudit
+            where TEntity : EntityModifiable
         {
             return mapping.ForMember(e => e.CreatedBy, exp => exp.Ignore())
                           .ForMember(e => e.Created, exp => exp.Ignore())
                           .ForMember(e => e.Modified, exp => exp.Ignore())
                           .ForMember(e => e.ModifiedBy, exp => exp.Ignore());
+        }
+
+        private static IMappingExpression<TModel, TEntity> MapEntityWithContactInfo<TModel, TEntity>(this IMappingExpression<TModel, TEntity> mapping)
+            where TModel : EditModelBaseWithContactInfo
+            where TEntity : EntityWithContactInfo
+        {
+            return mapping.MapEntityModifiable()
+                          .ForMember(e => e.Street1, exp => exp.MapFrom(m => m.ContactInfo.Street1));
         }
 
         #endregion
