@@ -24,6 +24,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
     public class RolesEditModel
     {
         public List<string> RoleIds { get; set; }
+
         public List<SelectListItem> AllRoles { get; set; }
 
         public string SelectedRoleNames { get; set; }
@@ -32,6 +33,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
     public class AssignedTeamsEditModel
     {
         public List<int> TeamIds { get; set; }
+
         public List<SelectListItem> AllTeams { get; set; }
 
         public string SelectedTeamNames { get; set; }

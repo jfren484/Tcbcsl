@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Tcbcsl.Data.Entities;
@@ -47,7 +48,14 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Create")]
         public ActionResult Create()
         {
-            return View("Edit", new ChurchEditModel());
+            return View("Edit", new ChurchEditModel
+                                {
+                                    ContactInfo = new ContactInfoEditModel
+                                                  {
+                                                      State = new StateEditModel {States = GetStates()},
+                                                      PrimaryPhone = new PhoneEditModel {PhoneTypeId = ContactInfoPieceType.Main}
+                                                  }
+                                });
         }
 
         [Authorize(Roles = "League Commissioner")]
@@ -72,7 +80,11 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 return HttpNotFound();
             }
 
-            return View(Mapper.Map<ChurchEditModel>(church));
+            var model = Mapper.Map<ChurchEditModel>(church);
+            model.ContactInfo.State.States = GetStates();
+            model.ContactInfo.PrimaryPhone.PhoneTypeId = model.ContactInfo.PrimaryPhone.PhoneTypeId ?? ContactInfoPieceType.Main;
+
+            return View(model);
         }
 
         [HttpPost]
@@ -90,6 +102,18 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             DbContext.SaveChanges();
 
             return RedirectToAction("List");
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private List<StateModel> GetStates()
+        {
+            return DbContext.States
+                            .Select(s => new StateModel { StateId = s.StateId, StateName = s.Name })
+                            .OrderBy(s => s.StateName)
+                            .ToList();
         }
 
         #endregion
