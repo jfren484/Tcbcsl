@@ -21,14 +21,8 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<EntityModifiable, AuditDetailsModel>();
 
-            Mapper.CreateMap<EntityWithContactInfo, StateEditModel>()
-                  .ForMember(m => m.StateName, exp => exp.MapFrom(e => e.State.Name))
-                  .ForMember(m => m.States, exp => exp.Ignore());
+            Mapper.CreateMap<EntityWithContactInfo, ContactInfoEditModel>();
 
-            Mapper.CreateMap<EntityWithContactInfo, ContactInfoEditModel>()
-                  .ForMember(m => m.PrimaryPhone, exp => exp.MapFrom(e => new PhoneEditModel {PhoneNumber = e.Phone1, PhoneTypeId = e.Phone1TypeId, PhoneTypeName = e.Phone1Type.Description}))
-                  .ForMember(m => m.SecondaryPhone, exp => exp.MapFrom(e => new PhoneEditModel {PhoneNumber = e.Phone2, PhoneTypeId = e.Phone2TypeId, PhoneTypeName = e.Phone1Type.Description}))
-                  .ForMember(m => m.State, exp => exp.MapFrom(e => Mapper.Map<StateEditModel>(e)));
             #endregion
 
             #region Church
@@ -36,9 +30,23 @@ namespace Tcbcsl.Presentation
             Mapper.CreateMap<Church, ChurchEditModel>()
                   .MapEditModelBaseWithContactInfo();
 
-            Mapper.CreateMap<ChurchEditModel, Church>()
-                  .MapEntityWithContactInfo()
-                  .ForMember(m => m.TeamYears, exp => exp.Ignore());
+            //Mapper.CreateMap<ChurchEditModel, Church>()
+            //      .MapEntityWithContactInfo()
+            //      .ForMember(m => m.TeamYears, exp => exp.Ignore());
+
+            #endregion
+
+            #region Contact Info mappings
+
+            Mapper.CreateMap<Address, AddressEditModel>();
+
+            Mapper.CreateMap<ContactPhoneNumber, PhoneEditModel>()
+                  .ForMember(m => m.PhoneTypeName, exp => exp.MapFrom(e => e.PhoneNumberType.Description))
+                  .ForMember(m => m.PhoneTypes, exp => exp.Ignore());
+
+            Mapper.CreateMap<State, StateEditModel>()
+                  .ForMember(m => m.StateName, exp => exp.MapFrom(e => e.Name))
+                  .ForMember(m => m.States, exp => exp.Ignore());
 
             #endregion
 
@@ -172,19 +180,24 @@ namespace Tcbcsl.Presentation
             where TEntity : EntityWithContactInfo
         {
             return mapping.MapEntityModifiable()
-                          .ForMember(e => e.Street1, exp => exp.MapFrom(m => m.ContactInfo.Street1))
-                          .ForMember(e => e.Street2, exp => exp.MapFrom(m => m.ContactInfo.Street2))
-                          .ForMember(e => e.City, exp => exp.MapFrom(m => m.ContactInfo.City))
-                          .ForMember(e => e.Zip, exp => exp.MapFrom(m => m.ContactInfo.Zip))
-                          .ForMember(e => e.Email, exp => exp.MapFrom(m => m.ContactInfo.Email))
-                          .ForMember(e => e.State, exp => exp.Ignore())
-                          .ForMember(e => e.StateId, exp => exp.MapFrom(m => m.ContactInfo.State.StateId))
-                          .ForMember(e => e.Phone1Type, exp => exp.Ignore())
-                          .ForMember(e => e.Phone1TypeId, exp => exp.MapFrom(m => m.ContactInfo.PrimaryPhone.PhoneTypeId))
-                          .ForMember(e => e.Phone1, exp => exp.MapFrom(m => m.ContactInfo.PrimaryPhone.PhoneNumber))
-                          .ForMember(e => e.Phone2Type, exp => exp.Ignore())
-                          .ForMember(e => e.Phone2TypeId, exp => exp.MapFrom(m => m.ContactInfo.SecondaryPhone.PhoneTypeId))
-                          .ForMember(e => e.Phone2, exp => exp.MapFrom(m => m.ContactInfo.SecondaryPhone.PhoneNumber));
+                          .ForMember(e => e.AddressId, exp => exp.MapFrom(m => m.ContactInfo.Address.AddressId))
+                          .ForMember(e => e.Address, exp => exp.MapFrom(m => m.ContactInfo.Address))
+                          .ForMember(e => e.EmailAddress, exp => exp.MapFrom(m => m.ContactInfo.EmailAddress))
+                          .ForMember(e => e.PhoneNumbers, exp => exp.Ignore())
+                //.ForMember(e => e.Street1, exp => exp.MapFrom(m => m.ContactInfo.Street1))
+                //.ForMember(e => e.Street2, exp => exp.MapFrom(m => m.ContactInfo.Street2))
+                //.ForMember(e => e.City, exp => exp.MapFrom(m => m.ContactInfo.City))
+                //.ForMember(e => e.Zip, exp => exp.MapFrom(m => m.ContactInfo.Zip))
+                //.ForMember(e => e.Email, exp => exp.MapFrom(m => m.ContactInfo.Email))
+                //.ForMember(e => e.State, exp => exp.Ignore())
+                //.ForMember(e => e.StateId, exp => exp.MapFrom(m => m.ContactInfo.State.StateId))
+                //.ForMember(e => e.Phone1Type, exp => exp.Ignore())
+                //.ForMember(e => e.Phone1TypeId, exp => exp.MapFrom(m => m.ContactInfo.PrimaryPhone.PhoneTypeId))
+                //.ForMember(e => e.Phone1, exp => exp.MapFrom(m => m.ContactInfo.PrimaryPhone.PhoneNumber))
+                //.ForMember(e => e.Phone2Type, exp => exp.Ignore())
+                //.ForMember(e => e.Phone2TypeId, exp => exp.MapFrom(m => m.ContactInfo.SecondaryPhone.PhoneTypeId))
+                //.ForMember(e => e.Phone2, exp => exp.MapFrom(m => m.ContactInfo.SecondaryPhone.PhoneNumber))
+                ;
         }
 
         #endregion

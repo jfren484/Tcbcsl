@@ -5,6 +5,21 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
     public class ContactInfoEditModel
     {
+        public AddressEditModel Address { get; set; }
+
+        [StringLength(100)]
+        [Display(Name = "Email Address")]
+        [EmailAddress]
+        public string EmailAddress { get; set; }
+
+        [Display(Name = "Phone Numbers")]
+        public List<PhoneEditModel> PhoneNumbers { get; set; }
+    }
+
+    public class AddressEditModel
+    {
+        public int? AddressId { get; set; }
+
         [StringLength(50)]
         [Display(Name = "Street Address 1")]
         public string Street1 { get; set; }
@@ -20,17 +35,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         [StringLength(10)]
         public string Zip { get; set; }
-
-        [Display(Name = "Pimary Phone")]
-        public PhoneEditModel PrimaryPhone { get; set; }
-
-        [Display(Name = "Secondary Phone")]
-        public PhoneEditModel SecondaryPhone { get; set; }
-
-        [StringLength(100)]
-        [Display(Name = "Email Address")]
-        [EmailAddress]
-        public string Email { get; set; }
     }
 
     public class StateModel
@@ -46,7 +50,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
     public class PhoneTypeModel
     {
-        public int? PhoneTypeId { get; set; }
+        public int? PhoneNumberTypeId { get; set; }
         public string PhoneTypeName { get; set; }
     }
 

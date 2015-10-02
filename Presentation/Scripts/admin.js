@@ -96,12 +96,10 @@ function renderPartialContent(data, type) {
         : data;
 }
 
-function renderPhone(data, type) {
-    return data == null
+function renderPhone(data) {
+    return !data.length
         ? null
-        : type === 'display'
-            ? data.PhoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
-            : data.PhoneNumber;
+        : data[0].PhoneNumber;
 }
 
 //#endregion

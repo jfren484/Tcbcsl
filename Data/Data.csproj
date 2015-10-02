@@ -136,6 +136,10 @@
     <Compile Include="Migrations\201510021710392_FurtherContactInfoRefinements.Designer.cs">
       <DependentUpon>201510021710392_FurtherContactInfoRefinements.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510022005403_FixStateRelationships.cs" />
+    <Compile Include="Migrations\201510022005403_FixStateRelationships.Designer.cs">
+      <DependentUpon>201510022005403_FixStateRelationships.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
     <Compile Include="Entities\PageContent.cs" />
@@ -196,6 +200,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510021710392_FurtherContactInfoRefinements.resx">
       <DependentUpon>201510021710392_FurtherContactInfoRefinements.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510022005403_FixStateRelationships.resx">
+      <DependentUpon>201510022005403_FixStateRelationships.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

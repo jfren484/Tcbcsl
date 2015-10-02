@@ -14,7 +14,6 @@ namespace Tcbcsl.Data.Entities
         [MaxLength(50), Required]
         public string Name { get; set; }
 
-        public virtual ICollection<Church> Churches { get; set; }
-        public virtual ICollection<Coach> Coaches { get; set; }
+        public virtual ICollection<Address> Addresses { get; set; }
     }
 }

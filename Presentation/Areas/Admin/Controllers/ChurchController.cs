@@ -22,7 +22,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         }
 
         [Authorize(Roles = "League Commissioner")]
-        [HttpPost]
+        //[HttpPost]
         [Route("Data")]
         public JsonResult Data()
         {
@@ -37,7 +37,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                             return model;
                                         });
 
-            return Json(data);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -52,8 +52,14 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 {
                                     ContactInfo = new ContactInfoEditModel
                                                   {
-                                                      State = new StateEditModel {States = GetStates()},
-                                                      PrimaryPhone = new PhoneEditModel {PhoneTypeId = PhoneNumberType.Main}
+                                                      Address = new AddressEditModel
+                                                                {
+                                                                    State = new StateEditModel {States = GetStates()}
+                                                                },
+                                                      PhoneNumbers = new List<PhoneEditModel>
+                                                                     {
+                                                                         new PhoneEditModel {PhoneNumberTypeId = PhoneNumberType.Main}
+                                                                     }
                                                   }
                                 });
         }
@@ -81,8 +87,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             var model = Mapper.Map<ChurchEditModel>(church);
-            model.ContactInfo.State.States = GetStates();
-            model.ContactInfo.PrimaryPhone.PhoneTypeId = model.ContactInfo.PrimaryPhone.PhoneTypeId ?? PhoneNumberType.Main;
+            model.ContactInfo.Address.State.States = GetStates();
+            // TODO: fix this
+            model.ContactInfo.PhoneNumbers[0].PhoneNumberTypeId = model.ContactInfo.PhoneNumbers[0].PhoneNumberTypeId ?? PhoneNumberType.Main;
 
             return View(model);
         }
