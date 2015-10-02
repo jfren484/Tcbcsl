@@ -7,13 +7,16 @@ namespace Tcbcsl.Data
 {
     public class TcbcslDbContext : IdentityDbContext<TcbcslUser>
     {
-        public TcbcslDbContext() : base("TcbcslDbContext", throwIfV1Schema: false) {}
+        public TcbcslDbContext() : base("TcbcslDbContext", throwIfV1Schema: false) { }
 
+        public DbSet<Address> Addresses { get; set; }
         public DbSet<Church> Churches { get; set; }
         public DbSet<Coach> Coaches { get; set; }
         public DbSet<Conference> Conferences { get; set; }
         public DbSet<ConferenceYear> ConferenceYears { get; set; }
+        public DbSet<ContactEmailAddress> ContactEmailAddresses { get; set; }
         public DbSet<ContactInfoPieceType> ContactInfoPieceTypes { get; set; }
+        public DbSet<ContactPhoneNumber> ContactPhoneNumbers { get; set; }
         public DbSet<Division> Divisions { get; set; }
         public DbSet<DivisionYear> DivisionYears { get; set; }
         public DbSet<Game> Games { get; set; }
@@ -27,6 +30,27 @@ namespace Tcbcsl.Data
         public DbSet<StatLine> StatLines { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamYear> TeamYears { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            //modelBuilder.Entity<Address>()
+            //            .HasOptional(a => a.Church)
+            //            .WithOptionalDependent(c => c.Address);
+
+            //modelBuilder.Entity<Address>()
+            //            .HasOptional(a => a.Coach)
+            //            .WithOptionalDependent(c => c.Address);
+
+            //modelBuilder.Entity<Church>()
+            //            .HasRequired(c => c.Address)
+            //            .WithOptional(a => a.Church);
+
+            //modelBuilder.Entity<Coach>()
+            //            .HasRequired(c => c.Address)
+            //            .WithOptional(a => a.Coach);
+        }
 
         public static TcbcslDbContext Create()
         {

@@ -64,16 +64,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Consts.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Address.cs" />
     <Compile Include="Entities\Church.cs" />
     <Compile Include="Entities\Coach.cs" />
     <Compile Include="Entities\Conference.cs" />
     <Compile Include="Entities\ConferenceYear.cs" />
+    <Compile Include="Entities\ContactEmailAddress.cs" />
     <Compile Include="Entities\ContactInfoPieceType.cs" />
+    <Compile Include="Entities\ContactPhoneNumber.cs" />
     <Compile Include="Entities\Division.cs" />
     <Compile Include="Entities\DivisionYear.cs" />
     <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="Entities\EntityModifiable.cs" />
-    <Compile Include="Entities\EntityWithContactInfo.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\GameParticipant.cs" />
     <Compile Include="Entities\GameStatus.cs" />
@@ -121,6 +123,10 @@
     <Compile Include="Migrations\201509222006476_AddUserTeamRelationship.cs" />
     <Compile Include="Migrations\201509222006476_AddUserTeamRelationship.Designer.cs">
       <DependentUpon>201509222006476_AddUserTeamRelationship.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510021537310_NormalizeContactInfo.cs" />
+    <Compile Include="Migrations\201510021537310_NormalizeContactInfo.Designer.cs">
+      <DependentUpon>201510021537310_NormalizeContactInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
@@ -175,6 +181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509222006476_AddUserTeamRelationship.resx">
       <DependentUpon>201509222006476_AddUserTeamRelationship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510021537310_NormalizeContactInfo.resx">
+      <DependentUpon>201510021537310_NormalizeContactInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
