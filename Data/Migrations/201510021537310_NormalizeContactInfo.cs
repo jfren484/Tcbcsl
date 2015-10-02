@@ -1,24 +1,22 @@
 namespace Tcbcsl.Data.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
-    public partial class NormalizeContactInfo : DbMigration
+    public partial class NormalizeContactInfo : Migration
     {
         public override void Up()
         {
             DropForeignKey("dbo.Churches", "Phone1TypeId", "dbo.ContactInfoPieceTypes");
             DropForeignKey("dbo.Churches", "Phone2TypeId", "dbo.ContactInfoPieceTypes");
+            DropForeignKey("dbo.Churches", "StateId", "dbo.States");
             DropForeignKey("dbo.Coaches", "Phone1TypeId", "dbo.ContactInfoPieceTypes");
             DropForeignKey("dbo.Coaches", "Phone2TypeId", "dbo.ContactInfoPieceTypes");
+            DropForeignKey("dbo.Coaches", "StateId", "dbo.States");
             DropIndex("dbo.Churches", new[] { "Phone1TypeId" });
             DropIndex("dbo.Churches", new[] { "Phone2TypeId" });
+            DropIndex("dbo.Churches", new[] { "StateId" });
             DropIndex("dbo.Coaches", new[] { "Phone1TypeId" });
             DropIndex("dbo.Coaches", new[] { "Phone2TypeId" });
-            RenameColumn(table: "dbo.Churches", name: "StateId", newName: "State_StateId");
-            RenameColumn(table: "dbo.Coaches", name: "StateId", newName: "State_StateId");
-            RenameIndex(table: "dbo.Churches", name: "IX_StateId", newName: "IX_State_StateId");
-            RenameIndex(table: "dbo.Coaches", name: "IX_StateId", newName: "IX_State_StateId");
+            DropIndex("dbo.Coaches", new[] { "StateId" });
+
             CreateTable(
                 "dbo.Addresses",
                 c => new
@@ -90,9 +88,11 @@ namespace Tcbcsl.Data.Migrations
             CreateIndex("dbo.Coaches", "AddressId");
             AddForeignKey("dbo.Churches", "AddressId", "dbo.Addresses", "AddressId");
             AddForeignKey("dbo.Coaches", "AddressId", "dbo.Addresses", "AddressId");
+
             DropColumn("dbo.Churches", "Street1");
             DropColumn("dbo.Churches", "Street2");
             DropColumn("dbo.Churches", "City");
+            DropColumn("dbo.Churches", "StateId");
             DropColumn("dbo.Churches", "Zip");
             DropColumn("dbo.Churches", "Phone1");
             DropColumn("dbo.Churches", "Phone1TypeId");
@@ -102,6 +102,7 @@ namespace Tcbcsl.Data.Migrations
             DropColumn("dbo.Coaches", "Street1");
             DropColumn("dbo.Coaches", "Street2");
             DropColumn("dbo.Coaches", "City");
+            DropColumn("dbo.Coaches", "StateId");
             DropColumn("dbo.Coaches", "Zip");
             DropColumn("dbo.Coaches", "Phone1");
             DropColumn("dbo.Coaches", "Phone1TypeId");
@@ -118,6 +119,7 @@ namespace Tcbcsl.Data.Migrations
             AddColumn("dbo.Coaches", "Phone1TypeId", c => c.Int());
             AddColumn("dbo.Coaches", "Phone1", c => c.String(maxLength: 10));
             AddColumn("dbo.Coaches", "Zip", c => c.String(maxLength: 10));
+            AddColumn("dbo.Coaches", "StateId", c => c.Int());
             AddColumn("dbo.Coaches", "City", c => c.String(maxLength: 30));
             AddColumn("dbo.Coaches", "Street2", c => c.String(maxLength: 50));
             AddColumn("dbo.Coaches", "Street1", c => c.String(maxLength: 50));
@@ -127,6 +129,7 @@ namespace Tcbcsl.Data.Migrations
             AddColumn("dbo.Churches", "Phone1TypeId", c => c.Int());
             AddColumn("dbo.Churches", "Phone1", c => c.String(maxLength: 10));
             AddColumn("dbo.Churches", "Zip", c => c.String(maxLength: 10));
+            AddColumn("dbo.Churches", "StateId", c => c.Int());
             AddColumn("dbo.Churches", "City", c => c.String(maxLength: 30));
             AddColumn("dbo.Churches", "Street2", c => c.String(maxLength: 50));
             AddColumn("dbo.Churches", "Street1", c => c.String(maxLength: 50));
@@ -153,16 +156,16 @@ namespace Tcbcsl.Data.Migrations
             DropTable("dbo.ContactPhoneNumbers");
             DropTable("dbo.ContactEmailAddresses");
             DropTable("dbo.Addresses");
-            RenameIndex(table: "dbo.Coaches", name: "IX_State_StateId", newName: "IX_StateId");
-            RenameIndex(table: "dbo.Churches", name: "IX_State_StateId", newName: "IX_StateId");
-            RenameColumn(table: "dbo.Coaches", name: "State_StateId", newName: "StateId");
-            RenameColumn(table: "dbo.Churches", name: "State_StateId", newName: "StateId");
+            CreateIndex("dbo.Coaches", "StateId");
             CreateIndex("dbo.Coaches", "Phone2TypeId");
             CreateIndex("dbo.Coaches", "Phone1TypeId");
+            CreateIndex("dbo.Churches", "StateId");
             CreateIndex("dbo.Churches", "Phone2TypeId");
             CreateIndex("dbo.Churches", "Phone1TypeId");
+            AddForeignKey("dbo.Coaches", "StateId", "dbo.States", "StateId");
             AddForeignKey("dbo.Coaches", "Phone2TypeId", "dbo.ContactInfoPieceTypes", "ContactInfoPieceTypeId");
             AddForeignKey("dbo.Coaches", "Phone1TypeId", "dbo.ContactInfoPieceTypes", "ContactInfoPieceTypeId");
+            AddForeignKey("dbo.Churches", "StateId", "dbo.States", "StateId");
             AddForeignKey("dbo.Churches", "Phone2TypeId", "dbo.ContactInfoPieceTypes", "ContactInfoPieceTypeId");
             AddForeignKey("dbo.Churches", "Phone1TypeId", "dbo.ContactInfoPieceTypes", "ContactInfoPieceTypeId");
         }

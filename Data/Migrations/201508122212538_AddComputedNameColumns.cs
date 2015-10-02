@@ -1,9 +1,6 @@
-using System.Data.Entity.Migrations;
-
 namespace Tcbcsl.Data.Migrations
 {
-    // ReSharper disable once UnusedMember.Global
-    public partial class AddComputedNameColumns : DbMigration
+    public partial class AddComputedNameColumns : Migration
     {
         public override void Up()
         {

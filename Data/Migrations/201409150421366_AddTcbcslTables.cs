@@ -1,9 +1,6 @@
-using System.Data.Entity.Migrations;
-
 namespace Tcbcsl.Data.Migrations
 {
-    // ReSharper disable once UnusedMember.Global
-    public partial class AddTcbcslTables : DbMigration
+    public partial class AddTcbcslTables : Migration
     {
         public override void Up()
         {

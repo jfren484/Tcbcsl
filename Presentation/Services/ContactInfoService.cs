@@ -45,7 +45,7 @@ namespace Tcbcsl.Presentation.Services
             };
         }
 
-        private static PhoneInfoModel GetPhoneInfoModel(string phoneNumber, ContactInfoPieceType phoneType)
+        private static PhoneInfoModel GetPhoneInfoModel(string phoneNumber, PhoneNumberType phoneType)
         {
             return phoneNumber == null
                        ? null

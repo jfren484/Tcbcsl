@@ -10,7 +10,7 @@ namespace Tcbcsl.Data.Entities
 
         public int? CoachId { get; set; }
 
-        public int? ContactInfoPieceTypeId { get; set; }
+        public int? PhoneNumberTypeId { get; set; }
 
         [MaxLength(20)]
         public string PhoneNumber { get; set; }
@@ -19,6 +19,6 @@ namespace Tcbcsl.Data.Entities
 
         public virtual Coach Coach { get; set; }
 
-        public virtual ContactInfoPieceType PhoneType { get; set; }
+        public virtual PhoneNumberType PhoneNumberType { get; set; }
     }
 }

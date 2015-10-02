@@ -1,6 +1,6 @@
 ﻿namespace Tcbcsl.Data.Entities
 {
-	public partial class ContactInfoPieceType
+	public partial class PhoneNumberType
 	{
 		public const int Main = 1;
 		public const int Mobile = 2;

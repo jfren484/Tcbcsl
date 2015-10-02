@@ -38,6 +38,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="JetBrains.Annotations, Version=9.2.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.9.2.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
@@ -69,13 +73,13 @@
     <Compile Include="Entities\Coach.cs" />
     <Compile Include="Entities\Conference.cs" />
     <Compile Include="Entities\ConferenceYear.cs" />
-    <Compile Include="Entities\ContactEmailAddress.cs" />
-    <Compile Include="Entities\ContactInfoPieceType.cs" />
+    <Compile Include="Entities\PhoneNumberType.cs" />
     <Compile Include="Entities\ContactPhoneNumber.cs" />
     <Compile Include="Entities\Division.cs" />
     <Compile Include="Entities\DivisionYear.cs" />
     <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="Entities\EntityModifiable.cs" />
+    <Compile Include="Entities\EntityWithContactInfo.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\GameParticipant.cs" />
     <Compile Include="Entities\GameStatus.cs" />
@@ -128,12 +132,17 @@
     <Compile Include="Migrations\201510021537310_NormalizeContactInfo.Designer.cs">
       <DependentUpon>201510021537310_NormalizeContactInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510021710392_FurtherContactInfoRefinements.cs" />
+    <Compile Include="Migrations\201510021710392_FurtherContactInfoRefinements.Designer.cs">
+      <DependentUpon>201510021710392_FurtherContactInfoRefinements.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
     <Compile Include="Entities\PageContent.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\State.cs" />
     <Compile Include="Entities\StatLine.cs" />
+    <Compile Include="Migrations\Migration.cs" />
     <Compile Include="TcbcslDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Identity\TcbcslUser.cs" />
@@ -184,6 +193,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510021537310_NormalizeContactInfo.resx">
       <DependentUpon>201510021537310_NormalizeContactInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510021710392_FurtherContactInfoRefinements.resx">
+      <DependentUpon>201510021710392_FurtherContactInfoRefinements.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

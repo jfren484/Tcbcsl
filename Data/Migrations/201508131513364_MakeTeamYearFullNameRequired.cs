@@ -1,9 +1,6 @@
-using System.Data.Entity.Migrations;
-
 namespace Tcbcsl.Data.Migrations
 {
-    // ReSharper disable once UnusedMember.Global
-    public partial class MakeTeamYearFullNameRequired : DbMigration
+    public partial class MakeTeamYearFullNameRequired : Migration
     {
         public override void Up()
         {

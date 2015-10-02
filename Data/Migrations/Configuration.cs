@@ -13,12 +13,12 @@ namespace Tcbcsl.Data.Migrations
 
         protected override void Seed(TcbcslDbContext context)
         {
-            context.ContactInfoPieceTypes.AddOrUpdate(
-                t => t.ContactInfoPieceTypeId,
-                new ContactInfoPieceType {ContactInfoPieceTypeId = 1, Description = "Main"},
-                new ContactInfoPieceType {ContactInfoPieceTypeId = 2, Description = "Mobile"},
-                new ContactInfoPieceType {ContactInfoPieceTypeId = 3, Description = "Home"},
-                new ContactInfoPieceType {ContactInfoPieceTypeId = 4, Description = "Work"}
+            context.PhoneNumberTypes.AddOrUpdate(
+                t => t.PhoneNumberTypeId,
+                new PhoneNumberType {PhoneNumberTypeId = 1, Description = "Main"},
+                new PhoneNumberType {PhoneNumberTypeId = 2, Description = "Mobile"},
+                new PhoneNumberType {PhoneNumberTypeId = 3, Description = "Home"},
+                new PhoneNumberType {PhoneNumberTypeId = 4, Description = "Work"}
                 );
 
             context.States.AddOrUpdate(

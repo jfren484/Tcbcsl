@@ -53,7 +53,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                     ContactInfo = new ContactInfoEditModel
                                                   {
                                                       State = new StateEditModel {States = GetStates()},
-                                                      PrimaryPhone = new PhoneEditModel {PhoneTypeId = ContactInfoPieceType.Main}
+                                                      PrimaryPhone = new PhoneEditModel {PhoneTypeId = PhoneNumberType.Main}
                                                   }
                                 });
         }
@@ -82,7 +82,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             var model = Mapper.Map<ChurchEditModel>(church);
             model.ContactInfo.State.States = GetStates();
-            model.ContactInfo.PrimaryPhone.PhoneTypeId = model.ContactInfo.PrimaryPhone.PhoneTypeId ?? ContactInfoPieceType.Main;
+            model.ContactInfo.PrimaryPhone.PhoneTypeId = model.ContactInfo.PrimaryPhone.PhoneTypeId ?? PhoneNumberType.Main;
 
             return View(model);
         }

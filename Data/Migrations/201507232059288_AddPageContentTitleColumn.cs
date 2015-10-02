@@ -1,9 +1,6 @@
-using System.Data.Entity.Migrations;
-
 namespace Tcbcsl.Data.Migrations
 {
-    // ReSharper disable once UnusedMember.Global
-    public partial class AddPageContentTitleColumn : DbMigration
+    public partial class AddPageContentTitleColumn : Migration
     {
         public override void Up()
         {
