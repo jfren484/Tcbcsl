@@ -1,21 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
-    public class ContactInfoEditModel
-    {
-        public AddressEditModel Address { get; set; }
-
-        [StringLength(100)]
-        [Display(Name = "Email Address")]
-        [EmailAddress]
-        public string EmailAddress { get; set; }
-
-        [Display(Name = "Phone Numbers")]
-        public List<PhoneEditModel> PhoneNumbers { get; set; }
-    }
-
     public class AddressEditModel
     {
         public int? AddressId { get; set; }
@@ -59,5 +48,31 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public List<PhoneTypeModel> PhoneTypes { get; set; }
 
         public string PhoneNumber { get; set; }
+    }
+
+    public class PhoneEditModelList : IEnumerable<PhoneEditModel>
+    {
+        public List<PhoneEditModel> Models { get; }
+
+        public PhoneEditModelList() : this(null) {}
+        public PhoneEditModelList(List<PhoneEditModel> models)
+        {
+            Models = models ?? new List<PhoneEditModel>();
+        }
+
+        public void Add(PhoneEditModel model)
+        {
+            Models.Add(model);
+        }
+
+        public IEnumerator<PhoneEditModel> GetEnumerator()
+        {
+            return Models.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Models.GetEnumerator();
+        }
     }
 }

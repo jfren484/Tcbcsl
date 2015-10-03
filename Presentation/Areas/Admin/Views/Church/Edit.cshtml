@@ -12,7 +12,9 @@
             <legend>@title</legend>
             @Html.EditorFor(m => m.FullName)
             @Html.EditorFor(m => m.DisplayName)
-            @Html.EditorFor(m => m.ContactInfo)
+            @Html.EditorFor(m => m.Address)
+            @Html.EditorFor(m => m.PhoneNumbers)
+            @Html.EditorFor(m => m.EmailAddress)
             @Html.EditorFor(m => m.Website)
             @Html.EditorFor(m => m.Information)
             @Html.Partial("_FormCancelSubmit", Url.Action("List"))

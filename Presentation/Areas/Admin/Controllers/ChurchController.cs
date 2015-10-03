@@ -22,7 +22,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         }
 
         [Authorize(Roles = "League Commissioner")]
-        //[HttpPost]
+        [HttpPost]
         [Route("Data")]
         public JsonResult Data()
         {
@@ -37,7 +37,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                             return model;
                                         });
 
-            return Json(data, JsonRequestBehavior.AllowGet);
+            return Json(data);
         }
 
         #endregion
@@ -50,17 +50,14 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         {
             return View("Edit", new ChurchEditModel
                                 {
-                                    ContactInfo = new ContactInfoEditModel
-                                                  {
-                                                      Address = new AddressEditModel
-                                                                {
-                                                                    State = new StateEditModel {States = GetStates()}
-                                                                },
-                                                      PhoneNumbers = new List<PhoneEditModel>
-                                                                     {
-                                                                         new PhoneEditModel {PhoneNumberTypeId = PhoneNumberType.Main}
-                                                                     }
-                                                  }
+                                    Address = new AddressEditModel
+                                            {
+                                                State = new StateEditModel {States = GetStates()}
+                                            },
+                                    PhoneNumbers = new PhoneEditModelList
+                                                    {
+                                                        new PhoneEditModel {PhoneNumberTypeId = PhoneNumberType.Main}
+                                                    }
                                 });
         }
 
@@ -87,9 +84,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             var model = Mapper.Map<ChurchEditModel>(church);
-            model.ContactInfo.Address.State.States = GetStates();
+            model.Address.State.States = GetStates();
             // TODO: fix this
-            model.ContactInfo.PhoneNumbers[0].PhoneNumberTypeId = model.ContactInfo.PhoneNumbers[0].PhoneNumberTypeId ?? PhoneNumberType.Main;
+            //model.ContactInfo.PhoneNumbers[0].PhoneNumberTypeId = model.ContactInfo.PhoneNumbers[0].PhoneNumberTypeId ?? PhoneNumberType.Main;
 
             return View(model);
         }

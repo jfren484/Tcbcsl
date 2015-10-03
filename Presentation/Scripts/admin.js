@@ -92,14 +92,10 @@ function renderEditLink(data, type) {
 
 function renderPartialContent(data, type) {
     return type === 'display'
-        ? '<div class="partial-content">' + data + '</div>'
+        ? data === null
+            ? null
+            : '<div class="partial-content">' + data + '</div>'
         : data;
-}
-
-function renderPhone(data) {
-    return !data.length
-        ? null
-        : data[0].PhoneNumber;
 }
 
 //#endregion

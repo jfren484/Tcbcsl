@@ -21,7 +21,8 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<EntityModifiable, AuditDetailsModel>();
 
-            Mapper.CreateMap<EntityWithContactInfo, ContactInfoEditModel>();
+            //Mapper.CreateMap<EntityWithContactInfo, EditModelBaseWithContactInfo>()
+            //      .MapEditModelBaseWithContactInfo();
 
             #endregion
 
@@ -161,7 +162,7 @@ namespace Tcbcsl.Presentation
             where TEntity : EntityWithContactInfo
             where TModel : EditModelBaseWithContactInfo
         {
-            return mapping.ForMember(m => m.ContactInfo, exp => exp.MapFrom(e => Mapper.Map<ContactInfoEditModel>(e)))
+            return mapping.ForMember(m => m.PhoneNumbers, exp => exp.MapFrom(e => new PhoneEditModelList(Mapper.Map<List<PhoneEditModel>>(e.PhoneNumbers))))
                           .MapEditModelBaseWithAudit();
         }
 
@@ -180,10 +181,10 @@ namespace Tcbcsl.Presentation
             where TEntity : EntityWithContactInfo
         {
             return mapping.MapEntityModifiable()
-                          .ForMember(e => e.AddressId, exp => exp.MapFrom(m => m.ContactInfo.Address.AddressId))
-                          .ForMember(e => e.Address, exp => exp.MapFrom(m => m.ContactInfo.Address))
-                          .ForMember(e => e.EmailAddress, exp => exp.MapFrom(m => m.ContactInfo.EmailAddress))
-                          .ForMember(e => e.PhoneNumbers, exp => exp.Ignore())
+                          //.ForMember(e => e.AddressId, exp => exp.MapFrom(m => m.ContactInfo.Address.AddressId))
+                          //.ForMember(e => e.Address, exp => exp.MapFrom(m => m.ContactInfo.Address))
+                          //.ForMember(e => e.EmailAddress, exp => exp.MapFrom(m => m.ContactInfo.EmailAddress))
+                          //.ForMember(e => e.PhoneNumbers, exp => exp.MapFrom(m => m.ContactInfo.PhoneNumbers))
                 //.ForMember(e => e.Street1, exp => exp.MapFrom(m => m.ContactInfo.Street1))
                 //.ForMember(e => e.Street2, exp => exp.MapFrom(m => m.ContactInfo.Street2))
                 //.ForMember(e => e.City, exp => exp.MapFrom(m => m.ContactInfo.City))

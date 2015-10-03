@@ -371,12 +371,12 @@
     <Content Include="Areas\Admin\Views\User\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\User\EditorTemplates\RolesEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\User\EditorTemplates\AssignedTeamsEditModel.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\ContactInfoEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\Url.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\EmailAddress.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\PhoneEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\StateEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\AddressEditModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\PhoneEditModelList.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />

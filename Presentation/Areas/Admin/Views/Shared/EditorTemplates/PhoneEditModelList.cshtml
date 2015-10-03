@@ -1,0 +1,14 @@
+﻿@model PhoneEditModelList
+<div class="form-group">
+    @Html.LabelForModel(new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @if (ViewBag.IsReadonly ?? true)
+        {
+            @Html.EditorFor(m => m.Models, new { IsReadOnly = true })
+        }
+        else
+        {
+        }
+    </div>
+</div>
+
