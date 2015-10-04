@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
-    public class AddressEditModel
+    public class AddressEditModel : EditModelBaseWithAudit
     {
         public int? AddressId { get; set; }
 
@@ -29,25 +28,36 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
     public class StateModel
     {
         public int? StateId { get; set; }
-        public string StateName { get; set; }
+        public string Name { get; set; }
     }
 
-    public class StateEditModel : StateModel
+    public class StateEditModel
     {
+        public int? StateId { get; set; }
+        public string StateName { get; set; }
+
         public List<StateModel> States { get; set; }
     }
 
     public class PhoneTypeModel
     {
         public int? PhoneNumberTypeId { get; set; }
-        public string PhoneTypeName { get; set; }
+        public string Description { get; set; }
     }
 
-    public class PhoneEditModel : PhoneTypeModel
+    public class PhoneEditModel : EditModelBaseWithAudit
     {
-        public List<PhoneTypeModel> PhoneTypes { get; set; }
+        public int? ContactPhoneNumberId { get; set; }
 
+        [Display(Name = "Type")]
+        public int? PhoneNumberTypeId { get; set; }
+
+        [Display(Name = "Number")]
         public string PhoneNumber { get; set; }
+
+        public string PhoneTypeName { get; set; }
+
+        public List<PhoneTypeModel> PhoneTypes { get; set; }
     }
 
     public class PhoneEditModelList : IEnumerable<PhoneEditModel>

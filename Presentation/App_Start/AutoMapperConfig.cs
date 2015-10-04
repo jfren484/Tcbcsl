@@ -21,9 +21,6 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<EntityModifiable, AuditDetailsModel>();
 
-            //Mapper.CreateMap<EntityWithContactInfo, EditModelBaseWithContactInfo>()
-            //      .MapEditModelBaseWithContactInfo();
-
             #endregion
 
             #region Church
@@ -31,19 +28,40 @@ namespace Tcbcsl.Presentation
             Mapper.CreateMap<Church, ChurchEditModel>()
                   .MapEditModelBaseWithContactInfo();
 
-            //Mapper.CreateMap<ChurchEditModel, Church>()
-            //      .MapEntityWithContactInfo()
-            //      .ForMember(m => m.TeamYears, exp => exp.Ignore());
+            Mapper.CreateMap<ChurchEditModel, Church>()
+                  .MapEntityWithContactInfo()
+                  .ForMember(m => m.TeamYears, exp => exp.Ignore());
 
             #endregion
 
             #region Contact Info mappings
 
-            Mapper.CreateMap<Address, AddressEditModel>();
+            Mapper.CreateMap<Address, AddressEditModel>()
+                  .MapEditModelBaseWithAudit();
+
+            Mapper.CreateMap<AddressEditModel, Address>()
+                  .MapEntityModifiable()
+                  .ForMember(e => e.StateId, exp => exp.MapFrom(m => m.State.StateId))
+                  .ForMember(e => e.State, exp => exp.Ignore())
+                  .ForMember(e => e.ChurchId, exp => exp.Ignore())
+                  .ForMember(e => e.CoachId, exp => exp.Ignore());
 
             Mapper.CreateMap<ContactPhoneNumber, PhoneEditModel>()
+                  .MapEditModelBaseWithAudit()
                   .ForMember(m => m.PhoneTypeName, exp => exp.MapFrom(e => e.PhoneNumberType.Description))
                   .ForMember(m => m.PhoneTypes, exp => exp.Ignore());
+
+            Mapper.CreateMap<PhoneEditModel, ContactPhoneNumber>()
+                  .MapEntityModifiable()
+                  .ForMember(e => e.PhoneNumberType, exp => exp.Ignore())
+                  .ForMember(e => e.ChurchId, exp => exp.Ignore())
+                  .ForMember(e => e.Church, exp => exp.Ignore())
+                  .ForMember(e => e.CoachId, exp => exp.Ignore())
+                  .ForMember(e => e.Coach, exp => exp.Ignore());
+
+            Mapper.CreateMap<PhoneNumberType, PhoneTypeModel>();
+
+            Mapper.CreateMap<State, StateModel>();
 
             Mapper.CreateMap<State, StateEditModel>()
                   .ForMember(m => m.StateName, exp => exp.MapFrom(e => e.Name))
@@ -162,6 +180,7 @@ namespace Tcbcsl.Presentation
             where TEntity : EntityWithContactInfo
             where TModel : EditModelBaseWithContactInfo
         {
+            // TODO: map directly to PhoneEditModelList
             return mapping.ForMember(m => m.PhoneNumbers, exp => exp.MapFrom(e => new PhoneEditModelList(Mapper.Map<List<PhoneEditModel>>(e.PhoneNumbers))))
                           .MapEditModelBaseWithAudit();
         }
@@ -181,24 +200,8 @@ namespace Tcbcsl.Presentation
             where TEntity : EntityWithContactInfo
         {
             return mapping.MapEntityModifiable()
-                          //.ForMember(e => e.AddressId, exp => exp.MapFrom(m => m.ContactInfo.Address.AddressId))
-                          //.ForMember(e => e.Address, exp => exp.MapFrom(m => m.ContactInfo.Address))
-                          //.ForMember(e => e.EmailAddress, exp => exp.MapFrom(m => m.ContactInfo.EmailAddress))
-                          //.ForMember(e => e.PhoneNumbers, exp => exp.MapFrom(m => m.ContactInfo.PhoneNumbers))
-                //.ForMember(e => e.Street1, exp => exp.MapFrom(m => m.ContactInfo.Street1))
-                //.ForMember(e => e.Street2, exp => exp.MapFrom(m => m.ContactInfo.Street2))
-                //.ForMember(e => e.City, exp => exp.MapFrom(m => m.ContactInfo.City))
-                //.ForMember(e => e.Zip, exp => exp.MapFrom(m => m.ContactInfo.Zip))
-                //.ForMember(e => e.Email, exp => exp.MapFrom(m => m.ContactInfo.Email))
-                //.ForMember(e => e.State, exp => exp.Ignore())
-                //.ForMember(e => e.StateId, exp => exp.MapFrom(m => m.ContactInfo.State.StateId))
-                //.ForMember(e => e.Phone1Type, exp => exp.Ignore())
-                //.ForMember(e => e.Phone1TypeId, exp => exp.MapFrom(m => m.ContactInfo.PrimaryPhone.PhoneTypeId))
-                //.ForMember(e => e.Phone1, exp => exp.MapFrom(m => m.ContactInfo.PrimaryPhone.PhoneNumber))
-                //.ForMember(e => e.Phone2Type, exp => exp.Ignore())
-                //.ForMember(e => e.Phone2TypeId, exp => exp.MapFrom(m => m.ContactInfo.SecondaryPhone.PhoneTypeId))
-                //.ForMember(e => e.Phone2, exp => exp.MapFrom(m => m.ContactInfo.SecondaryPhone.PhoneNumber))
-                ;
+                          .ForMember(e => e.AddressId, exp => exp.Ignore())
+                          .ForMember(e => e.PhoneNumbers, exp => exp.Ignore());
         }
 
         #endregion

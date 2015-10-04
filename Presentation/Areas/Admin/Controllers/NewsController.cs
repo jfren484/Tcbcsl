@@ -77,9 +77,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             var newsItem = Mapper.Map<NewsItem>(model);
-            UpdateCreatedFields(newsItem);
             DbContext.NewsItems.Add(newsItem);
-            DbContext.SaveChanges();
+            DbContext.SaveChanges(User.Identity.Name);
 
             return RedirectToAction("List");
         }
@@ -110,8 +109,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             Mapper.Map(model, newsItem);
-            UpdateModifiedFields(newsItem);
-            DbContext.SaveChanges();
+            DbContext.SaveChanges(User.Identity.Name);
 
             return RedirectToAction("List");
         }

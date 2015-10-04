@@ -91,8 +91,8 @@ body {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 .calendar-month .table-month td.active {
-  background-color: #2fa4e7;
-  color: #ffffff;
+  background-color: #2FA4E7;
+  color: #fff;
   text-shadow: none;
 }
 .calendar-month .table-month td.calendar-games a {
@@ -124,6 +124,26 @@ body {
 }
 .datatable-settings th {
   padding: 10px 20px !important;
+}
+.form-inline {
+  margin-bottom: 12px;
+}
+.form-inline .control-label {
+  padding-top: 2px;
+  padding-right: 12px;
+}
+.form-inline .form-group {
+  margin-left: 0;
+  margin-right: 0;
+}
+@media (min-width: 768px) {
+  .form-inline .form-group {
+    margin-right: 12px;
+  }
+}
+.form-group .well {
+  margin-bottom: 0;
+  padding-bottom: 4px;
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .grid4321:nth-child(2n + 1),
@@ -168,7 +188,7 @@ body {
   right: 8px;
 }
 .panel-heading a {
-  color: #ffffff;
+  color: #fff;
 }
 .panel-heading a:hover {
   color: #157ab5;
@@ -190,7 +210,7 @@ body {
 }
 .schedule-game {
   margin-bottom: 20px;
-  border: solid 1px #dddddd;
+  border: solid 1px #ddd;
 }
 .schedule-game .schedule-game-cell {
   text-align: right;
@@ -200,7 +220,7 @@ body {
 }
 .schedule-game .game-header {
   background-color: #eeeeee;
-  border-bottom: solid 1px #dddddd;
+  border-bottom: solid 1px #ddd;
 }
 .schedule-game .game-header .schedule-game-cell {
   padding: 0 5px;
@@ -225,9 +245,9 @@ body {
   background-color: #eeeeee;
 }
 .table-schedule-legend .swatch {
-  border: solid 1px #dddddd;
+  border: solid 1px #ddd;
   border-radius: 4px;
-  box-shadow: 2px 2px 3px #dddddd;
+  box-shadow: 2px 2px 3px #ddd;
   padding: 0 8px;
   margin-right: 5px;
 }

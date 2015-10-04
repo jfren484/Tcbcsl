@@ -179,6 +179,31 @@ body {
     }
 }
 
+.form-inline {
+    margin-bottom: 12px;
+
+    .control-label {
+        padding-top: 2px;
+        padding-right: 12px;
+    }
+
+    .form-group {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    @media (min-width: @screen-sm-min) {
+        .form-group {
+            margin-right: 12px;
+        }
+    }
+}
+
+.form-group .well {
+    margin-bottom: 0;
+    padding-bottom: 4px;
+}
+
 @media (min-width: @screen-sm-min) {
     @media (max-width: @screen-sm-max) {
         .grid4321:nth-child(2n + 1),

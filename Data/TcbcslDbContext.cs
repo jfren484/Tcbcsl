@@ -2,12 +2,19 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Data.Identity;
+using System;
+using System.Linq;
 
 namespace Tcbcsl.Data
 {
     public class TcbcslDbContext : IdentityDbContext<TcbcslUser>
     {
         public TcbcslDbContext() : base("TcbcslDbContext", throwIfV1Schema: false) { }
+
+        public static TcbcslDbContext Create()
+        {
+            return new TcbcslDbContext();
+        }
 
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Church> Churches { get; set; }
@@ -30,9 +37,29 @@ namespace Tcbcsl.Data
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamYear> TeamYears { get; set; }
 
-        public static TcbcslDbContext Create()
+        public int SaveChanges(string username)
         {
-            return new TcbcslDbContext();
+            //you may need this line depending on your exact configuration
+            //ChangeTracker.DetectChanges();
+
+            foreach (var entry in ChangeTracker.Entries<EntityModifiable>().Where(e => e.State == EntityState.Added))
+            {
+                entry.Entity.UpdateCreatedFields(username);
+            }
+
+            foreach (var entry in ChangeTracker.Entries<EntityModifiable>().Where(e => e.State == EntityState.Modified))
+            {
+                entry.Entity.UpdateModifiedFields(username);
+            }
+
+            return base.SaveChanges();
+        }
+
+        private const string SaveChangesMessage = "You must call SaveChanges with the [string username] method signature.";
+        [Obsolete(SaveChangesMessage, true)]
+        public override int SaveChanges()
+        {
+            throw new NotSupportedException(SaveChangesMessage);
         }
     }
 }

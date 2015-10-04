@@ -52,9 +52,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Create(PageContentEditModel model)
         {
             var contentItem = Mapper.Map<PageContent>(model);
-            UpdateCreatedFields(contentItem);
             DbContext.PageContents.Add(contentItem);
-            DbContext.SaveChanges();
+            DbContext.SaveChanges(User.Identity.Name);
 
             return RedirectToAction("List");
         }
@@ -84,8 +83,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             Mapper.Map(model, contentItem);
-            UpdateModifiedFields(contentItem);
-            DbContext.SaveChanges();
+            DbContext.SaveChanges(User.Identity.Name);
 
             return RedirectToAction("List");
         }

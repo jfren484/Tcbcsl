@@ -4,6 +4,8 @@ using System.Web.Mvc;
 using AutoMapper;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
+using MoreLinq;
+using Tcbcsl.Presentation.Helpers;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
@@ -56,7 +58,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                             },
                                     PhoneNumbers = new PhoneEditModelList
                                                     {
-                                                        new PhoneEditModel {PhoneNumberTypeId = PhoneNumberType.Main}
+                                                        new PhoneEditModel {PhoneTypes = GetPhoneTypes()}
                                                     }
                                 });
         }
@@ -67,9 +69,10 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Create(ChurchEditModel model)
         {
             var church = Mapper.Map<Church>(model);
-            UpdateCreatedFields(church);
+            church.PhoneNumbers = Mapper.Map<List<ContactPhoneNumber>>(model.PhoneNumbers);
+
             DbContext.Churches.Add(church);
-            DbContext.SaveChanges();
+            DbContext.SaveChanges(User.Identity.Name);
 
             return RedirectToAction("List");
         }
@@ -85,8 +88,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             var model = Mapper.Map<ChurchEditModel>(church);
             model.Address.State.States = GetStates();
-            // TODO: fix this
-            //model.ContactInfo.PhoneNumbers[0].PhoneNumberTypeId = model.ContactInfo.PhoneNumbers[0].PhoneNumberTypeId ?? PhoneNumberType.Main;
+
+            var phoneTypes = GetPhoneTypes();
+            model.PhoneNumbers.ForEach(pn => { pn.PhoneTypes = phoneTypes; });
 
             return View(model);
         }
@@ -102,8 +106,19 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             Mapper.Map(model, church);
-            UpdateModifiedFields(church);
-            DbContext.SaveChanges();
+
+            var changes = ChangeTracker.GetChangeSets(church.PhoneNumbers,         model.PhoneNumbers.Models,
+                                                      e => e.ContactPhoneNumberId, m => m.ContactPhoneNumberId);
+
+            foreach (var pair in changes.CommonItems)
+            {
+                Mapper.Map(pair.RightItem, pair.LeftItem);
+            }
+
+            // TODO: Add
+            // TODO: Delete
+
+            DbContext.SaveChanges(User.Identity.Name);
 
             return RedirectToAction("List");
         }
@@ -112,11 +127,19 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #region Helpers
 
+        private List<PhoneTypeModel> GetPhoneTypes()
+        {
+            return DbContext.PhoneNumberTypes
+                            .Select(Mapper.Map<PhoneTypeModel>)
+                            .OrderBy(t => t.PhoneNumberTypeId)
+                            .ToList();
+        }
+
         private List<StateModel> GetStates()
         {
             return DbContext.States
-                            .Select(s => new StateModel { StateId = s.StateId, StateName = s.Name })
-                            .OrderBy(s => s.StateName)
+                            .Select(Mapper.Map<StateModel>)
+                            .OrderBy(s => s.Name)
                             .ToList();
         }
 

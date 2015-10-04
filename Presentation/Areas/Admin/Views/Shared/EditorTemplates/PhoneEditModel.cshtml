@@ -1,11 +1,24 @@
 ﻿@model PhoneEditModel
 @if (ViewBag.IsReadonly ?? false)
 {
-    @Html.HiddenFor(m => m)
-    <p class="form-control-static">@Model.PhoneNumber</p>
+    @Html.HiddenFor(m => m.PhoneNumber)
+    @Html.HiddenFor(m => m.PhoneNumberTypeId)
+    <p class="form-control-static">@Model.PhoneNumber (@Model.PhoneTypeName)</p>
 }
 else
 {
-    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @type = "tel" })
+    var phoneTypeSelectList = new SelectList(Model.PhoneTypes.Select(pt => new SelectListItem { Value = pt.PhoneNumberTypeId.ToString(), Text = pt.Description }), "Value", "Text", Model);
+
+    @Html.HiddenFor(m => m.ContactPhoneNumberId)
+    <div class="form-inline">
+        <div class="form-group">
+            @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @type = "tel" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.PhoneNumberTypeId, new { @class = "control-label" })
+            @Html.DropDownListFor(m => m.PhoneNumberTypeId, phoneTypeSelectList, new { @class = "form-control" })
+        </div>
+    </div>
     @Html.ValidationMessageFor(m => m)
 }

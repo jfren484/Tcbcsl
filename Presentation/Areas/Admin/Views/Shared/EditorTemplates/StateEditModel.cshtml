@@ -1,6 +1,6 @@
 ﻿@model StateEditModel
 @{
-    var stateSelectList = new SelectList(Model.States.Select(t => new SelectListItem { Value = t.StateId.ToString(), Text = t.StateName }), "Value", "Text", Model);
+    var stateSelectList = new SelectList(new[] { new SelectListItem() }.Concat(Model.States.Select(s => new SelectListItem { Value = s.StateId.ToString(), Text = s.Name })), "Value", "Text", Model);
 }
 <div class="form-group">
     @Html.LabelForModel(new { @class = "control-label col-sm-2" })
