@@ -92,7 +92,7 @@ function renderEditLink(data, type) {
 
 function renderPartialContent(data, type) {
     return type === 'display'
-        ? data === null
+        ? data === null || !data.length
             ? null
             : '<div class="partial-content">' + data + '</div>'
         : data;

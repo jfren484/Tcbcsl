@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Tcbcsl.Presentation.Models;
@@ -69,7 +70,7 @@ namespace Tcbcsl.Presentation.Controllers
                                         Year = year,
                                         Name = $"{teamYear.HeadCoach.FirstName} {teamYear.HeadCoach.LastName}",
                                         Comments = teamYear.HeadCoach.Comments,
-                                        ContactInfo = ContactInfoService.GetContactInfoModel(teamYear.HeadCoach)
+                                        ContactInfo = Mapper.Map<ContactInfoModel>(teamYear.HeadCoach)
                                     },
                             Field = teamYear.Team.FieldInformation,
                             Comments = teamYear.Team.Comments,

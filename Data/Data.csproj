@@ -140,6 +140,14 @@
     <Compile Include="Migrations\201510022005403_FixStateRelationships.Designer.cs">
       <DependentUpon>201510022005403_FixStateRelationships.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510041931052_RemoveForeignKeysFromAddress.cs" />
+    <Compile Include="Migrations\201510041931052_RemoveForeignKeysFromAddress.Designer.cs">
+      <DependentUpon>201510041931052_RemoveForeignKeysFromAddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510042106011_MakePhoneNumberTypeRequired.cs" />
+    <Compile Include="Migrations\201510042106011_MakePhoneNumberTypeRequired.Designer.cs">
+      <DependentUpon>201510042106011_MakePhoneNumberTypeRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
     <Compile Include="Entities\PageContent.cs" />
@@ -203,6 +211,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510022005403_FixStateRelationships.resx">
       <DependentUpon>201510022005403_FixStateRelationships.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510041931052_RemoveForeignKeysFromAddress.resx">
+      <DependentUpon>201510041931052_RemoveForeignKeysFromAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510042106011_MakePhoneNumberTypeRequired.resx">
+      <DependentUpon>201510042106011_MakePhoneNumberTypeRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

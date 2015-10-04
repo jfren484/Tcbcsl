@@ -9,6 +9,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [StringLength(100)]
         [Display(Name = "Email Address")]
         [EmailAddress]
+        [UIHint("String")]
         public string EmailAddress { get; set; }
 
         [Display(Name = "Phone Numbers")]

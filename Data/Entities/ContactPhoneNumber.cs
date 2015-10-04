@@ -10,9 +10,9 @@ namespace Tcbcsl.Data.Entities
 
         public int? CoachId { get; set; }
 
-        public int? PhoneNumberTypeId { get; set; }
+        public int PhoneNumberTypeId { get; set; }
 
-        [MaxLength(20)]
+        [Required, MaxLength(20)]
         public string PhoneNumber { get; set; }
 
         public virtual Church Church { get; set; }

@@ -267,7 +267,6 @@
     <Compile Include="Models\StatisticsViewModels.cs" />
     <Compile Include="Models\TeamViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ContactInfoService.cs" />
     <Compile Include="Services\ContentService.cs" />
     <Compile Include="Services\ScheduleService.cs" />
     <Compile Include="Startup.cs" />
@@ -372,8 +371,6 @@
     <Content Include="Areas\Admin\Views\User\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\User\EditorTemplates\RolesEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\User\EditorTemplates\AssignedTeamsEditModel.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\Url.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\EmailAddress.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\PhoneEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\StateEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\AddressEditModel.cshtml" />

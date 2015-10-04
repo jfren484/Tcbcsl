@@ -6,10 +6,6 @@ namespace Tcbcsl.Data.Entities
     {
         public int AddressId { get; set; }
 
-        public int? ChurchId { get; set; }
-
-        public int? CoachId { get; set; }
-
         [MaxLength(100)]
         public string Street1 { get; set; }
 

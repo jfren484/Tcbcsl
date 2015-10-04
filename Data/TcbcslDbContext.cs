@@ -1,9 +1,8 @@
-﻿using System.Data.Entity;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
+using System.Linq;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Data.Identity;
-using System;
-using System.Linq;
 
 namespace Tcbcsl.Data
 {
@@ -39,9 +38,6 @@ namespace Tcbcsl.Data
 
         public int SaveChanges(string username)
         {
-            //you may need this line depending on your exact configuration
-            //ChangeTracker.DetectChanges();
-
             foreach (var entry in ChangeTracker.Entries<EntityModifiable>().Where(e => e.State == EntityState.Added))
             {
                 entry.Entity.UpdateCreatedFields(username);
@@ -53,13 +49,6 @@ namespace Tcbcsl.Data
             }
 
             return base.SaveChanges();
-        }
-
-        private const string SaveChangesMessage = "You must call SaveChanges with the [string username] method signature.";
-        [Obsolete(SaveChangesMessage, true)]
-        public override int SaveChanges()
-        {
-            throw new NotSupportedException(SaveChangesMessage);
         }
     }
 }

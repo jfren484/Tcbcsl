@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using AutoMapper;
+using System.Linq;
 using System.Web.Mvc;
 using Tcbcsl.Presentation.Models;
 using Tcbcsl.Presentation.Services;
@@ -48,8 +49,8 @@ namespace Tcbcsl.Presentation.Controllers
                                                                           Comments = string.IsNullOrWhiteSpace(ty.HeadCoach.Comments)
                                                                                          ? null
                                                                                          : MvcHtmlString.Create(ty.HeadCoach.Comments),
-                                                                          ContactInfo = ContactInfoService.GetContactInfoModel(ty.HeadCoach)
-                                                                      }
+                                                                          ContactInfo = Mapper.Map<ContactInfoModel>(ty.HeadCoach)
+                                                              }
                                                           })
                                             .ToList()
                               })

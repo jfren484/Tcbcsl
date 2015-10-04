@@ -11,6 +11,7 @@ using Ganss.XSS;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Tcbcsl.Presentation.Models;
+using Tcbcsl.Presentation.Areas.Admin.Models;
 
 namespace Tcbcsl.Presentation.Helpers
 {
@@ -57,11 +58,6 @@ namespace Tcbcsl.Presentation.Helpers
             var teamIds = tcbcslUser.AssignedTeams.Select(at => (int?)at.TeamId).ToList();
 
             return allEntities.Where(n => teamIds.Contains(getTeamId(n)));
-        }
-
-        public static string FormatPhoneNumber(this string phoneNumber)
-        {
-            return phoneNumber == null ? null : Regex.Replace(phoneNumber, @"(\d{3})(\d{3})(\d{4})", "($1) $2-$3");
         }
 
         public static object GameStatsField(this HtmlHelper htmlHelper, object statInfo, int gameId)
@@ -120,6 +116,16 @@ namespace Tcbcsl.Presentation.Helpers
                                   "Value",
                                   "Text",
                                   value);
+        }
+
+        public static SelectList ToSelectList(this StateEditModel model)
+        {
+            var stateSelectListItems = model.States
+                                            .Select(s => new SelectListItem { Value = s.StateId.ToString(), Text = s.Name })
+                                            .ToList();
+            stateSelectListItems.Insert(0, new SelectListItem());
+
+            return new SelectList(stateSelectListItems, "Value", "Text", model.StateId);
         }
 
         public static MvcHtmlString UrlToLink(this string url)

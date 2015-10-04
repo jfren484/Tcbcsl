@@ -17,6 +17,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public string DisplayName { get; set; }
 
         [Url(ErrorMessage = "Please enter a valid URL (including the protocol: http:// or https://).")]
+        [UIHint("String")]
         public string Website { get; set; }
 
         [UIHint("HtmlEditor")]

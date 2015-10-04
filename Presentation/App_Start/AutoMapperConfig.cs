@@ -8,6 +8,7 @@ using Tcbcsl.Data.Entities;
 using Tcbcsl.Data.Identity;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
+using Tcbcsl.Presentation.Models;
 
 // ReSharper disable UnusedMethodReturnValue.Local
 
@@ -39,17 +40,27 @@ namespace Tcbcsl.Presentation
             Mapper.CreateMap<Address, AddressEditModel>()
                   .MapEditModelBaseWithAudit();
 
+            Mapper.CreateMap<Address, AddressInfoModel>()
+                .ForMember(m => m.State, exp => exp.MapFrom(e => e.State.Abbreviation));
+
             Mapper.CreateMap<AddressEditModel, Address>()
                   .MapEntityModifiable()
                   .ForMember(e => e.StateId, exp => exp.MapFrom(m => m.State.StateId))
-                  .ForMember(e => e.State, exp => exp.Ignore())
-                  .ForMember(e => e.ChurchId, exp => exp.Ignore())
-                  .ForMember(e => e.CoachId, exp => exp.Ignore());
+                  .ForMember(e => e.State, exp => exp.Ignore());
+
+            Mapper.CreateMap<ICollection<ContactPhoneNumber>, PhoneEditModelList>()
+                  .ConvertUsing(e => new PhoneEditModelList(Mapper.Map<List<PhoneEditModel>>(e)));
 
             Mapper.CreateMap<ContactPhoneNumber, PhoneEditModel>()
                   .MapEditModelBaseWithAudit()
                   .ForMember(m => m.PhoneTypeName, exp => exp.MapFrom(e => e.PhoneNumberType.Description))
                   .ForMember(m => m.PhoneTypes, exp => exp.Ignore());
+
+            Mapper.CreateMap<ContactPhoneNumber, string>()
+                  .ConvertUsing(e => $"{e.PhoneNumber} ({e.PhoneNumberType.Description})");
+
+            Mapper.CreateMap<EntityWithContactInfo, ContactInfoModel>()
+                  .ForMember(m => m.EmailAddress, exp => exp.MapFrom(e => MvcHtmlString.Create(e.EmailAddress.Replace("@", "@<span style=\"display: none;\">null</span>"))));
 
             Mapper.CreateMap<PhoneEditModel, ContactPhoneNumber>()
                   .MapEntityModifiable()
@@ -180,9 +191,7 @@ namespace Tcbcsl.Presentation
             where TEntity : EntityWithContactInfo
             where TModel : EditModelBaseWithContactInfo
         {
-            // TODO: map directly to PhoneEditModelList
-            return mapping.ForMember(m => m.PhoneNumbers, exp => exp.MapFrom(e => new PhoneEditModelList(Mapper.Map<List<PhoneEditModel>>(e.PhoneNumbers))))
-                          .MapEditModelBaseWithAudit();
+            return mapping.MapEditModelBaseWithAudit();
         }
 
         private static IMappingExpression<TModel, TEntity> MapEntityModifiable<TModel, TEntity>(this IMappingExpression<TModel, TEntity> mapping)

@@ -1,7 +1,4 @@
 ﻿@model StateEditModel
-@{
-    var stateSelectList = new SelectList(new[] { new SelectListItem() }.Concat(Model.States.Select(s => new SelectListItem { Value = s.StateId.ToString(), Text = s.Name })), "Value", "Text", Model);
-}
 <div class="form-group">
     @Html.LabelForModel(new { @class = "control-label col-sm-2" })
     <div class="col-sm-10">
@@ -12,7 +9,7 @@
         }
         else
         {
-            @Html.DropDownListFor(m => m.StateId, stateSelectList, new { @class = "form-control" })
+            @Html.DropDownListFor(m => m.StateId, Model.ToSelectList(), new { @class = "form-control" })
             @Html.ValidationMessageFor(m => m.StateId)
         }
     </div>

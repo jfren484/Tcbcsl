@@ -6,7 +6,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
     public class AddressEditModel : EditModelBaseWithAudit
     {
-        public int? AddressId { get; set; }
+        public int AddressId { get; set; }
 
         [StringLength(50)]
         [Display(Name = "Street Address 1")]
@@ -41,16 +41,16 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
     public class PhoneTypeModel
     {
-        public int? PhoneNumberTypeId { get; set; }
+        public int PhoneNumberTypeId { get; set; }
         public string Description { get; set; }
     }
 
     public class PhoneEditModel : EditModelBaseWithAudit
     {
-        public int? ContactPhoneNumberId { get; set; }
+        public int ContactPhoneNumberId { get; set; }
 
         [Display(Name = "Type")]
-        public int? PhoneNumberTypeId { get; set; }
+        public int PhoneNumberTypeId { get; set; }
 
         [Display(Name = "Number")]
         public string PhoneNumber { get; set; }
