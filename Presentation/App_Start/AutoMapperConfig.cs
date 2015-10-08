@@ -35,6 +35,17 @@ namespace Tcbcsl.Presentation
 
             #endregion
 
+            #region Coach
+
+            Mapper.CreateMap<Coach, CoachEditModel>()
+                  .MapEditModelBaseWithContactInfo();
+
+            Mapper.CreateMap<CoachEditModel, Coach>()
+                  .MapEntityWithContactInfo()
+                  .ForMember(m => m.TeamYears, exp => exp.Ignore());
+
+            #endregion
+
             #region Contact Info mappings
 
             Mapper.CreateMap<Address, AddressEditModel>()

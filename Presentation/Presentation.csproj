@@ -223,11 +223,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminControllerBase.cs" />
+    <Compile Include="Areas\Admin\Controllers\CoachController.cs" />
     <Compile Include="Areas\Admin\Controllers\ChurchController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ContentItemController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\AuditDetailsModel.cs" />
+    <Compile Include="Areas\Admin\Models\CoachEditModels.cs" />
     <Compile Include="Areas\Admin\Models\ChurchEditModels.cs" />
     <Compile Include="Areas\Admin\Models\ContactInfoEditModels.cs" />
     <Compile Include="Areas\Admin\Models\EditModelBaseWithContactInfo.cs" />
@@ -356,6 +358,8 @@
     <Content Include="Areas\Admin\Views\ContentItem\List.cshtml" />
     <Content Include="Areas\Admin\Views\Church\List.cshtml" />
     <Content Include="Areas\Admin\Views\Church\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Coach\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Coach\List.cshtml" />
     <None Include="Areas\Admin\Views\ContentItem\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\String.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\HtmlEditor.cshtml" />

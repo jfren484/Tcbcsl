@@ -1,0 +1,22 @@
+﻿@model CoachEditModel
+@{
+    var title = (Model.CoachId == 0 ? "Create" : "Edit") + " Coach";
+    ViewBag.Title = title;
+}
+<div class="well">
+    @using (Html.BeginForm("Edit", "Coach", FormMethod.Post, new { @class = "form-horizontal form-with-validation" }))
+    {
+        @Html.HiddenFor(m => m.CoachId)
+
+        <fieldset>
+            <legend>@title</legend>
+            @Html.EditorFor(m => m.FirstName)
+            @Html.EditorFor(m => m.LastName)
+            @Html.EditorFor(m => m.EmailAddress)
+            @Html.EditorFor(m => m.PhoneNumbers)
+            @Html.EditorFor(m => m.Address)
+            @Html.EditorFor(m => m.Comments)
+            @Html.Partial("_FormCancelSubmit", Url.Action("List"))
+        </fieldset>
+    }
+</div>

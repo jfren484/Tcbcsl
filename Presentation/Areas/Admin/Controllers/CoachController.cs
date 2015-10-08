@@ -11,8 +11,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
     [Authorize(Roles = "League Commissioner, Team Coach")]
     [RouteArea("Admin")]
-    [RoutePrefix("Church")]
-    public class ChurchController : AdminControllerBase
+    [RoutePrefix("Coach")]
+    public class CoachController : AdminControllerBase
     {
         #region List
 
@@ -28,13 +28,13 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Data")]
         public JsonResult Data()
         {
-            var data = DbContext.Churches
+            var data = DbContext.Coaches
                                 .OrderByDescending(c => c.Created)
                                 .ToList()
                                 .Select(n =>
                                         {
-                                            var model = Mapper.Map<ChurchEditModel>(n);
-                                            model.EditUrl = Url.Action("Edit", new {id = model.ChurchId});
+                                            var model = Mapper.Map<CoachEditModel>(n);
+                                            model.EditUrl = Url.Action("Edit", new {id = model.CoachId});
 
                                             return model;
                                         });
@@ -50,28 +50,28 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Create")]
         public ActionResult Create()
         {
-            return View("Edit", new ChurchEditModel
+            return View("Edit", new CoachEditModel
                                 {
                                     Address = new AddressEditModel
-                                            {
-                                                State = new StateEditModel {States = GetStates()}
-                                            },
+                                              {
+                                                  State = new StateEditModel {States = GetStates()}
+                                              },
                                     PhoneNumbers = new PhoneEditModelList
-                                                    {
-                                                        new PhoneEditModel {PhoneTypes = GetPhoneTypes()}
-                                                    }
+                                                   {
+                                                       new PhoneEditModel {PhoneTypes = GetPhoneTypes()}
+                                                   }
                                 });
         }
 
         [Authorize(Roles = "League Commissioner")]
         [HttpPost]
         [Route("Create")]
-        public ActionResult Create(ChurchEditModel model)
+        public ActionResult Create(CoachEditModel model)
         {
-            var church = Mapper.Map<Church>(model);
-            church.PhoneNumbers = Mapper.Map<List<ContactPhoneNumber>>(model.PhoneNumbers);
+            var coach = Mapper.Map<Coach>(model);
+            coach.PhoneNumbers = Mapper.Map<List<ContactPhoneNumber>>(model.PhoneNumbers);
 
-            DbContext.Churches.Add(church);
+            DbContext.Coaches.Add(coach);
             DbContext.SaveChanges(User.Identity.Name);
 
             return RedirectToAction("List");
@@ -80,13 +80,13 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Edit/{id:int}")]
         public ActionResult Edit(int id)
         {
-            var church = DbContext.Churches.SingleOrDefault(c => c.ChurchId == id);
-            if (church == null)
+            var coach = DbContext.Coaches.SingleOrDefault(c => c.CoachId == id);
+            if (coach == null)
             {
                 return HttpNotFound();
             }
 
-            var model = Mapper.Map<ChurchEditModel>(church);
+            var model = Mapper.Map<CoachEditModel>(coach);
             model.Address.State.States = GetStates();
 
             var phoneTypes = GetPhoneTypes();
@@ -97,18 +97,17 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("Edit/{id:int}")]
-        public ActionResult Edit(int id, ChurchEditModel model)
+        public ActionResult Edit(int id, CoachEditModel model)
         {
-            var church = DbContext.Churches.SingleOrDefault(c => c.ChurchId == id);
-            if (church == null)
+            var coach = DbContext.Coaches.SingleOrDefault(c => c.CoachId == id);
+            if (coach == null)
             {
                 return HttpNotFound();
             }
 
-            Mapper.Map(model, church);
+            Mapper.Map(model, coach);
 
-            var changes = ChangeTracker.GetChangeSets(church.PhoneNumbers,         model.PhoneNumbers.Models,
-                                                      e => e.ContactPhoneNumberId, m => m.ContactPhoneNumberId);
+            var changes = ChangeTracker.GetChangeSets(coach.PhoneNumbers, model.PhoneNumbers.Models, e => e.ContactPhoneNumberId, m => m.ContactPhoneNumberId);
 
             foreach (var pair in changes.CommonItems)
             {
