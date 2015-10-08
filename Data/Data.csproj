@@ -148,6 +148,10 @@
     <Compile Include="Migrations\201510042106011_MakePhoneNumberTypeRequired.Designer.cs">
       <DependentUpon>201510042106011_MakePhoneNumberTypeRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510081547536_MakePhoneNumberValueRequired.cs" />
+    <Compile Include="Migrations\201510081547536_MakePhoneNumberValueRequired.Designer.cs">
+      <DependentUpon>201510081547536_MakePhoneNumberValueRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
     <Compile Include="Entities\PageContent.cs" />
@@ -217,6 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510042106011_MakePhoneNumberTypeRequired.resx">
       <DependentUpon>201510042106011_MakePhoneNumberTypeRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510081547536_MakePhoneNumberValueRequired.resx">
+      <DependentUpon>201510081547536_MakePhoneNumberValueRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
