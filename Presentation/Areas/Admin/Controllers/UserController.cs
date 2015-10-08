@@ -2,16 +2,19 @@
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using CsQuery.ExtensionMethods.Internal;
+using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
+using Tcbcsl.Presentation.Helpers;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "League Commissioner")]
+    [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
     [RouteArea("Admin")]
     [RoutePrefix("User")]
     public class UserController : AdminControllerBase
     {
-        #region User List
+        #region List
 
         [Route("")]
         public ActionResult List()
@@ -41,7 +44,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #endregion
 
-        #region Create/Edit
+        #region Edit
 
         [Route("Edit/{id}")]
         public ActionResult Edit(string id)
@@ -71,7 +74,18 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             Mapper.Map(model, user);
-            user.AssignedTeams = DbContext.Teams.Where(t => model.AssignedTeams.TeamIds.Contains(t.TeamId)).ToList();
+
+            // Update assigned teams
+            var changes = ChangeTracker.GetChangeSets(user.AssignedTeams, model.AssignedTeams?.TeamIds, t => t.TeamId, i => i);
+            foreach (var teamToRemove in changes.LeftOnly)
+            {
+                user.AssignedTeams.Remove(teamToRemove);
+            }
+            if (changes.RightOnly.Any())
+            {
+                user.AssignedTeams.AddRange(DbContext.Teams.Where(t => changes.RightOnly.Contains(t.TeamId)));
+            }
+
             DbContext.SaveChanges(User.Identity.Name);
 
             return RedirectToAction("List");

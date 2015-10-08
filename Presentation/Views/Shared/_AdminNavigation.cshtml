@@ -1,0 +1,24 @@
+﻿@if (Request.IsAuthenticated)
+{
+    var userIsCommissioner = User.IsInRole(Tcbcsl.Data.Entities.Roles.LeagueCommissioner);
+
+    var adminAreaLinks = new[]
+                         {
+                             new {Link = Html.RouteLink("Churches",     new {area = "Admin", controller = "Church",      action = "List"}, null), CommishOnly = true  },
+                             new {Link = Html.RouteLink("Coaches",      new {area = "Admin", controller = "Coach",       action = "List"}, null), CommishOnly = true  },
+                             new {Link = Html.RouteLink("News",         new {area = "Admin", controller = "News",        action = "List"}, null), CommishOnly = false },
+                             new {Link = Html.RouteLink("Page Content", new {area = "Admin", controller = "ContentItem", action = "List"}, null), CommishOnly = true  },
+                             new {Link = Html.RouteLink("Users",        new {area = "Admin", controller = "User",        action = "List"}, null), CommishOnly = true  }
+                         };
+
+    <li class="dropdown">
+        @Html.Partial("_NavDropdownToggle", "Admin")
+        <ul class="dropdown-menu">
+            <li>@Html.RouteLink("Account", new { area = "", controller = "Manage", action = "Index" }, new { @class = "visible-sm" })</li>
+            @foreach (var adminAreaLink in adminAreaLinks.Where(adminAreaLink => userIsCommissioner || !adminAreaLink.CommishOnly))
+            {
+                <li>@adminAreaLink.Link</li>
+            }
+        </ul>
+    </li>
+}

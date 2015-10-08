@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
@@ -10,6 +9,7 @@ using System.Web.Routing;
 using Ganss.XSS;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Models;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 
@@ -50,7 +50,7 @@ namespace Tcbcsl.Presentation.Helpers
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var tcbcslUser = userManager.FindById(userPrincipal.Identity.GetUserId());
 
-            if (userManager.IsInRole(tcbcslUser.Id, "League Commissioner"))
+            if (userManager.IsInRole(tcbcslUser.Id, Roles.LeagueCommissioner))
             {
                 return allEntities;
             }
@@ -80,7 +80,7 @@ namespace Tcbcsl.Presentation.Helpers
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var tcbcslUser = userManager.FindById(userPrincipal.Identity.GetUserId());
 
-            return userManager.IsInRole(tcbcslUser.Id, "League Commissioner")
+            return userManager.IsInRole(tcbcslUser.Id, Roles.LeagueCommissioner)
                    || tcbcslUser.AssignedTeams.Any(at => at.TeamId == teamId);
         }
 

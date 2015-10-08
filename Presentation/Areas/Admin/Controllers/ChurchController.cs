@@ -9,21 +9,21 @@ using Tcbcsl.Presentation.Helpers;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "League Commissioner, Team Coach")]
+    [AuthorizeRedirect(Roles = Roles.LeagueCommissioner + ", " + Roles.TeamCoach)]
     [RouteArea("Admin")]
     [RoutePrefix("Church")]
     public class ChurchController : AdminControllerBase
     {
         #region List
 
-        [Authorize(Roles = "League Commissioner")]
+        [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
         [Route("")]
         public ActionResult List()
         {
             return View();
         }
 
-        [Authorize(Roles = "League Commissioner")]
+        [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
         [HttpPost]
         [Route("Data")]
         public JsonResult Data()
@@ -46,7 +46,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #region Create/Edit
 
-        [Authorize(Roles = "League Commissioner")]
+        [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
         [Route("Create")]
         public ActionResult Create()
         {
@@ -63,7 +63,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 });
         }
 
-        [Authorize(Roles = "League Commissioner")]
+        [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
         [HttpPost]
         [Route("Create")]
         public ActionResult Create(ChurchEditModel model)
@@ -81,7 +81,10 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             var church = DbContext.Churches.SingleOrDefault(c => c.ChurchId == id);
-            if (church == null)
+            if (church == null || (!User.IsInRole(Roles.LeagueCommissioner) &&
+                                   !church.TeamYears
+                                          .Where(ty => ty.Year == Consts.CurrentYear)
+                                          .Any(ty => User.IsTeamIdValidForUser(ty.TeamId))))
             {
                 return HttpNotFound();
             }
@@ -100,7 +103,10 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Edit(int id, ChurchEditModel model)
         {
             var church = DbContext.Churches.SingleOrDefault(c => c.ChurchId == id);
-            if (church == null)
+            if (church == null || (!User.IsInRole(Roles.LeagueCommissioner) &&
+                                   !church.TeamYears
+                                          .Where(ty => ty.Year == Consts.CurrentYear)
+                                          .Any(ty => User.IsTeamIdValidForUser(ty.TeamId))))
             {
                 return HttpNotFound();
             }

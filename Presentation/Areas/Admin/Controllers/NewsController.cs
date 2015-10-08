@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
@@ -9,7 +8,7 @@ using Tcbcsl.Presentation.Helpers;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "League Commissioner, Team Coach")]
+    [AuthorizeRedirect(Roles = Roles.LeagueCommissioner + ", " + Roles.TeamCoach)]
     [RouteArea("Admin")]
     [RoutePrefix("News")]
     public class NewsController : AdminControllerBase
@@ -87,7 +86,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             var newsItem = DbContext.NewsItems.SingleOrDefault(n => n.NewsItemId == id);
-            if (newsItem == null)
+            if (newsItem == null || !User.IsTeamIdValidForUser(newsItem.TeamId))
             {
                 return HttpNotFound();
             }
@@ -112,22 +111,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             DbContext.SaveChanges(User.Identity.Name);
 
             return RedirectToAction("List");
-        }
-
-        #endregion
-
-        #region Helpers
-
-        private List<NewsEditTeamListModel> GetTeams(int year)
-        {
-            return DbContext.TeamYears
-                            .Where(ty => ty.Year == year && ty.DivisionYear.IsInLeague)
-                            .Select(ty => new NewsEditTeamListModel {TeamId = ty.TeamId, TeamName = ty.FullName})
-                            .ToList()
-                            .Concat(new[] {new NewsEditTeamListModel {TeamName = Consts.LeagueNameForList}})
-                            .FilterTeamsForUser(User, n => n.TeamId)
-                            .OrderBy(t => t.TeamName)
-                            .ToList();
         }
 
         #endregion

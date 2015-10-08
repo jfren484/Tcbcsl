@@ -17,5 +17,11 @@ namespace Tcbcsl.Presentation.Controllers
         {
             return View(_contentService.GetCurrentNews());
         }
+
+        [Route("Unauthorized")]
+        public ActionResult Unauthorized()
+        {
+            return View();
+        }
     }
 }

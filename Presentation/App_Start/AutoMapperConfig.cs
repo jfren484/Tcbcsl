@@ -151,6 +151,7 @@ namespace Tcbcsl.Presentation
             Mapper.CreateMap<UserEditModel, TcbcslUser>()
                   .ForMember(e => e.Roles, exp => exp.MapFrom(m => m.Roles.RoleIds.Select(id => new IdentityUserRole {UserId = m.Id, RoleId = id})))
                   .ForMember(e => e.AssignedTeams, exp => exp.Ignore())
+                  .ForMember(e => e.UserName, exp => exp.Ignore())
                   .IgnoreTheRest();
 
             #endregion

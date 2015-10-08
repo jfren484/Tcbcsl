@@ -3,10 +3,11 @@ using System.Web.Mvc;
 using AutoMapper;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Data.Entities;
+using Tcbcsl.Presentation.Helpers;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "League Commissioner")]
+    [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
     [RouteArea("Admin")]
     [RoutePrefix("Content")]
     public class ContentItemController : AdminControllerBase

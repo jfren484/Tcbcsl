@@ -8,6 +8,11 @@
             {
                 @RenderSection("Readonly")
             }
+            else
+            {
+                @Html.HiddenFor(m => m)
+                <p class="form-control-static">@Model</p>
+            }
         }
         else
         {

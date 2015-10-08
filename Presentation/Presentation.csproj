@@ -255,6 +255,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helpers\AuthorizeRedirectAttribute.cs" />
     <Compile Include="Helpers\ChangeTracker.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Models\YearEnum.cs" />
@@ -748,6 +749,8 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\readme.md" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
+    <Content Include="Views\Home\Unauthorized.cshtml" />
+    <Content Include="Views\Shared\_AdminNavigation.cshtml" />
     <None Include="Views\Statistics\StatisticsForGame.cshtml" />
     <Content Include="Views\Statistics\StatisticsForPlayer.cshtml" />
     <Content Include="Views\Statistics\StatisticsForLeagueIndividual.cshtml" />

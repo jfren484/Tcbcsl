@@ -16,50 +16,83 @@
 namespace Tcbcsl.Data.Entities
 {
 <#
-	var commandTextFormat = "SELECT {0}Id AS Id, Description FROM {1}";
-	var tableInfos = new[]
-	{
-		new { BaseName = "ContactInfoPieceType", TableName = "ContactInfoPieceTypes" },
-		new { BaseName = "GameStatus", TableName = "GameStatus" },
-		new { BaseName = "GameType", TableName = "GameTypes" }
-	};
+    var commandTextFormat = "SELECT {0}Id AS Id, Description FROM {1}";
+    var tableInfos = new[]
+    {
+        new { BaseName = "PhoneNumberType", TableName = "PhoneNumberTypes" },
+        new { BaseName = "GameStatus", TableName = "GameStatus" },
+        new { BaseName = "GameType", TableName = "GameTypes" }
+    };
 
-	using (var connection = new SqlConnection(@"Server=.;Database=Tcbcsl;Integrated Security=True"))
-	{
-		connection.Open();
-		foreach (var tableInfo in tableInfos)
+    using (var connection = new SqlConnection(@"Server=.;Database=Tcbcsl;Integrated Security=True"))
+    {
+        connection.Open();
+        foreach (var tableInfo in tableInfos)
         {
 #>
-	public partial class <#= tableInfo.BaseName #>
-	{
+    public partial class <#= tableInfo.BaseName #>
+    {
 <#
-			var commandText = string.Format(commandTextFormat, tableInfo.BaseName, tableInfo.TableName);
-			using (var command = new SqlCommand(commandText, connection))
-			using (var reader = command.ExecuteReader())
-			{
-				while (reader.Read())
-				{
+            var commandText = string.Format(commandTextFormat, tableInfo.BaseName, tableInfo.TableName);
+            using (var command = new SqlCommand(commandText, connection))
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
 #>
-		public const int <#= FormatStringAsIdentifier(reader["Description"].ToString()) #> = <#= reader["Id"] #>;
+        public const int <#= FormatStringAsIdentifier(reader["Description"].ToString()) #> = <#= reader["Id"] #>;
 <#
-				}
-			}
+                }
+            }
 #>
-	}
+    }
 
 <#
         }
-	}
+    }
+
+    var commandTextFormat2 = "SELECT {0} AS Label, {1} AS Value FROM {2}";
+    var tableInfo2s = new[]
+    {
+        new { LabelField = "Name", ValueField = "Name", TableName = "AspNetRoles", ClassName = "Roles" }
+    };
+
+    using (var connection = new SqlConnection(@"Server=.;Database=Tcbcsl;Integrated Security=True"))
+    {
+        connection.Open();
+        foreach (var tableInfo in tableInfo2s)
+        {
+#>
+    public class <#= tableInfo.ClassName #>
+    {
+<#
+            var commandText = string.Format(commandTextFormat2, tableInfo.LabelField, tableInfo.ValueField, tableInfo.TableName);
+            using (var command = new SqlCommand(commandText, connection))
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+#>
+        public const string <#= FormatStringAsIdentifier(reader["Label"].ToString()) #> = "<#= reader["Value"] #>";
+<#
+                }
+            }
+#>
+    }
+
+<#
+        }
+    }
 #>
 }
 <#+
 string FormatStringAsIdentifier(string str)
 {
-	str = Regex.Replace(str, "[^a-zA-Z ]", " ");
-	str = Regex.Replace(str, @"\b[a-z]", m => m.ToString().ToUpper());
+    str = Regex.Replace(str, "[^a-zA-Z ]", " ");
+    str = Regex.Replace(str, @"\b[a-z]", m => m.ToString().ToUpper());
 
-	str = str.Replace(" ", string.Empty);
+    str = str.Replace(" ", string.Empty);
 
-	return str;
+    return str;
 }
 #>
