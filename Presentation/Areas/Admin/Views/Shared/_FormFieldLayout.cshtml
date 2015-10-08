@@ -1,0 +1,21 @@
+﻿<div class="form-group">
+    @Html.LabelForModel(new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @if (ViewBag.IsReadonly ?? false)
+        {
+            RenderSection("Editable").WriteTo(TextWriter.Null);
+            if (IsSectionDefined("Readonly"))
+            {
+                @RenderSection("Readonly")
+            }
+        }
+        else
+        {
+            @RenderSection("Editable")
+            if (IsSectionDefined("Readonly"))
+            {
+                RenderSection("Readonly").WriteTo(TextWriter.Null);
+            }
+        }
+    </div>
+</div>

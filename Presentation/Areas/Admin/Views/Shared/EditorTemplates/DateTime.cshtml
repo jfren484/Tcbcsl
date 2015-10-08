@@ -1,21 +1,19 @@
 ﻿@model DateTime?
-<div class="form-group">
-    @Html.LabelForModel(new { @class = "control-label col-sm-2" })
-    <div class="col-sm-10">
-        @if (ViewBag.IsReadonly ?? false)
-        {
-            @Html.HiddenFor(m => m)
-            <p class="form-control-static">@(Model?.ToString(Consts.DateTimeFormatDisplay))</p>
-        }
-        else
-        {
-            <div class="input-group datetime-picker" id="datetimePicker_@Html.IdForModel()">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-                @Html.TextBoxFor(m => m, $"{{0:{Consts.DateTimeFormatDisplay}}}", new { @class = "form-control" })
-            </div>
-            @Html.ValidationMessageFor(m => m)
-        }
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_FormFieldLayout.cshtml";
+}
+@section Editable
+{
+    <div class="input-group datetime-picker" id="datetimePicker_@Html.IdForModel()">
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+        @Html.TextBoxFor(m => m, $"{{0:{Consts.DateTimeFormatDisplay}}}", new { @class = "form-control" })
     </div>
-</div>
+    @Html.ValidationMessageFor(m => m)
+}
+@section Readonly
+{
+    @Html.HiddenFor(m => m)
+    <p class="form-control-static">@(Model?.ToString(Consts.DateTimeFormatDisplay))</p>
+}

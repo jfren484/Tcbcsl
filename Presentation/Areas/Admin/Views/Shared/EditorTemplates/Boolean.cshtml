@@ -1,16 +1,14 @@
 ﻿@model bool?
-<div class="form-group">
-    @Html.LabelForModel(new { @class = "control-label col-sm-2" })
-    <div class="col-sm-10">
-        @if (ViewBag.IsReadonly ?? false)
-        {
-            @Html.HiddenFor(m => m)
-            <p class="form-control-static">@(Model ?? false ? "Yes" : "No")</p>
-        }
-        else
-        {
-            @Html.DropDownListFor(m => m, Model.ToSelectList(), new {@class = "form-control"})
-            @Html.ValidationMessageFor(m => m)
-        }
-    </div>
-</div>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_FormFieldLayout.cshtml";
+}
+@section Editable
+{
+    @Html.DropDownListFor(m => m, Model.ToSelectList(), new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m)
+}
+@section Readonly
+{
+    @Html.HiddenFor(m => m)
+    <p class="form-control-static">@(Model ?? false ? "Yes" : "No")</p>
+}
