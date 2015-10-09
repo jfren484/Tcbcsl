@@ -121,6 +121,25 @@ namespace Tcbcsl.Presentation
 
             #endregion
 
+            #region Team
+
+            Mapper.CreateMap<TeamYear, TeamEditModel>()
+                  .MapEditModelBaseWithAudit()
+                  .ForMember(m => m.Conference, exp => exp.MapFrom(e => e.DivisionYear.ConferenceYear))
+                  .ForMember(m => m.Division, exp => exp.MapFrom(e => e.DivisionYear))
+                  .ForMember(m => m.ChurchName, exp => exp.MapFrom(e => e.Church.FullName))
+                  .ForMember(m => m.FieldInformation, exp => exp.MapFrom(e => e.Team.FieldInformation))
+                  .ForMember(m => m.Comments, exp => exp.MapFrom(e => e.Team.Comments));
+
+            Mapper.CreateMap<ConferenceYear, TeamEditMetaModel>();
+
+            Mapper.CreateMap<DivisionYear, TeamEditMetaModel>();
+
+            Mapper.CreateMap<Coach, TeamEditCoachModel>()
+                  .ForMember(m => m.SortableName, exp => exp.MapFrom(e => $"{e.LastName}, {e.FirstName}"));
+
+            #endregion
+
             #region User Management
 
             Mapper.CreateMap<TcbcslUser, UserEditModel>()

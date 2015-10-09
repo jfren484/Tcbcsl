@@ -76,12 +76,24 @@ function renderActiveCell(data, type) {
         : data;
 }
 
+function renderBool(data, type) {
+    return type === 'display'
+        ? (data ? 'Yes' : 'No')
+        : data;
+}
+
 function renderDate(data, type) {
     return data === ''
         ? ''
         : type === 'display'
             ? moment(data).format(consts.tableDateFormat)
             : moment(data).unix();
+}
+
+function renderConfDiv(data, type) {
+    return type === 'sort'
+        ? (data.IsInLeague ? 0 : 1000) + data.Sort
+        : data.Name;
 }
 
 function renderEditLink(data, type) {

@@ -227,6 +227,7 @@
     <Compile Include="Areas\Admin\Controllers\ChurchController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ContentItemController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TeamController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\AuditDetailsModel.cs" />
     <Compile Include="Areas\Admin\Models\CoachEditModels.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Areas\Admin\Models\EditModelBase.cs" />
     <Compile Include="Areas\Admin\Models\EditModelBaseWithAudit.cs" />
     <Compile Include="Areas\Admin\Models\PageContentEditModel.cs" />
+    <Compile Include="Areas\Admin\Models\TeamEditModels.cs" />
     <Compile Include="Areas\Admin\Models\UserEditModels.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -381,6 +383,8 @@
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\AddressEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\PhoneEditModelList.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_FormFieldLayout.cshtml" />
+    <Content Include="Areas\Admin\Views\Team\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Team\List.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />

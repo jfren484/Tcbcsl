@@ -20,6 +20,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [UIHint("String")]
         public string Website { get; set; }
 
+        [Display(Name = "Other Info")]
         [UIHint("HtmlEditor")]
         [AllowHtml]
         public string Information { get; set; }

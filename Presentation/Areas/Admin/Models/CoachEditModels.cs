@@ -16,6 +16,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [Display(Name = "Other Info")]
         [UIHint("HtmlEditor")]
         [AllowHtml]
         public string Comments { get; set; }

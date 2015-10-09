@@ -1,0 +1,44 @@
+﻿@model TeamEditModel
+@{
+    const string title = "Manage Teams";
+    ViewBag.Title = title + Model.Year.AsTitleSuffix();
+}
+@Html.Partial("_YearPartial")
+<h2>@title</h2>
+@Html.Partial("_AdminListTable", new AdminListTableModel { ListItemName = "Team", CreateItemUrl = Url.Action("Create") })
+
+@section scripts
+{
+    <script>
+        var columns = [
+            { 'data': 'TeamId',                  'title': '@Html.DisplayNameFor(m => m.TeamId)',                  'visible':   false },
+            { 'data': 'Conference',              'title': '@Html.DisplayNameFor(m => m.Conference)',                                    'render': renderConfDiv },
+            { 'data': 'Division',                'title': '@Html.DisplayNameFor(m => m.Division)',                                      'render': renderConfDiv },
+            { 'data': 'FullName',                'title': '@Html.DisplayNameFor(m => m.FullName)' },
+            { 'data': 'HeadCoach',               'title': '@Html.DisplayNameFor(m => m.HeadCoach)',                                     'render': {'_': 'FullName', 'sort': 'SortableName'} },
+            { 'data': 'HasPaid',                 'title': '@Html.DisplayNameFor(m => m.HasPaid)',                                       'render': renderBool },
+            { 'data': 'KeepsStats',              'title': '@Html.DisplayNameFor(m => m.KeepsStats)',                                    'render': renderBool },
+            { 'data': 'Clinch',                  'title': '@Html.DisplayNameFor(m => m.Clinch)' },
+            { 'data': 'FieldInformation',        'title': '@Html.DisplayNameFor(m => m.FieldInformation)',        'visible':   false,   'render': renderPartialContent },
+            { 'data': 'Comments',                'title': '@Html.DisplayNameFor(m => m.Comments)',                'visible':   false,   'render': renderPartialContent },
+            { 'data': 'AuditDetails.CreatedBy',  'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible':   false },
+            { 'data': 'AuditDetails.Created',    'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'visible':   false,   'render': renderDate },
+            { 'data': 'AuditDetails.ModifiedBy', 'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'visible':   false },
+            { 'data': 'AuditDetails.Modified',   'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'visible':   false,   'render': renderDate },
+            { 'data': 'EditUrl',                                                                                  'orderable': false,   'render': renderEditLink }
+        ];
+
+        datatable_RenderList({
+            'tableSelector': '.admin-list',
+            'dataUrl': '@Url.Action("Data", new {year = Model.Year})',
+            'columns': columns,
+            'sorting': true,
+            'paging': true,
+            'order': [
+                [findColumnIndex(columns, 'Conference'), 'asc'],
+                [findColumnIndex(columns, 'Division'), 'asc'],
+                [findColumnIndex(columns, 'FullName'), 'asc']
+            ]
+        });
+    </script>
+}

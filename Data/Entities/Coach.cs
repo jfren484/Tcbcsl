@@ -16,5 +16,7 @@ namespace Tcbcsl.Data.Entities
         public string Comments { get; set; }
 
         public virtual ICollection<TeamYear> TeamYears { get; set; }
+
+        public string FullName => $"{FirstName} {LastName}";
     }
 }

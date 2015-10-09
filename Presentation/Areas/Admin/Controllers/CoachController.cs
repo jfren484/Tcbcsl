@@ -29,11 +29,10 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public JsonResult Data()
         {
             var data = DbContext.Coaches
-                                .OrderByDescending(c => c.Created)
                                 .ToList()
-                                .Select(n =>
+                                .Select(c =>
                                         {
-                                            var model = Mapper.Map<CoachEditModel>(n);
+                                            var model = Mapper.Map<CoachEditModel>(c);
                                             model.EditUrl = Url.Action("Edit", new {id = model.CoachId});
 
                                             return model;

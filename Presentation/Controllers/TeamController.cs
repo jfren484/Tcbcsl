@@ -68,7 +68,7 @@ namespace Tcbcsl.Presentation.Controllers
                                     {
                                         CoachId = teamYear.HeadCoachId,
                                         Year = year,
-                                        Name = $"{teamYear.HeadCoach.FirstName} {teamYear.HeadCoach.LastName}",
+                                        Name = teamYear.HeadCoach.FullName,
                                         Comments = teamYear.HeadCoach.Comments,
                                         ContactInfo = Mapper.Map<ContactInfoModel>(teamYear.HeadCoach)
                                     },
