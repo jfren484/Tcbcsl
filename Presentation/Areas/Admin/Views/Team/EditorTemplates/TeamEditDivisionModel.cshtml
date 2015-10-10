@@ -1,0 +1,14 @@
+﻿@model TeamEditDivisionModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_FormFieldLayout.cshtml";
+}
+@section Editable
+{
+    @Html.DropDownListFor(m => m.DivisionId, Model.ItemSelectList, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.DivisionId)
+}
+@section Readonly
+{
+    @Html.HiddenFor(m => m.DivisionId)
+    <p class="form-control-static">@Model.Name</p>
+}

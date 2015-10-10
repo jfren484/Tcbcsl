@@ -27,7 +27,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
     public class StateModel
     {
-        public int? StateId { get; set; }
+        public int StateId { get; set; }
         public string Name { get; set; }
     }
 

@@ -10,11 +10,14 @@
 
         <fieldset>
             <legend>@title</legend>
-            @Html.EditorFor(m => m.FirstName)
-            @Html.EditorFor(m => m.LastName)
-            @Html.EditorFor(m => m.EmailAddress)
-            @Html.EditorFor(m => m.PhoneNumbers)
-            @Html.EditorFor(m => m.Address)
+            @Html.EditorFor(m => m.Church)
+            @Html.EditorFor(m => m.TeamName)
+            @Html.EditorFor(m => m.Division)
+            @Html.EditorFor(m => m.HeadCoach)
+            @Html.EditorFor(m => m.KeepsStats)
+            @Html.EditorFor(m => m.HasPaid)
+            @Html.EditorFor(m => m.Clinch)
+            @Html.EditorFor(m => m.FieldInformation)
             @Html.EditorFor(m => m.Comments)
             @Html.Partial("_FormCancelSubmit", Url.Action("List"))
         </fieldset>

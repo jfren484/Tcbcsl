@@ -32,7 +32,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 .Select(ty =>
                                         {
                                             var model = Mapper.Map<TeamEditModel>(ty);
-                                            model.EditUrl = Url.Action("Edit", new {id = model.TeamId});
+                                            model.EditUrl = Url.Action("Edit", new {id = model.TeamYearId});
 
                                             return model;
                                         });
@@ -67,13 +67,34 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Edit/{id:int}")]
         public ActionResult Edit(int id)
         {
-            var team = DbContext.Teams.SingleOrDefault(c => c.TeamId == id);
-            if (team == null || (!User.IsInRole(Roles.LeagueCommissioner) && !User.IsTeamIdValidForUser(id)))
+            var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamYearId == id);
+            if (teamYear == null || (!User.IsInRole(Roles.LeagueCommissioner) && !User.IsTeamIdValidForUser(teamYear.TeamId)))
             {
                 return HttpNotFound();
-            }
+            }   
 
-            var model = Mapper.Map<TeamEditModel>(team);
+            var model = Mapper.Map<TeamEditModel>(teamYear);
+
+            var divisions = DbContext.DivisionYears
+                                     .Where(dy => dy.Year == Consts.CurrentYear)
+                                     .OrderBy(dy => dy.Sort)
+                                     .Select(dy => new SelectListItem { Value = dy.DivisionId.ToString(), Text = dy.Name })
+                                     .ToList();
+            model.Division.ItemSelectList = new SelectList(divisions, "Value", "Text", model.Division.DivisionId);
+
+            var churches = DbContext.Churches
+                                    .OrderBy(c => c.FullName)
+                                    .Select(c => new SelectListItem { Value = c.ChurchId.ToString(), Text = c.FullName })
+                                    .ToList();
+            model.Church.ItemSelectList = new SelectList(churches, "Value", "Text", model.Church.ChurchId);
+
+            var coaches = DbContext.Coaches
+                                   .OrderBy(c => c.LastName)
+                                   .ThenBy(c => c.FirstName)
+                                   .ToList()
+                                   .Select(c => new SelectListItem { Value = c.CoachId.ToString(), Text = c.FullName })
+                                   .ToList();
+            model.HeadCoach.ItemSelectList = new SelectList(coaches, "Value", "Text", model.HeadCoach.CoachId);
 
             return View(model);
         }
@@ -82,13 +103,13 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Edit/{id:int}")]
         public ActionResult Edit(int id, TeamEditModel model)
         {
-            var team = DbContext.Teams.SingleOrDefault(c => c.TeamId == id);
-            if (team == null || (!User.IsInRole(Roles.LeagueCommissioner) && !User.IsTeamIdValidForUser(id)))
+            var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamYearId == id);
+            if (teamYear == null || (!User.IsInRole(Roles.LeagueCommissioner) && !User.IsTeamIdValidForUser(teamYear.TeamId)))
             {
                 return HttpNotFound();
             }
 
-            Mapper.Map(model, team);
+            Mapper.Map(model, teamYear);
             //DbContext.SaveChanges(User.Identity.Name);
 
             return RedirectToAction("List");
