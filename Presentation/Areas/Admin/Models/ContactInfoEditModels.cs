@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
@@ -25,18 +26,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public string Zip { get; set; }
     }
 
-    public class StateModel
-    {
-        public int StateId { get; set; }
-        public string Name { get; set; }
-    }
-
     public class StateEditModel
     {
         public int? StateId { get; set; }
         public string StateName { get; set; }
 
-        public List<StateModel> States { get; set; }
+        public SelectList ItemSelectList { get; set; }
     }
 
     public class PhoneTypeModel

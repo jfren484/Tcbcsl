@@ -11,7 +11,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Models;
-using Tcbcsl.Presentation.Areas.Admin.Models;
 
 namespace Tcbcsl.Presentation.Helpers
 {
@@ -104,28 +103,6 @@ namespace Tcbcsl.Presentation.Helpers
         public static MvcHtmlString ToLines<T>(this IEnumerable<T> items)
         {
             return MvcHtmlString.Create(string.Join("<br />", items.Where(i => i != null).Select(i => i.ToString())));
-        }
-
-        public static SelectList ToSelectList(this bool? value)
-        {
-            return new SelectList(new[]
-                                  {
-                                      new SelectListItem {Value = "True", Text = "Yes"},
-                                      new SelectListItem {Value = "False", Text = "No"}
-                                  },
-                                  "Value",
-                                  "Text",
-                                  value);
-        }
-
-        public static SelectList ToSelectList(this StateEditModel model)
-        {
-            var stateSelectListItems = model.States
-                                            .Select(s => new SelectListItem { Value = s.StateId.ToString(), Text = s.Name })
-                                            .ToList();
-            stateSelectListItems.Insert(0, new SelectListItem());
-
-            return new SelectList(stateSelectListItems, "Value", "Text", model.StateId);
         }
 
         public static MvcHtmlString UrlToLink(this string url)

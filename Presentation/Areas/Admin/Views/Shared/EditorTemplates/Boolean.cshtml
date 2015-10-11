@@ -1,10 +1,18 @@
 ﻿@model bool?
 @{
     Layout = "~/Areas/Admin/Views/Shared/_FormFieldLayout.cshtml";
+    var selectList = new SelectList(new[]
+                                    {
+                                        new SelectListItem {Value = "True", Text = "Yes"},
+                                        new SelectListItem {Value = "False", Text = "No"}
+                                    },
+                                    "Value",
+                                    "Text",
+                                    Model);
 }
 @section Editable
 {
-    @Html.DropDownListFor(m => m, Model.ToSelectList(), new { @class = "form-control" })
+    @Html.DropDownListFor(m => m, selectList, new { @class = "form-control" })
     @Html.ValidationMessageFor(m => m)
 }
 @section Readonly

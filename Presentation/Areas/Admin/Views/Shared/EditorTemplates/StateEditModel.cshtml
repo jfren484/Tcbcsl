@@ -4,7 +4,7 @@
 }
 @section Editable
 {
-    @Html.DropDownListFor(m => m.StateId, Model.ToSelectList(), new { @class = "form-control" })
+    @Html.DropDownListFor(m => m.StateId, Model.ItemSelectList, new { @class = "form-control" })
     @Html.ValidationMessageFor(m => m.StateId)
 }
 @section Readonly

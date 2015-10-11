@@ -83,11 +83,9 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<PhoneNumberType, PhoneTypeModel>();
 
-            Mapper.CreateMap<State, StateModel>();
-
             Mapper.CreateMap<State, StateEditModel>()
                   .ForMember(m => m.StateName, exp => exp.MapFrom(e => e.Name))
-                  .ForMember(m => m.States, exp => exp.Ignore());
+                  .ForMember(m => m.ItemSelectList, exp => exp.Ignore());
 
             #endregion
 

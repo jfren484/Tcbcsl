@@ -53,7 +53,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 {
                                     Address = new AddressEditModel
                                             {
-                                                State = new StateEditModel {States = GetStates()}
+                                                State = new StateEditModel {ItemSelectList = GetStatesSelectList(null)}
                                             },
                                     PhoneNumbers = new PhoneEditModelList
                                                     {
@@ -89,7 +89,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             var model = Mapper.Map<ChurchEditModel>(church);
-            model.Address.State.States = GetStates();
+            model.Address.State.ItemSelectList = GetStatesSelectList(church.Address.StateId);
 
             var phoneTypes = GetPhoneTypes();
             model.PhoneNumbers.ForEach(pn => { pn.PhoneTypes = phoneTypes; });
