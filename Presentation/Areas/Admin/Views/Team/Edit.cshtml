@@ -6,8 +6,6 @@
 <div class="well">
     @using (Html.BeginForm("Edit", "Team", FormMethod.Post, new { @class = "form-horizontal form-with-validation" }))
     {
-        @Html.HiddenFor(m => m.TeamId)
-
         <fieldset>
             <legend>@title</legend>
             @Html.EditorFor(m => m.Church)

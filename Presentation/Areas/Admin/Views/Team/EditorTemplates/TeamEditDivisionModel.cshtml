@@ -4,11 +4,11 @@
 }
 @section Editable
 {
-    @Html.DropDownListFor(m => m.DivisionId, Model.ItemSelectList, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.DivisionId)
+    @Html.DropDownListFor(m => m.DivisionYearId, Model.ItemSelectList, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.DivisionYearId)
 }
 @section Readonly
 {
-    @Html.HiddenFor(m => m.DivisionId)
+    @Html.HiddenFor(m => m.DivisionYearId)
     <p class="form-control-static">@Model.Name</p>
 }

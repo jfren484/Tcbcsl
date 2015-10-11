@@ -25,7 +25,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [MaxLength(50)]
         public string TeamName { get; set; }
 
-        [Display(Name = "Full Name")]
+        [Display(Name = "Name")]
         public string FullName { get; set; }
 
         public TeamEditCoachModel HeadCoach { get; set; }
@@ -52,7 +52,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
     public class TeamEditDivisionModel
     {
-        public int DivisionId { get; set; }
+        public int DivisionYearId { get; set; }
         public bool IsInLeague { get; set; }
         public string Name { get; set; }
         public int Sort { get; set; }

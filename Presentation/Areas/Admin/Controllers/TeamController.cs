@@ -4,6 +4,7 @@ using AutoMapper;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
+using System.Data.Entity.Validation;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
@@ -80,7 +81,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                      .OrderBy(dy => dy.Sort)
                                      .Select(dy => new SelectListItem { Value = dy.DivisionId.ToString(), Text = dy.Name })
                                      .ToList();
-            model.Division.ItemSelectList = new SelectList(divisions, "Value", "Text", model.Division.DivisionId);
+            model.Division.ItemSelectList = new SelectList(divisions, "Value", "Text", model.Division.DivisionYearId);
 
             var churches = DbContext.Churches
                                     .OrderBy(c => c.FullName)
@@ -110,7 +111,18 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             Mapper.Map(model, teamYear);
-            //DbContext.SaveChanges(User.Identity.Name);
+            var churchName = DbContext.Churches.Single(ch => ch.ChurchId == teamYear.ChurchId).DisplayName;
+            teamYear.FullName = $"{churchName} {teamYear.TeamName}".Trim();
+
+            try
+            {
+                DbContext.SaveChanges(User.Identity.Name);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var errors = ex.EntityValidationErrors.ToList();
+                throw;
+            }
 
             return RedirectToAction("List");
         }

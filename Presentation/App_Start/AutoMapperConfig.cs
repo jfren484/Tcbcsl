@@ -129,7 +129,7 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.Comments, exp => exp.MapFrom(e => e.Team.Comments));
 
             Mapper.CreateMap<ConferenceYear, TeamEditDivisionModel>()
-                  .ForMember(m => m.DivisionId, exp => exp.Ignore())
+                  .ForMember(m => m.DivisionYearId, exp => exp.Ignore())
                   .ForMember(m => m.ItemSelectList, exp => exp.Ignore());
 
             Mapper.CreateMap<DivisionYear, TeamEditDivisionModel>()
@@ -141,6 +141,28 @@ namespace Tcbcsl.Presentation
             Mapper.CreateMap<Coach, TeamEditCoachModel>()
                   .ForMember(m => m.ItemSelectList, exp => exp.Ignore())
                   .ForMember(m => m.SortableName, exp => exp.MapFrom(e => $"{e.LastName}, {e.FirstName}"));
+
+            Mapper.CreateMap<TeamEditModel, TeamYear>()
+                  .MapEntityModifiable()
+                  .ForMember(e => e.TeamId, exp => exp.Ignore())
+                  .ForMember(e => e.Year, exp => exp.Ignore())
+                  .ForMember(e => e.TeamYearId, exp => exp.Ignore())
+                  .ForMember(e => e.Team, exp => exp.MapFrom(m => m))
+                  .ForMember(e => e.FullName, exp => exp.Ignore())
+                  .ForMember(e => e.ChurchId, exp => exp.MapFrom(m => m.Church.ChurchId))
+                  .ForMember(e => e.Church, exp => exp.Ignore())
+                  .ForMember(e => e.DivisionYearId, exp => exp.MapFrom(m => m.Division.DivisionYearId))
+                  .ForMember(e => e.DivisionYear, exp => exp.Ignore())
+                  .ForMember(e => e.HeadCoachId, exp => exp.MapFrom(m => m.HeadCoach.CoachId))
+                  .ForMember(e => e.HeadCoach, exp => exp.Ignore())
+                  .ForMember(e => e.GameParticipants, exp => exp.Ignore());
+
+            Mapper.CreateMap<TeamEditModel, Team>()
+                  .MapEntityModifiable()
+                  .ForMember(e => e.TeamYears, exp => exp.Ignore())
+                  .ForMember(e => e.NewsItems, exp => exp.Ignore())
+                  .ForMember(e => e.Players, exp => exp.Ignore())
+                  .ForMember(e => e.ManagingUsers, exp => exp.Ignore());
 
             #endregion
 
