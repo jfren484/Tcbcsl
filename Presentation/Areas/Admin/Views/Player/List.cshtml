@@ -1,0 +1,38 @@
+﻿@model PlayerEditModel
+@{
+    const string title = "Manage Players";
+}
+<h2>@title</h2>
+@Html.Partial("_AdminListTable", new AdminListTableModel { ListItemName = "Player", CreateItemUrl = Url.Action("Create") })
+
+@section scripts
+{
+    <script>
+        var columns = [
+            { 'data': 'PlayerId',                'title': '@Html.DisplayNameFor(m => m.PlayerId)',                'visible':   false },
+            { 'data': 'NameFirst',               'title': '@Html.DisplayNameFor(m => m.NameFirst)' },
+            { 'data': 'NameLast',                'title': '@Html.DisplayNameFor(m => m.NameLast)' },
+            { 'data': 'Team',                    'title': '@Html.DisplayNameFor(m => m.Team)',                                          'render': 'FullName' },
+            { 'data': 'IsActive',                'title': '@Html.DisplayNameFor(m => m.IsActive)',                                      'render': renderBool },
+            { 'data': 'AuditDetails.CreatedBy',  'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible':   false },
+            { 'data': 'AuditDetails.Created',    'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'visible':   false,   'render': renderDate },
+            { 'data': 'AuditDetails.ModifiedBy', 'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'visible':   false },
+            { 'data': 'AuditDetails.Modified',   'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'visible':   false,   'render': renderDate },
+            { 'data': 'EditUrl',                                                                                  'orderable': false,   'render': renderEditLink }
+        ];
+
+        datatable_RenderList({
+            'tableSelector': '.admin-list',
+            'dataUrl': '@Url.Action("Data")',
+            'columns': columns,
+            'sorting': true,
+            'paging': true,
+            'order': [
+                [findColumnIndex(columns, 'NameLast'), 'asc'],
+                [findColumnIndex(columns, 'NameFirst'), 'asc']
+            ]
+        });
+    </script>
+}
+
+

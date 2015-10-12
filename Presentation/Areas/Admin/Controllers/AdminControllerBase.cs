@@ -30,18 +30,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             return new SelectList(stateSelectListItems, "Value", "Text", stateId);
         }
 
-        protected List<NewsEditTeamListModel> GetTeams(int year)
-        {
-            return DbContext.TeamYears
-                            .Where(ty => ty.Year == year && ty.DivisionYear.IsInLeague)
-                            .Select(ty => new NewsEditTeamListModel { TeamId = ty.TeamId, TeamName = ty.FullName })
-                            .ToList()
-                            .Concat(new[] { new NewsEditTeamListModel { TeamName = Consts.LeagueNameForList } })
-                            .FilterTeamsForUser(User, n => n.TeamId)
-                            .OrderBy(t => t.TeamName)
-                            .ToList();
-        }
-
         #endregion
     }
 }

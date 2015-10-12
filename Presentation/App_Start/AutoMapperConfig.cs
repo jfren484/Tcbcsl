@@ -119,6 +119,25 @@ namespace Tcbcsl.Presentation
 
             #endregion
 
+            #region Player
+
+            Mapper.CreateMap<Player, PlayerEditModel>()
+                  .MapEditModelBaseWithAudit()
+                  .ForMember(m => m.Team, exp => exp.MapFrom(e => e.CurrentTeam));
+
+            Mapper.CreateMap<Team, PlayerEditTeamModel>()
+                  .ForMember(m => m.ItemSelectList, exp => exp.Ignore())
+                  .ForMember(m => m.FullName, exp => exp.MapFrom(e => e.TeamYears.OrderByDescending(ty => ty.Year).First().FullName));
+
+            Mapper.CreateMap<PlayerEditModel, Player>()
+                  .MapEntityModifiable()
+                  .ForMember(e => e.PlayerId, exp => exp.Ignore())
+                  .ForMember(e => e.CurrentTeamId, exp => exp.MapFrom(m => m.Team.TeamId))
+                  .ForMember(e => e.CurrentTeam, exp => exp.Ignore())
+                  .ForMember(e => e.StatLines, exp => exp.Ignore());
+
+            #endregion
+
             #region Team
 
             Mapper.CreateMap<TeamYear, TeamEditModel>()

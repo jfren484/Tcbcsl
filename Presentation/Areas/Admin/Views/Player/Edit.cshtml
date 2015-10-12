@@ -1,0 +1,18 @@
+﻿@model PlayerEditModel
+@{
+    var title = (Model.PlayerId == 0 ? "Create" : "Edit") + " Player";
+    ViewBag.Title = title;
+}
+<div class="well">
+    @using (Html.BeginForm("Edit", "Player", FormMethod.Post, new { @class = "form-horizontal form-with-validation" }))
+    {
+        <fieldset>
+            <legend>@title</legend>
+            @Html.EditorFor(m => m.NameFirst)
+            @Html.EditorFor(m => m.NameLast)
+            @Html.EditorFor(m => m.Team)
+            @Html.EditorFor(m => m.IsActive)
+            @Html.Partial("_FormCancelSubmit", Url.Action("List"))
+        </fieldset>
+    }
+</div>

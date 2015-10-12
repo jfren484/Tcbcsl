@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tcbcsl.Data.Entities
 {
@@ -19,6 +20,7 @@ namespace Tcbcsl.Data.Entities
         [Required]
         public int CurrentTeamId { get; set; }
 
+        [ForeignKey("CurrentTeamId")]
         public virtual Team CurrentTeam { get; set; }
 
         public virtual ICollection<StatLine> StatLines { get; set; }

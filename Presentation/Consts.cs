@@ -18,7 +18,7 @@ namespace Tcbcsl.Presentation
         public const string DateTimeFormatDisplay = "MMMM d, yyyy, h:mm tt";
         public const string GamesBackFormat = "0.0;0.0;'---'";
 
-        public static readonly List<DateTime> TournamentDates = new List<DateTime>
+        public static readonly DateTime[] TournamentDates =
         {
             DateTime.Parse("2001-08-18"),
             DateTime.Parse("2002-08-17"),
@@ -38,11 +38,13 @@ namespace Tcbcsl.Presentation
         };
 
         public static readonly Dictionary<int, string> GameOutcomeVerbs = new Dictionary<int, string>
-        {
-            [-1] = "Lost",
-            [0] = "Tied",
-            [1] = "Won"
-        };
+                                                                          {
+                                                                              [-1] = "Lost",
+                                                                              [0] = "Tied",
+                                                                              [1] = "Won"
+                                                                          };
+
+        public static readonly int[] InvalidPlayerTeamIds = {44, 50, 51, 52};
 
         /*
         $g_lTEAM_ID_TBD		= 44;
