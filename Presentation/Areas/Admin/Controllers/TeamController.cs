@@ -4,7 +4,6 @@ using AutoMapper;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
-using System.Data.Entity.Validation;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
@@ -49,7 +48,15 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Create")]
         public ActionResult Create()
         {
-            return View("Edit", new TeamEditModel());
+            var model = new TeamEditModel
+            {
+                Division = new TeamEditDivisionModel(),
+                Church = new TeamEditChurchModel(),
+                HeadCoach = new TeamEditCoachModel()
+            };
+            PopulateDropdownLists(model);
+
+            return View("Edit", model);
         }
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
@@ -57,10 +64,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Create")]
         public ActionResult Create(TeamEditModel model)
         {
-            var team = Mapper.Map<Team>(model);
+            var teamYear = Mapper.Map<TeamYear>(model);
+            teamYear.Year = Consts.CurrentYear;
+            PopulateFullname(teamYear);
 
-            DbContext.Teams.Add(team);
-            //DbContext.SaveChanges(User.Identity.Name);
+            DbContext.TeamYears.Add(teamYear);
+            DbContext.SaveChanges(User.Identity.Name);
 
             return RedirectToAction("List");
         }
@@ -75,7 +84,35 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }   
 
             var model = Mapper.Map<TeamEditModel>(teamYear);
+            PopulateDropdownLists(model);
 
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("Edit/{id:int}")]
+        public ActionResult Edit(int id, TeamEditModel model)
+        {
+            var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamYearId == id);
+            if (teamYear == null || (!User.IsInRole(Roles.LeagueCommissioner) && !User.IsTeamIdValidForUser(teamYear.TeamId)))
+            {
+                return HttpNotFound();
+            }
+
+            Mapper.Map(model, teamYear);
+            PopulateFullname(teamYear);
+
+            DbContext.SaveChanges(User.Identity.Name);
+
+            return RedirectToAction("List");
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private void PopulateDropdownLists(TeamEditModel model)
+        {
             var divisions = DbContext.DivisionYears
                                      .Where(dy => dy.Year == Consts.CurrentYear)
                                      .OrderBy(dy => dy.Sort)
@@ -96,35 +133,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                    .Select(c => new SelectListItem { Value = c.CoachId.ToString(), Text = c.FullName })
                                    .ToList();
             model.HeadCoach.ItemSelectList = new SelectList(coaches, "Value", "Text", model.HeadCoach.CoachId);
-
-            return View(model);
         }
 
-        [HttpPost]
-        [Route("Edit/{id:int}")]
-        public ActionResult Edit(int id, TeamEditModel model)
+        private void PopulateFullname(TeamYear teamYear)
         {
-            var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamYearId == id);
-            if (teamYear == null || (!User.IsInRole(Roles.LeagueCommissioner) && !User.IsTeamIdValidForUser(teamYear.TeamId)))
-            {
-                return HttpNotFound();
-            }
-
-            Mapper.Map(model, teamYear);
             var churchName = DbContext.Churches.Single(ch => ch.ChurchId == teamYear.ChurchId).DisplayName;
             teamYear.FullName = $"{churchName} {teamYear.TeamName}".Trim();
-
-            try
-            {
-                DbContext.SaveChanges(User.Identity.Name);
-            }
-            catch (DbEntityValidationException ex)
-            {
-                var errors = ex.EntityValidationErrors.ToList();
-                throw;
-            }
-
-            return RedirectToAction("List");
         }
 
         #endregion

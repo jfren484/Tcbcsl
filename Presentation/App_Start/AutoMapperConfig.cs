@@ -159,6 +159,7 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<TeamEditModel, Team>()
                   .MapEntityModifiable()
+                  .ForMember(e => e.TeamId, exp => exp.Ignore())
                   .ForMember(e => e.TeamYears, exp => exp.Ignore())
                   .ForMember(e => e.NewsItems, exp => exp.Ignore())
                   .ForMember(e => e.Players, exp => exp.Ignore())
