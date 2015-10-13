@@ -89,11 +89,11 @@ function renderConfDiv(data, type) {
 }
 
 function renderDate(data, type) {
-    return data === ''
-        ? ''
-        : type === 'display'
+    return data
+        ? type === 'display'
             ? moment(data).format(consts.tableDateFormat)
-            : moment(data).unix();
+            : moment(data).unix()
+        : '';
 }
 
 function renderEditLink(data, type) {
@@ -104,9 +104,9 @@ function renderEditLink(data, type) {
 
 function renderPartialContent(data, type) {
     return type === 'display'
-        ? data === null || !data.length
-            ? null
-            : '<div class="partial-content">' + data + '</div>'
+        ? data && data.length
+            ? '<div class="partial-content">' + data + '</div>'
+            : null
         : data;
 }
 
