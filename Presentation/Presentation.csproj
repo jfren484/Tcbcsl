@@ -393,6 +393,7 @@
     <Content Include="Areas\Admin\Views\Player\List.cshtml" />
     <Content Include="Areas\Admin\Views\Player\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Player\EditorTemplates\PlayerEditTeamModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Player\PoolList.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />

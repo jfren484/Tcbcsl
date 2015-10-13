@@ -1,14 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using AutoMapper;
 using Tcbcsl.Presentation.Areas.Admin.Models;
-using Tcbcsl.Presentation.Helpers;
 using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
     public abstract class AdminControllerBase : Presentation.Controllers.ControllerBase
     {
+        #region Custom Return methods
+
+        protected static ActionResult HttpOk()
+        {
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        #endregion
+
         #region Helpers
 
         protected List<PhoneTypeModel> GetPhoneTypes()

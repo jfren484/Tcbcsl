@@ -80,10 +80,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             var church = DbContext.Churches.SingleOrDefault(c => c.ChurchId == id);
-            if (church == null || (!User.IsInRole(Roles.LeagueCommissioner) &&
-                                   !church.TeamYears
-                                          .Where(ty => ty.Year == Consts.CurrentYear)
-                                          .Any(ty => User.IsTeamIdValidForUser(ty.TeamId))))
+            if (church == null || !church.TeamYears
+                                         .Where(ty => ty.Year == Consts.CurrentYear)
+                                         .Any(ty => User.IsTeamIdValidForUser(ty.TeamId)))
             {
                 return HttpNotFound();
             }
@@ -102,10 +101,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Edit(int id, ChurchEditModel model)
         {
             var church = DbContext.Churches.SingleOrDefault(c => c.ChurchId == id);
-            if (church == null || (!User.IsInRole(Roles.LeagueCommissioner) &&
-                                   !church.TeamYears
-                                          .Where(ty => ty.Year == Consts.CurrentYear)
-                                          .Any(ty => User.IsTeamIdValidForUser(ty.TeamId))))
+            if (church == null || !church.TeamYears
+                                         .Where(ty => ty.Year == Consts.CurrentYear)
+                                         .Any(ty => User.IsTeamIdValidForUser(ty.TeamId)))
             {
                 return HttpNotFound();
             }

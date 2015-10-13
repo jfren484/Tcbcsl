@@ -80,10 +80,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             var coach = DbContext.Coaches.SingleOrDefault(c => c.CoachId == id);
-            if (coach == null || (!User.IsInRole(Roles.LeagueCommissioner) &&
-                                  !coach.TeamYears
-                                        .Where(ty => ty.Year == Consts.CurrentYear)
-                                        .Any(ty => User.IsTeamIdValidForUser(ty.TeamId))))
+            if (coach == null || !coach.TeamYears
+                                       .Where(ty => ty.Year == Consts.CurrentYear)
+                                       .Any(ty => User.IsTeamIdValidForUser(ty.TeamId)))
             {
                 return HttpNotFound();
             }
@@ -102,10 +101,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Edit(int id, CoachEditModel model)
         {
             var coach = DbContext.Coaches.SingleOrDefault(c => c.CoachId == id);
-            if (coach == null || (!User.IsInRole(Roles.LeagueCommissioner) &&
-                                  !coach.TeamYears
-                                        .Where(ty => ty.Year == Consts.CurrentYear)
-                                        .Any(ty => User.IsTeamIdValidForUser(ty.TeamId))))
+            if (coach == null || !coach.TeamYears
+                                       .Where(ty => ty.Year == Consts.CurrentYear)
+                                       .Any(ty => User.IsTeamIdValidForUser(ty.TeamId)))
             {
                 return HttpNotFound();
             }

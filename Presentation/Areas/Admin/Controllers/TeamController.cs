@@ -78,7 +78,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamYearId == id);
-            if (teamYear == null || (!User.IsInRole(Roles.LeagueCommissioner) && !User.IsTeamIdValidForUser(teamYear.TeamId)))
+            if (teamYear == null || !User.IsTeamIdValidForUser(teamYear.TeamId))
             {
                 return HttpNotFound();
             }   
@@ -94,7 +94,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Edit(int id, TeamEditModel model)
         {
             var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamYearId == id);
-            if (teamYear == null || (!User.IsInRole(Roles.LeagueCommissioner) && !User.IsTeamIdValidForUser(teamYear.TeamId)))
+            if (teamYear == null || !User.IsTeamIdValidForUser(teamYear.TeamId))
             {
                 return HttpNotFound();
             }
@@ -103,6 +103,11 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             PopulateFullname(teamYear);
 
             DbContext.SaveChanges(User.Identity.Name);
+
+            if (id == Consts.PlayerPoolTeamId)
+            {
+                Consts.PlayerPoolTeamName = teamYear.FullName;
+            }
 
             return RedirectToAction("List");
         }

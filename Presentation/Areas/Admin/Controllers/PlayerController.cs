@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Tcbcsl.Data.Entities;
@@ -17,25 +18,41 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("")]
         public ActionResult List()
         {
-            return View(new PlayerEditModel());
+            var model = new PlayerEditModel {Team = new PlayerEditTeamModel()};
+            PopulateDropdownLists(model);
+
+            return View(model);
         }
 
-        //[HttpPost]
+        [HttpPost]
         [Route("Data")]
         public JsonResult Data()
         {
-            var data = DbContext.Players
-                                .ToList()
-                                .FilterTeamsForUser(User, p => p.CurrentTeamId)
-                                .Select(ty =>
-                                {
-                                    var model = Mapper.Map<PlayerEditModel>(ty);
-                                    model.EditUrl = Url.Action("Edit", new { id = model.PlayerId });
+            var data = SelectPlayerEditModels(DbContext.Players
+                                                       .ToList()
+                                                       .FilterTeamsForUser(User, p => p.CurrentTeamId));
 
-                                    return model;
-                                });
+            return Json(data);
+        }
 
-            return Json(data, JsonRequestBehavior.AllowGet);
+        [Route("Pool")]
+        public ActionResult PoolList()
+        {
+            var model = new PlayerEditModel {Team = new PlayerEditTeamModel()};
+            PopulateDropdownLists(model);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("Pool/Data")]
+        public JsonResult PoolData()
+        {
+            var data = SelectPlayerEditModels(DbContext.Players
+                                                       .Where(p => p.CurrentTeamId == Consts.PlayerPoolTeamId)
+                                                       .ToList());
+
+            return Json(data);
         }
 
         #endregion
@@ -70,8 +87,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Edit/{id:int}")]
         public ActionResult Edit(int id)
         {
-            var player = DbContext.Players.SingleOrDefault(ty => ty.PlayerId == id);
-            if (player == null || (!User.IsInRole(Roles.LeagueCommissioner) && !User.IsTeamIdValidForUser(player.CurrentTeamId)))
+            var player = DbContext.Players.SingleOrDefault(p => p.PlayerId == id);
+            if (player == null || !User.IsTeamIdValidForUser(player.CurrentTeamId))
             {
                 return HttpNotFound();
             }
@@ -86,8 +103,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Edit/{id:int}")]
         public ActionResult Edit(int id, PlayerEditModel model)
         {
-            var player = DbContext.Players.SingleOrDefault(ty => ty.PlayerId == id);
-            if (player == null || (!User.IsInRole(Roles.LeagueCommissioner) && !User.IsTeamIdValidForUser(player.CurrentTeamId)))
+            var player = DbContext.Players.SingleOrDefault(p => p.PlayerId == id);
+            if (player == null || !User.IsTeamIdValidForUser(player.CurrentTeamId))
             {
                 return HttpNotFound();
             }
@@ -96,6 +113,31 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             DbContext.SaveChanges(User.Identity.Name);
 
             return RedirectToAction("List");
+        }
+
+        #endregion
+
+        #region Transfer
+
+        [HttpPost]
+        [Route("Transfer/{id:int}/{teamId:int}")]
+        public ActionResult Transfer(int id, int teamId)
+        {
+            var player = DbContext.Players.SingleOrDefault(p => p.PlayerId == id);
+            var team = DbContext.Teams.SingleOrDefault(t => t.TeamId == teamId);
+            if (player == null || team == null || !(User.IsTeamIdValidForUser(player.CurrentTeamId) && User.IsTeamIdValidForUser(teamId)))
+            {
+                return HttpNotFound();
+            }
+
+            player.CurrentTeamId = teamId;
+            DbContext.SaveChanges(User.Identity.Name);
+
+            var data = SelectPlayerEditModels(DbContext.Players
+                                                       .Where(p => p.PlayerId == id)
+                                                       .ToList());
+
+            return Json(data);
         }
 
         #endregion
@@ -113,6 +155,32 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                    .Select(ty => new SelectListItem {Value = ty.TeamId.ToString(), Text = ty.FullName})
                                    .ToList();
             model.Team.ItemSelectList = new SelectList(coaches, "Value", "Text", model.Team.TeamId);
+        }
+        public IEnumerable<PlayerEditModel> SelectPlayerEditModels(IEnumerable<Player> playerEntities)
+        {
+            var teamIds = DbContext.Teams
+                                   .Select(t => t.TeamId)
+                                   .FilterTeamsForUser(User, id => id)
+                                   .ToList();
+            var teamId = teamIds.Count == 1
+                             ? teamIds[0]
+                             : 0;
+
+            return playerEntities.Select(p =>
+                                         {
+                                             var model = Mapper.Map<PlayerEditModel>(p);
+                                             model.EditUrl = Url.Action("Edit", new {id = model.PlayerId});
+                                             model.Team.TransferUrl = Url.Action("Transfer",
+                                                                                 new
+                                                                                 {
+                                                                                     id = model.PlayerId,
+                                                                                     teamId = model.Team.TeamId == Consts.PlayerPoolTeamId
+                                                                                                  ? teamId
+                                                                                                  : Consts.PlayerPoolTeamId
+                                                                                 });
+
+                                             return model;
+                                         });
         }
 
         #endregion

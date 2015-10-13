@@ -47,12 +47,14 @@ function fixValidationClassesForBootstrap() {
 
 //#region Table-Rendering Functions
 
+var adminListTable;
+
 function datatable_RenderList(options) {
     ko.applyBindings({
         columns: options.columns.slice(0, -1)
     });
 
-    $(options.tableSelector).DataTable({
+    adminListTable = $(options.tableSelector).DataTable({
         'ajax': {
             'url': options.dataUrl,
             'type': 'POST',
@@ -110,6 +112,16 @@ function renderPartialContent(data, type) {
         : data;
 }
 
+function renderPlayerTransferLink(data, type) {
+    if (type !== 'display') return null;
+
+    var transferDestination = (data.TransferUrl.substr(-3) === '/' + consts.playerPoolTeamId)
+        ? consts.playerPoolTeamName
+        : 'My Team';
+
+    return '<a class="player-transfer" href="' + data.TransferUrl + '">Transfer to ' + transferDestination + '</a>';
+}
+
 //#endregion
 
 //#region List Table Settings Functions
@@ -123,6 +135,23 @@ $('.admin-list').on('click', '.column-toggle', function () {
     var column = $('.admin-list').DataTable().column(index);
 
     column.visible(!column.visible());
+});
+
+$('.admin-list').on('click', 'a.player-transfer', function (e) {
+    e.preventDefault();
+
+    var link = $(this);
+    var href = link.attr('href');
+
+    if (href.substr(-2) === '/0') {
+        $('#teamPickerModal').modal();
+        return;
+    }
+
+    $.post(href)
+        .done(function(data) {
+            adminListTable.row(link.closest('tr')[0]).data(data[0]).draw();
+        });
 });
 
 //#endregion

@@ -2,6 +2,8 @@
 var consts = {
     firstYear: 0,
     currentYear: 0,
+    playerPoolTeamId: 0,
+    playerPoolTeamName: '',
     editorDateFormat: 'MMMM D, YYYY, h:mm A',
     tableDateFormat: 'MMM D, YYYY, h:mm A'
 }

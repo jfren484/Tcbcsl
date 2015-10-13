@@ -80,6 +80,7 @@ namespace Tcbcsl.Presentation.Helpers
             var tcbcslUser = userManager.FindById(userPrincipal.Identity.GetUserId());
 
             return userManager.IsInRole(tcbcslUser.Id, Roles.LeagueCommissioner)
+                   || teamId == Consts.PlayerPoolTeamId
                    || tcbcslUser.AssignedTeams.Any(at => at.TeamId == teamId);
         }
 

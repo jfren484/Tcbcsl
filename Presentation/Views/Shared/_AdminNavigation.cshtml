@@ -4,13 +4,14 @@
 
     var adminAreaLinks = new[]
                          {
-                             new {Link = Html.RouteLink("Churches",     new {area = "Admin", controller = "Church",      action = "List"}, null), CommishOnly = true  },
-                             new {Link = Html.RouteLink("Coaches",      new {area = "Admin", controller = "Coach",       action = "List"}, null), CommishOnly = true  },
-                             new {Link = Html.RouteLink("News",         new {area = "Admin", controller = "News",        action = "List"}, null), CommishOnly = false },
-                             new {Link = Html.RouteLink("Page Content", new {area = "Admin", controller = "ContentItem", action = "List"}, null), CommishOnly = true  },
-                             new {Link = Html.RouteLink("Players",      new {area = "Admin", controller = "Player",      action = "List"}, null), CommishOnly = false },
-                             new {Link = Html.RouteLink("Teams",        new {area = "Admin", controller = "Team",        action = "List"}, null), CommishOnly = true  },
-                             new {Link = Html.RouteLink("Users",        new {area = "Admin", controller = "User",        action = "List"}, null), CommishOnly = true  }
+                             new {Link = Html.RouteLink("Churches",     new {area = "Admin", controller = "Church",      action = "List"},     null), CommishOnly = true  },
+                             new {Link = Html.RouteLink("Coaches",      new {area = "Admin", controller = "Coach",       action = "List"},     null), CommishOnly = true  },
+                             new {Link = Html.RouteLink("News",         new {area = "Admin", controller = "News",        action = "List"},     null), CommishOnly = false },
+                             new {Link = Html.RouteLink("Page Content", new {area = "Admin", controller = "ContentItem", action = "List"},     null), CommishOnly = true  },
+                             new {Link = Html.RouteLink("Players",      new {area = "Admin", controller = "Player",      action = "List"},     null), CommishOnly = false },
+                             new {Link = Html.RouteLink("Player Pool",  new {area = "Admin", controller = "Player",      action = "PoolList"}, null), CommishOnly = false },
+                             new {Link = Html.RouteLink("Teams",        new {area = "Admin", controller = "Team",        action = "List"},     null), CommishOnly = true  },
+                             new {Link = Html.RouteLink("Users",        new {area = "Admin", controller = "User",        action = "List"},     null), CommishOnly = true  }
                          };
 
     <li class="dropdown">

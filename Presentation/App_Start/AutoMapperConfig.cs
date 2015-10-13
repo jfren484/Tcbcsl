@@ -123,11 +123,19 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<Player, PlayerEditModel>()
                   .MapEditModelBaseWithAudit()
-                  .ForMember(m => m.Team, exp => exp.MapFrom(e => e.CurrentTeam));
+                  .ForMember(m => m.Team, exp => exp.MapFrom(e => e.CurrentTeam))
+                  .ForMember(m => m.HasStatsFor, exp => exp.MapFrom(e => e.StatLines
+                                                                          .Select(sl => sl.GameParticipant.TeamYear)
+                                                                          .Distinct()
+                                                                          .GroupBy(ty => ty.Team)));
 
             Mapper.CreateMap<Team, PlayerEditTeamModel>()
+                  .ForMember(m => m.TransferUrl, exp => exp.Ignore())
                   .ForMember(m => m.ItemSelectList, exp => exp.Ignore())
                   .ForMember(m => m.FullName, exp => exp.MapFrom(e => e.TeamYears.OrderByDescending(ty => ty.Year).First().FullName));
+
+            Mapper.CreateMap<IGrouping<Team, TeamYear>, string>()
+                  .ConvertUsing(g => $"{g.Key.TeamYears.OrderByDescending(ty => ty.Year).First().FullName} ({string.Join(", ", g.Select(ty => ty.Year).OrderByDescending(y => y))})");
 
             Mapper.CreateMap<PlayerEditModel, Player>()
                   .MapEntityModifiable()
