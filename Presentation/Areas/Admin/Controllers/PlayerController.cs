@@ -5,6 +5,8 @@ using AutoMapper;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
+using System.Web;
+using System;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
@@ -39,6 +41,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult PoolList()
         {
             var model = new PlayerEditModel {Team = new PlayerEditTeamModel()};
+
+            if (Request.Cookies.AllKeys.Contains("lastTeamId"))
+            {
+                model.Team.TeamId = int.Parse(Request.Cookies["lastTeamId"].Value);
+            }
+
             PopulateDropdownLists(model);
 
             return View(model);
@@ -132,6 +140,13 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             player.CurrentTeamId = teamId;
             DbContext.SaveChanges(User.Identity.Name);
+
+            if (!Request.Cookies.AllKeys.Contains("lastTeamId") || Request.Cookies["lastTeamId"].Value != teamId.ToString())
+            {
+                var cookie = new HttpCookie("lastTeamId", teamId.ToString());
+                cookie.Expires = DateTime.MaxValue;
+                Response.Cookies.Add(cookie);
+            }
 
             var data = SelectPlayerEditModels(DbContext.Players
                                                        .Where(p => p.PlayerId == id)

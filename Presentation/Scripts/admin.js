@@ -142,16 +142,30 @@ $('.admin-list').on('click', 'a.player-transfer', function (e) {
 
     var link = $(this);
     var href = link.attr('href');
+    var rowIndex = adminListTable.row(link.closest('tr')[0]).index();
 
     if (href.substr(-2) === '/0') {
+        $('#rowIndex').val(rowIndex);
+        $('#transferUrl').val(href.slice(0, -1));
         $('#teamPickerModal').modal();
         return;
     }
 
     $.post(href)
         .done(function(data) {
-            adminListTable.row(link.closest('tr')[0]).data(data[0]).draw();
+            adminListTable.row(rowIndex).data(data[0]).draw();
         });
 });
 
+$('#teamPickerModal').on('click', 'button.btn-primary', function () {
+    var link = $(this);
+    var href = $('#transferUrl').val() + $('#teamId').val();
+    var rowIndex = $('#rowIndex').val();
+
+    $.post(href)
+        .done(function (data) {
+            adminListTable.row(rowIndex).data(data[0]).draw();
+            $('#teamPickerModal').modal('hide');
+        });
+});
 //#endregion

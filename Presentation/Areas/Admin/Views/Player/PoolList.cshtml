@@ -9,11 +9,13 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Choose Team</h4>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                <h4 class="modal-title">Transfer Player To:</h4>
             </div>
             <div class="modal-body">
-                Body Content
+                @Html.Hidden("rowIndex")
+                @Html.Hidden("transferUrl")
+                @Html.DropDownList("teamId", Model.Team.ItemSelectList, new {@class = "form-control"})
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
