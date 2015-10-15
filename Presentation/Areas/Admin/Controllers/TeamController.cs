@@ -114,6 +114,29 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #endregion
 
+        #region Manage
+
+        [Route("Manage")]
+        public ActionResult Manage()
+        {
+            var teamYear = DbContext.TeamYears
+                                 //.Select(ty => new TeamManageModel())
+                                 .First();
+            var model = Mapper.Map<TeamManageModel>(teamYear);
+
+            model.Church.Address = model.Church.Address ?? new AddressEditModel();
+            model.Church.Address.State = model.Church.Address.State ?? new StateEditModel();
+            model.Church.Address.State.ItemSelectList = new SelectList(new string[0]);
+
+            model.HeadCoach.Address = model.HeadCoach.Address ?? new AddressEditModel();
+            model.HeadCoach.Address.State = model.HeadCoach.Address.State ?? new StateEditModel();
+            model.HeadCoach.Address.State.ItemSelectList = new SelectList(new string[0]);
+
+            return View(model);
+        }
+
+        #endregion
+
         #region Helpers
 
         private void PopulateDropdownLists(TeamEditModel model)

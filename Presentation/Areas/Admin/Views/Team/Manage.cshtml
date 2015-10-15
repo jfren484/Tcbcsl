@@ -1,0 +1,41 @@
+﻿@model TeamManageModel
+@{
+    var title = "Manage Team";
+    ViewBag.Title = title;
+}
+@using (Html.BeginForm("Manage", "Team", FormMethod.Post, new { @class = "form-horizontal form-with-validation" }))
+{
+    <div class="well">
+        <fieldset>
+            <legend>@Html.LabelFor(m => m.Team) - @Html.ActionLink("Edit", "Edit", new { id = Model.Team.TeamYearId })</legend>
+            @Html.EditorFor(m => m.Team.TeamName, new { IsReadOnly = true })
+            @Html.EditorFor(m => m.Team.HasPaid, new { IsReadOnly = true })
+            @Html.EditorFor(m => m.Team.Clinch, new { IsReadOnly = true })
+            @Html.EditorFor(m => m.Team.FieldInformation, new { IsReadonly = true })
+            @Html.EditorFor(m => m.Team.Comments, new { IsReadonly = true })
+        </fieldset>
+    </div>
+    <div class="well">
+        <fieldset>
+            <legend>@Html.LabelFor(m => m.Church) - @Html.ActionLink("Edit", "Edit", "Church", new { id = Model.Church.ChurchId }, null)</legend>
+            @Html.EditorFor(m => m.Church.FullName, new { IsReadOnly = true })
+            @Html.EditorFor(m => m.Church.DisplayName, new { IsReadOnly = true })
+            @Html.EditorFor(m => m.Church.Address, new { IsReadOnly = true })
+            @Html.EditorFor(m => m.Church.PhoneNumbers, new { IsReadOnly = true })
+            @Html.EditorFor(m => m.Church.EmailAddress, new { IsReadOnly = true })
+            @Html.EditorFor(m => m.Church.Website, new { IsReadOnly = true })
+            @Html.EditorFor(m => m.Church.Information, new { IsReadOnly = true })
+        </fieldset>
+    </div>
+    <div class="well">
+        <fieldset>
+            <legend>@Html.LabelFor(m => m.HeadCoach) - @Html.ActionLink("Edit", "Edit", "Coach", new { id = Model.HeadCoach.CoachId }, null)</legend>
+            @Html.EditorFor(m => m.HeadCoach.FirstName, new { IsReadOnly = true })
+            @Html.EditorFor(m => m.HeadCoach.LastName, new { IsReadOnly = true })
+            @Html.EditorFor(m => m.HeadCoach.EmailAddress, new { IsReadOnly = true })
+            @Html.EditorFor(m => m.HeadCoach.PhoneNumbers, new { IsReadOnly = true })
+            @Html.EditorFor(m => m.HeadCoach.Address, new { IsReadOnly = true })
+            @Html.EditorFor(m => m.HeadCoach.Comments, new { IsReadOnly = true })
+        </fieldset>
+    </div>
+}

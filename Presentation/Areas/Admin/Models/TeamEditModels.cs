@@ -28,6 +28,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "Name")]
         public string FullName { get; set; }
 
+        [Display(Name = "Head Coach")]
         public TeamEditCoachModel HeadCoach { get; set; }
 
         [Display(Name = "Keeps Stats")]
@@ -76,4 +77,34 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         public SelectList ItemSelectList { get; set; }
     }
+
+    public class TeamManageModel
+    {
+        [Display(Name = "Team")]
+        public TeamEditModel Team { get; set; }
+
+        [Display(Name = "Church")]
+        public ChurchEditModel Church { get; set; }
+
+        [Display(Name = "Coach")]
+        public CoachEditModel HeadCoach { get; set; }
+    }
+
+    //public class TeamManageTeamModel
+    //{
+    //    [Display(Name = "Id")]
+    //    public int TeamId { get; set; }
+
+    //    [Display(Name = "Name")]
+    //    public string FullName { get; set; }
+
+    //    [Display(Name = "Paid League Fee")]
+    //    public bool HasPaid { get; set; }
+
+    //    [Display(Name = "Field Information")]
+    //    public string FieldInformation { get; set; }
+
+    //    [Display(Name = "Other Info")]
+    //    public string Comments { get; set; }
+    //}
 }

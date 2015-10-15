@@ -155,6 +155,9 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.FieldInformation, exp => exp.MapFrom(e => e.Team.FieldInformation))
                   .ForMember(m => m.Comments, exp => exp.MapFrom(e => e.Team.Comments));
 
+            Mapper.CreateMap<TeamYear, TeamManageModel>()
+                  .ForMember(m => m.Team, exp => exp.MapFrom(e => e));
+
             Mapper.CreateMap<ConferenceYear, TeamEditDivisionModel>()
                   .ForMember(m => m.DivisionYearId, exp => exp.Ignore())
                   .ForMember(m => m.ItemSelectList, exp => exp.Ignore());

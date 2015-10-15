@@ -18,6 +18,7 @@
         @Html.Partial("_NavDropdownToggle", "Admin")
         <ul class="dropdown-menu">
             <li>@Html.RouteLink("Account", new { area = "", controller = "Manage", action = "Index" }, new { @class = "visible-sm" })</li>
+            <li>@Html.RouteLink("My Team", new { area = "Admin", controller = "Team", action = "Manage" })</li>
             @foreach (var adminAreaLink in adminAreaLinks.Where(adminAreaLink => userIsCommissioner || !adminAreaLink.CommishOnly))
             {
                 <li>@adminAreaLink.Link</li>
