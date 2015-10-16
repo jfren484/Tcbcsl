@@ -116,13 +116,16 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #region Manage
 
-        [Route("Manage")]
-        public ActionResult Manage()
+        [Route("Manage/{id:int}")]
+        public ActionResult Manage(int id)
         {
-            var teamYear = DbContext.TeamYears
-                                 //.Select(ty => new TeamManageModel())
+            var model = DbContext.TeamYears
+                                 .Where(ty => ty.TeamId == id)
+                                 .OrderByDescending(ty => ty.Year)
+                                 .Take(1)
+                                 .ToList()
+                                 .Select(Mapper.Map<TeamManageModel>)
                                  .First();
-            var model = Mapper.Map<TeamManageModel>(teamYear);
 
             model.Church.Address = model.Church.Address ?? new AddressEditModel();
             model.Church.Address.State = model.Church.Address.State ?? new StateEditModel();

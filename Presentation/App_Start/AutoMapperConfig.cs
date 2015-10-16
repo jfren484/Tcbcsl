@@ -52,7 +52,7 @@ namespace Tcbcsl.Presentation
                   .MapEditModelBaseWithAudit();
 
             Mapper.CreateMap<Address, AddressInfoModel>()
-                .ForMember(m => m.State, exp => exp.MapFrom(e => e.State.Abbreviation));
+                  .ForMember(m => m.State, exp => exp.MapFrom(e => e.State.Abbreviation));
 
             Mapper.CreateMap<AddressEditModel, Address>()
                   .MapEntityModifiable()

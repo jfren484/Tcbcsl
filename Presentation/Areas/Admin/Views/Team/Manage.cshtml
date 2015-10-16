@@ -7,17 +7,22 @@
 {
     <div class="well">
         <fieldset>
-            <legend>@Html.LabelFor(m => m.Team) - @Html.ActionLink("Edit", "Edit", new { id = Model.Team.TeamYearId })</legend>
+            <legend>
+                @Html.Partial("_FormLegendEdit", Url.Action("Edit", new { id = Model.Team.TeamYearId }))
+                @Html.LabelFor(m => m.Team)
+            </legend>
             @Html.EditorFor(m => m.Team.TeamName, new { IsReadOnly = true })
             @Html.EditorFor(m => m.Team.HasPaid, new { IsReadOnly = true })
-            @Html.EditorFor(m => m.Team.Clinch, new { IsReadOnly = true })
             @Html.EditorFor(m => m.Team.FieldInformation, new { IsReadonly = true })
             @Html.EditorFor(m => m.Team.Comments, new { IsReadonly = true })
         </fieldset>
     </div>
     <div class="well">
         <fieldset>
-            <legend>@Html.LabelFor(m => m.Church) - @Html.ActionLink("Edit", "Edit", "Church", new { id = Model.Church.ChurchId }, null)</legend>
+            <legend>
+                @Html.Partial("_FormLegendEdit", Url.Action("Edit", "Church", new { id = Model.Church.ChurchId }))
+                @Html.LabelFor(m => m.Church)
+            </legend>
             @Html.EditorFor(m => m.Church.FullName, new { IsReadOnly = true })
             @Html.EditorFor(m => m.Church.DisplayName, new { IsReadOnly = true })
             @Html.EditorFor(m => m.Church.Address, new { IsReadOnly = true })
@@ -29,7 +34,10 @@
     </div>
     <div class="well">
         <fieldset>
-            <legend>@Html.LabelFor(m => m.HeadCoach) - @Html.ActionLink("Edit", "Edit", "Coach", new { id = Model.HeadCoach.CoachId }, null)</legend>
+            <legend>
+                @Html.Partial("_FormLegendEdit", Url.Action("Edit", "Coach", new { id = Model.HeadCoach.CoachId }))
+                @Html.LabelFor(m => m.HeadCoach)
+            </legend>
             @Html.EditorFor(m => m.HeadCoach.FirstName, new { IsReadOnly = true })
             @Html.EditorFor(m => m.HeadCoach.LastName, new { IsReadOnly = true })
             @Html.EditorFor(m => m.HeadCoach.EmailAddress, new { IsReadOnly = true })

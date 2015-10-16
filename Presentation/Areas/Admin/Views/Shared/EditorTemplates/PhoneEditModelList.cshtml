@@ -2,8 +2,15 @@
 <div class="form-group">
     @Html.LabelForModel(new { @class = "control-label col-sm-2" })
     <div class="col-sm-10">
-        <div class="well">
-            @Html.EditorFor(m => m.Models, new { IsReadOnly = ViewBag.IsReadonly ?? false })
-        </div>
+        @if (ViewBag.IsReadonly ?? false)
+        {
+            @Html.EditorFor(m => m.Models, new { IsReadonly = true })
+        }
+        else
+        {
+            <div class="well">
+                @Html.EditorFor(m => m.Models)
+            </div>
+        }
     </div>
 </div>

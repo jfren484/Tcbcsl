@@ -6,6 +6,9 @@ a {
 body {
   padding-top: 50px;
 }
+legend a {
+  float: right;
+}
 /* Fix DataTables page length formatting */
 .dataTables_length {
   padding-top: 5px;

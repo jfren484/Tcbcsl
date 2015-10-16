@@ -2,6 +2,8 @@
 {
     var userIsCommissioner = User.IsInRole(Tcbcsl.Data.Entities.Roles.LeagueCommissioner);
 
+    var myTeamLinks = ((int[])Session["AssignedTeamIds"] ?? new int[0]).Select(id => Html.RouteLink("My Team", new { area = "Admin", controller = "Team", action = "Manage", id = id }));
+
     var adminAreaLinks = new[]
                          {
                              new {Link = Html.RouteLink("Churches",     new {area = "Admin", controller = "Church",      action = "List"},     null), CommishOnly = true  },
@@ -18,7 +20,10 @@
         @Html.Partial("_NavDropdownToggle", "Admin")
         <ul class="dropdown-menu">
             <li>@Html.RouteLink("Account", new { area = "", controller = "Manage", action = "Index" }, new { @class = "visible-sm" })</li>
-            <li>@Html.RouteLink("My Team", new { area = "Admin", controller = "Team", action = "Manage" })</li>
+            @foreach (var myTeamLink in myTeamLinks)
+            {
+                <li>@myTeamLink</li>
+            }
             @foreach (var adminAreaLink in adminAreaLinks.Where(adminAreaLink => userIsCommissioner || !adminAreaLink.CommishOnly))
             {
                 <li>@adminAreaLink.Link</li>

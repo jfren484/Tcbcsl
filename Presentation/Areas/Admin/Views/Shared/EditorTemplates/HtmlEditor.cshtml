@@ -7,3 +7,8 @@
     @Html.TextAreaFor(m => m, new { @class = "form-control html-editor", rows = "10" })
     @Html.ValidationMessageFor(m => m)
 }
+@section Readonly
+{
+    @Html.HiddenFor(m => m)
+    <p class="form-control-static">@Html.Raw(Model)</p>
+}

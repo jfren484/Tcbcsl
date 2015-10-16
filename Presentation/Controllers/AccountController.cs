@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Tcbcsl.Presentation.Models;
 using Tcbcsl.Data.Identity;
+using System.Linq;
 
 // ReSharper disable  RedundantCaseLabel
 
@@ -76,6 +77,13 @@ namespace Tcbcsl.Presentation.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    Session["AssignedTeamIds"] = HttpContext.GetOwinContext()
+                                                            .GetUserManager<ApplicationUserManager>()
+                                                            .FindById(User.Identity.GetUserId())
+                                                            .AssignedTeams
+                                                            .Select(at => at.TeamId)
+                                                            .ToArray();
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -245,6 +253,13 @@ namespace Tcbcsl.Presentation.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    Session["AssignedTeamIds"] = HttpContext.GetOwinContext()
+                                                            .GetUserManager<ApplicationUserManager>()
+                                                            .FindById(User.Identity.GetUserId())
+                                                            .AssignedTeams
+                                                            .Select(at => at.TeamId)
+                                                            .ToArray();
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
