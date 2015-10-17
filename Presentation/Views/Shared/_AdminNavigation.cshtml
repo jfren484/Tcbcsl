@@ -2,7 +2,7 @@
 {
     var userIsCommissioner = User.IsInRole(Tcbcsl.Data.Entities.Roles.LeagueCommissioner);
 
-    var myTeamLinks = ((int[])Session["AssignedTeamIds"] ?? new int[0]).Select(id => Html.RouteLink("My Team", new { area = "Admin", controller = "Team", action = "Manage", id = id }));
+    var myTeamLinks = UserCache.AssignedTeams.Select(kvp => Html.RouteLink($"Manage {kvp.Value ?? "My Team"}", new { area = "Admin", controller = "Team", action = "Manage", id = kvp.Key }));
 
     var adminAreaLinks = new[]
                          {

@@ -262,6 +262,7 @@
     <Compile Include="Helpers\AuthorizeRedirectAttribute.cs" />
     <Compile Include="Helpers\ChangeTracker.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
+    <Compile Include="Helpers\UserCache.cs" />
     <Compile Include="Models\YearEnum.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CoachViewModels.cs" />
