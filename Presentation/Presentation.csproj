@@ -399,6 +399,12 @@
     <Content Include="Areas\Admin\Views\Team\Manage.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_FormLegendEdit.cshtml" />
     <Content Include="Areas\Admin\Views\Schedule\Schedule.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule\EditorTemplates\ScheduleConferenceModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule\EditorTemplates\ScheduleGameModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule\EditorTemplates\ScheduleGameRowModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule\EditorTemplates\ScheduleGameHeaderModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule\EditorTemplates\Runs.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule\EditorTemplates\ScheduleGameTeamModel.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />

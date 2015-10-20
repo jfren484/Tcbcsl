@@ -1,0 +1,11 @@
+﻿@model ScheduleConferenceModel
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        @Model.Label Games
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            @Html.EditorFor(m => m.Games)
+        </div>
+    </div>
+</div>
