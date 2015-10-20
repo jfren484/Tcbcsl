@@ -1,18 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using MoreLinq;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.SqlServer;
 using System.Linq;
+using Tcbcsl.Data;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Services
 {
-    public static class ScheduleService
+    public class ScheduleService
     {
+        #region Constructor and Private Fields
+
+        private readonly TcbcslDbContext _dbContext;
+
+        public ScheduleService(TcbcslDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        #endregion
+
         public static string FormatRecord(int wins, int losses, int ties)
         {
             return $"{wins}-{losses}{ties:'-'#;;''}";
         }
 
-        public static ScheduleGameModel GameModelFromGame(Game game)
+        public ScheduleGameModel GameModelFromGame(Game game)
         {
             var teamRows = game.GameParticipants
                                .OrderBy(gp => gp.IsHost)
@@ -68,7 +83,85 @@ namespace Tcbcsl.Presentation.Services
                    };
         }
 
-        public static List<TeamGameModel> GetTeamSchedule(TeamYear teamYear)
+        private  DateTime GetClosestGameDate()
+        {
+            var dateQuery = from g in _dbContext.Games
+                            orderby Math.Abs(SqlFunctions.DateDiff("day", g.GameDate, DateTime.Now).Value)
+                            select g.GameDate;
+
+            return dateQuery.First().Date;
+        }
+
+        private static GameBucket GetGameBucket(Game game)
+        {
+            if (game.GameTypeId == GameType.GamePlaceholder)
+            {
+                return new GameBucket("Post-Season", 0);
+            }
+
+            if (Consts.TournamentDates.Contains(game.GameDate.Date))
+            {
+                return new GameBucket(game.GameDate.ToString("t"), (int)game.GameDate.TimeOfDay.TotalMinutes);
+            }
+
+            var conferences = game.GameParticipants
+                                  .Select(gp => gp.TeamYear.DivisionYear.ConferenceYear)
+                                  .DistinctBy(cy => cy.ConferenceYearId)
+                                  .ToList();
+
+            if (game.GameTypeId == GameType.Exhibition || conferences.Any(cy => !cy.IsInLeague))
+            {
+                return new GameBucket("Exhibition", 99);
+            }
+
+            if (conferences.Count > 1 && conferences[0].ConferenceYearId != conferences[1].ConferenceYearId)
+            {
+                return new GameBucket("Inter-Conference", 90);
+            }
+
+            return new GameBucket(conferences[0]);
+        }
+
+        public ScheduleModel GetScheduleModelForDate(DateTime? date)
+        {
+            var scheduleDate = date ?? GetClosestGameDate();
+
+            var gamesOnDate = _dbContext.Games
+                                       .Where(g => SqlFunctions.DateDiff("day", g.GameDate, scheduleDate) == 0)
+                                       .ToList();
+
+            if (!gamesOnDate.Any())
+            {
+                return null;
+            }
+
+            var bucketedGames = new Dictionary<GameBucket, List<Game>>();
+            foreach (var game in gamesOnDate)
+            {
+                var bucket = GetGameBucket(game);
+
+                if (!bucketedGames.ContainsKey(bucket))
+                {
+                    bucketedGames.Add(bucket, new List<Game>());
+                }
+
+                bucketedGames[bucket].Add(game);
+            }
+
+            return new ScheduleModel
+                   {
+                       Date = scheduleDate,
+                       ConferenceModels = bucketedGames.OrderBy(kvp => kvp.Key.Sort)
+                                                       .Select(kvp => new ScheduleConferenceModel
+                                                                      {
+                                                                          Label = kvp.Key.Label,
+                                                                          Games = kvp.Value.Select(GameModelFromGame).ToList()
+                                                                      })
+                                                       .ToList()
+                   };
+        }
+
+        public List<TeamGameModel> GetTeamSchedule(TeamYear teamYear)
         {
             return (from gp in teamYear.GameParticipants
                     let opponent = gp.Game.GameParticipants.FirstOrDefault(gp2 => gp2.GameParticipantId != gp.GameParticipantId)
@@ -139,5 +232,28 @@ namespace Tcbcsl.Presentation.Services
             return $"({totalRecord}, {locationSpecificRecord} {locationSpecificLabel})";
         }
         */
+
+        public struct GameBucket : IEquatable<GameBucket>
+        {
+            public string Label { get; }
+            public int Sort { get; }
+
+            public GameBucket(string label, int sort)
+            {
+                Label = label;
+                Sort = sort;
+            }
+
+            public GameBucket(ConferenceYear conference)
+            {
+                Label = conference.Name;
+                Sort = conference.Sort;
+            }
+
+            public bool Equals(GameBucket other)
+            {
+                return other.Label == Label;
+            }
+        }
     }
 }

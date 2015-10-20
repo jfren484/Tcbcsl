@@ -1,0 +1,20 @@
+﻿@model ScheduleModel
+@{
+    const string title = "Schedule";
+    ViewBag.Title = $"{title} for {Model.Date.ToString(Consts.DateFormatDisplay)}";
+}
+<div class="modal calendar-modal">
+    <div class="modal-dialog">
+        <div class="modal-content calendar-content">
+            @Html.Action("YearCalendar", "Schedule", new { area = "", year = Model.Date.Year, activeDate = Model.Date.ToString(Consts.DateFormat) })
+        </div>
+    </div>
+</div>
+<div class="dropdown calendar-dropdown pull-right">
+    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="modal" data-target=".calendar-modal">
+        @Model.Date.ToString(Consts.DateFormatDisplay)
+        <span class="caret"></span>
+    </button>
+</div>
+<h2>@title</h2>
+@Html.DisplayFor(m => m.ConferenceModels)

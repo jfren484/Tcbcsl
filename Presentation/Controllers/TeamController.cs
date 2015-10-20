@@ -9,6 +9,8 @@ namespace Tcbcsl.Presentation.Controllers
 {
     public class TeamController : ControllerBase
     {
+        #region Constructor and Private Fields
+
         private static readonly List<StatsCategory> StatsCategories = new List<StatsCategory>
                                                                       {
                                                                           new StatsCategory {Name = "Batting Average (AVG)",     Field = "AVG", IsPercentage = true},
@@ -19,6 +21,14 @@ namespace Tcbcsl.Presentation.Controllers
                                                                           new StatsCategory {Name = "On-base + Slugging (OPS)",  Field = "OPS", IsPercentage = true}
                                                                       };
 
+        private readonly ScheduleService _scheduleService;
+
+        public TeamController()
+        {
+            _scheduleService = new ScheduleService(DbContext);
+        }
+
+        #endregion
 
         [Route("Teams/{year:year?}")]
         public ActionResult Teams(int year = Consts.CurrentYear)
@@ -78,7 +88,7 @@ namespace Tcbcsl.Presentation.Controllers
                             Schedule = new TeamScheduleModel
                                        {
                                            Year = year,
-                                           Games = ScheduleService.GetTeamSchedule(teamYear)
+                                           Games = _scheduleService.GetTeamSchedule(teamYear)
                                        }
                         };
 
