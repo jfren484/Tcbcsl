@@ -6,7 +6,7 @@
 <div class="modal calendar-modal">
     <div class="modal-dialog">
         <div class="modal-content calendar-content">
-            @Html.Action("YearCalendar", "Schedule", new { area = "", year = Model.Date.Year, activeDate = Model.Date.ToString(Consts.DateFormat) })
+            @Html.Action("YearCalendar", "Schedule", new { year = Model.Date.Year, activeDate = Model.Date.ToString(Consts.DateFormat) })
         </div>
     </div>
 </div>

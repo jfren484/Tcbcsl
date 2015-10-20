@@ -1,11 +1,25 @@
 ﻿@model YearCalendarModel
 <div class="panel panel-primary">
     <div class="panel-heading calendar-year-nav">
-        <a href="#" class="@(Model.Year > Consts.FirstYear ? "" : "disabled")" data-year="@(Model.Year - 1)" data-active-date="@Model.ActiveDate.ToString(Consts.DateFormat)"
-            role="button"><span class="glyphicon glyphicon-chevron-left"></span></a>
+        <a href="#" class="@(Model.Year > Consts.FirstYear ? "" : "disabled")" data-url="@(Model.Year <= Consts.FirstYear
+                                                                                               ? null
+                                                                                               : Url.RouteUrl(new
+                                                                                                              {
+                                                                                                                  action = "YearCalendar",
+                                                                                                                  year = Model.Year - 1,
+                                                                                                                  activeDate = Model.ActiveDate.ToString(Consts.DateFormat)
+                                                                                                              }))"
+           role="button"><span class="glyphicon glyphicon-chevron-left"></span></a>
         <span>@Model.Year</span>
-        <a href="#" class="@(Model.Year < Consts.CurrentYear ? "" : "disabled")" data-year="@(Model.Year + 1)" data-active-date="@Model.ActiveDate.ToString(Consts.DateFormat)"
-            role="button"><span class="glyphicon glyphicon-chevron-right"></span></a>
+        <a href="#" class="@(Model.Year < Consts.CurrentYear ? "" : "disabled")" data-url="@(Model.Year >= Consts.CurrentYear
+                                                                                                 ? null
+                                                                                                 : Url.RouteUrl(new
+                                                                                                                {
+                                                                                                                    action = "YearCalendar",
+                                                                                                                    year = Model.Year + 1,
+                                                                                                                    activeDate = Model.ActiveDate.ToString(Consts.DateFormat)
+                                                                                                                }))"
+           role="button"><span class="glyphicon glyphicon-chevron-right"></span></a>
     </div>
     <div class="panel-body container">
         <div class="row">
@@ -44,7 +58,6 @@
                                                         @Html.RouteLink(dayModel.Day.ToString(),
                                                                         new
                                                                         {
-                                                                            controller = "Schedule",
                                                                             action = "Schedule",
                                                                             date = dayModel.Date.ToString(Consts.DateFormat)
                                                                         },

@@ -22,6 +22,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #endregion
 
+        #region Schedule
+
         [Route("{date:datetime?}")]
         public ActionResult Schedule(DateTime? date)
         {
@@ -34,5 +36,19 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             return View(model);
         }
+
+        #endregion
+
+        #region YearCalendar
+
+        [Route("YearCalendar/{year:year}/{activeDate:datetime}")]
+        public PartialViewResult YearCalendar(int year, DateTime activeDate)
+        {
+            var model = _scheduleService.GetYearCalendarModel(year, activeDate);
+
+            return PartialView(model);
+        }
+
+        #endregion
     }
 }

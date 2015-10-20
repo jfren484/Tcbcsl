@@ -122,6 +122,44 @@ namespace Tcbcsl.Presentation.Services
             return new GameBucket(conferences[0]);
         }
 
+        /* JAF - This works, but is way too slow
+        private static string GetRecordInfo(GameParticipant gameParticipant)
+        {
+            var teamGamesBeforeThisDate = (from gp in gameParticipant.TeamYear.GameParticipants
+                                           where gp.Game.GameDate < gameParticipant.Game.GameDate.Date
+                                                 && gp.Game.GameType.RecordGame
+                                                 && gp.Game.GameStatus.IsComplete
+                                           let opponent = gp.Game.GameParticipants.FirstOrDefault(gp2 => gp2.GameParticipantId != gp.GameParticipantId)
+                                           select new
+                                                  {
+                                                      Won = gp.RunsScored > opponent.RunsScored,
+                                                      Lost = gp.RunsScored < opponent.RunsScored,
+                                                      Tied = gp.RunsScored == opponent.RunsScored,
+                                                      IsHomeTeam = gp.IsHost
+                                                  });
+
+            var gamesByHosting = (from g in teamGamesBeforeThisDate
+                                  group g by g.IsHomeTeam
+                                  into gg
+                                  select new
+                                         {
+                                             IsHomeTeam = gg.Key,
+                                             Wins = gg.Count(g2 => g2.Won),
+                                             Losses = gg.Count(g2 => g2.Lost),
+                                             Ties = gg.Count(g2 => g2.Tied)
+                                         }).ToList();
+
+            var totalRecord = FormatRecord(gamesByHosting.Sum(g => g.Wins), gamesByHosting.Sum(g => g.Losses), gamesByHosting.Sum(g => g.Ties));
+
+            var locationSpecificTotals = gamesByHosting.Single(g => g.IsHomeTeam == gameParticipant.IsHost);
+            var locationSpecificRecord = FormatRecord(locationSpecificTotals.Wins, locationSpecificTotals.Losses, locationSpecificTotals.Ties);
+
+            var locationSpecificLabel = gameParticipant.IsHost ? "Home" : "Away";
+
+            return $"({totalRecord}, {locationSpecificRecord} {locationSpecificLabel})";
+        }
+        */
+
         public ScheduleModel GetScheduleModelForDate(DateTime? date)
         {
             var scheduleDate = date ?? GetClosestGameDate();
@@ -195,43 +233,52 @@ namespace Tcbcsl.Presentation.Services
                 .ToList();
         }
 
-        /* JAF - This works, but is way too slow
-        private static string GetRecordInfo(GameParticipant gameParticipant)
+        public YearCalendarModel GetYearCalendarModel(int year, DateTime activeDate)
         {
-            var teamGamesBeforeThisDate = (from gp in gameParticipant.TeamYear.GameParticipants
-                                           where gp.Game.GameDate < gameParticipant.Game.GameDate.Date
-                                                 && gp.Game.GameType.RecordGame
-                                                 && gp.Game.GameStatus.IsComplete
-                                           let opponent = gp.Game.GameParticipants.FirstOrDefault(gp2 => gp2.GameParticipantId != gp.GameParticipantId)
-                                           select new
-                                                  {
-                                                      Won = gp.RunsScored > opponent.RunsScored,
-                                                      Lost = gp.RunsScored < opponent.RunsScored,
-                                                      Tied = gp.RunsScored == opponent.RunsScored,
-                                                      IsHomeTeam = gp.IsHost
-                                                  });
+            var model = new YearCalendarModel
+                        {
+                            Year = year,
+                            ActiveDate = activeDate,
+                            Months = new List<YearCalendarMonthModel>()
+                        };
 
-            var gamesByHosting = (from g in teamGamesBeforeThisDate
-                                  group g by g.IsHomeTeam
-                                  into gg
-                                  select new
-                                         {
-                                             IsHomeTeam = gg.Key,
-                                             Wins = gg.Count(g2 => g2.Won),
-                                             Losses = gg.Count(g2 => g2.Lost),
-                                             Ties = gg.Count(g2 => g2.Tied)
-                                         }).ToList();
+            var gameDatesInYear = (from g in _dbContext.Games
+                                   where g.GameDate.Year == year
+                                   select g.GameDate)
+                .DistinctBy(g => g.Date)
+                .Select(d => d.Date)
+                .ToList();
 
-            var totalRecord = FormatRecord(gamesByHosting.Sum(g => g.Wins), gamesByHosting.Sum(g => g.Losses), gamesByHosting.Sum(g => g.Ties));
+            var firstMonth = gameDatesInYear.Min().Month;
+            var lastMonth = gameDatesInYear.Max().Month;
 
-            var locationSpecificTotals = gamesByHosting.Single(g => g.IsHomeTeam == gameParticipant.IsHost);
-            var locationSpecificRecord = FormatRecord(locationSpecificTotals.Wins, locationSpecificTotals.Losses, locationSpecificTotals.Ties);
+            for (var month = firstMonth; month <= lastMonth; ++month)
+            {
+                var firstDay = new DateTime(year, month, 1);
+                var daysInMonth = DateTime.DaysInMonth(year, month);
 
-            var locationSpecificLabel = gameParticipant.IsHost ? "Home" : "Away";
+                var dayList = Enumerable.Repeat(0, (int)firstDay.DayOfWeek)
+                                        .Concat(Enumerable.Range(1, daysInMonth))
+                                        .Concat(Enumerable.Repeat(0, 6 - (int)new DateTime(year, month, daysInMonth).DayOfWeek));
 
-            return $"({totalRecord}, {locationSpecificRecord} {locationSpecificLabel})";
+                model.Months.Add(new YearCalendarMonthModel
+                                 {
+                                     Month = month,
+                                     MonthName = firstDay.ToString("MMMM"),
+                                     Weeks = dayList.Batch(7)
+                                                    .Select(week => week.Select(day => new YearCalendarDayModel
+                                                                                       {
+                                                                                           Day = day,
+                                                                                           Date = day == 0 ? DateTime.MinValue : new DateTime(year, month, day),
+                                                                                           HasGames = day != 0 && gameDatesInYear.Contains(new DateTime(year, month, day))
+                                                                                       })
+                                                                        .ToList())
+                                                    .ToList()
+                                 });
+            }
+
+            return model;
         }
-        */
 
         public struct GameBucket : IEquatable<GameBucket>
         {
