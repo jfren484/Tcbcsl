@@ -17,4 +17,18 @@
     </button>
 </div>
 <h2>@title</h2>
-@Html.EditorFor(m => m.ConferenceModels)
+@using (Html.BeginForm())
+{
+    @Html.EditorFor(m => m.ConferenceModels)
+}
+<style>
+    .form-group {
+        margin-bottom: 5px;
+    }
+    .game-body {
+        padding-top: 5px;
+    }
+    .no-padding {
+        padding: 0;
+    }
+</style>
