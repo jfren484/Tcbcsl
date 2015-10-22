@@ -61,6 +61,23 @@ namespace Tcbcsl.Presentation.Models
         public string RecordInfo { get; set; }
     }
 
+    public struct GameBucket : IEquatable<GameBucket>
+    {
+        public string Label { get; set; }
+        public int Sort { get; set; }
+
+        public GameBucket(string label, int sort)
+        {
+            Label = label;
+            Sort = sort;
+        }
+
+        public bool Equals(GameBucket other)
+        {
+            return other.Label == Label;
+        }
+    }
+
     #endregion
 
     #region Calendar Dropdown Models

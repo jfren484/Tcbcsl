@@ -27,7 +27,7 @@ namespace Tcbcsl.Presentation.Services
             return $"{wins}-{losses}{ties:'-'#;;''}";
         }
 
-        public ScheduleGameModel GameModelFromGame(Game game)
+        private ScheduleGameModel GameModelFromGame(Game game)
         {
             var teamRows = game.GameParticipants
                                .OrderBy(gp => gp.IsHost)
@@ -120,7 +120,40 @@ namespace Tcbcsl.Presentation.Services
                 return new GameBucket("Inter-Conference", 90);
             }
 
-            return new GameBucket(conferences[0]);
+            return new GameBucket(conferences[0].Name, conferences[0].Sort);
+        }
+
+        public static GameBucket GetGameBucketForEdit(Game game, bool singleDate)
+        {
+            var sortBase = singleDate ? 0 : -game.GameDate.DayOfYear * 10000;
+            var prefix = singleDate ? "" : game.GameDate.ToString("MMMM d, ");
+
+            if (game.GameTypeId == GameType.GamePlaceholder)
+            {
+                return new GameBucket($"{prefix}Post-Season", sortBase + 9998);
+            }
+
+            if (Consts.TournamentDates.Contains(game.GameDate.Date))
+            {
+                return new GameBucket($"{prefix}{game.GameDate:t}", sortBase + (int)game.GameDate.TimeOfDay.TotalMinutes);
+            }
+
+            var conferences = game.GameParticipants
+                                  .Select(gp => gp.TeamYear.DivisionYear.ConferenceYear)
+                                  .DistinctBy(cy => cy.ConferenceYearId)
+                                  .ToList();
+
+            if (game.GameTypeId == GameType.Exhibition || conferences.Any(cy => !cy.IsInLeague))
+            {
+                return new GameBucket($"{prefix}Exhibition", sortBase + 9999);
+            }
+
+            if (conferences.Count > 1 && conferences[0].ConferenceYearId != conferences[1].ConferenceYearId)
+            {
+                return new GameBucket($"{prefix}Inter-Conference", sortBase + 9990);
+            }
+
+            return new GameBucket($"{prefix}{conferences[0].Name}", sortBase + conferences[0].Sort);
         }
 
         /* JAF - This works, but is way too slow
@@ -279,29 +312,6 @@ namespace Tcbcsl.Presentation.Services
             }
 
             return model;
-        }
-
-        public struct GameBucket : IEquatable<GameBucket>
-        {
-            public string Label { get; }
-            public int Sort { get; }
-
-            public GameBucket(string label, int sort)
-            {
-                Label = label;
-                Sort = sort;
-            }
-
-            public GameBucket(ConferenceYear conference)
-            {
-                Label = conference.Name;
-                Sort = conference.Sort;
-            }
-
-            public bool Equals(GameBucket other)
-            {
-                return other.Label == Label;
-            }
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿@model ScheduleGameParticipantEditModel
+@Html.HiddenFor(m => m.GameParticipantId)
+@Html.HiddenFor(m => m.TeamYearId)
+@Html.HiddenFor(m => m.IsHost)
 <div class="form-group">
-    @Html.HiddenFor(m => m.GameParticipantId)
-    @Html.HiddenFor(m => m.TeamYearId)
-    @Html.HiddenFor(m => m.IsHost)
     @Html.LabelFor(m => m.RunsScored, Model.TeamName, new { @class = "col-xs-9 schedule-game-cell" })
     <div class="col-xs-3 no-padding">
         @Html.TextBoxFor(m => m.RunsScored, new { @class = "form-control", @type = "number" })

@@ -146,6 +146,25 @@ namespace Tcbcsl.Presentation
 
             #endregion
 
+            #region Schedule
+
+            Mapper.CreateMap<KeyValuePair<GameBucket, List<Game>>, ScheduleBucketEditModel>()
+                  .ForMember(m => m.Bucket, exp => exp.MapFrom(kvp => kvp.Key))
+                  .ForMember(m => m.Games, exp => exp.MapFrom(kvp => kvp.Value));
+
+            Mapper.CreateMap<IGrouping<GameBucket, Game>, ScheduleBucketEditModel>()
+                  .ForMember(m => m.Bucket, exp => exp.MapFrom(g => g.Key))
+                  .ForMember(m => m.Games, exp => exp.MapFrom(g => g.ToList()));
+
+            Mapper.CreateMap<Game, ScheduleGameEditModel>()
+                  .ForMember(m => m.RoadTeam, exp => exp.MapFrom(e => e.GameParticipants.SingleOrDefault(gp => !gp.IsHost)))
+                  .ForMember(m => m.HomeTeam, exp => exp.MapFrom(e => e.GameParticipants.SingleOrDefault(gp => gp.IsHost)));
+
+            Mapper.CreateMap<GameParticipant, ScheduleGameParticipantEditModel>()
+                  .ForMember(m => m.TeamName, exp => exp.MapFrom(e => e.TeamYear.FullName));
+
+            #endregion
+
             #region Team
 
             Mapper.CreateMap<TeamYear, TeamEditModel>()

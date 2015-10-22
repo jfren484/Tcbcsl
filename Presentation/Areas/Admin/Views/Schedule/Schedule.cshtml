@@ -1,12 +1,12 @@
-﻿@model ScheduleModel
+﻿@model ScheduleEditModel
 @{
-    const string title = "Schedule";
-    ViewBag.Title = $"{title} for {Model.Date.ToString(Consts.DateFormatDisplay)}";
+    const string title = "Manage Schedule";
+    ViewBag.Title = $"{title} for {Model.Label}";
 }
 <div class="modal calendar-modal">
     <div class="modal-dialog">
         <div class="modal-content calendar-content">
-            @Html.Action("YearCalendar", "Schedule", new { year = Model.Date.Year, activeDate = Model.Date.ToString(Consts.DateFormat) })
+            @Html.Action("YearCalendar", "Schedule", new {year = Model.Date.Year, activeDate = Model.Date.ToString(Consts.DateFormat)})
         </div>
     </div>
 </div>
@@ -19,7 +19,7 @@
 <h2>@title</h2>
 @using (Html.BeginForm())
 {
-    @Html.EditorFor(m => m.ConferenceModels)
+    @Html.EditorFor(m => m.Buckets)
 }
 <style>
     .form-group {

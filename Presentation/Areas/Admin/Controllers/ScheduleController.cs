@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity.SqlServer;
+using System.Linq;
 using System.Web.Mvc;
+using AutoMapper;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
-using Tcbcsl.Presentation.Models;
 using Tcbcsl.Presentation.Services;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
@@ -29,12 +32,19 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("{date:datetime?}")]
         public ActionResult Schedule(DateTime? date)
         {
-            var model = _scheduleService.GetScheduleModelForDate(date);
+            var now = DateTime.Now;
+            var games = date == null
+                            ? DbContext.Games.Where(g => !g.GameStatus.DisplayOutcome && g.GameDate < now && g.GameDate.Year == Consts.CurrentYear)
+                            : DbContext.Games.Where(g => SqlFunctions.DateDiff("day", g.GameDate, date.Value) == 0);
 
-            if (model == null)
-            {
-                return new HttpNotFoundResult();
-            }
+            var bucketedGames = games.ToList().ToLookup(g => ScheduleService.GetGameBucketForEdit(g, date != null));
+
+            var model = new ScheduleEditModel
+                        {
+                            Label = date?.ToString(Consts.DateFormatDisplay) ?? "All Unrecorded Games",
+                            Date = date ?? now,
+                            Buckets = Mapper.Map<List<ScheduleBucketEditModel>>(bucketedGames.OrderBy(g => g.Key.Sort))
+                        };
 
             return View(model);
         }

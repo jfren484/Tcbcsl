@@ -403,7 +403,7 @@
     <Content Include="Areas\Admin\Views\Schedule\EditorTemplates\ScheduleBucketEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\Schedule\EditorTemplates\ScheduleGameEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\Schedule\EditorTemplates\ScheduleGameParticipantEditModel.cshtml" />
-    <Content Include="Areas\Admin\Views\Schedule\EditorTemplates\Runs.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule\EditorTemplates\Int.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />
