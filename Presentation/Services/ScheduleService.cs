@@ -59,6 +59,7 @@ namespace Tcbcsl.Presentation.Services
                                        Outcome = game.GameStatus.Description,
                                        GameDate = game.GameDate
                                    },
+                       GameId = game.GameId,
                        DisplayScores = game.GameStatus.IsComplete,
                        Runs = "R",
                        Hits = "H"

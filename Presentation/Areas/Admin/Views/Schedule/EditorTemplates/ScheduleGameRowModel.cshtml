@@ -1,8 +1,0 @@
-﻿@model ScheduleGameRowModel<IScheduleGameRowDataModel>
-<div class="form-group">
-    @Html.LabelFor(m => m.Runs, ((ScheduleGameTeamModel)Model.LabelData).TeamName, new { @class = "col-xs-9 schedule-game-cell" })
-    <div class="col-xs-3 no-padding">
-        @Html.TextBoxFor(m => m.Runs, new { @class = "form-control", @type = "number" })
-    </div>
-    <div class="row">@Html.ValidationMessageFor(m => m.Runs)</div>
-</div>

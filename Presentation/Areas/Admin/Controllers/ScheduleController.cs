@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Web.Mvc;
 using Tcbcsl.Data.Entities;
+using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
+using Tcbcsl.Presentation.Models;
 using Tcbcsl.Presentation.Services;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
-    [AuthorizeRedirect(Roles = Roles.LeagueCommissioner + ", " + Roles.TeamCoach)]
+    [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
     [RouteArea("Admin")]
     [RoutePrefix("Schedule")]
     public class ScheduleController : AdminControllerBase
@@ -35,6 +37,13 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        [Route("{date:datetime?}")]
+        public ActionResult Schedule(DateTime? date, ScheduleEditModel model)
+        {
+            return RedirectToAction("Schedule", new { date = date });
         }
 
         #endregion
