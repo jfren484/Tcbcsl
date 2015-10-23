@@ -57,6 +57,12 @@ legend {
     }
 }
 
+@media (min-width: @screen-sm-min) {
+    .align-right-sm {
+        text-align: right;
+    }
+}
+
 .calendar-dropdown {
     margin-top: @line-height-computed;
 
@@ -249,6 +255,12 @@ legend {
     margin-bottom: @spacing-default;
 }
 
+@media (max-width: @screen-xs-max) {
+    .margin-xs {
+        margin-bottom: (@spacing-default * 3);
+    }
+}
+
 .multi-select {
     display: none;
 }
@@ -330,6 +342,12 @@ legend {
     &.schedule-edit {
         .form-group {
             margin-bottom: @spacing-default;
+        }
+
+        .game-header {
+            .schedule-game-cell {
+                padding: 5px;
+            }
         }
 
         .game-body {

@@ -89,6 +89,47 @@ namespace Tcbcsl.Presentation
 
             #endregion
 
+            #region Game
+
+            Mapper.CreateMap<Game, GameEditModel>()
+                  .MapEditModelBaseWithAudit()
+                  .ForMember(m => m.RoadTeam, exp => exp.MapFrom(e => e.GameParticipants.SingleOrDefault(gp => !gp.IsHost)))
+                  .ForMember(m => m.HomeTeam, exp => exp.MapFrom(e => e.GameParticipants.SingleOrDefault(gp => gp.IsHost)))
+                  .ForMember(m => m.ReturnUrl, exp => exp.Ignore());
+
+            Mapper.CreateMap<GameParticipant, GameParticipantEditModel>()
+                  .MapEditModelBaseWithAudit();
+
+            Mapper.CreateMap<GameStatus, GameEditStatusModel>()
+                  .ForMember(m => m.ItemSelectList, exp => exp.Ignore());
+
+            Mapper.CreateMap<GameType, GameEditTypeModel>()
+                  .ForMember(m => m.ItemSelectList, exp => exp.Ignore());
+
+            Mapper.CreateMap<TeamYear, GameEditTeamModel>()
+                  .ForMember(m => m.ItemSelectList, exp => exp.Ignore());
+
+            Mapper.CreateMap<GameEditModel, Game>()
+                  .MapEntityModifiable()
+                  .ForMember(e => e.GameId, exp => exp.Ignore())
+                  .ForMember(e => e.GameTypeId, exp => exp.MapFrom(m => m.GameType.GameTypeId))
+                  .ForMember(e => e.GameType, exp => exp.Ignore())
+                  .ForMember(e => e.GameStatusId, exp => exp.MapFrom(m => m.GameStatus.GameStatusId))
+                  .ForMember(e => e.GameStatus, exp => exp.Ignore())
+                  .ForMember(e => e.GameParticipants, exp => exp.Ignore());
+
+            Mapper.CreateMap<GameParticipantEditModel, GameParticipant>()
+                  .MapEntityModifiable()
+                  .ForMember(e => e.GameParticipantId, exp => exp.Ignore())
+                  .ForMember(e => e.GameId, exp => exp.Ignore())
+                  .ForMember(e => e.Game, exp => exp.Ignore())
+                  .ForMember(e => e.IsHost, exp => exp.Ignore())
+                  .ForMember(e => e.TeamYearId, exp => exp.MapFrom(m => m.TeamYear.TeamYearId))
+                  .ForMember(e => e.TeamYear, exp => exp.Ignore())
+                  .ForMember(e => e.StatLines, exp => exp.Ignore());
+
+            #endregion
+
             #region NewsItem
 
             Mapper.CreateMap<NewsItem, NewsEditTeamModel>()

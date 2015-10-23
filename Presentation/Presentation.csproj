@@ -225,6 +225,7 @@
     <Compile Include="Areas\Admin\Controllers\AdminControllerBase.cs" />
     <Compile Include="Areas\Admin\Controllers\CoachController.cs" />
     <Compile Include="Areas\Admin\Controllers\ChurchController.cs" />
+    <Compile Include="Areas\Admin\Controllers\GameController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ContentItemController.cs" />
     <Compile Include="Areas\Admin\Controllers\PlayerController.cs" />
@@ -236,6 +237,7 @@
     <Compile Include="Areas\Admin\Models\ChurchEditModels.cs" />
     <Compile Include="Areas\Admin\Models\ContactInfoEditModels.cs" />
     <Compile Include="Areas\Admin\Models\EditModelBaseWithContactInfo.cs" />
+    <Compile Include="Areas\Admin\Models\GameEditModels.cs" />
     <Compile Include="Areas\Admin\Models\NewsEditModels.cs" />
     <Compile Include="Areas\Admin\Models\AdminListTableModel.cs" />
     <Compile Include="Areas\Admin\Models\EditModelBase.cs" />
@@ -404,6 +406,11 @@
     <Content Include="Areas\Admin\Views\Schedule\EditorTemplates\ScheduleGameEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\Schedule\EditorTemplates\ScheduleGameParticipantEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\Schedule\EditorTemplates\Int.cshtml" />
+    <Content Include="Areas\Admin\Views\Game\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Game\EditorTemplates\GameEditTeamModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Game\EditorTemplates\GameEditStatusModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Game\EditorTemplates\GameEditTypeModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Game\EditorTemplates\GameParticipantEditModel.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />

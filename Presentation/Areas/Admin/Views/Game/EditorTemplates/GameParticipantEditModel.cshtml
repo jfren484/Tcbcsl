@@ -1,0 +1,30 @@
+﻿@model GameParticipantEditModel
+<div class="form-group">
+    @Html.LabelForModel(new {@class = "control-label col-sm-2"})
+    <div class="col-sm-7 col-lg-8 margin-xs">
+        @if (ViewBag.IsReadonly ?? false)
+        {
+            @Html.HiddenFor(m => m.TeamYear.TeamYearId)
+            <p class="form-control-static">@Model.TeamYear.FullName</p>
+        }
+        else
+        {
+            @Html.DropDownListFor(m => m.TeamYear.TeamYearId, Model.TeamYear.ItemSelectList, new {@class = "form-control"})
+        }
+    </div>
+    @Html.LabelFor(m => m.RunsScored, new {@class = "control-label col-sm-1"})
+    <div class="col-sm-2 col-lg-1">
+        @if (ViewBag.IsReadonly ?? false)
+        {
+            @Html.HiddenFor(m => m.RunsScored)
+            <p class="form-control-static">@Model.RunsScored</p>
+        }
+        else
+        {
+            @Html.TextBoxFor(m => m.RunsScored, new {@class = "form-control", @type = "number"})
+        }
+    </div>
+    <div class="col-sm-12 align-right-sm">
+        @Html.ValidationMessageFor(m => m.RunsScored)
+    </div>
+</div>

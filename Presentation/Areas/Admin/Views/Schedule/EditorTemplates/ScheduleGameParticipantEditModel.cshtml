@@ -2,12 +2,6 @@
 @{
     var isReadonly = ViewBag.IsReadonly ?? false;
 }
-@if (!isReadonly)
-{
-    @Html.HiddenFor(m => m.GameParticipantId)
-    @Html.HiddenFor(m => m.TeamYearId)
-    @Html.HiddenFor(m => m.IsHost)
-}
 <div class="form-group">
     @Html.LabelFor(m => m.RunsScored, Model.TeamName, new {@class = $"col-xs-{(isReadonly ? 11 : 9)} schedule-game-cell"})
     <div class="col-xs-@(isReadonly ? 1 : 3) no-padding">

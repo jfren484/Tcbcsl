@@ -37,6 +37,11 @@ legend a {
   padding: 5px;
   margin: -5px;
 }
+@media (min-width: 768px) {
+  .align-right-sm {
+    text-align: right;
+  }
+}
 .calendar-dropdown {
   margin-top: 20px;
 }
@@ -179,6 +184,11 @@ legend a {
   margin-top: 5px;
   margin-bottom: 5px;
 }
+@media (max-width: 767px) {
+  .margin-xs {
+    margin-bottom: 15px;
+  }
+}
 .multi-select {
   display: none;
 }
@@ -240,6 +250,9 @@ legend a {
 }
 .schedule-game.schedule-edit .form-group {
   margin-bottom: 5px;
+}
+.schedule-game.schedule-edit .game-header .schedule-game-cell {
+  padding: 5px;
 }
 .schedule-game.schedule-edit .game-body {
   padding-top: 5px;
