@@ -8,15 +8,22 @@
                     <div style="float: right">
                         @if (!Model.Entered)
                         {
-                            <button type="button" class="btn btn-info btn-xs" title="Rained Out">
+                            <button type="button" class="btn btn-info btn-xs data-button" title="Rained Out" data-url="@Url.Action("UpdateGameAsPostponed", "Game", new {gameId = Model.GameId })">
                                 <span class="glyphicon glyphicon-cloud"></span>
                             </button>
-                            <button type="button" class="btn btn-info btn-xs" title="Postponed">
+                            <button type="button" class="btn btn-info btn-xs data-button" title="Postponed" data-url="@Url.Action("UpdateGameAsPostponed", "Game", new {gameId = Model.GameId })">
                                 <span class="glyphicon glyphicon-hourglass"></span>
                             </button>
-                            <button type="button" class="btn btn-info btn-xs" title="Forfeit">
-                                <span class="glyphicon glyphicon-flag"></span>
-                            </button>
+                            <div class="btn-group dropup">
+                                <button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" title="Forfeit">
+                                    <span class="glyphicon glyphicon-flag"></span> <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header">Choose winner:</li>
+                                    <li><a class="data-button" data-url="@Url.Action("UpdateGameAsForfeit", "Game", new {winnerGameParticipantId = Model.RoadTeam.GameParticipantId })">@Model.RoadTeam.TeamName</a></li>
+                                    <li><a class="data-button" data-url="@Url.Action("UpdateGameAsForfeit", "Game", new {winnerGameParticipantId = Model.HomeTeam.GameParticipantId })">@Model.HomeTeam.TeamName</a></li>
+                                </ul>
+                            </div>
                         }
                         <a href="@Url.Action("Edit", "Game", new {id = Model.GameId, returnUrl = Request.RawUrl})" class="btn btn-info btn-xs" title="Edit">
                             <span class="glyphicon glyphicon-cog"></span>
@@ -31,8 +38,8 @@
                 @Html.HiddenFor(m => m.GameId)
                 @Html.HiddenFor(m => m.GameDate)
             }
-            @Html.EditorFor(m => m.RoadTeam, new {IsReadonly = Model.Entered})
-            @Html.EditorFor(m => m.HomeTeam, new {IsReadonly = Model.Entered})
+            @Html.EditorFor(m => m.RoadTeam, new { IsReadonly = Model.Entered })
+            @Html.EditorFor(m => m.HomeTeam, new { IsReadonly = Model.Entered })
         </div>
     </div>
 </div>

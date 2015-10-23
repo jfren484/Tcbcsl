@@ -90,6 +90,65 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #endregion
 
+        #region Update
+
+        [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
+        [Route("Forfeit/{winnerGameParticipantId:int}")]
+        public ActionResult UpdateGameAsForfeit(int winnerGameParticipantId)
+        {
+            var gameParticipant = DbContext.GameParticipants
+                                           .SingleOrDefault(gp => gp.GameParticipantId == winnerGameParticipantId);
+            if (gameParticipant == null)
+            {
+                return HttpNotFound();
+            }
+
+            gameParticipant.Game.GameStatusId = GameStatus.Forfeited;
+            gameParticipant.RunsScored = 15;
+
+            DbContext.SaveChanges(User.Identity.Name);
+
+            return HttpOk();
+        }
+
+        [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
+        [Route("Postpone/{gameId:int}")]
+        public ActionResult UpdateGameAsPostponed(int gameId)
+        {
+            var game = DbContext.Games
+                                .SingleOrDefault(g => g.GameId == gameId);
+            if (game == null)
+            {
+                return HttpNotFound();
+            }
+
+            game.GameStatusId = GameStatus.Postponed;
+
+            DbContext.SaveChanges(User.Identity.Name);
+
+            return HttpOk();
+        }
+
+        [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
+        [Route("RainedOut/{gameId:int}")]
+        public ActionResult UpdateGameAsRainedOut(int gameId)
+        {
+            var game = DbContext.Games
+                                .SingleOrDefault(g => g.GameId == gameId);
+            if (game == null)
+            {
+                return HttpNotFound();
+            }
+
+            game.GameStatusId = GameStatus.RainedOut;
+
+            DbContext.SaveChanges(User.Identity.Name);
+
+            return HttpOk();
+        }
+
+        #endregion
+
         #region Helpers
 
         private void PopulateDropdownLists(GameEditModel model)

@@ -30,6 +30,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
     public class ScheduleGameParticipantEditModel
     {
+        public int GameParticipantId { get; set; }
+
         public string TeamName { get; set; }
 
         [Required, Range(0, 1000)]

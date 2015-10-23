@@ -131,7 +131,7 @@ $('.admin-list').on('click', '.admin-list-settings', function () {
 });
 
 $('.admin-list').on('click', '.column-toggle', function () {
-    var index = $(this).attr('data-column');
+    var index = $(this).attr('data-column'); // TODO: use .data method
     var column = $('.admin-list').DataTable().column(index);
 
     column.visible(!column.visible());
@@ -158,7 +158,6 @@ $('.admin-list').on('click', 'a.player-transfer', function (e) {
 });
 
 $('#teamPickerModal').on('click', 'button.btn-primary', function () {
-    var link = $(this);
     var href = $('#transferUrl').val() + $('#teamId').val();
     var rowIndex = $('#rowIndex').val();
 
@@ -168,4 +167,16 @@ $('#teamPickerModal').on('click', 'button.btn-primary', function () {
             $('#teamPickerModal').modal('hide');
         });
 });
+
+//#endregion
+
+//#region Schedule Game-Updating Functions
+
+$('.schedule-game-cell').on('click', '.data-button', function () {
+    var url = $(this).data('url');
+    if (url) {
+        $.post(url);
+    }
+});
+
 //#endregion
