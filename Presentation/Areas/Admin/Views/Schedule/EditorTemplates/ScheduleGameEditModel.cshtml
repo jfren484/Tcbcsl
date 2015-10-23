@@ -1,18 +1,21 @@
 ﻿@model ScheduleGameEditModel
 <div class="col-lg-3 col-md-4 col-sm-6 grid4321">
-    <div class="schedule-game">
+    <div class="schedule-game schedule-edit">
         <div class="container-fluid game-header">
             <div class="row">
                 <div class="col-xs-12 schedule-game-cell">
-                    @Html.HiddenFor(m => m.GameId)
-                    @Html.HiddenFor(m => m.GameDate)
                     @Model.GameDate.ToString("t")
                 </div>
             </div>
         </div>
         <div class="container-fluid game-body">
-            @Html.EditorFor(m => m.RoadTeam)
-            @Html.EditorFor(m => m.HomeTeam)
+            @if (!Model.Entered)
+            {
+                @Html.HiddenFor(m => m.GameId)
+                @Html.HiddenFor(m => m.GameDate)
+            }
+            @Html.EditorFor(m => m.RoadTeam, new { IsReadonly = Model.Entered })
+            @Html.EditorFor(m => m.HomeTeam, new { IsReadonly = Model.Entered })
         </div>
     </div>
 </div>

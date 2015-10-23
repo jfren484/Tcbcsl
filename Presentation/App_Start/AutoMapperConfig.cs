@@ -157,6 +157,7 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.Games, exp => exp.MapFrom(g => g.ToList()));
 
             Mapper.CreateMap<Game, ScheduleGameEditModel>()
+                  .ForMember(m => m.Entered, exp => exp.MapFrom(e => e.GameStatusId != GameStatus.Scheduled))
                   .ForMember(m => m.RoadTeam, exp => exp.MapFrom(e => e.GameParticipants.SingleOrDefault(gp => !gp.IsHost)))
                   .ForMember(m => m.HomeTeam, exp => exp.MapFrom(e => e.GameParticipants.SingleOrDefault(gp => gp.IsHost)));
 

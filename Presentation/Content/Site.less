@@ -263,6 +263,10 @@ legend {
     }
 }
 
+.no-padding {
+    padding: 0;
+}
+
 .panel-heading {
     a {
         color: @panel-primary-text;
@@ -320,6 +324,16 @@ legend {
 
         .winner {
             font-weight: bold;
+        }
+    }
+
+    &.schedule-edit {
+        .form-group {
+            margin-bottom: @spacing-default;
+        }
+
+        .game-body {
+            padding-top: @spacing-default;
         }
     }
 }
