@@ -348,10 +348,30 @@ legend {
             .schedule-game-cell {
                 padding: 5px;
             }
+
+            .game-updates {
+                float: right;
+            }
         }
 
         .game-body {
             padding-top: @spacing-default;
+            position: relative;
+
+            .overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                display: none;
+                background: rgba(225, 225, 225, 0.75);
+                z-index: 999;
+                text-align: center;
+                font-weight: bold;
+                padding-top: 35px;
+                font-size: 1.2em;
+            }
         }
     }
 }

@@ -22,6 +22,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
     {
         public int GameId { get; set; }
         public bool Entered { get; set; }
+        public string Outcome { get; set; }
         public DateTime GameDate { get; set; }
 
         public ScheduleGameParticipantEditModel RoadTeam { get; set; }

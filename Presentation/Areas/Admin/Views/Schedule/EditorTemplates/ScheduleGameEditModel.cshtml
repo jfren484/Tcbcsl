@@ -4,11 +4,11 @@
         <div class="container-fluid game-header">
             <div class="row">
                 <div class="col-xs-12 schedule-game-cell">
-                    @Model.GameDate.ToString("t")
-                    <div style="float: right">
+                    @(Model.Entered ? Model.Outcome : Model.GameDate.ToString("t"))
+                    <div class="game-updates">
                         @if (!Model.Entered)
                         {
-                            <button type="button" class="btn btn-info btn-xs data-button" title="Rained Out" data-url="@Url.Action("UpdateGameAsPostponed", "Game", new {gameId = Model.GameId })">
+                            <button type="button" class="btn btn-info btn-xs data-button" title="Rained Out" data-url="@Url.Action("UpdateGameAsRainedOut", "Game", new {gameId = Model.GameId })">
                                 <span class="glyphicon glyphicon-cloud"></span>
                             </button>
                             <button type="button" class="btn btn-info btn-xs data-button" title="Postponed" data-url="@Url.Action("UpdateGameAsPostponed", "Game", new {gameId = Model.GameId })">
@@ -20,8 +20,8 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-header">Choose winner:</li>
-                                    <li><a class="data-button" data-url="@Url.Action("UpdateGameAsForfeit", "Game", new {winnerGameParticipantId = Model.RoadTeam.GameParticipantId })">@Model.RoadTeam.TeamName</a></li>
-                                    <li><a class="data-button" data-url="@Url.Action("UpdateGameAsForfeit", "Game", new {winnerGameParticipantId = Model.HomeTeam.GameParticipantId })">@Model.HomeTeam.TeamName</a></li>
+                                    <li><a class="data-button" data-url="@Url.Action("UpdateGameAsForfeit", "Game", new {winnerGameParticipantId = Model.RoadTeam.GameParticipantId})">@Model.RoadTeam.TeamName</a></li>
+                                    <li><a class="data-button" data-url="@Url.Action("UpdateGameAsForfeit", "Game", new {winnerGameParticipantId = Model.HomeTeam.GameParticipantId})">@Model.HomeTeam.TeamName</a></li>
                                 </ul>
                             </div>
                         }
@@ -33,6 +33,7 @@
             </div>
         </div>
         <div class="container-fluid game-body">
+            <div class="overlay">Updated</div>
             @if (!Model.Entered)
             {
                 @Html.HiddenFor(m => m.GameId)

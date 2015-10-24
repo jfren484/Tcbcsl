@@ -175,7 +175,14 @@ $('#teamPickerModal').on('click', 'button.btn-primary', function () {
 $('.schedule-game-cell').on('click', '.data-button', function () {
     var url = $(this).data('url');
     if (url) {
-        $.post(url);
+        var scheduleEdit = $(this).closest('.schedule-edit');
+
+        $.post(url)
+         .done(function () {
+             scheduleEdit.find('.game-updates').children().not('a').remove();
+             scheduleEdit.find('input[name$="RunsScored"]').val(0);
+             scheduleEdit.find('.overlay').fadeIn(500);
+         });
     }
 });
 
