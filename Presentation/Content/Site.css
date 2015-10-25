@@ -200,9 +200,6 @@ legend a {
   top: 14px;
   right: 8px;
 }
-.no-padding {
-  padding: 0;
-}
 .panel-heading a {
   color: #fff;
 }
@@ -241,6 +238,10 @@ legend a {
 .schedule-game .game-header .schedule-game-cell {
   padding: 0 5px;
   font-weight: bold;
+}
+.schedule-game .game-body .runs {
+  margin-bottom: 7px;
+  padding: 0 5px 0 0;
 }
 .schedule-game .game-body .schedule-game-cell {
   padding: 10px 5px;

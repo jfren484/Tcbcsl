@@ -17,7 +17,7 @@
     </button>
 </div>
 <h2>@title</h2>
-@using (Html.BeginForm())
+@using (Html.BeginForm("Schedule", "Schedule", FormMethod.Post, new { @class = "form-horizontal form-with-validation" }))
 {
     @Html.EditorFor(m => m.Buckets)
 }

@@ -4,7 +4,7 @@
 }
 <div class="form-group">
     @Html.LabelFor(m => m.RunsScored, Model.TeamName, new {@class = $"col-xs-{(isReadonly ? 11 : 9)} schedule-game-cell"})
-    <div class="col-xs-@(isReadonly ? 1 : 3) no-padding">
+    <div class="col-xs-@(isReadonly ? 1 : 3) runs">
         @if (isReadonly)
         {
             <p class="form-control-static">@Model.RunsScored</p>
@@ -14,5 +14,5 @@
             @Html.TextBoxFor(m => m.RunsScored, new { @class = "form-control", @type = "number" })
         }
     </div>
-    <div class="row">@Html.ValidationMessageFor(m => m.RunsScored)</div>
+    @Html.ValidationMessageFor(m => m.RunsScored)
 </div>
