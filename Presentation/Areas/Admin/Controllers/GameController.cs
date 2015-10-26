@@ -21,7 +21,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         {
             var model = new GameEditModel
                         {
-                            GameDate = date,
+                            GameDate = date + TimeSpan.FromHours(date.DayOfWeek == DayOfWeek.Saturday ? 8 : 18.5),
                             GameType = new GameEditTypeModel(),
                             GameStatus = new GameEditStatusModel(),
                             RoadTeam = new GameParticipantEditModel {TeamYear = new GameEditTeamModel()},
