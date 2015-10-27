@@ -164,6 +164,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                    .Select(c => new SelectListItem { Value = c.CoachId.ToString(), Text = c.FullName })
                                    .ToList();
             model.HeadCoach.ItemSelectList = new SelectList(coaches, "Value", "Text", model.HeadCoach.CoachId);
+
+            var clinchItems = Consts.ClinchDescriptions
+                                    .Select(kvp => new SelectListItem {Value = kvp.Key.ToString(), Text = kvp.Value})
+                                    .ToList();
+            clinchItems.Insert(0, new SelectListItem());
+            model.Clinch.ItemSelectList = new SelectList(clinchItems, "Value", "Text", model.Clinch.ClinchChar);
         }
 
         private void PopulateFullname(TeamYear teamYear)

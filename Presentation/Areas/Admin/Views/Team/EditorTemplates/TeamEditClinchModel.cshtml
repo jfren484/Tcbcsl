@@ -1,0 +1,14 @@
+﻿@model TeamEditClinchModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_FormFieldLayout.cshtml";
+}
+@section Editable
+{
+    @Html.DropDownListFor(m => m.ClinchChar, Model.ItemSelectList, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.ClinchChar)
+}
+@section Readonly
+{
+    @Html.HiddenFor(m => m.ClinchChar)
+    <p class="form-control-static">@Model.Description</p>
+}

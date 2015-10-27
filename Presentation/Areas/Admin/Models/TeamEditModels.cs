@@ -37,8 +37,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "Paid for Current Year")]
         public bool HasPaid { get; set; }
 
-        [MaxLength(5)]
-        public string Clinch { get; set; }
+        public TeamEditClinchModel Clinch { get; set; }
 
         [Display(Name = "Field Information")]
         [UIHint("HtmlEditor")]
@@ -74,6 +73,14 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public int CoachId { get; set; }
         public string FullName { get; set; }
         public string SortableName { get; set; }
+
+        public SelectList ItemSelectList { get; set; }
+    }
+
+    public class TeamEditClinchModel
+    {
+        public string ClinchChar { get; set; }
+        public string Description { get; set; }
 
         public SelectList ItemSelectList { get; set; }
     }

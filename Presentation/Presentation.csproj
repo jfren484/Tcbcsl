@@ -411,6 +411,7 @@
     <Content Include="Areas\Admin\Views\Game\EditorTemplates\GameEditStatusModel.cshtml" />
     <Content Include="Areas\Admin\Views\Game\EditorTemplates\GameEditTypeModel.cshtml" />
     <Content Include="Areas\Admin\Views\Game\EditorTemplates\GameParticipantEditModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Team\EditorTemplates\TeamEditClinchModel.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />

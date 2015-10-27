@@ -234,6 +234,11 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.ItemSelectList, exp => exp.Ignore())
                   .ForMember(m => m.SortableName, exp => exp.MapFrom(e => $"{e.LastName}, {e.FirstName}"));
 
+            Mapper.CreateMap<string, TeamEditClinchModel>()
+                  .ForMember(m => m.ClinchChar, exp => exp.MapFrom(s => s))
+                  .ForMember(m => m.Description, exp => exp.MapFrom(s => s == null ? null : Consts.ClinchDescriptions[s]))
+                  .ForMember(m => m.ItemSelectList, exp => exp.Ignore());
+
             Mapper.CreateMap<TeamEditModel, TeamYear>()
                   .MapEntityModifiable()
                   .ForMember(e => e.TeamId, exp => exp.Ignore())
@@ -247,6 +252,7 @@ namespace Tcbcsl.Presentation
                   .ForMember(e => e.DivisionYear, exp => exp.Ignore())
                   .ForMember(e => e.HeadCoachId, exp => exp.MapFrom(m => m.HeadCoach.CoachId))
                   .ForMember(e => e.HeadCoach, exp => exp.Ignore())
+                  .ForMember(e => e.Clinch, exp => exp.MapFrom(m => m.Clinch.ClinchChar))
                   .ForMember(e => e.GameParticipants, exp => exp.Ignore());
 
             Mapper.CreateMap<TeamEditModel, Team>()
