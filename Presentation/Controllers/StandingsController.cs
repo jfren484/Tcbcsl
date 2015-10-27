@@ -48,6 +48,7 @@ namespace Tcbcsl.Presentation.Controllers
                                                      Year = year,
                                                      TeamId = gg.Key.TeamId,
                                                      TeamName = first.TeamFullName,
+                                                     ClinchChar = first.ClinchChar,
                                                      Wins = wins,
                                                      Losses = losses,
                                                      Ties = ties,
@@ -87,6 +88,7 @@ namespace Tcbcsl.Presentation.Controllers
                               DivisionYearId = gp1.TeamYear.DivisionYearId,
                               TeamId = gp1.TeamYear.TeamId,
                               TeamFullName = gp1.TeamYear.FullName,
+                              ClinchChar = gp1.TeamYear.Clinch,
                               GameDate = gp1.Game.GameDate,
                               RunsScored = gp1.RunsScored,
                               RunsAllowed = gp2.RunsScored,
@@ -95,7 +97,7 @@ namespace Tcbcsl.Presentation.Controllers
                           };
         }
 
-        private void UpdateTeamStreaks(TeamStandingsRaw teamRawModel)
+        private static void UpdateTeamStreaks(TeamStandingsRaw teamRawModel)
         {
             var streakCount = 1;
 
@@ -130,7 +132,7 @@ namespace Tcbcsl.Presentation.Controllers
             return models;
         }
 
-        private List<StandingsGroupModel> GetLeagueStandingsTeamModels(List<TeamStandingsRaw> teams)
+        private static List<StandingsGroupModel> GetLeagueStandingsTeamModels(List<TeamStandingsRaw> teams)
         {
             var allTeamsModel = new StandingsGroupModel
                                 {
@@ -143,7 +145,7 @@ namespace Tcbcsl.Presentation.Controllers
             return new List<StandingsGroupModel> {allTeamsModel};
         }
 
-        private List<StandingsTeamModel> GetTeamsForGroup(IEnumerable<TeamStandingsRaw> teamRawModels)
+        private static List<StandingsTeamModel> GetTeamsForGroup(IEnumerable<TeamStandingsRaw> teamRawModels)
         {
             return teamRawModels.Select(t => t.Model)
                                 .OrderByDescending(t => t.GamesBack)
@@ -151,7 +153,7 @@ namespace Tcbcsl.Presentation.Controllers
                                 .ToList();
         }
 
-        private void UpdateGamesBack(StandingsGroupModel groupModel)
+        private static void UpdateGamesBack(StandingsGroupModel groupModel)
         {
             var gbDiff = groupModel.Teams.First().GamesBack;
             groupModel.Teams.ForEach(t =>
@@ -169,6 +171,7 @@ namespace Tcbcsl.Presentation.Controllers
             public int DivisionYearId { get; set; }
             public int TeamId { get; set; }
             public string TeamFullName { get; set; }
+            public string ClinchChar { get; set; }
             public DateTime GameDate { get; set; }
             public int RunsScored { get; set; }
             public int RunsAllowed { get; set; }

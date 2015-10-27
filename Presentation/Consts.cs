@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tcbcsl.Data;
 
 namespace Tcbcsl.Presentation
 {
@@ -52,25 +51,16 @@ namespace Tcbcsl.Presentation
 
         public static readonly Dictionary<string, string> ClinchDescriptions = new Dictionary<string, string>
                                                                                {
-                                                                                   [ClinchChars.WildCard] = "Wild Card",
-                                                                                   [ClinchChars.Division] = "Division",
-                                                                                   [ClinchChars.DivisionHomefield] = "Division and 1st-Round Home-field Advantage",
-                                                                                   [ClinchChars.DivisionBye] = "Division and 1st-Round Bye"
+                                                                                   ["w"] = "Wild Card",
+                                                                                   ["x"] = "Division",
+                                                                                   ["y"] = "Division and 1st-Round Home-field Advantage",
+                                                                                   ["z"] = "Division and 1st-Round Bye"
                                                                                };
 
         /*
         $g_lTEAM_ID_TBD		= 44;
-        $g_lTEAM_ID_PP		= 60;
         $g_lCOACH_ID_DUMMY	= 31;
         $g_sPH_DIV_NAME		= 'Post-Season';
         */
-
-        public static class ClinchChars
-        {
-            public const string WildCard = "w";
-            public const string Division = "x";
-            public const string DivisionHomefield = "y";
-            public const string DivisionBye = "z";
-        }
     }
 }

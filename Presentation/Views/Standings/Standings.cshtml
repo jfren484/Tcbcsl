@@ -8,7 +8,7 @@
 }
 @Html.Partial("_YearPartial")
 <h2>@title</h2>
-@if (Model.ShowTies)
+@if (!Model.ShowTies)
 {
     <style>
         .tiesColumn {
@@ -19,3 +19,7 @@
 <div class="row">
     @Html.DisplayFor(m => m.Groups, new {HackText = hackText})
 </div>
+@{
+    var clinchCharsUsed = Model.Groups.SelectMany(g => g.Teams.Select(t => t.ClinchChar)).Distinct().ToArray();
+}
+@string.Join(", ", Consts.ClinchDescriptions.Where(kvp => clinchCharsUsed.Contains(kvp.Key)).Select(kvp => $"{kvp.Key} - Clinched {kvp.Value}"))

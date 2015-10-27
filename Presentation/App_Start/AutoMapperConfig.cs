@@ -214,7 +214,7 @@ namespace Tcbcsl.Presentation
                   .MapEditModelBaseWithAudit()
                   .ForMember(m => m.Conference, exp => exp.MapFrom(e => e.DivisionYear.ConferenceYear))
                   .ForMember(m => m.Division, exp => exp.MapFrom(e => e.DivisionYear))
-                  .ForMember(m => m.Clinch, exp => exp.MapFrom(e => e == null ? new TeamEditClinchModel() : (object)e.Clinch))
+                  .ForMember(m => m.Clinch, exp => exp.NullSubstitute(new TeamEditClinchModel()))
                   .ForMember(m => m.FieldInformation, exp => exp.MapFrom(e => e.Team.FieldInformation))
                   .ForMember(m => m.Comments, exp => exp.MapFrom(e => e.Team.Comments));
 

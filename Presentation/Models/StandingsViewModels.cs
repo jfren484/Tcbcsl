@@ -27,6 +27,7 @@ namespace Tcbcsl.Presentation.Models
         public int Year { get; set; }
         public int TeamId { get; set; }
         public string TeamName { get; set; }
+        public string ClinchChar { get; set; }
         public int Wins { get; set; }
         public int Losses { get; set; }
         public int Ties { get; set; }

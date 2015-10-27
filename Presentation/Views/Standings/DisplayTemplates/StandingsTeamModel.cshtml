@@ -1,6 +1,6 @@
 ﻿@model StandingsTeamModel
 <tr>
-    <td>@Html.TeamLink(Model.TeamName, Model.TeamId, Model.Year)</td>
+    <td>@(Model.ClinchChar == null ? null : $"{Model.ClinchChar} - ") @Html.TeamLink(Model.TeamName, Model.TeamId, Model.Year)</td>
     <td>@Model.Wins</td>
     <td>@Model.Losses</td>
     <td class="tiesColumn">@Model.Ties</td>

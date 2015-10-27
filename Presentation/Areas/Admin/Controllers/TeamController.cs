@@ -147,7 +147,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var divisions = DbContext.DivisionYears
                                      .Where(dy => dy.Year == Consts.CurrentYear)
                                      .OrderBy(dy => dy.Sort)
-                                     .Select(dy => new SelectListItem { Value = dy.DivisionId.ToString(), Text = dy.Name })
+                                     .Select(dy => new SelectListItem { Value = dy.DivisionYearId.ToString(), Text = dy.Name })
                                      .ToList();
             model.Division.ItemSelectList = new SelectList(divisions, "Value", "Text", model.Division.DivisionYearId);
 
@@ -166,9 +166,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             model.HeadCoach.ItemSelectList = new SelectList(coaches, "Value", "Text", model.HeadCoach.CoachId);
 
             var clinchItems = Consts.ClinchDescriptions
-                                    .Select(kvp => new SelectListItem {Value = kvp.Key.ToString(), Text = kvp.Value})
+                                    .Select(kvp => new SelectListItem {Value = kvp.Key.ToString(), Text = $"{kvp.Key} - Clinched {kvp.Value}"})
                                     .ToList();
-            clinchItems.Insert(0, new SelectListItem());
+            clinchItems.Insert(0, new SelectListItem {Text = "(none)"});
             model.Clinch.ItemSelectList = new SelectList(clinchItems, "Value", "Text", model.Clinch.ClinchChar);
         }
 
