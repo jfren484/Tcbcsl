@@ -18,7 +18,7 @@
             { 'data': 'HeadCoach',               'title': '@Html.DisplayNameFor(m => m.HeadCoach)',                                     'render': {'_': 'FullName', 'sort': 'SortableName'} },
             { 'data': 'HasPaid',                 'title': '@Html.DisplayNameFor(m => m.HasPaid)',                                       'render': renderBool },
             { 'data': 'KeepsStats',              'title': '@Html.DisplayNameFor(m => m.KeepsStats)',                                    'render': renderBool },
-            { 'data': 'Clinch',                  'title': '@Html.DisplayNameFor(m => m.Clinch)' },
+            { 'data': 'Clinch',                  'title': '@Html.DisplayNameFor(m => m.Clinch)',                                        'render': 'ClinchChar' },
             { 'data': 'FieldInformation',        'title': '@Html.DisplayNameFor(m => m.FieldInformation)',        'visible':   false,   'render': renderPartialContent },
             { 'data': 'Comments',                'title': '@Html.DisplayNameFor(m => m.Comments)',                'visible':   false,   'render': renderPartialContent },
             { 'data': 'AuditDetails.CreatedBy',  'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible':   false },

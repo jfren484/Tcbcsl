@@ -37,6 +37,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "Paid for Current Year")]
         public bool HasPaid { get; set; }
 
+        [Display(Name = "Clinch Char")]
         public TeamEditClinchModel Clinch { get; set; }
 
         [Display(Name = "Field Information")]
