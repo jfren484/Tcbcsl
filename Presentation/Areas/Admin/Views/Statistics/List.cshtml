@@ -1,0 +1,30 @@
+﻿@model StatisticsEditScheduleModel
+@{
+    const string title = "Manage Statistics";
+    ViewBag.Title = title + Model.Year.AsTitleSuffix();
+}
+@Html.Partial("_YearPartial")
+<h2>@title</h2>
+@Html.Partial("_AdminListTable", new AdminListTableModel { ListItemName = "Game" })
+
+@section scripts
+{
+    <script>
+        var columns = [
+            { 'data': 'GameParticipantId', 'title': '@Html.DisplayNameFor(m => m.GameParticipantId)', 'visible':   false },
+            { 'data': 'GameDate',          'title': '@Html.DisplayNameFor(m => m.GameDate)',                                'render': renderDate },
+            { 'data': 'Opponent',          'title': '@Html.DisplayNameFor(m => m.Opponent)' },
+            { 'data': 'Outcome',           'title': '@Html.DisplayNameFor(m => m.Outcome)' },
+            { 'data': 'EnterStatsUrl',                                                                'orderable': false,   'render': renderEditLink }
+        ];
+
+        datatable_RenderList({
+            'tableSelector': '.admin-list',
+            'dataUrl': '@Url.Action("Data", new {id = Model.TeamId, year = Model.Year})',
+            'columns': columns,
+            'sorting': false,
+            'paging': false,
+            'order': [[findColumnIndex(columns, 'GameDate'), 'asc']]
+        });
+    </script>
+}

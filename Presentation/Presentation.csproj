@@ -230,6 +230,7 @@
     <Compile Include="Areas\Admin\Controllers\ContentItemController.cs" />
     <Compile Include="Areas\Admin\Controllers\PlayerController.cs" />
     <Compile Include="Areas\Admin\Controllers\ScheduleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\StatisticsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TeamController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\AuditDetailsModel.cs" />
@@ -245,6 +246,7 @@
     <Compile Include="Areas\Admin\Models\PageContentEditModel.cs" />
     <Compile Include="Areas\Admin\Models\PlayerEditModels.cs" />
     <Compile Include="Areas\Admin\Models\ScheduleEditModels.cs" />
+    <Compile Include="Areas\Admin\Models\StatisticsEditModels.cs" />
     <Compile Include="Areas\Admin\Models\TeamEditModels.cs" />
     <Compile Include="Areas\Admin\Models\UserEditModels.cs" />
     <Compile Include="Consts.cs" />
@@ -412,6 +414,8 @@
     <Content Include="Areas\Admin\Views\Game\EditorTemplates\GameEditTypeModel.cshtml" />
     <Content Include="Areas\Admin\Views\Game\EditorTemplates\GameParticipantEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\Team\EditorTemplates\TeamEditClinchModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistics\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistics\Game.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />

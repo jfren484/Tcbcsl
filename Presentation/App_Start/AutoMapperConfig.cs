@@ -208,6 +208,18 @@ namespace Tcbcsl.Presentation
 
             #endregion
 
+            #region Statistics
+
+            Mapper.CreateMap<GameParticipant, StatisticsEditScheduleModel>()
+                  .ForMember(m => m.TeamId, exp => exp.MapFrom(e => e.TeamYear.TeamId))
+                  .ForMember(m => m.Year, exp => exp.MapFrom(e => e.TeamYear.Year))
+                  .ForMember(m => m.GameDate, exp => exp.MapFrom(e => e.Game.GameDate))
+                  .ForMember(m => m.Opponent, exp => exp.MapFrom(e => e.Game.GameParticipants.Single(gp2 => gp2.GameParticipantId != e.GameParticipantId).TeamYear.FullName))
+                  .ForMember(m => m.Outcome, exp => exp.Ignore())
+                  .ForMember(m => m.EnterStatsUrl, exp => exp.Ignore());
+
+            #endregion
+
             #region Team
 
             Mapper.CreateMap<TeamYear, TeamEditModel>()
