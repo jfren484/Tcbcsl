@@ -10,9 +10,9 @@
 
         <fieldset>
             <legend>@title</legend>
-            @(Model.TeamModel.Teams.Count == 1
-                  ? Html.HiddenFor(m => m.TeamModel.TeamId)
-                  : Html.EditorFor(m => m.TeamModel))
+            @(Model.Team.Teams.Count == 1
+                  ? Html.HiddenFor(m => m.Team.TeamId)
+                  : Html.EditorFor(m => m.Team))
             @Html.EditorFor(m => m.IsActive)
             @Html.EditorFor(m => m.StartDate)
             @Html.EditorFor(m => m.EndDate)

@@ -21,7 +21,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         {
             return View(new NewsEditModel
             {
-                TeamModel = new NewsEditTeamModel { Teams = GetTeams(Consts.CurrentYear) }
+                Team = new NewsEditTeamModel { Teams = GetTeams(Consts.CurrentYear) }
             });
         }
 
@@ -56,12 +56,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                             IsActive = true,
                             StartDate = DateTime.Now,
                             EndDate = DateTime.Today.AddDays(14),
-                            TeamModel = new NewsEditTeamModel {Teams = GetTeams(Consts.CurrentYear)}
+                            Team = new NewsEditTeamModel {Teams = GetTeams(Consts.CurrentYear)}
                         };
 
-            if (model.TeamModel.Teams.Count == 1)
+            if (model.Team.Teams.Count == 1)
             {
-                model.TeamModel.TeamId = model.TeamModel.Teams[0].TeamId;
+                model.Team.TeamId = model.Team.Teams[0].TeamId;
             }
 
             return View("Edit", model);
@@ -71,7 +71,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Create")]
         public ActionResult Create(NewsEditModel model)
         {
-            if (!User.IsTeamIdValidForUser(model.TeamModel.TeamId))
+            if (!User.IsTeamIdValidForUser(model.Team.TeamId))
             {
                 return HttpNotFound();
             }
@@ -93,7 +93,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             var model = Mapper.Map<NewsEditModel>(newsItem);
-            model.TeamModel.Teams = GetTeams(newsItem.Created.Year);
+            model.Team.Teams = GetTeams(newsItem.Created.Year);
 
             return View(model);
         }
@@ -103,7 +103,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Edit(int id, NewsEditModel model)
         {
             var newsItem = DbContext.NewsItems.SingleOrDefault(n => n.NewsItemId == id);
-            if (newsItem == null || !User.IsTeamIdValidForUser(model.TeamModel.TeamId))
+            if (newsItem == null || !User.IsTeamIdValidForUser(model.Team.TeamId))
             {
                 return HttpNotFound();
             }
@@ -118,16 +118,16 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #region Helpers
 
-        private List<NewsEditTeamListModel> GetTeams(int year)
+        private List<TeamBasicInfoModel> GetTeams(int year)
         {
-            return DbContext.TeamYears
-                            .Where(ty => ty.Year == year && ty.DivisionYear.IsInLeague)
-                            .Select(ty => new NewsEditTeamListModel { TeamId = ty.TeamId, TeamName = ty.FullName })
-                            .ToList()
-                            .Concat(new[] { new NewsEditTeamListModel { TeamName = Consts.LeagueNameForList } })
-                            .FilterTeamsForUser(User, n => n.TeamId)
-                            .OrderBy(t => t.TeamName)
-                            .ToList();
+            var teams = DbContext.TeamYears
+                                 .Where(ty => ty.Year == year && ty.DivisionYear.IsInLeague)
+                                 .OrderBy(ty => ty.FullName);
+
+            return new[] {new TeamBasicInfoModel {FullName = Consts.LeagueNameForList}}
+                .Concat(Mapper.Map<List<TeamBasicInfoModel>>(teams))
+                .FilterTeamsForUser(User, n => n.TeamId)
+                .ToList();
         }
 
         #endregion

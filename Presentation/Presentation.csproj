@@ -247,6 +247,7 @@
     <Compile Include="Areas\Admin\Models\PlayerEditModels.cs" />
     <Compile Include="Areas\Admin\Models\ScheduleEditModels.cs" />
     <Compile Include="Areas\Admin\Models\StatisticsEditModels.cs" />
+    <Compile Include="Areas\Admin\Models\TeamBasicInfoModel.cs" />
     <Compile Include="Areas\Admin\Models\TeamEditModels.cs" />
     <Compile Include="Areas\Admin\Models\UserEditModels.cs" />
     <Compile Include="Consts.cs" />

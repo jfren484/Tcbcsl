@@ -134,16 +134,16 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<NewsItem, NewsEditTeamModel>()
                   .ForMember(m => m.IsReadonly, exp => exp.MapFrom(e => (DateTime.Now - e.Created) > TimeSpan.FromDays(30)))
-                  .ForMember(m => m.TeamName, exp => exp.MapFrom(e => e.GetTeamName() ?? Consts.LeagueNameForList))
-                  .ForMember(m => m.Teams, exp => exp.MapFrom(e => new List<NewsEditTeamListModel>()));
+                  .ForMember(m => m.FullName, exp => exp.MapFrom(e => e.GetTeamName() ?? Consts.LeagueNameForList))
+                  .ForMember(m => m.Teams, exp => exp.MapFrom(e => new List<TeamBasicInfoModel>()));
 
             Mapper.CreateMap<NewsItem, NewsEditModel>()
                   .MapEditModelBaseWithAudit()
-                  .ForMember(m => m.TeamModel, exp => exp.MapFrom(e => Mapper.Map<NewsEditTeamModel>(e)));
+                  .ForMember(m => m.Team, exp => exp.MapFrom(e => Mapper.Map<NewsEditTeamModel>(e)));
 
             Mapper.CreateMap<NewsEditModel, NewsItem>()
                   .MapEntityModifiable()
-                  .ForMember(e => e.TeamId, exp => exp.MapFrom(m => m.TeamModel.TeamId))
+                  .ForMember(e => e.TeamId, exp => exp.MapFrom(m => m.Team.TeamId))
                   .ForMember(e => e.Team, exp => exp.Ignore())
                   .ForMember(e => e.Content, exp => exp.MapFrom(m => m.Content.Sanitize()));
 
@@ -211,16 +211,20 @@ namespace Tcbcsl.Presentation
             #region Statistics
 
             Mapper.CreateMap<GameParticipant, StatisticsEditScheduleModel>()
-                  .ForMember(m => m.TeamId, exp => exp.MapFrom(e => e.TeamYear.TeamId))
-                  .ForMember(m => m.Year, exp => exp.MapFrom(e => e.TeamYear.Year))
+                  .ForMember(m => m.Team, exp => exp.MapFrom(e => e.TeamYear))
                   .ForMember(m => m.GameDate, exp => exp.MapFrom(e => e.Game.GameDate))
                   .ForMember(m => m.Opponent, exp => exp.MapFrom(e => e.Game.GameParticipants.Single(gp2 => gp2.GameParticipantId != e.GameParticipantId).TeamYear.FullName))
-                  .ForMember(m => m.Outcome, exp => exp.Ignore())
+                  .ForMember(m => m.Outcome, exp => exp.MapFrom(e => GetOutcomeFromGameParticipant(e)))
                   .ForMember(m => m.EnterStatsUrl, exp => exp.Ignore());
+
+            Mapper.CreateMap<TeamYear, StatisticsEditTeamModel>()
+                  .ForMember(m => m.Teams, exp => exp.Ignore());
 
             #endregion
 
             #region Team
+
+            Mapper.CreateMap<TeamYear, TeamBasicInfoModel>();
 
             Mapper.CreateMap<TeamYear, TeamEditModel>()
                   .MapEditModelBaseWithAudit()
@@ -314,6 +318,23 @@ namespace Tcbcsl.Presentation
             #endregion
 
             Mapper.AssertConfigurationIsValid();
+        }
+
+        private static string GetOutcomeFromGameParticipant(GameParticipant gp)
+        {
+            var opponent = gp.Game.GameParticipants.Single(gp2 => gp2.GameParticipantId != gp.GameParticipantId);
+            var won = gp.RunsScored > opponent.RunsScored;
+            var lost = gp.RunsScored < opponent.RunsScored;
+            var winnerRuns = won ? gp.RunsScored : opponent.RunsScored;
+            var loserRuns = lost ? gp.RunsScored : opponent.RunsScored;
+            var winLossChar = (won ? "W" : lost ? "L" : "T")
+                              + (gp.Game.GameStatusId == GameStatus.Forfeited ? " (F)" : string.Empty);
+
+            return gp.Game.GameStatus.IsComplete
+                       ? winLossChar + " " + winnerRuns + "-" + loserRuns
+                       : gp.Game.GameStatusId != GameStatus.Scheduled
+                             ? gp.Game.GameStatus.Description
+                             : string.Empty;
         }
 
         #region Mapping Extension Methods

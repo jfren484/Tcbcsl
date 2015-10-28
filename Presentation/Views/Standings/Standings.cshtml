@@ -22,4 +22,4 @@
 @{
     var clinchCharsUsed = Model.Groups.SelectMany(g => g.Teams.Select(t => t.ClinchChar)).Distinct().ToArray();
 }
-@string.Join(", ", Consts.ClinchDescriptions.Where(kvp => clinchCharsUsed.Contains(kvp.Key)).Select(kvp => $"{kvp.Key} - Clinched {kvp.Value}"))
+@string.Join(", ", Consts.ClinchDescriptions.Where(kvp => clinchCharsUsed.Contains(kvp.Key)).Select(kvp => kvp.ClinchDescriptionFormatted()))

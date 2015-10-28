@@ -5,12 +5,12 @@
 @section Editable
 {
     @Html.DropDownListFor(m => m.TeamId,
-                          new SelectList(Model.Teams.Select(t => new SelectListItem {Value = t.TeamId.ToString(), Text = t.TeamName}), "Value", "Text", Model),
+                          new SelectList(Model.Teams.Select(t => new SelectListItem {Value = t.TeamId.ToString(), Text = t.FullName}), "Value", "Text", Model),
                           new {@class = "form-control"})
     @Html.ValidationMessageFor(m => m.TeamId)
 }
 @section Readonly
 {
     @Html.HiddenFor(m => m.TeamId)
-    <p class="form-control-static">@Model.TeamName</p>
+    <p class="form-control-static">@Model.FullName</p>
 }

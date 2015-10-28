@@ -97,22 +97,4 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "Coach")]
         public CoachEditModel HeadCoach { get; set; }
     }
-
-    //public class TeamManageTeamModel
-    //{
-    //    [Display(Name = "Id")]
-    //    public int TeamId { get; set; }
-
-    //    [Display(Name = "Name")]
-    //    public string FullName { get; set; }
-
-    //    [Display(Name = "Paid League Fee")]
-    //    public bool HasPaid { get; set; }
-
-    //    [Display(Name = "Field Information")]
-    //    public string FieldInformation { get; set; }
-
-    //    [Display(Name = "Other Info")]
-    //    public string Comments { get; set; }
-    //}
 }

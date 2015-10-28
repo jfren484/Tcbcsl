@@ -44,6 +44,11 @@ namespace Tcbcsl.Presentation.Helpers
                        : " - " + year;
         }
 
+        public static string ClinchDescriptionFormatted(this KeyValuePair<string, string> kvp)
+        {
+            return $"{kvp.Key} - Clinched {kvp.Value}";
+        }
+
         public static IEnumerable<T> FilterTeamsForUser<T>(this IEnumerable<T> allEntities, IPrincipal userPrincipal, Func<T, int?> getTeamId)
         {
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -82,6 +87,14 @@ namespace Tcbcsl.Presentation.Helpers
             return userManager.IsInRole(tcbcslUser.Id, Roles.LeagueCommissioner)
                    || teamId == Consts.PlayerPoolTeamId
                    || tcbcslUser.AssignedTeams.Any(at => at.TeamId == teamId);
+        }
+
+        public static bool IsUserInRole(this IPrincipal userPrincipal, string role)
+        {
+            return HttpContext.Current
+                              .GetOwinContext()
+                              .GetUserManager<ApplicationUserManager>()
+                              .IsInRole(userPrincipal.Identity.GetUserId(), role);
         }
 
         public static string Sanitize(this string htmlString)

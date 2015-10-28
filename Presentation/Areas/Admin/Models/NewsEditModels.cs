@@ -25,7 +25,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public bool IsActive { get; set; }
 
         [Display(Name = "Team")]
-        public NewsEditTeamModel TeamModel { get; set; }
+        public NewsEditTeamModel Team { get; set; }
 
         [StringLength(255)]
         public string Subject { get; set; }
@@ -36,15 +36,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public string Content { get; set; }
     }
 
-    public class NewsEditTeamListModel
-    {
-        public int? TeamId { get; set; }
-        public string TeamName { get; set; }
-    }
-
-    public class NewsEditTeamModel : NewsEditTeamListModel
+    public class NewsEditTeamModel : TeamBasicInfoModel
     {
         public bool IsReadonly { get; set; }
-        public List<NewsEditTeamListModel> Teams { get; set; }
+        public List<TeamBasicInfoModel> Teams { get; set; }
     }
 }

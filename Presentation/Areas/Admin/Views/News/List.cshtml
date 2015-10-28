@@ -3,7 +3,7 @@
     const string title = "Manage News";
     ViewBag.Title = title;
 
-    var showTeam = (Model.TeamModel.Teams.Count > 1).ToString().ToLower();
+    var showTeam = (Model.Team.Teams.Count > 1).ToString().ToLower();
 }
 <h2>@title</h2>
 @Html.Partial("_AdminListTable", new AdminListTableModel {ListItemName = "News", CreateItemUrl = Url.Action("Create")})
@@ -13,7 +13,7 @@
     <script>
         var columns = [
             { 'data': 'NewsItemId',              'title': '@Html.DisplayNameFor(m => m.NewsItemId)',              'visible': false },
-            { 'data': 'TeamModel',               'title': '@Html.DisplayNameFor(m => m.TeamModel)',               'visible': @showTeam, 'render': 'TeamName' },
+            { 'data': 'Team',                    'title': '@Html.DisplayNameFor(m => m.Team)',                    'visible': @showTeam, 'render': 'TeamName' },
             { 'data': 'IsActive',                'title': '@Html.DisplayNameFor(m => m.IsActive)',                                      'render': renderActiveCell },
             { 'data': 'StartDate',               'title': '@Html.DisplayNameFor(m => m.StartDate)',                                     'render': renderDate },
             { 'data': 'EndDate',                 'title': '@Html.DisplayNameFor(m => m.EndDate)',                                       'render': renderDate },

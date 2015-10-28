@@ -166,7 +166,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             model.HeadCoach.ItemSelectList = new SelectList(coaches, "Value", "Text", model.HeadCoach.CoachId);
 
             var clinchItems = Consts.ClinchDescriptions
-                                    .Select(kvp => new SelectListItem {Value = kvp.Key.ToString(), Text = $"{kvp.Key} - Clinched {kvp.Value}"})
+                                    .Select(kvp => new SelectListItem {Value = kvp.Key.ToString(), Text = kvp.ClinchDescriptionFormatted()})
                                     .ToList();
             clinchItems.Insert(0, new SelectListItem {Text = "(none)"});
             model.Clinch.ItemSelectList = new SelectList(clinchItems, "Value", "Text", model.Clinch.ClinchChar);

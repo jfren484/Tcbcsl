@@ -161,16 +161,17 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         private void PopulateDropdownLists(PlayerEditModel model)
         {
-            var coaches = DbContext.TeamYears
-                                   .Where(ty => ty.Year == Consts.CurrentYear && !Consts.InvalidPlayerTeamIds.Contains(ty.TeamId))
-                                   .OrderBy(ty => ty.DivisionYear.IsInLeague)
-                                   .ThenBy(ty => ty.FullName)
-                                   .ToList()
-                                   .FilterTeamsForUser(User, ty => ty.TeamId)
-                                   .Select(ty => new SelectListItem {Value = ty.TeamId.ToString(), Text = ty.FullName})
-                                   .ToList();
-            model.Team.ItemSelectList = new SelectList(coaches, "Value", "Text", model.Team.TeamId);
+            var teams = DbContext.TeamYears
+                                 .Where(ty => ty.Year == Consts.CurrentYear && !Consts.InvalidPlayerTeamIds.Contains(ty.TeamId))
+                                 .OrderBy(ty => ty.DivisionYear.IsInLeague)
+                                 .ThenBy(ty => ty.FullName)
+                                 .ToList()
+                                 .FilterTeamsForUser(User, ty => ty.TeamId)
+                                 .Select(ty => new SelectListItem {Value = ty.TeamId.ToString(), Text = ty.FullName})
+                                 .ToList();
+            model.Team.ItemSelectList = new SelectList(teams, "Value", "Text", model.Team.TeamId);
         }
+
         public IEnumerable<PlayerEditModel> SelectPlayerEditModels(IEnumerable<Player> playerEntities)
         {
             var teamIds = DbContext.Teams

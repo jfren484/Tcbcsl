@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Tcbcsl.Data.Entities;
@@ -14,24 +15,48 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
     {
         #region List
 
-        [Route("{id:int?}/{year:year?}")]
-        public ActionResult List(int? id, int year = Consts.CurrentYear)
+        [Route("")]
+        public ActionResult Default()
         {
-            var teamId = id ?? (UserCache.AssignedTeams.Any()
-                                    ? UserCache.AssignedTeams.First().Key
-                                    : DbContext.TeamYears
-                                               .First(ty => ty.Year == year)
-                                               .TeamId);
-
-            if (!User.IsTeamIdValidForUser(teamId))
+            if (!UserCache.AssignedTeams.Any() && !User.IsInRole(Roles.LeagueCommissioner))
             {
                 return HttpNotFound();
             }
 
-            return View(new StatisticsEditScheduleModel {TeamId = teamId, Year = year});
+
+            var teamId = UserCache.AssignedTeams.Any()
+                             ? UserCache.AssignedTeams.First().Key
+                             : DbContext.TeamYears
+                                        .First(ty => ty.Year == Consts.CurrentYear)
+                                        .TeamId;
+
+            return RedirectToAction("List", new {Id = teamId});
         }
 
-        //[HttpPost]
+        [Route("Team/{id:int}/{year:year?}")]
+        public ActionResult List(int id, int year = Consts.CurrentYear)
+        {
+            var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamId == id && ty.Year == year);
+            if (teamYear == null || !User.IsTeamIdValidForUser(id))
+            {
+                return HttpNotFound();
+            }
+
+            var model = new StatisticsEditScheduleModel
+                        {
+                            Team = new StatisticsEditTeamModel
+                                   {
+                                       TeamId = id,
+                                       Year = year,
+                                       FullName = teamYear.FullName
+                                   }
+                        };
+            PopulateDropdownLists(model.Team);
+
+            return View(model);
+        }
+
+        [HttpPost]
         [Route("Data/{id:int}/{year:year?}")]
         public JsonResult Data(int id, int year = Consts.CurrentYear)
         {
@@ -46,7 +71,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                     return model;
                                 });
 
-            return Json(data, JsonRequestBehavior.AllowGet);
+            return Json(data);
         }
 
         #endregion
@@ -89,6 +114,16 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #region Helpers
 
+        private void PopulateDropdownLists(StatisticsEditTeamModel model)
+        {
+            var teams = DbContext.TeamYears
+                                 .Where(ty => ty.Year == model.Year && ty.KeepsStats && ty.GameParticipants.Any())
+                                 .OrderBy(ty => ty.FullName)
+                                 .ToList()
+                                 .FilterTeamsForUser(User, ty => ty.TeamId);
+            model.Teams = Mapper.Map<List<TeamBasicInfoModel>>(teams);
+        }
+
         private void PopulateDropdownLists(TeamEditModel model)
         {
             var divisions = DbContext.DivisionYears
@@ -99,7 +134,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             model.Division.ItemSelectList = new SelectList(divisions, "Value", "Text", model.Division.DivisionYearId);
 
             var clinchItems = Consts.ClinchDescriptions
-                                    .Select(kvp => new SelectListItem { Value = kvp.Key.ToString(), Text = $"{kvp.Key} - Clinched {kvp.Value}" })
+                                    .Select(kvp => new SelectListItem { Value = kvp.Key.ToString(), Text = kvp.ClinchDescriptionFormatted() })
                                     .ToList();
             clinchItems.Insert(0, new SelectListItem { Text = "(none)" });
             model.Clinch.ItemSelectList = new SelectList(clinchItems, "Value", "Text", model.Clinch.ClinchChar);
