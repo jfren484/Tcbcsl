@@ -1,6 +1,6 @@
-﻿@model StatisticsEditGameModel
+﻿@model GameResultsEditModel
 @{
-    const string title = "Manage Statistics";
+    var title = $"Manage Game Results{(Model.KeepsStats ? " and Statistics" : "")}";
     ViewBag.Title = $"{title} for {Model.Team.FullName}{Model.Team.Year.AsTitleSuffix()}";
 
     var dict = new RouteValueDictionary(ViewContext.RouteData.Values);
@@ -38,8 +38,7 @@
             { 'data': 'GameDate',          'title': '@Html.DisplayNameFor(m => m.GameDate)',                                'render': renderDate },
             { 'data': 'Opponent',          'title': '@Html.DisplayNameFor(m => m.Opponent)' },
             { 'data': 'Outcome',           'title': '@Html.DisplayNameFor(m => m.Outcome)' },
-            { 'data': 'SubmitResultsUrl',  'title': '',                                               'orderable': false,   'render': renderSubmitResultsLink },
-            { 'data': 'EnterStatsUrl',                                                                'orderable': false,   'render': renderEnterStatsLink }
+            { 'data': 'ActionUrls',                                                                   'orderable': false,   'render': renderStatisticsLinks }
         ];
 
         datatable_RenderList({

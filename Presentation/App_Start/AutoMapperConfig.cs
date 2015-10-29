@@ -130,6 +130,29 @@ namespace Tcbcsl.Presentation
 
             #endregion
 
+            #region Game Results
+
+            Mapper.CreateMap<TeamYear, GameResultsEditModel>()
+                  .ForMember(m => m.Team, exp => exp.MapFrom(e => e))
+                  .ForMember(m => m.GameParticipantId, exp => exp.Ignore())
+                  .ForMember(m => m.GameDate, exp => exp.Ignore())
+                  .ForMember(m => m.Opponent, exp => exp.Ignore())
+                  .ForMember(m => m.Outcome, exp => exp.Ignore())
+                  .ForMember(m => m.ActionUrls, exp => exp.Ignore());
+
+            Mapper.CreateMap<GameParticipant, GameResultsEditModel>()
+                  .ForMember(m => m.Team, exp => exp.MapFrom(e => e.TeamYear))
+                  .ForMember(m => m.GameDate, exp => exp.MapFrom(e => e.Game.GameDate))
+                  .ForMember(m => m.Opponent, exp => exp.MapFrom(e => e.Game.GameParticipants.Single(gp2 => gp2.GameParticipantId != e.GameParticipantId).TeamYear.FullName))
+                  .ForMember(m => m.Outcome, exp => exp.MapFrom(e => e.GetOutcome()))
+                  .ForMember(m => m.KeepsStats, exp => exp.Ignore())
+                  .ForMember(m => m.ActionUrls, exp => exp.Ignore());
+
+            Mapper.CreateMap<TeamYear, GameResultsEditTeamModel>()
+                  .ForMember(m => m.Teams, exp => exp.Ignore());
+
+            #endregion
+
             #region NewsItem
 
             Mapper.CreateMap<NewsItem, NewsEditTeamModel>()
@@ -205,21 +228,6 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<GameParticipant, ScheduleGameParticipantEditModel>()
                   .ForMember(m => m.TeamName, exp => exp.MapFrom(e => e.TeamYear.FullName));
-
-            #endregion
-
-            #region Statistics
-
-            Mapper.CreateMap<GameParticipant, StatisticsEditGameModel>()
-                  .ForMember(m => m.Team, exp => exp.MapFrom(e => e.TeamYear))
-                  .ForMember(m => m.GameDate, exp => exp.MapFrom(e => e.Game.GameDate))
-                  .ForMember(m => m.Opponent, exp => exp.MapFrom(e => e.Game.GameParticipants.Single(gp2 => gp2.GameParticipantId != e.GameParticipantId).TeamYear.FullName))
-                  .ForMember(m => m.Outcome, exp => exp.MapFrom(e => e.GetOutcome()))
-                  .ForMember(m => m.SubmitResultsUrl, exp => exp.Ignore())
-                  .ForMember(m => m.EnterStatsUrl, exp => exp.Ignore());
-
-            Mapper.CreateMap<TeamYear, StatisticsEditTeamModel>()
-                  .ForMember(m => m.Teams, exp => exp.Ignore());
 
             #endregion
 

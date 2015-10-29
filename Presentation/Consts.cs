@@ -10,6 +10,7 @@ namespace Tcbcsl.Presentation
 
         public const int PlayerPoolTeamId = 60;
         public static string PlayerPoolTeamName = ""; // Set in Global.asax
+        public const int TeamTBDTeamId = 44;
 
         public const string AllTime = "All-Time";
         public const string LeagueNameForList = "*League*";
@@ -58,7 +59,6 @@ namespace Tcbcsl.Presentation
                                                                                };
 
         /*
-        $g_lTEAM_ID_TBD		= 44;
         $g_lCOACH_ID_DUMMY	= 31;
         $g_sPH_DIV_NAME		= 'Post-Season';
         */

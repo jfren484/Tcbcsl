@@ -102,25 +102,23 @@ function renderEditLink(data, type) {
     return renderLink(data, type, 'edit', 'edit');
 }
 
-function renderEnterStatsLink(data, type) {
-    return renderLink(data, type, 'enter stats', 'stats');
-}
+function renderStatisticsLinks(data, type) {
+    if (type !== 'display' || !data) return null;
 
-function renderSubmitResultsLink(data, type) {
-    return renderLink(data, type, 'submit game result', 'pencil');
+    return [renderLink(data.SubmitResults, type, 'submit game result', 'pencil'), renderLink(data.EnterStats, type, 'enter stats', 'stats')].join(' ');
 }
 
 function renderLink(data, type, title, icon) {
     return data && type === 'display'
         ? '<a href="' + data + '" title="' + title + '"><span class="glyphicon glyphicon-' + icon + '"></span></a>'
-        : null;
+        : '';
 }
 
 function renderPartialContent(data, type) {
     return type === 'display'
         ? data && data.length
             ? '<div class="partial-content">' + data + '</div>'
-            : null
+            : ''
         : data;
 }
 

@@ -5,9 +5,9 @@ using Tcbcsl.Presentation.Areas.Admin.Models;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
-    public class StatisticsEditGameModel
+    public class GameResultsEditModel
     {
-        public StatisticsEditTeamModel Team { get; set; }
+        public GameResultsEditTeamModel Team { get; set; }
 
         [Display(Name = "Id")]
         public int GameParticipantId { get; set; }
@@ -18,15 +18,14 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         public string Outcome { get; set; }
 
-        [Display(Name = "")]
-        public string SubmitResultsUrl { get; set; }
+        public bool KeepsStats { get; set; }
 
         [Display(Name = "")]
-        public string EnterStatsUrl { get; set; }
+        public Dictionary<string, string> ActionUrls { get; set; }
     }
 }
 
-public class StatisticsEditTeamModel
+public class GameResultsEditTeamModel
 {
     public int TeamId { get; set; }
     public int Year { get; set; }

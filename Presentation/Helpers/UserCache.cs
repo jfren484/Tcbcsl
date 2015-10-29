@@ -20,7 +20,7 @@ namespace Tcbcsl.Presentation.Helpers
             }
         }
 
-        public static Dictionary<int, string> SetAssignedTeams()
+        private static Dictionary<int, string> SetAssignedTeams()
         {
             return AssignedTeams = HttpContext.Current
                                               .GetOwinContext()
@@ -28,7 +28,7 @@ namespace Tcbcsl.Presentation.Helpers
                                               .FindByName(HttpContext.Current.User.Identity.Name)
                                               .AssignedTeams
                                               .Select(at => at.TeamYears.OrderByDescending(ty => ty.Year).First())
-                                              .ToDictionary(ty => ty.TeamId, ty => ty.TeamName);
+                                              .ToDictionary(ty => ty.TeamId, ty => ty.FullName);
         }
     }
 }

@@ -78,8 +78,6 @@ namespace Tcbcsl.Presentation.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    UserCache.SetAssignedTeams();
-
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -249,8 +247,6 @@ namespace Tcbcsl.Presentation.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    UserCache.SetAssignedTeams();
-
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
