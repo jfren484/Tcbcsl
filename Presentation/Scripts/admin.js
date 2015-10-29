@@ -99,9 +99,21 @@ function renderDate(data, type) {
 }
 
 function renderEditLink(data, type) {
-    return type === 'display'
-        ? '<a href="' + data + '" title="edit"><span class="glyphicon glyphicon-edit"></span></a>'
-        : data;
+    return renderLink(data, type, 'edit', 'edit');
+}
+
+function renderEnterStatsLink(data, type) {
+    return renderLink(data, type, 'enter stats', 'stats');
+}
+
+function renderSubmitResultsLink(data, type) {
+    return renderLink(data, type, 'submit game result', 'pencil');
+}
+
+function renderLink(data, type, title, icon) {
+    return data && type === 'display'
+        ? '<a href="' + data + '" title="' + title + '"><span class="glyphicon glyphicon-' + icon + '"></span></a>'
+        : null;
 }
 
 function renderPartialContent(data, type) {

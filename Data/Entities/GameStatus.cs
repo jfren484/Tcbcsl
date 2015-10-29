@@ -14,5 +14,8 @@ namespace Tcbcsl.Data.Entities
 
         [Required]
         public bool IsComplete { get; set; }
+
+        [Required]
+        public bool AllowStatistics { get; set; }
     }
 }

@@ -156,6 +156,10 @@
     <Compile Include="Migrations\201510121612228_AddPlayerForeignKeyToTeam.Designer.cs">
       <DependentUpon>201510121612228_AddPlayerForeignKeyToTeam.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510290258125_AddAllowStatisticsColumn.cs" />
+    <Compile Include="Migrations\201510290258125_AddAllowStatisticsColumn.Designer.cs">
+      <DependentUpon>201510290258125_AddAllowStatisticsColumn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
     <Compile Include="Entities\PageContent.cs" />
@@ -231,6 +235,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510121612228_AddPlayerForeignKeyToTeam.resx">
       <DependentUpon>201510121612228_AddPlayerForeignKeyToTeam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510290258125_AddAllowStatisticsColumn.resx">
+      <DependentUpon>201510290258125_AddAllowStatisticsColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

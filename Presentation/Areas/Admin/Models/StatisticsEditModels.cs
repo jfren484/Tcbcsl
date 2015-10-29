@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
-    public class StatisticsEditScheduleModel
+    public class StatisticsEditGameModel
     {
         public StatisticsEditTeamModel Team { get; set; }
 
@@ -18,6 +17,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public string Opponent { get; set; }
 
         public string Outcome { get; set; }
+
+        [Display(Name = "")]
+        public string SubmitResultsUrl { get; set; }
 
         [Display(Name = "")]
         public string EnterStatsUrl { get; set; }

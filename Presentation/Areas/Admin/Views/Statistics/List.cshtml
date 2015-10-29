@@ -1,4 +1,4 @@
-﻿@model StatisticsEditScheduleModel
+﻿@model StatisticsEditGameModel
 @{
     const string title = "Manage Statistics";
     ViewBag.Title = $"{title} for {Model.Team.FullName}{Model.Team.Year.AsTitleSuffix()}";
@@ -38,7 +38,8 @@
             { 'data': 'GameDate',          'title': '@Html.DisplayNameFor(m => m.GameDate)',                                'render': renderDate },
             { 'data': 'Opponent',          'title': '@Html.DisplayNameFor(m => m.Opponent)' },
             { 'data': 'Outcome',           'title': '@Html.DisplayNameFor(m => m.Outcome)' },
-            { 'data': 'EnterStatsUrl',                                                                'orderable': false,   'render': renderEditLink }
+            { 'data': 'SubmitResultsUrl',  'title': '',                                               'orderable': false,   'render': renderSubmitResultsLink },
+            { 'data': 'EnterStatsUrl',                                                                'orderable': false,   'render': renderEnterStatsLink }
         ];
 
         datatable_RenderList({

@@ -42,7 +42,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 return HttpNotFound();
             }
 
-            var model = new StatisticsEditScheduleModel
+            var model = new StatisticsEditGameModel
                         {
                             Team = new StatisticsEditTeamModel
                                    {
@@ -65,8 +65,11 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 .ToList()
                                 .Select(gp =>
                                 {
-                                    var model = Mapper.Map<StatisticsEditScheduleModel>(gp);
-                                    model.EnterStatsUrl = Url.Action("Game", new { id = model.GameParticipantId });
+                                    var model = Mapper.Map<StatisticsEditGameModel>(gp);
+                                    model.EnterStatsUrl = gp.Game.GameStatus.AllowStatistics
+                                        ? Url.Action("Game", new { id = model.GameParticipantId })
+                                        : null;
+                                    model.SubmitResultsUrl = Url.Action("Game", new { id = 0 });
 
                                     return model;
                                 });

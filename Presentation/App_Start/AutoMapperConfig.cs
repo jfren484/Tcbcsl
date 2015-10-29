@@ -210,11 +210,12 @@ namespace Tcbcsl.Presentation
 
             #region Statistics
 
-            Mapper.CreateMap<GameParticipant, StatisticsEditScheduleModel>()
+            Mapper.CreateMap<GameParticipant, StatisticsEditGameModel>()
                   .ForMember(m => m.Team, exp => exp.MapFrom(e => e.TeamYear))
                   .ForMember(m => m.GameDate, exp => exp.MapFrom(e => e.Game.GameDate))
                   .ForMember(m => m.Opponent, exp => exp.MapFrom(e => e.Game.GameParticipants.Single(gp2 => gp2.GameParticipantId != e.GameParticipantId).TeamYear.FullName))
-                  .ForMember(m => m.Outcome, exp => exp.MapFrom(e => GetOutcomeFromGameParticipant(e)))
+                  .ForMember(m => m.Outcome, exp => exp.MapFrom(e => e.GetOutcome()))
+                  .ForMember(m => m.SubmitResultsUrl, exp => exp.Ignore())
                   .ForMember(m => m.EnterStatsUrl, exp => exp.Ignore());
 
             Mapper.CreateMap<TeamYear, StatisticsEditTeamModel>()
@@ -320,24 +321,20 @@ namespace Tcbcsl.Presentation
             Mapper.AssertConfigurationIsValid();
         }
 
-        private static string GetOutcomeFromGameParticipant(GameParticipant gp)
+        #region Mapping Extension Methods
+
+        private static string GetOutcome(this GameParticipant gp)
         {
             var opponent = gp.Game.GameParticipants.Single(gp2 => gp2.GameParticipantId != gp.GameParticipantId);
             var won = gp.RunsScored > opponent.RunsScored;
             var lost = gp.RunsScored < opponent.RunsScored;
-            var winnerRuns = won ? gp.RunsScored : opponent.RunsScored;
-            var loserRuns = lost ? gp.RunsScored : opponent.RunsScored;
-            var winLossChar = (won ? "W" : lost ? "L" : "T")
-                              + (gp.Game.GameStatusId == GameStatus.Forfeited ? " (F)" : string.Empty);
 
-            return gp.Game.GameStatus.IsComplete
-                       ? winLossChar + " " + winnerRuns + "-" + loserRuns
-                       : gp.Game.GameStatusId != GameStatus.Scheduled
-                             ? gp.Game.GameStatus.Description
-                             : string.Empty;
+            return gp.Game.GameStatus.DisplayOutcome
+                ? gp.Game.GameStatus.AllowStatistics
+                    ? (won ? "W" : lost ? "L" : "T") + " " + gp.RunsScored + "-" + opponent.RunsScored
+                    : gp.Game.GameStatus.Description
+                : string.Empty;
         }
-
-        #region Mapping Extension Methods
 
         private static string GetTeamName(this NewsItem newsItem)
         {
