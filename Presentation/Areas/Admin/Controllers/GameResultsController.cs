@@ -62,7 +62,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                                        {
                                                            ["SubmitResults"] = Url.Action("Game", new {id = model.GameParticipantId }),
                                                            ["EnterStats"] = gp.Game.GameStatus.AllowStatistics && gp.TeamYear.KeepsStats
-                                                                                ? Url.Action("Game", new {id = model.GameParticipantId})
+                                                                                ? Url.Action("Game", "Statistics", new {id = model.GameParticipantId})
                                                                                 : null
                                                        };
 
@@ -76,7 +76,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #region Game
 
-        [Route("Game/{id:int}")]
+        [Route("{id:int}")]
         public ActionResult Game(int id)
         {
             var gameParticipant = DbContext.GameParticipants.SingleOrDefault(gp => gp.GameParticipantId == id);
@@ -92,7 +92,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Route("Game/{id:int}")]
+        [Route("{id:int}")]
         public ActionResult Game(int id, GameResultsEditModel model)
         {
             var gameParticipant = DbContext.GameParticipants.SingleOrDefault(gp => gp.GameParticipantId == id);
