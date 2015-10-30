@@ -32,7 +32,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public int TeamId { get; set; }
         public string FullName { get; set; }
 
-        public string TransferUrl { get; set; }
+        public string UrlForTransfer { get; set; }
 
         public SelectList ItemSelectList { get; set; }
     }

@@ -248,6 +248,7 @@
     <Compile Include="Areas\Admin\Models\PlayerEditModels.cs" />
     <Compile Include="Areas\Admin\Models\ScheduleEditModels.cs" />
     <Compile Include="Areas\Admin\Models\GameResultsEditModels.cs" />
+    <Compile Include="Areas\Admin\Models\StatisticsEditModels.cs" />
     <Compile Include="Areas\Admin\Models\TeamBasicInfoModel.cs" />
     <Compile Include="Areas\Admin\Models\TeamEditModels.cs" />
     <Compile Include="Areas\Admin\Models\UserEditModels.cs" />
@@ -418,6 +419,9 @@
     <Content Include="Areas\Admin\Views\Team\EditorTemplates\TeamEditClinchModel.cshtml" />
     <Content Include="Areas\Admin\Views\GameResults\List.cshtml" />
     <Content Include="Areas\Admin\Views\GameResults\Game.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistics\Game.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistics\EditorTemplates\StatisticsEditStatLineModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistics\EditorTemplates\StatisticsEditPlayerModel.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />

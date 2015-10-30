@@ -1,0 +1,16 @@
+﻿@model StatisticsEditModel
+@{
+    var title = $"Manage Statistics for {Model.TeamName} on {Model.GameDate.ToString(Consts.DateTimeFormatDisplay)}";
+    ViewBag.Title = title;
+}
+<div class="well">
+    @using (Html.BeginForm("Game", "Statistics", FormMethod.Post, new { @class = "form-horizontal form-with-validationxx" }))
+    {
+        <fieldset>
+            <legend>@title</legend>
+            @Html.EditorFor(m => m.StatLines)
+            @Html.HiddenFor(m => m.UrlForReturn)
+            @Html.Partial("_FormCancelSubmit", Model.UrlForReturn)
+        </fieldset>
+    }
+</div>

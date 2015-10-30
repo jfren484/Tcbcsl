@@ -24,5 +24,7 @@ namespace Tcbcsl.Data.Entities
         public virtual Team CurrentTeam { get; set; }
 
         public virtual ICollection<StatLine> StatLines { get; set; }
+
+        public string FullName => $"{NameFirst} {NameLast}";
     }
 }

@@ -185,8 +185,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             return playerEntities.Select(p =>
                                          {
                                              var model = Mapper.Map<PlayerEditModel>(p);
-                                             model.EditUrl = Url.Action("Edit", new {id = model.PlayerId});
-                                             model.Team.TransferUrl = Url.Action("Transfer",
+                                             model.UrlForEdit = Url.Action("Edit", new {id = model.PlayerId});
+                                             model.Team.UrlForTransfer = Url.Action("Transfer",
                                                                                  new
                                                                                  {
                                                                                      id = model.PlayerId,

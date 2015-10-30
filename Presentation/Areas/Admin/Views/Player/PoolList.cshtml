@@ -14,7 +14,7 @@
             </div>
             <div class="modal-body">
                 @Html.Hidden("rowIndex")
-                @Html.Hidden("transferUrl")
+                @Html.Hidden("urlForTransfer")
                 @Html.DropDownList("teamId", Model.Team.ItemSelectList, new {@class = "form-control"})
             </div>
             <div class="modal-footer">

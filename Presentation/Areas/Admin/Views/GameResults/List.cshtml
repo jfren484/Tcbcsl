@@ -5,6 +5,7 @@
 
     var dict = new RouteValueDictionary(ViewContext.RouteData.Values);
 }
+@* TODO: Refactor! *@
 <div class="btn-group pull-right">
     @if (Model.Team.Teams.Count > 1)
     {
@@ -38,7 +39,7 @@
             { 'data': 'GameDate',          'title': '@Html.DisplayNameFor(m => m.GameDate)',                                'render': renderDate },
             { 'data': 'Opponent',          'title': '@Html.DisplayNameFor(m => m.Opponent)' },
             { 'data': 'Outcome',           'title': '@Html.DisplayNameFor(m => m.Outcome)' },
-            { 'data': 'ActionUrls',                                                                   'orderable': false,   'render': renderStatisticsLinks }
+            { 'data': 'UrlsForActions',                                                               'orderable': false,   'render': renderStatisticsLinks }
         ];
 
         datatable_RenderList({

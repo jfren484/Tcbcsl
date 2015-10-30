@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Tcbcsl.Data.Entities;
@@ -24,15 +23,20 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 return HttpNotFound();
             }
 
-            var model = Mapper.Map<GameResultsEditModel>(gameParticipant);
-            PopulateDropdownLists(model);
+            var model = Mapper.Map<StatisticsEditModel>(gameParticipant);
+            PopulateDropdownLists(model, gameParticipant.TeamYear.TeamId);
+            model.UrlForReturn = Url.Action("List", "GameResults", new
+                                                                {
+                                                                    id = gameParticipant.TeamYear.TeamId,
+                                                                    year = gameParticipant.TeamYear.Year.AsRouteParameter()
+                                                                });
 
             return View(model);
         }
 
         [HttpPost]
         [Route("{id:int}")]
-        public ActionResult Game(int id, GameResultsEditModel model)
+        public ActionResult Game(int id, StatisticsEditModel model)
         {
             var gameParticipant = DbContext.GameParticipants.SingleOrDefault(gp => gp.GameParticipantId == id);
             if (gameParticipant == null || !User.IsTeamIdValidForUser(gameParticipant.TeamYear.TeamId))
@@ -40,29 +44,31 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 return HttpNotFound();
             }
 
-            Mapper.Map(model, gameParticipant);
+            //Mapper.Map(model, gameParticipant);
 
-            DbContext.SaveChanges(User.Identity.Name);
+            //DbContext.SaveChanges(User.Identity.Name);
 
-            return RedirectToAction("List");
+            return Redirect(model.UrlForReturn);
         }
 
         #endregion
 
         #region Helpers
 
-        private void PopulateDropdownLists(GameResultsEditTeamModel model)
+        private void PopulateDropdownLists(StatisticsEditModel model, int teamId)
         {
-            var teams = DbContext.TeamYears
-                                 .Where(ty => ty.TeamId != Consts.TeamTBDTeamId && ty.Year == model.Year && ty.GameParticipants.Any())
-                                 .OrderBy(ty => ty.FullName)
-                                 .ToList()
-                                 .FilterTeamsForUser(User, ty => ty.TeamId);
-            model.Teams = Mapper.Map<List<TeamBasicInfoModel>>(teams);
-        }
+            var players = DbContext.Players
+                                   .Where(p => p.CurrentTeamId == teamId && p.IsActive)
+                                   .OrderBy(p => p.NameLast)
+                                   .ThenBy(p => p.NameFirst)
+                                   .ToList()
+                                   .Select(p => new SelectListItem { Value = p.PlayerId.ToString(), Text = p.FullName })
+                                   .ToList();
 
-        private void PopulateDropdownLists(GameResultsEditModel model)
-        {
+            model.StatLines.ForEach(sl =>
+                                    {
+                                        sl.Player.ItemSelectList = new SelectList(players, "Value", "Text", sl.Player.PlayerId);
+                                    });
         }
 
         #endregion

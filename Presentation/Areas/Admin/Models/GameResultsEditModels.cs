@@ -21,7 +21,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public bool KeepsStats { get; set; }
 
         [Display(Name = "")]
-        public Dictionary<string, string> ActionUrls { get; set; }
+        public Dictionary<string, string> UrlsForActions { get; set; }
     }
 }
 

@@ -30,7 +30,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 .Select(pc =>
                                         {
                                             var model = Mapper.Map<PageContentEditModel>(pc);
-                                            model.EditUrl = Url.Action("Edit", new {id = model.PageContentId});
+                                            model.UrlForEdit = Url.Action("Edit", new {id = model.PageContentId});
 
                                             return model;
                                         });

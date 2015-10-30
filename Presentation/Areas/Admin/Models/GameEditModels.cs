@@ -23,7 +23,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "Home Team")]
         public GameParticipantEditModel HomeTeam { get; set; }
 
-        public string ReturnUrl { get; set; }
+        public string UrlForReturn { get; set; }
     }
 
     public class GameParticipantEditModel : EditModelBaseWithAudit

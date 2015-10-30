@@ -31,7 +31,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 .Select(u =>
                                 {
                                     var model = Mapper.Map<UserEditModel>(u);
-                                    model.EditUrl = Url.Action("Edit", new { id = model.Id });
+                                    model.UrlForEdit = Url.Action("Edit", new { id = model.Id });
 
                                     var userRoleIds = u.Roles.Select(r => r.RoleId).ToList();
                                     model.Roles.SelectedRoleNames = Mapper.Map<string>(DbContext.Roles.Where(r => userRoleIds.Contains(r.Id)));

@@ -58,7 +58,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 .Select(gp =>
                                 {
                                     var model = Mapper.Map<GameResultsEditModel>(gp);
-                                    model.ActionUrls = new Dictionary<string, string>
+                                    model.UrlsForActions = new Dictionary<string, string>
                                                        {
                                                            ["SubmitResults"] = Url.Action("Game", new {id = model.GameParticipantId }),
                                                            ["EnterStats"] = gp.Game.GameStatus.AllowStatistics && gp.TeamYear.KeepsStats

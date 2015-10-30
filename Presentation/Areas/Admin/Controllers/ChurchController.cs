@@ -33,7 +33,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 .Select(c =>
                                         {
                                             var model = Mapper.Map<ChurchEditModel>(c);
-                                            model.EditUrl = Url.Action("Edit", new {id = model.ChurchId});
+                                            model.UrlForEdit = Url.Action("Edit", new {id = model.ChurchId});
 
                                             return model;
                                         });

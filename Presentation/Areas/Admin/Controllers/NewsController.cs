@@ -36,7 +36,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 .Select(n =>
                                         {
                                             var model = Mapper.Map<NewsEditModel>(n);
-                                            model.EditUrl = Url.Action("Edit", new {id = model.NewsItemId});
+                                            model.UrlForEdit = Url.Action("Edit", new {id = model.NewsItemId});
 
                                             return model;
                                         });

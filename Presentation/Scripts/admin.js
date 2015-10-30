@@ -125,11 +125,11 @@ function renderPartialContent(data, type) {
 function renderPlayerTransferLink(data, type) {
     if (type !== 'display') return null;
 
-    var transferDestination = (data.TransferUrl.substr(-3) === '/' + consts.playerPoolTeamId)
+    var transferDestination = (data.UrlForTransfer.substr(-3) === '/' + consts.playerPoolTeamId)
         ? consts.playerPoolTeamName
         : 'My Team';
 
-    return '<a class="player-transfer" href="' + data.TransferUrl + '">Transfer to ' + transferDestination + '</a>';
+    return '<a class="player-transfer" href="' + data.UrlForTransfer + '">Transfer to ' + transferDestination + '</a>';
 }
 
 //#endregion
@@ -156,7 +156,7 @@ $('.admin-list').on('click', 'a.player-transfer', function (e) {
 
     if (href.substr(-2) === '/0') {
         $('#rowIndex').val(rowIndex);
-        $('#transferUrl').val(href.slice(0, -1));
+        $('#urlForTransfer').val(href.slice(0, -1));
         $('#teamPickerModal').modal();
         return;
     }
@@ -168,7 +168,7 @@ $('.admin-list').on('click', 'a.player-transfer', function (e) {
 });
 
 $('#teamPickerModal').on('click', 'button.btn-primary', function () {
-    var href = $('#transferUrl').val() + $('#teamId').val();
+    var href = $('#urlForTransfer').val() + $('#teamId').val();
     var rowIndex = $('#rowIndex').val();
 
     $.post(href)

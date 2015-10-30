@@ -15,7 +15,7 @@
             { 'data': 'Email',         'title': '@Html.DisplayNameFor(m => m.Email)' },
             { 'data': 'Roles',         'title': '@Html.DisplayNameFor(m => m.Roles)',         'orderable': false, 'render': {'_': 'SelectedRoleNames'} },
             { 'data': 'AssignedTeams', 'title': '@Html.DisplayNameFor(m => m.AssignedTeams)', 'orderable': false, 'render': {'_': 'SelectedTeamNames'} },
-            { 'data': 'EditUrl',                                                              'orderable': false, 'render': renderEditLink }
+            { 'data': 'UrlForEdit',                                                           'orderable': false, 'render': renderEditLink }
         ];
 
         datatable_RenderList({

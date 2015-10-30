@@ -17,7 +17,7 @@
     </button>
 </div>
 <h2>@title</h2>
-<a href="@Url.Action("Create", "Game", new {returnUrl = Request.RawUrl, date = Model.Date.ToString(Consts.DateFormat)})"><span class="glyphicon glyphicon-plus"></span> Add Game to Schedule</a>
+<a href="@Url.Action("Create", "Game", new {urlForReturn = Request.RawUrl, date = Model.Date.ToString(Consts.DateFormat)})"><span class="glyphicon glyphicon-plus"></span> Add Game to Schedule</a>
 @using (Html.BeginForm("Schedule", "Schedule", FormMethod.Post, new { @class = "form-horizontal form-with-validation" }))
 {
     @Html.EditorFor(m => m.Buckets)

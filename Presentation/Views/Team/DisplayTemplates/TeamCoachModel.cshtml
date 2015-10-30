@@ -13,6 +13,6 @@
                            {
                                controller = "Coach",
                                action = "Coaches",
-                               year = Model.Year == Consts.CurrentYear ? (int?)null : Model.Year
+                               year = Model.Year.AsRouteParameter()
                            })">View all Coaches</a>
 </div>

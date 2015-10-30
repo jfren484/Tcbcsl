@@ -17,7 +17,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
         [Route("Create")]
-        public ActionResult Create(string returnUrl, DateTime date)
+        public ActionResult Create(string urlForReturn, DateTime date)
         {
             var model = new GameEditModel
                         {
@@ -26,7 +26,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                             GameStatus = new GameEditStatusModel(),
                             RoadTeam = new GameParticipantEditModel {TeamYear = new GameEditTeamModel()},
                             HomeTeam = new GameParticipantEditModel {TeamYear = new GameEditTeamModel()},
-                            ReturnUrl = returnUrl
+                            UrlForReturn = urlForReturn
                         };
             PopulateDropdownLists(model);
 
@@ -48,12 +48,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             DbContext.Games.Add(game);
             DbContext.SaveChanges(User.Identity.Name);
 
-            return Redirect(model.ReturnUrl);
+            return Redirect(model.UrlForReturn);
         }
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
         [Route("Edit/{id:int}")]
-        public ActionResult Edit(int id, string returnUrl)
+        public ActionResult Edit(int id, string urlForReturn)
         {
             var game = DbContext.Games.SingleOrDefault(g => g.GameId == id);
             if (game == null)
@@ -62,7 +62,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             var model = Mapper.Map<GameEditModel>(game);
-            model.ReturnUrl = returnUrl;
+            model.UrlForReturn = urlForReturn;
             PopulateDropdownLists(model);
 
             return View(model);
@@ -85,7 +85,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             DbContext.SaveChanges(User.Identity.Name);
 
-            return Redirect(model.ReturnUrl);
+            return Redirect(model.UrlForReturn);
         }
 
         #endregion
