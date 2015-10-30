@@ -3,12 +3,39 @@
     var title = $"Manage Statistics for {Model.TeamName} on {Model.GameDate.ToString(Consts.DateTimeFormatDisplay)}";
     ViewBag.Title = title;
 }
+<style>
+    input.form-control {
+        width: 54px !important;
+    }
+</style>
 <div class="well">
-    @using (Html.BeginForm("Game", "Statistics", FormMethod.Post, new { @class = "form-horizontal form-with-validationxx" }))
+    @using (Html.BeginForm("Game", "Statistics", FormMethod.Post, new { @class = "form-horizontal form-with-validation" }))
     {
         <fieldset>
             <legend>@title</legend>
-            @Html.EditorFor(m => m.StatLines)
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Player</th>
+                        <th>1B</th>
+                        <th>2B</th>
+                        <th>3B</th>
+                        <th>HR</th>
+                        <th>BB</th>
+                        <th>Sac</th>
+                        <th>Outs</th>
+                        <th>FC</th>
+                        <th>E</th>
+                        <th>K</th>
+                        <th>R</th>
+                        <th>RBI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @Html.EditorFor(m => m.StatLines)
+                </tbody>
+            </table>
             @Html.HiddenFor(m => m.UrlForReturn)
             @Html.Partial("_FormCancelSubmit", Model.UrlForReturn)
         </fieldset>

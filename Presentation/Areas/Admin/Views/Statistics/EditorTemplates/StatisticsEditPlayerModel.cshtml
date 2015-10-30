@@ -1,14 +1,5 @@
 ﻿@model StatisticsEditPlayerModel
-@{
-    Layout = "~/Areas/Admin/Views/Shared/_FormFieldLayout.cshtml";
-}
-@section Editable
-{
-    @Html.DropDownListFor(m => m.PlayerId, Model.ItemSelectList, new { @class = "form-control" })
+<td>
+    @Html.DropDownListFor(m => m.PlayerId, Model.ItemSelectList, new {@class = "form-control"})
     @Html.ValidationMessageFor(m => m.PlayerId)
-}
-@section Readonly
-{
-    @Html.HiddenFor(m => m.PlayerId)
-    <p class="form-control-static">@Model.FullName</p>
-}
+</td>
