@@ -17,6 +17,10 @@ body {
     padding-top: @navbar-height;
 }
 
+input[type="number"] {
+    text-align: right;
+}
+
 legend {
     a {
         float: right;
@@ -381,6 +385,32 @@ legend {
     font-size: 0.85714286em;
 }
 
+.table-form {
+    th {
+        text-align: center;
+
+        &.focused {
+            color: lighten(@brand-info, 20%);
+            text-shadow: 0 0 1px lighten(@brand-info, 50%);
+        }
+    }
+
+    td {
+        border-top: none !important;
+    }
+
+    .form-control {
+        padding: 6px 8px;
+    }
+
+    input.form-control {
+        width: 100%;
+    }
+
+    select.form-control {
+        width: 200px;
+    }
+}
 
 .team-schedule {
     .home {

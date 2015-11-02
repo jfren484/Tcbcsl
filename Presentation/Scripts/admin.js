@@ -197,3 +197,17 @@ $('.schedule-game-cell').on('click', '.data-button', function () {
 });
 
 //#endregion
+
+//#region table-form Event Handlers
+
+$('.table-form')
+    .on('focusin', '.form-control', function() {
+        var index = $(this).parent().index();
+        $($(this).closest('table').find('th')[index - 1]).addClass('focused');
+    })
+    .on('focusout', '.form-control', function () {
+        var index = $(this).parent().index();
+        $($(this).closest('table').find('th')[index - 1]).removeClass('focused');
+    });
+
+//#endregion

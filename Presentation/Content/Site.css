@@ -6,6 +6,9 @@ a {
 body {
   padding-top: 50px;
 }
+input[type="number"] {
+  text-align: right;
+}
 legend a {
   float: right;
 }
@@ -278,6 +281,25 @@ legend a {
 }
 .stats-table {
   font-size: 0.85714286em;
+}
+.table-form th {
+  text-align: center;
+}
+.table-form th.focused {
+  color: #0670d6;
+  text-shadow: 0 0 1px #79bcfc;
+}
+.table-form td {
+  border-top: none !important;
+}
+.table-form .form-control {
+  padding: 6px 8px;
+}
+.table-form input.form-control {
+  width: 100%;
+}
+.table-form select.form-control {
+  width: 200px;
 }
 .team-schedule .home {
   background-color: white;
