@@ -17,9 +17,6 @@ legend a {
   padding-top: 5px;
 }
 /* Classes used for selecting elements */
-.form-with-validation {
-  /**/
-}
 .html-editor {
   /**/
 }
@@ -135,6 +132,21 @@ legend a {
 }
 .datatable-settings th {
   padding: 10px 20px !important;
+}
+.form-with-validation .tooltip-inner {
+  background-color: #9a161a;
+}
+.form-with-validation .tooltip.top .tooltip-arrow {
+  border-top-color: #9a161a;
+}
+.form-with-validation .tooltip.bottom .tooltip-arrow {
+  border-bottom-color: #9a161a;
+}
+.form-with-validation .tooltipleft .tooltip-arrow {
+  border-left-color: #9a161a;
+}
+.form-with-validation .tooltip.right .tooltip-arrow {
+  border-right-color: #9a161a;
 }
 .form-inline {
   margin-bottom: 12px;

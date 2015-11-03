@@ -17,13 +17,28 @@
 
 function fixValidationClassesForBootstrap() {
     var validationForms = $('.form-with-validation');
+    if (validationForms.length === 0) return;
 
-    if (validationForms.length > 0) {
-        var settings = $.data(validationForms[0]).validator.settings,
-            baseErrorPlacement = settings.errorPlacement,
-            baseSuccess = settings.success;
+    var settings = $.data(validationForms[0]).validator.settings,
+        baseErrorPlacement = settings.errorPlacement,
+        baseSuccess = settings.success;
 
-        settings.errorPlacement = function (label, element) {
+    if (validationForms.hasClass('form-grid')) {
+        settings.showErrors = function(errorMap, errorList) {
+            $('.valid').each(function(i, v) {
+                $(v).tooltip('destroy');
+                $(v.closest('td')).removeClass('has-error');
+            });
+
+            $.each(errorList, function(i, v) {
+                $(v.element).tooltip({ title: v.message, placement: 'top' });
+                $(v.element.closest('td')).addClass('has-error');
+            });
+
+            this.defaultShowErrors();
+        }
+    } else {
+        settings.errorPlacement = function(label, element) {
             // Call original handler so it can update the HTML
             baseErrorPlacement(label, element);
 
@@ -32,7 +47,7 @@ function fixValidationClassesForBootstrap() {
             label.addClass('text-danger');
         };
 
-        settings.success = function (label) {
+        settings.success = function(label) {
             // Remove error class from <div class="form-group">, but don't worry about
             // validation error messages as the plugin is going to remove it anyway
             label.parents('.form-group').removeClass('has-error');

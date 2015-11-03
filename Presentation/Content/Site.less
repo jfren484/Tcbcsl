@@ -8,6 +8,8 @@
 
 @spacing-default: 5px;
 
+@tooltip-danger: darken(@brand-danger, 10%);
+
 a {
     cursor: pointer;
 }
@@ -33,7 +35,6 @@ legend {
 }
 
 /* Classes used for selecting elements */
-.form-with-validation { /**/ }
 .html-editor { /**/ }
 
 .address-map {
@@ -192,6 +193,30 @@ legend {
 
     th {
         padding: (@spacing-default * 2) (@spacing-default * 4) !important
+    }
+}
+
+.form-with-validation {
+    .tooltip-inner {
+        background-color: @tooltip-danger;
+    }
+
+    .tooltip {
+        &.top .tooltip-arrow {
+            border-top-color: @tooltip-danger;
+        }
+
+        &.bottom .tooltip-arrow {
+            border-bottom-color: @tooltip-danger;
+        }
+
+        &left .tooltip-arrow {
+            border-left-color: @tooltip-danger;
+        }
+
+        &.right .tooltip-arrow {
+            border-right-color: @tooltip-danger;
+        }
     }
 }
 

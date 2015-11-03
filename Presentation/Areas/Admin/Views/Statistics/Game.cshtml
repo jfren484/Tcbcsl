@@ -4,31 +4,18 @@
     ViewBag.Title = title;
 }
 <div class="well" style="min-width: 940px;">
-    @using (Html.BeginForm("Game", "Statistics", FormMethod.Post, new {@class = "form-horizontal form-with-validation"}))
+    @using (Html.BeginForm("Game", "Statistics", FormMethod.Post, new {@class = "form-horizontal form-with-validation form-grid"}))
     {
         <fieldset>
             <legend>@title</legend>
             <table class="table table-condensed table-form">
                 <thead>
-                    <tr>
-                        <th>Order</th>
-                        <th>Player</th>
-                        <th>1B</th>
-                        <th>2B</th>
-                        <th>3B</th>
-                        <th>HR</th>
-                        <th>BB</th>
-                        <th>Sac</th>
-                        <th>Outs</th>
-                        <th>FC</th>
-                        <th>E</th>
-                        <th>K</th>
-                        <th>R</th>
-                        <th>RBI</th>
-                    </tr>
+                <tr>
+                    <th>Order</th><th>Player</th><th>1B</th><th>2B</th><th>3B</th><th>HR</th><th>BB</th><th>Sac</th><th>Outs</th><th>FC</th><th>E</th><th>K</th><th>R</th><th>RBI</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @Html.EditorFor(m => m.StatLines)
+                @Html.EditorFor(m => m.StatLines)
                 </tbody>
             </table>
             @Html.HiddenFor(m => m.UrlForReturn)
