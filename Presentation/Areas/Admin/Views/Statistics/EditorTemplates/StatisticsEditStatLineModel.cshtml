@@ -1,7 +1,8 @@
 ﻿@model StatisticsEditStatLineModel
 <tr>
     @Html.HiddenFor(m => m.StatLineId)
-    @Html.EditorFor(m => m.BattingOrderPosition)
+    @Html.HiddenFor(m => m.BattingOrderPosition)
+    @Html.Partial("_RowNav")
     @Html.EditorFor(m => m.Player)
     @Html.EditorFor(m => m.StatSingles)
     @Html.EditorFor(m => m.StatDoubles)

@@ -3,6 +3,18 @@
     var title = $"Manage Statistics for {Model.TeamName} on {Model.GameDate.ToString(Consts.DateTimeFormatDisplay)}";
     ViewBag.Title = title;
 }
+<style>
+    .form-grid .row-nav {
+        width: 160px;
+    }
+    .form-grid .row-nav .glyphicon {
+        -moz-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+</style>
 <div class="well" style="min-width: 940px;">
     @using (Html.BeginForm("Game", "Statistics", FormMethod.Post, new {@class = "form-horizontal form-with-validation form-grid"}))
     {
@@ -23,3 +35,18 @@
         </fieldset>
     }
 </div>
+@section scripts
+{
+    <script>
+        $('.table-form')
+            .on('focus', 'input[name$=".BattingOrderPosition"]', function() {
+                $(this).data('val', $(this).val());
+            })
+            .on('change', 'input[name$=".BattingOrderPosition"]', function () {
+                var oldVal = $(this).data('val'),
+                    newVal = $(this).val();
+
+                $(this).data('val', newVal);
+            });
+    </script>
+}
