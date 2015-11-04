@@ -14,6 +14,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public List<StatisticsEditStatLineModel> StatLines { get; set; }
 
         public string UrlForReturn { get; set; }
+        public string UrlForNewRow { get; set; }
     }
 
     public class StatisticsEditStatLineModel

@@ -216,10 +216,15 @@ $('.schedule-game-cell').on('click', '.data-button', function () {
 //#region Grid Table Event Handlers
 
 $('.form-grid')
-    .on('click', 'button[type="reset"]', function () {
+    .on('click', 'button[type="reset"]', function() {
         if (confirm('Are you sure you want to reset the form and lose any changes?')) {
             window.location.reload();
         }
+    })
+    .on('click', '#addRowButton', function () {
+        $.post($('.form-grid').data('new-row-url'), function(data) {
+            $('.form-grid tbody').append(data);
+        });
     })
     .areYouSure()
     .on('dirty.areYouSure', function() {
