@@ -19,6 +19,7 @@ namespace Tcbcsl.Presentation
                 "~/Scripts/stats.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/admin").Include(
+                "~/Scripts/jquery.are-you-sure.js",
                 "~/Scripts/jquery.maskedinput.js",
                 "~/Scripts/bootstrap-datetimepicker.js",
                 "~/Scripts/bootstrap-multiselect.js",

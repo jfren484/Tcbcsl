@@ -215,20 +215,24 @@ $('.schedule-game-cell').on('click', '.data-button', function () {
 
 //#region Grid Table Event Handlers
 
-$('.table-form')
-    .on('focusin', '.form-control', function() {
-        var $this = $(this);
-        var index = $this.closest('tr').find('td').index($this.closest('td'));
-        $($this.closest('table').find('th')[index]).addClass('focused');
+$('.form-grid')
+    .on('click', 'button[type="reset"]', function () {
+        if (confirm('Are you sure you want to reset the form and lose any changes?')) {
+            window.location.reload();
+        }
     })
-    .on('focusout', '.form-control', function () {
-        var $this = $(this);
-        var index = $this.closest('tr').find('td').index($this.closest('td'));
-        $($this.closest('table').find('th')[index]).removeClass('focused');
+    .areYouSure()
+    .on('dirty.areYouSure', function() {
+        // Enable save button only as the form is dirty.
+        $(this).find('[type="reset"],[type="submit"]').removeAttr('disabled');
+    })
+    .on('clean.areYouSure', function() {
+        // Form is clean so nothing to save - disable the save button.
+        $(this).find('[type="reset"],[type="submit"]').attr('disabled', 'disabled');
     });
 
 $('.row-nav')
-    .on('click', 'button', function () {
+    .on('click', 'button', function() {
         var $btn = $(this);
         var $row = $btn.closest('tr');
 
@@ -247,9 +251,23 @@ $('.row-nav')
                 break;
         }
 
-        $row.closest('tbody').find('tr').each(function (i) {
+        $row.closest('tbody').find('tr').each(function(i) {
             $(this).find('input[name$=".BattingOrderPosition"]').val(i + 1);
         });
+
+        $('.form-grid').trigger('checkform.areYouSure');
+    });
+
+$('.table-form')
+    .on('focusin', '.form-control', function() {
+        var $this = $(this);
+        var index = $this.closest('tr').find('td').index($this.closest('td'));
+        $($this.closest('table').find('th')[index]).addClass('focused');
+    })
+    .on('focusout', '.form-control', function() {
+        var $this = $(this);
+        var index = $this.closest('tr').find('td').index($this.closest('td'));
+        $($this.closest('table').find('th')[index]).removeClass('focused');
     });
 
 //#endregion
