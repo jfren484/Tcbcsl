@@ -23,18 +23,3 @@
         </fieldset>
     }
 </div>
-@section scripts
-{
-    <script>
-        $('.table-form')
-            .on('focus', 'input[name$=".BattingOrderPosition"]', function() {
-                $(this).data('val', $(this).val());
-            })
-            .on('change', 'input[name$=".BattingOrderPosition"]', function () {
-                var oldVal = $(this).data('val'),
-                    newVal = $(this).val();
-
-                $(this).data('val', newVal);
-            });
-    </script>
-}

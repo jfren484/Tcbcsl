@@ -213,16 +213,43 @@ $('.schedule-game-cell').on('click', '.data-button', function () {
 
 //#endregion
 
-//#region table-form Event Handlers
+//#region Grid Table Event Handlers
 
 $('.table-form')
     .on('focusin', '.form-control', function() {
-        var index = $(this).parent().index();
-        $($(this).closest('table').find('th')[index - 1]).addClass('focused');
+        var $this = $(this);
+        var index = $this.closest('tr').find('td').index($this.closest('td'));
+        $($this.closest('table').find('th')[index]).addClass('focused');
     })
     .on('focusout', '.form-control', function () {
-        var index = $(this).parent().index();
-        $($(this).closest('table').find('th')[index - 1]).removeClass('focused');
+        var $this = $(this);
+        var index = $this.closest('tr').find('td').index($this.closest('td'));
+        $($this.closest('table').find('th')[index]).removeClass('focused');
+    });
+
+$('.row-nav')
+    .on('click', 'button', function () {
+        var $btn = $(this);
+        var $row = $btn.closest('tr');
+
+        switch ($btn.data('direction')) {
+            case 'up':
+                $row.insertBefore($row.prev());
+                break;
+            case 'dn':
+                $row.insertAfter($row.next());
+                break;
+            case 'top':
+                $row.insertBefore($row.prevAll('tr').last());
+                break;
+            case 'bot':
+                $row.insertAfter($row.nextAll('tr').last());
+                break;
+        }
+
+        $row.closest('tbody').find('tr').each(function (i) {
+            $(this).find('input[name$=".BattingOrderPosition"]').val(i + 1);
+        });
     });
 
 //#endregion
