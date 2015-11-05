@@ -25,7 +25,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             var model = Mapper.Map<StatisticsEditModel>(gameParticipant);
-            PopulateDropdownLists(model, gameParticipant.TeamYear.TeamId);
+            var newGame = !model.StatLines.Any();
+            if (newGame)
+            {
+                model.StatLines.AddRange(Enumerable.Repeat(new StatisticsEditStatLineModel {Player = new StatisticsEditPlayerModel()}, 10));
+            }
+            PopulateDropdownLists(model, gameParticipant.TeamYear.TeamId, newGame);
             model.UrlForNewRow = Url.Action("Row", new {id = gameParticipant.TeamYear.TeamId});
             model.UrlForReturn = Url.Action("List", "GameResults", new
                                                                 {
@@ -46,9 +51,21 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 return HttpNotFound();
             }
 
-            //Mapper.Map(model, gameParticipant);
+            var changes = ChangeTracker.GetChangeSets(gameParticipant.StatLines, model.StatLines, e => e.StatLineId, m => m.StatLineId);
 
-            //DbContext.SaveChanges(User.Identity.Name);
+            foreach (var pair in changes.CommonItems)
+            {
+                Mapper.Map(pair.RightItem, pair.LeftItem);
+            }
+
+            foreach (var statLineModel in changes.RightOnly)
+            {
+                gameParticipant.StatLines.Add(Mapper.Map<StatLine>(statLineModel));
+            }
+
+            DbContext.StatLines.RemoveRange(changes.LeftOnly);
+
+            DbContext.SaveChanges(User.Identity.Name);
 
             return Redirect(model.UrlForReturn);
         }
@@ -85,7 +102,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #region Helpers
 
-        private void PopulateDropdownLists(StatisticsEditModel model, int teamId, bool includeEmptyOption = false)
+        private void PopulateDropdownLists(StatisticsEditModel model, int teamId, bool includeEmptyOption)
         {
             var playerList = DbContext.Players
                             .Where(p => p.CurrentTeamId == teamId && p.IsActive)

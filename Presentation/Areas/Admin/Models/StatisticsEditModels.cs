@@ -17,7 +17,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public string UrlForNewRow { get; set; }
     }
 
-    public class StatisticsEditStatLineModel
+    public class StatisticsEditStatLineModel : EditModelBaseWithAudit
     {
         public int StatLineId { get; set; }
 

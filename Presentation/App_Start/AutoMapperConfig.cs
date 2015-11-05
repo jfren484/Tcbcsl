@@ -235,7 +235,16 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.TeamName, exp => exp.MapFrom(e => e.TeamYear.FullName))
                   .ForMember(m => m.GameDate, exp => exp.MapFrom(e => e.Game.GameDate));
 
-            Mapper.CreateMap<StatLine, StatisticsEditStatLineModel>();
+            Mapper.CreateMap<StatLine, StatisticsEditStatLineModel>()
+                  .MapEditModelBaseWithAudit();
+
+            Mapper.CreateMap<StatisticsEditStatLineModel, StatLine>()
+                  .ForMember(e => e.PlayerId, exp => exp.MapFrom(m => m.Player.PlayerId))
+                  .ForMember(e => e.Player, exp => exp.Ignore())
+                  .ForMember(e => e.GameParticipantId, exp => exp.Ignore())
+                  .ForMember(e => e.GameParticipant, exp => exp.Ignore())
+                  .MapEntityModifiable()
+                  .IgnoreAllPropertiesWithAnInaccessibleSetter();
 
             Mapper.CreateMap<Player, StatisticsEditPlayerModel>();
 
