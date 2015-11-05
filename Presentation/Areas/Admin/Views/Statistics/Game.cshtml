@@ -2,6 +2,8 @@
 @{
     var title = $"Manage Statistics for {Model.TeamName} on {Model.GameDate.ToString(Consts.DateTimeFormatDisplay)}";
     ViewBag.Title = title;
+
+    var columns = new[] {"Order", "Player", "1B", "2B", "3B", "HR", "BB", "Sac", "Outs", "FC", "E", "K", "R", "RBI", ""};
 }
 <div class="well" style="min-width: 940px;">
     @using (Html.BeginForm("Game", "Statistics", FormMethod.Post, new {@class = "form-horizontal form-with-validation form-grid", data_new_row_url = Model.UrlForNewRow}))
@@ -11,7 +13,10 @@
             <table class="table table-condensed table-form">
                 <thead>
                     <tr>
-                        <th>Order</th><th>Player</th><th>1B</th><th>2B</th><th>3B</th><th>HR</th><th>BB</th><th>Sac</th><th>Outs</th><th>FC</th><th>E</th><th>K</th><th>R</th><th>RBI</th>
+                        @foreach (var column in columns)
+                        {
+                            <th>@column</th>
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -19,8 +24,8 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="14">
-                            <button id="addRowButton" type="button" class="btn btn-info" data-direction="top" title="Add another player row"><span class="glyphicon glyphicon-plus"></span> Add Row</button>
+                        <td colspan="@columns.Length">
+                            <button type="button" class="btn btn-info btn-add" title="Add another player row"><span class="glyphicon glyphicon-plus"></span> Add Row</button>
                         </td>
                     </tr>
                 </tfoot>

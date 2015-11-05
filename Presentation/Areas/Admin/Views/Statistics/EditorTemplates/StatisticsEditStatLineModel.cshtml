@@ -1,11 +1,6 @@
 ﻿@model StatisticsEditStatLineModel
 <tr>
-    <td>
-        <input type="hidden" name="StatLines.index" />
-        @Html.HiddenFor(m => m.StatLineId)
-        @Html.HiddenFor(m => m.BattingOrderPosition)
-        @Html.Partial("_RowNav")
-    </td>
+    @Html.Partial("_RowNav")
     @Html.EditorFor(m => m.Player)
     @Html.EditorFor(m => m.StatSingles)
     @Html.EditorFor(m => m.StatDoubles)
@@ -19,4 +14,10 @@
     @Html.EditorFor(m => m.StatStrikeouts)
     @Html.EditorFor(m => m.StatRuns)
     @Html.EditorFor(m => m.StatRunsBattedIn)
+    <td>
+        <input type="hidden" name="StatLines.index" />
+        @Html.HiddenFor(m => m.StatLineId)
+        @Html.HiddenFor(m => m.BattingOrderPosition)
+        <button type="button" class="btn btn-danger btn-remove" title="Remove row"><span class="glyphicon glyphicon-remove"></span></button>
+    </td>
 </tr>

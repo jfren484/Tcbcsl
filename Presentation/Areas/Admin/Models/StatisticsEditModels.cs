@@ -91,7 +91,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
     public class StatisticsEditPlayerModel
     {
+        [Display(Name = "Player")]
         public int PlayerId { get; set; }
+
         public string FullName { get; set; }
 
         public SelectList ItemSelectList { get; set; }

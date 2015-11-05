@@ -215,22 +215,26 @@ $('.schedule-game-cell').on('click', '.data-button', function () {
 
 //#region Grid Table Event Handlers
 
-$(function() {
-    $('.form-grid tr').each(function (i) {
-        var $row = $(this);
-        var index = Math.floor((Math.random() * 100000) + 1);
-        $row.find('[name="StatLines.index"]').val(index);
-        $row.find(':input').each(function () {
-            var name = $(this).attr('name');
-            if (name) {
-                $(this).attr('name', name.replace('[' + (i - 1) + ']', '[' + index + ']'));
-            }
-            var id = $(this).attr('id');
-            if (id) {
-                $(this).attr('id', id.replace('_' + (i - 1) + '_', '_' + index + '_'));
-            }
+$(function () {
+    if ($('.form-grid').length > 0) {
+        $('.form-grid tr').each(function(i) {
+            var $row = $(this);
+            var index = Math.floor((Math.random() * 100000) + 1);
+            $row.find('[name="StatLines.index"]').val(index);
+            $row.find(':input').each(function() {
+                var name = $(this).attr('name');
+                if (name) {
+                    $(this).attr('name', name.replace('[' + (i - 1) + ']', '[' + index + ']'));
+                }
+                var id = $(this).attr('id');
+                if (id) {
+                    $(this).attr('id', id.replace('_' + (i - 1) + '_', '_' + index + '_'));
+                }
+            });
         });
-    });
+        $.validator.unobtrusive.parseDynamicContent('.form-grid tbody');
+        $('.form-grid [type="reset"],[type="submit"]').attr('disabled', 'disabled');
+    }
 });
 
 $('.form-grid')
@@ -239,14 +243,20 @@ $('.form-grid')
             window.location.reload();
         }
     })
-    .on('click', '#addRowButton', function () {
-        $.post($('.form-grid').data('new-row-url'), function (data) {
-            var index = 9999;
+    .on('click', '.btn-add', function() {
+        $.post($('.form-grid').data('new-row-url'), function(data) {
+            var index = 12;
             data = data.replace(/\[0\]/g, '[' + index + ']');
             data = data.replace(/_0_/g, '_' + index + '_');
             $('.form-grid tbody').append(data);
             $('.form-grid tbody tr:last').find('input[name="StatLines.index"]').val(index);
+            $('.form-grid').trigger('checkform.areYouSure');
+            $.validator.unobtrusive.parseDynamicContent('.form-grid tbody tr:last');
         });
+    })
+    .on('click', '.btn-remove', function() {
+        $(this).closest('tr').remove();
+        $('.form-grid').trigger('checkform.areYouSure');
     })
     .areYouSure()
     .on('dirty.areYouSure', function() {
