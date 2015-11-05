@@ -219,7 +219,7 @@ $(function () {
     if ($('.form-grid').length > 0) {
         $('.form-grid tr').each(function(i) {
             var $row = $(this);
-            var index = Math.floor((Math.random() * 100000) + 1);
+            var index = generateIndexValue();
             $row.find('[name="StatLines.index"]').val(index);
             $row.find(':input').each(function() {
                 var name = $(this).attr('name');
@@ -237,6 +237,10 @@ $(function () {
     }
 });
 
+function generateIndexValue() {
+    return Math.floor((Math.random() * 100000) + 1);
+}
+
 $('.form-grid')
     .on('click', 'button[type="reset"]', function() {
         if (confirm('Are you sure you want to reset the form and lose any changes?')) {
@@ -245,7 +249,7 @@ $('.form-grid')
     })
     .on('click', '.btn-add', function() {
         $.post($('.form-grid').data('new-row-url'), function(data) {
-            var index = 12;
+            var index = generateIndexValue();
             data = data.replace(/\[0\]/g, '[' + index + ']');
             data = data.replace(/_0_/g, '_' + index + '_');
             $('.form-grid tbody').append(data);
