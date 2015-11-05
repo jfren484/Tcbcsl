@@ -437,6 +437,7 @@
     <Content Include="Areas\Admin\Views\Statistics\EditorTemplates\StatisticsEditPlayerModel.cshtml" />
     <Content Include="Areas\Admin\Views\Statistics\EditorTemplates\Number.cshtml" />
     <Content Include="Areas\Admin\Views\Statistics\_RowNav.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistics\Row.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />

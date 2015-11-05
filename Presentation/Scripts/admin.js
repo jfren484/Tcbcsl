@@ -215,6 +215,24 @@ $('.schedule-game-cell').on('click', '.data-button', function () {
 
 //#region Grid Table Event Handlers
 
+$(function() {
+    $('.form-grid tr').each(function (i) {
+        var $row = $(this);
+        var index = Math.floor((Math.random() * 100000) + 1);
+        $row.find('[name="StatLines.index"]').val(index);
+        $row.find(':input').each(function () {
+            var name = $(this).attr('name');
+            if (name) {
+                $(this).attr('name', name.replace('[' + (i - 1) + ']', '[' + index + ']'));
+            }
+            var id = $(this).attr('id');
+            if (id) {
+                $(this).attr('id', id.replace('_' + (i - 1) + '_', '_' + index + '_'));
+            }
+        });
+    });
+});
+
 $('.form-grid')
     .on('click', 'button[type="reset"]', function() {
         if (confirm('Are you sure you want to reset the form and lose any changes?')) {
@@ -222,8 +240,12 @@ $('.form-grid')
         }
     })
     .on('click', '#addRowButton', function () {
-        $.post($('.form-grid').data('new-row-url'), function(data) {
+        $.post($('.form-grid').data('new-row-url'), function (data) {
+            var index = 9999;
+            data = data.replace(/\[0\]/g, '[' + index + ']');
+            data = data.replace(/_0_/g, '_' + index + '_');
             $('.form-grid tbody').append(data);
+            $('.form-grid tbody tr:last').find('input[name="StatLines.index"]').val(index);
         });
     })
     .areYouSure()
