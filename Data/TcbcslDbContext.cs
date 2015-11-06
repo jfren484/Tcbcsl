@@ -26,6 +26,7 @@ namespace Tcbcsl.Data
         public DbSet<DivisionYear> DivisionYears { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<GameParticipant> GameParticipants { get; set; }
+        public DbSet<GameResultReport> GameResultReports { get; set; }
         public DbSet<GameStatus> GameStatuses { get; set; }
         public DbSet<GameType> GameTypes { get; set; }
         public DbSet<NewsItem> NewsItems { get; set; }
@@ -36,11 +37,11 @@ namespace Tcbcsl.Data
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamYear> TeamYears { get; set; }
 
-        private static readonly EntityState[] addedOrModified = { EntityState.Added, EntityState.Modified };
+        private static readonly EntityState[] AddedOrModified = { EntityState.Added, EntityState.Modified };
 
         public int SaveChanges(string username)
         {
-            foreach (var entry in ChangeTracker.Entries<EntityModifiable>().Where(e => addedOrModified.Contains(e.State)))
+            foreach (var entry in ChangeTracker.Entries<EntityModifiable>().Where(e => AddedOrModified.Contains(e.State)))
             {
                 if (entry.State == EntityState.Added)
                 {

@@ -162,6 +162,10 @@
     <Compile Include="Migrations\201510290258125_AddAllowStatisticsColumn.Designer.cs">
       <DependentUpon>201510290258125_AddAllowStatisticsColumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511061845268_AddGameResultReportEntity.cs" />
+    <Compile Include="Migrations\201511061845268_AddGameResultReportEntity.Designer.cs">
+      <DependentUpon>201511061845268_AddGameResultReportEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
     <Compile Include="Entities\PageContent.cs" />
@@ -240,6 +244,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510290258125_AddAllowStatisticsColumn.resx">
       <DependentUpon>201510290258125_AddAllowStatisticsColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511061845268_AddGameResultReportEntity.resx">
+      <DependentUpon>201511061845268_AddGameResultReportEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

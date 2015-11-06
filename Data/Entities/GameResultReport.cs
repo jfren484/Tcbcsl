@@ -9,16 +9,25 @@ namespace Tcbcsl.Data.Entities
         [Required]
         public int GameId { get; set; }
 
+        public int? TeamId { get; set; }
+
+        [Required]
+        public bool IsConfirmation { get; set; }
+
         [Required]
         public int GameStatusId { get; set; }
 
+        [Required]
         public int HomeTeamScore { get; set; }
 
+        [Required]
         public int RoadTeamScore { get; set; }
 
         public string Note { get; set; }
 
         public virtual Game Game { get; set; }
+
+        public virtual Team Team { get; set; }
 
         public virtual GameStatus GameStatus { get; set; }
     }

@@ -16,6 +16,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         public string Opponent { get; set; }
 
+        public bool IsFinalized { get; set; }
+
         public string Outcome { get; set; }
 
         public bool KeepsStats { get; set; }
