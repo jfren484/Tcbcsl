@@ -73,6 +73,8 @@
     <Compile Include="Entities\Coach.cs" />
     <Compile Include="Entities\Conference.cs" />
     <Compile Include="Entities\ConferenceYear.cs" />
+    <Compile Include="Entities\EntityCreatable.cs" />
+    <Compile Include="Entities\GameResultReport.cs" />
     <Compile Include="Entities\PhoneNumberType.cs" />
     <Compile Include="Entities\ContactPhoneNumber.cs" />
     <Compile Include="Entities\Division.cs" />
