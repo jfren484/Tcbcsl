@@ -14,14 +14,11 @@ namespace Tcbcsl.Data.Entities
         [Required]
         public bool IsConfirmation { get; set; }
 
-        [Required]
-        public int GameStatusId { get; set; }
+        public int? GameStatusId { get; set; }
 
-        [Required]
-        public int HomeTeamScore { get; set; }
+        public int? HomeTeamScore { get; set; }
 
-        [Required]
-        public int RoadTeamScore { get; set; }
+        public int? RoadTeamScore { get; set; }
 
         public string Note { get; set; }
 

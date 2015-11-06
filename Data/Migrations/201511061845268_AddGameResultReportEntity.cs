@@ -12,22 +12,23 @@ namespace Tcbcsl.Data.Migrations
                         GameId = c.Int(nullable: false),
                         TeamId = c.Int(),
                         IsConfirmation = c.Boolean(nullable: false),
-                        GameStatusId = c.Int(nullable: false),
-                        HomeTeamScore = c.Int(nullable: false),
-                        RoadTeamScore = c.Int(nullable: false),
+                        GameStatusId = c.Int(),
+                        HomeTeamScore = c.Int(),
+                        RoadTeamScore = c.Int(),
                         Note = c.String(),
                         CreatedBy = c.String(nullable: false),
                         Created = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.GameResultReportId)
                 .ForeignKey("dbo.Games", t => t.GameId, cascadeDelete: true)
-                .ForeignKey("dbo.GameStatus", t => t.GameStatusId, cascadeDelete: true)
+                .ForeignKey("dbo.GameStatus", t => t.GameStatusId)
                 .ForeignKey("dbo.Teams", t => t.TeamId)
                 .Index(t => t.GameId)
                 .Index(t => t.TeamId)
                 .Index(t => t.GameStatusId);
             
             AddColumn("dbo.Games", "IsFinalized", c => c.Boolean(nullable: false));
+            Sql("UPDATE dbo.Games SET IsFinalized = CASE WHEN GameStatusId > 1 THEN 1 ELSE 0 END");
         }
         
         public override void Down()

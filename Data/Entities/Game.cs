@@ -17,9 +17,11 @@ namespace Tcbcsl.Data.Entities
         [Required]
         public int GameStatusId { get; set; }
 
+        [Required]
         public bool IsFinalized { get; set; }
 
         public virtual GameType GameType { get; set; }
+
         public virtual GameStatus GameStatus { get; set; }
 
         public virtual ICollection<GameParticipant> GameParticipants { get; set; }
