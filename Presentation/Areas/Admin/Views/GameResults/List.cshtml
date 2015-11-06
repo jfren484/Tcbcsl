@@ -2,30 +2,9 @@
 @{
     var title = $"Manage Game Results{(Model.KeepsStats ? " and Statistics" : "")}";
     ViewBag.Title = $"{title} for {Model.Team.FullName}{Model.Team.Year.AsTitleSuffix()}";
-
-    var dict = new RouteValueDictionary(ViewContext.RouteData.Values);
 }
-@* TODO: Refactor! *@
 <div class="btn-group pull-right">
-    @if (Model.Team.Teams.Count > 1)
-    {
-        <div class="btn-group dropdown year-dropdown">
-            <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                @Model.Team.FullName
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                @foreach (var team in Model.Team.Teams)
-                {
-                    dict["id"] = team.TeamId;
-                    var activeClass = team.TeamId == Model.Team.TeamId ? "active" : "";
-                    var url = team.TeamId == Model.Team.TeamId ? "" : Url.RouteUrl(dict);
-
-                    <li class="@activeClass"><a href="@url">@team.FullName</a></li>
-                }
-            </ul>
-        </div>
-    }
+    @Html.Partial("_TeamPicker", Model.Team)
     @Html.Partial("_YearPartial", Model.Team)
 </div>
 <h2>@title</h2>
