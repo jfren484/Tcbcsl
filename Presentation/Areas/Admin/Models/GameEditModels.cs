@@ -8,7 +8,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
     {
         public int GameId { get; set; }
 
-        [Display(Name = "Date")]
+        [Required, Display(Name = "Date")]
         public DateTime GameDate { get; set; }
 
         [Display(Name = "Game Type")]
@@ -16,6 +16,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         [Display(Name = "Game Status")]
         public GameEditStatusModel GameStatus { get; set; }
+
+        [Required]
+        public bool IsFinalized { get; set; }
 
         [Display(Name = "Road Team")]
         public GameParticipantEditModel RoadTeam { get; set; }

@@ -9,6 +9,7 @@
 </div>
 <h2>@title</h2>
 @Html.Partial("_AdminListTable", new AdminListTableModel { ListItemName = "Game" })
+<p>* - Pending Confirmation</p>
 
 @section scripts
 {
@@ -18,7 +19,7 @@
             { 'data': 'GameDate',          'title': '@Html.DisplayNameFor(m => m.GameDate)',                                'render': renderDate },
             { 'data': 'Opponent',          'title': '@Html.DisplayNameFor(m => m.Opponent)' },
             { 'data': 'Outcome',           'title': '@Html.DisplayNameFor(m => m.Outcome)' },
-            { 'data': 'UrlsForActions',                                                               'orderable': false,   'render': renderStatisticsLinks }
+            { 'data': 'UrlsForActions',                                                               'orderable': false,   'render': renderGameResultsLinks }
         ];
 
         datatable_RenderList({

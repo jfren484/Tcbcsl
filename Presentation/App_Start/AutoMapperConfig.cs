@@ -118,7 +118,8 @@ namespace Tcbcsl.Presentation
                   .ForMember(e => e.GameType, exp => exp.Ignore())
                   .ForMember(e => e.GameStatusId, exp => exp.MapFrom(m => m.GameStatus.GameStatusId))
                   .ForMember(e => e.GameStatus, exp => exp.Ignore())
-                  .ForMember(e => e.GameParticipants, exp => exp.Ignore());
+                  .ForMember(e => e.GameParticipants, exp => exp.Ignore())
+                  .ForMember(e => e.GameResultReports, exp => exp.Ignore());
 
             Mapper.CreateMap<GameParticipantEditModel, GameParticipant>()
                   .MapEntityModifiable()
@@ -138,15 +139,21 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.Team, exp => exp.MapFrom(e => e))
                   .ForMember(m => m.GameParticipantId, exp => exp.Ignore())
                   .ForMember(m => m.GameDate, exp => exp.Ignore())
+                  .ForMember(m => m.IsFinalized, exp => exp.Ignore())
                   .ForMember(m => m.Opponent, exp => exp.Ignore())
-                  .ForMember(m => m.Outcome, exp => exp.Ignore());
+                  .ForMember(m => m.Outcome, exp => exp.Ignore())
+                  .ForMember(m => m.IsWaitingForMyInput, exp => exp.Ignore())
+                  .ForMember(m => m.NoStats, exp => exp.Ignore());
 
             Mapper.CreateMap<GameParticipant, GameResultsEditModel>()
                   .ForMember(m => m.Team, exp => exp.MapFrom(e => e.TeamYear))
                   .ForMember(m => m.GameDate, exp => exp.MapFrom(e => e.Game.GameDate))
+                  .ForMember(m => m.IsFinalized, exp => exp.MapFrom(e => e.Game.IsFinalized))
                   .ForMember(m => m.Opponent, exp => exp.MapFrom(e => e.Game.GameParticipants.Single(gp2 => gp2.GameParticipantId != e.GameParticipantId).TeamYear.FullName))
                   .ForMember(m => m.Outcome, exp => exp.MapFrom(e => e.GetOutcome()))
-                  .ForMember(m => m.KeepsStats, exp => exp.Ignore());
+                  .ForMember(m => m.KeepsStats, exp => exp.Ignore())
+                  .ForMember(m => m.IsWaitingForMyInput, exp => exp.MapFrom(e => e.GetIsWaitingForMyInput()))
+                  .ForMember(m => m.NoStats, exp => exp.MapFrom(e => !e.StatLines.Any()));
 
             Mapper.CreateMap<TeamYear, GameResultsEditTeamModel>()
                   .ForMember(m => m.Teams, exp => exp.Ignore());
@@ -345,6 +352,24 @@ namespace Tcbcsl.Presentation
 
         #region Mapping Extension Methods
 
+        private static bool GetIsWaitingForMyInput(this GameParticipant gp)
+        {
+            if (gp.Game.IsFinalized)
+            {
+                return false;
+            }
+
+            var latestNonConfirm = gp.Game.GameResultReports.OrderByDescending(r => r.Created).FirstOrDefault(r => !r.IsConfirmation);
+            if (latestNonConfirm == null)
+            {
+                return gp.Game.GameDate < DateTime.Now;
+            }
+
+            return !UserCache.AssignedTeams
+                             .Select(kvp => (int?)kvp.Key)
+                             .Contains(latestNonConfirm.TeamId);
+        }
+
         private static string GetOutcome(this GameParticipant gp)
         {
             var opponent = gp.Game.GameParticipants.Single(gp2 => gp2.GameParticipantId != gp.GameParticipantId);
@@ -352,10 +377,13 @@ namespace Tcbcsl.Presentation
             var lost = gp.RunsScored < opponent.RunsScored;
 
             return gp.Game.GameStatus.DisplayOutcome
-                ? gp.Game.GameStatus.AllowStatistics
-                    ? (won ? "W" : lost ? "L" : "T") + " " + gp.RunsScored + "-" + opponent.RunsScored
-                    : gp.Game.GameStatus.Description
-                : string.Empty;
+                       ? (gp.Game.GameStatus.AllowStatistics
+                              ? (won ? "W" : lost ? "L" : "T") + " " + gp.RunsScored + "-" + opponent.RunsScored
+                              : gp.Game.GameStatus.Description)
+                         + (gp.Game.IsFinalized
+                                ? ""
+                                : "*")
+                       : string.Empty;
         }
 
         private static string GetTeamName(this NewsItem newsItem)

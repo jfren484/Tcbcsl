@@ -114,18 +114,23 @@ function renderDate(data, type) {
 }
 
 function renderEditLink(data, type) {
-    return renderLink(data, type, 'edit', 'edit');
-}
-
-function renderStatisticsLinks(data, type) {
     if (type !== 'display' || !data) return null;
 
-    return [renderLink(data.SubmitResults, type, 'submit game result', 'pencil'), renderLink(data.EnterStats, type, 'enter stats', 'stats')].join(' ');
+    return renderLink(data, 'edit', 'edit');
 }
 
-function renderLink(data, type, title, icon) {
-    return data && type === 'display'
-        ? '<a href="' + data + '" title="' + title + '"><span class="glyphicon glyphicon-' + icon + '"></span></a>'
+function renderGameResultsLinks(data, type, row) {
+    if (type !== 'display' || !data) return null;
+
+    return [
+        renderLink(data.SubmitResults, 'submit game result', 'pencil', row.IsWaitingForMyInput ? 'text-danger' : undefined),
+        renderLink(data.EnterStats,    'enter stats',        'stats',  row.NoStats             ? 'text-danger' : undefined)
+    ].join(' ');
+}
+
+function renderLink(data, title, icon, linkClass) {
+    return data
+        ? '<a href="' + data + '" title="' + title + '"' + (linkClass ? ' class="' + linkClass + '"' : '') + '><span class="glyphicon glyphicon-' + icon + '"></span></a>'
         : '';
 }
 

@@ -22,6 +22,10 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         public bool KeepsStats { get; set; }
 
+        public bool IsWaitingForMyInput { get; set; }
+
+        public bool NoStats { get; set; }
+
         [Display(Name = "")]
         public Dictionary<string, string> UrlsForActions { get; set; }
     }
