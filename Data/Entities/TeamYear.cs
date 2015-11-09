@@ -46,5 +46,7 @@ namespace Tcbcsl.Data.Entities
         public virtual Coach HeadCoach { get; set; }
 
         public virtual ICollection<GameParticipant> GameParticipants { get; set; }
+
+        public virtual ICollection<GameResultReport> GameResultReports { get; set; }
     }
 }

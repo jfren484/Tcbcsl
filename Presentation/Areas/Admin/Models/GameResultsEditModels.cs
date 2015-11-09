@@ -26,6 +26,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         public bool NoStats { get; set; }
 
+        public List<GameResultsEditReportModel> ResultReports { get; set; }
+
         [Display(Name = "")]
         public Dictionary<string, string> UrlsForActions { get; set; }
     }
@@ -38,4 +40,21 @@ public class GameResultsEditTeamModel
     public string FullName { get; set; }
 
     public List<TeamBasicInfoModel> Teams { get; set; }
+}
+
+public class GameResultsEditReportModel
+{
+    public string UserName { get; set; }
+
+    public GameResultsEditTeamModel Team { get; set; }
+
+    public bool IsConfirmation { get; set; }
+
+    public GameEditStatusModel GameStatus { get; set; }
+
+    public GameParticipantEditModel RoadTeam { get; set; }
+
+    public GameParticipantEditModel HomeTeam { get; set; }
+
+    public string Note { get; set; }
 }

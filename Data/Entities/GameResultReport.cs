@@ -9,7 +9,7 @@ namespace Tcbcsl.Data.Entities
         [Required]
         public int GameId { get; set; }
 
-        public int? TeamId { get; set; }
+        public int? TeamYearId { get; set; }
 
         [Required]
         public bool IsConfirmation { get; set; }
@@ -24,7 +24,7 @@ namespace Tcbcsl.Data.Entities
 
         public virtual Game Game { get; set; }
 
-        public virtual Team Team { get; set; }
+        public virtual TeamYear TeamYear { get; set; }
 
         public virtual GameStatus GameStatus { get; set; }
     }

@@ -143,7 +143,8 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.Opponent, exp => exp.Ignore())
                   .ForMember(m => m.Outcome, exp => exp.Ignore())
                   .ForMember(m => m.IsWaitingForMyInput, exp => exp.Ignore())
-                  .ForMember(m => m.NoStats, exp => exp.Ignore());
+                  .ForMember(m => m.NoStats, exp => exp.Ignore())
+                  .ForMember(m => m.ResultReports, exp => exp.Ignore());
 
             Mapper.CreateMap<GameParticipant, GameResultsEditModel>()
                   .ForMember(m => m.Team, exp => exp.MapFrom(e => e.TeamYear))
@@ -153,7 +154,17 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.Outcome, exp => exp.MapFrom(e => e.GetOutcome()))
                   .ForMember(m => m.KeepsStats, exp => exp.Ignore())
                   .ForMember(m => m.IsWaitingForMyInput, exp => exp.MapFrom(e => e.GetIsWaitingForMyInput()))
-                  .ForMember(m => m.NoStats, exp => exp.MapFrom(e => !e.StatLines.Any()));
+                  .ForMember(m => m.NoStats, exp => exp.MapFrom(e => !e.StatLines.Any()))
+                  .ForMember(m => m.ResultReports, exp => exp.MapFrom(e => Mapper.Map<List<GameResultsEditReportModel>>(e.Game.GameResultReports)));
+
+            Mapper.CreateMap<TeamYear, GameResultsEditTeamModel>()
+                  .ForMember(m => m.Teams, exp => exp.Ignore());
+
+            Mapper.CreateMap<GameResultReport, GameResultsEditReportModel>()
+                  .ForMember(m => m.UserName, exp => exp.MapFrom(e => e.CreatedBy))
+                  .ForMember(m => m.Team, exp => exp.MapFrom(e => e.TeamYear))
+                  .ForMember(m => m.RoadTeam, exp => exp.MapFrom(e => e.Game.GameParticipants.Single(gp => !gp.IsHost)))
+                  .ForMember(m => m.HomeTeam, exp => exp.MapFrom(e => e.Game.GameParticipants.Single(gp => gp.IsHost)));
 
             Mapper.CreateMap<TeamYear, GameResultsEditTeamModel>()
                   .ForMember(m => m.Teams, exp => exp.Ignore());
@@ -300,7 +311,8 @@ namespace Tcbcsl.Presentation
                   .ForMember(e => e.HeadCoachId, exp => exp.MapFrom(m => m.HeadCoach.CoachId))
                   .ForMember(e => e.HeadCoach, exp => exp.Ignore())
                   .ForMember(e => e.Clinch, exp => exp.MapFrom(m => m.Clinch.ClinchChar))
-                  .ForMember(e => e.GameParticipants, exp => exp.Ignore());
+                  .ForMember(e => e.GameParticipants, exp => exp.Ignore())
+                  .ForMember(e => e.GameResultReports, exp => exp.Ignore());
 
             Mapper.CreateMap<TeamEditModel, Team>()
                   .MapEntityModifiable()
@@ -367,7 +379,7 @@ namespace Tcbcsl.Presentation
 
             return !UserCache.AssignedTeams
                              .Select(kvp => (int?)kvp.Key)
-                             .Contains(latestNonConfirm.TeamId);
+                             .Contains(latestNonConfirm.TeamYear.TeamId);
         }
 
         private static string GetOutcome(this GameParticipant gp)
