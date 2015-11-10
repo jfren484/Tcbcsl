@@ -42,7 +42,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 return HttpNotFound();
             }
 
-            var model = Mapper.Map<GameResultsEditModel>(teamYear);
+            var model = Mapper.Map<GameResultsListModel>(teamYear);
             PopulateDropdownLists(model.Team);
 
             return View(model);
@@ -57,7 +57,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 .ToList()
                                 .Select(gp =>
                                 {
-                                    var model = Mapper.Map<GameResultsEditModel>(gp);
+                                    var model = Mapper.Map<GameResultsListModel>(gp);
                                     model.UrlsForActions = new Dictionary<string, string>
                                                        {
                                                            ["SubmitResults"] = Url.Action("Game", new {id = model.GameParticipantId }),
@@ -85,7 +85,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 return HttpNotFound();
             }
 
-            var model = Mapper.Map<GameResultsEditModel>(gameParticipant);
+            var model = Mapper.Map<GameResultsEditModel>(gameParticipant.Game);
             PopulateDropdownLists(model);
 
             return View(model);
@@ -112,7 +112,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #region Helpers
 
-        private void PopulateDropdownLists(GameResultsEditTeamModel model)
+        private void PopulateDropdownLists(GameResultsListTeamModel model)
         {
             var teams = DbContext.TeamYears
                                  .Where(ty => ty.TeamId != Consts.TeamTBDTeamId && ty.Year == model.Year && ty.GameParticipants.Any())

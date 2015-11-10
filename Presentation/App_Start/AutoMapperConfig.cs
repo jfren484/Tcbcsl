@@ -135,30 +135,31 @@ namespace Tcbcsl.Presentation
 
             #region Game Results
 
-            Mapper.CreateMap<TeamYear, GameResultsEditModel>()
+            Mapper.CreateMap<TeamYear, GameResultsListModel>()
                   .ForMember(m => m.Team, exp => exp.MapFrom(e => e))
                   .ForMember(m => m.GameParticipantId, exp => exp.Ignore())
                   .ForMember(m => m.GameDate, exp => exp.Ignore())
-                  .ForMember(m => m.IsFinalized, exp => exp.Ignore())
                   .ForMember(m => m.Opponent, exp => exp.Ignore())
                   .ForMember(m => m.Outcome, exp => exp.Ignore())
                   .ForMember(m => m.IsWaitingForMyInput, exp => exp.Ignore())
-                  .ForMember(m => m.NoStats, exp => exp.Ignore())
-                  .ForMember(m => m.ResultReports, exp => exp.Ignore());
+                  .ForMember(m => m.NoStats, exp => exp.Ignore());
 
-            Mapper.CreateMap<GameParticipant, GameResultsEditModel>()
+            Mapper.CreateMap<TeamYear, GameResultsListTeamModel>()
+                  .ForMember(m => m.Teams, exp => exp.Ignore());
+
+            Mapper.CreateMap<GameParticipant, GameResultsListModel>()
                   .ForMember(m => m.Team, exp => exp.MapFrom(e => e.TeamYear))
                   .ForMember(m => m.GameDate, exp => exp.MapFrom(e => e.Game.GameDate))
-                  .ForMember(m => m.IsFinalized, exp => exp.MapFrom(e => e.Game.IsFinalized))
                   .ForMember(m => m.Opponent, exp => exp.MapFrom(e => e.Game.GameParticipants.Single(gp2 => gp2.GameParticipantId != e.GameParticipantId).TeamYear.FullName))
                   .ForMember(m => m.Outcome, exp => exp.MapFrom(e => e.GetOutcome()))
                   .ForMember(m => m.KeepsStats, exp => exp.Ignore())
                   .ForMember(m => m.IsWaitingForMyInput, exp => exp.MapFrom(e => e.GetIsWaitingForMyInput()))
-                  .ForMember(m => m.NoStats, exp => exp.MapFrom(e => !e.StatLines.Any()))
-                  .ForMember(m => m.ResultReports, exp => exp.MapFrom(e => Mapper.Map<List<GameResultsEditReportModel>>(e.Game.GameResultReports)));
+                  .ForMember(m => m.NoStats, exp => exp.MapFrom(e => !e.StatLines.Any()));
 
-            Mapper.CreateMap<TeamYear, GameResultsEditTeamModel>()
-                  .ForMember(m => m.Teams, exp => exp.Ignore());
+            Mapper.CreateMap<Game, GameResultsEditModel>()
+                  .ForMember(m => m.RoadTeam, exp => exp.MapFrom(e => e.GameParticipants.Single(gp => !gp.IsHost).TeamYear))
+                  .ForMember(m => m.HomeTeam, exp => exp.MapFrom(e => e.GameParticipants.Single(gp => gp.IsHost).TeamYear))
+                  .ForMember(m => m.ResultReports, exp => exp.MapFrom(e => Mapper.Map<List<GameResultsEditReportModel>>(e.GameResultReports)));
 
             Mapper.CreateMap<GameResultReport, GameResultsEditReportModel>()
                   .ForMember(m => m.UserName, exp => exp.MapFrom(e => e.CreatedBy))

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Tcbcsl.Presentation.Areas.Admin.Models;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
-    public class GameResultsEditModel
+    public class GameResultsListModel
     {
-        public GameResultsEditTeamModel Team { get; set; }
+        public GameResultsListTeamModel Team { get; set; }
 
         [Display(Name = "Id")]
         public int GameParticipantId { get; set; }
@@ -15,8 +14,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public DateTime GameDate { get; set; }
 
         public string Opponent { get; set; }
-
-        public bool IsFinalized { get; set; }
 
         public string Outcome { get; set; }
 
@@ -26,35 +23,55 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         public bool NoStats { get; set; }
 
-        public List<GameResultsEditReportModel> ResultReports { get; set; }
-
         [Display(Name = "")]
         public Dictionary<string, string> UrlsForActions { get; set; }
     }
-}
 
-public class GameResultsEditTeamModel
-{
-    public int TeamId { get; set; }
-    public int Year { get; set; }
-    public string FullName { get; set; }
+    public class GameResultsListTeamModel
+    {
+        public int TeamId { get; set; }
+        public int Year { get; set; }
+        public string FullName { get; set; }
 
-    public List<TeamBasicInfoModel> Teams { get; set; }
-}
+        public List<TeamBasicInfoModel> Teams { get; set; }
+    }
 
-public class GameResultsEditReportModel
-{
-    public string UserName { get; set; }
+    public class GameResultsEditModel
+    {
+        public DateTime GameDate { get; set; }
 
-    public GameResultsEditTeamModel Team { get; set; }
+        public TeamBasicInfoModel RoadTeam { get; set; }
 
-    public bool IsConfirmation { get; set; }
+        public TeamBasicInfoModel HomeTeam { get; set; }
 
-    public GameEditStatusModel GameStatus { get; set; }
+        public bool IsFinalized { get; set; }
 
-    public GameParticipantEditModel RoadTeam { get; set; }
+        public List<GameResultsEditReportModel> ResultReports { get; set; }
+    }
 
-    public GameParticipantEditModel HomeTeam { get; set; }
+    public class GameResultsEditTeamModel
+    {
+        public int TeamId { get; set; }
+        public int Year { get; set; }
+        public string FullName { get; set; }
 
-    public string Note { get; set; }
+        public List<TeamBasicInfoModel> Teams { get; set; }
+    }
+
+    public class GameResultsEditReportModel
+    {
+        public string UserName { get; set; }
+
+        public GameResultsEditTeamModel Team { get; set; }
+
+        public bool IsConfirmation { get; set; }
+
+        public GameEditStatusModel GameStatus { get; set; }
+
+        public GameParticipantEditModel RoadTeam { get; set; }
+
+        public GameParticipantEditModel HomeTeam { get; set; }
+
+        public string Note { get; set; }
+    }
 }

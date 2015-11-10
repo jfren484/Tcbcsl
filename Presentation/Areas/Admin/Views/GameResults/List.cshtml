@@ -1,4 +1,4 @@
-﻿@model GameResultsEditModel
+﻿@model GameResultsListModel
 @{
     var title = $"Manage Game Results{(Model.KeepsStats ? " and Statistics" : "")}";
     ViewBag.Title = $"{title} for {Model.Team.FullName}{Model.Team.Year.AsTitleSuffix()}";
