@@ -20,8 +20,8 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-header">Choose winner:</li>
-                                    <li><a class="data-button" data-url="@Url.Action("UpdateGameAsForfeit", "Game", new {winnerGameParticipantId = Model.RoadTeam.GameParticipantId})">@Model.RoadTeam.TeamName</a></li>
-                                    <li><a class="data-button" data-url="@Url.Action("UpdateGameAsForfeit", "Game", new {winnerGameParticipantId = Model.HomeTeam.GameParticipantId})">@Model.HomeTeam.TeamName</a></li>
+                                    <li><a class="data-button" data-url="@Url.Action("UpdateGameAsForfeit", "Game", new {winnerGameParticipantId = Model.RoadParticipant.GameParticipantId})">@Model.RoadParticipant.TeamName</a></li>
+                                    <li><a class="data-button" data-url="@Url.Action("UpdateGameAsForfeit", "Game", new {winnerGameParticipantId = Model.HomeParticipant.GameParticipantId})">@Model.HomeParticipant.TeamName</a></li>
                                 </ul>
                             </div>
                         }
@@ -39,8 +39,8 @@
                 @Html.HiddenFor(m => m.GameId)
                 @Html.HiddenFor(m => m.GameDate)
             }
-            @Html.EditorFor(m => m.RoadTeam, new { IsReadonly = Model.Entered })
-            @Html.EditorFor(m => m.HomeTeam, new { IsReadonly = Model.Entered })
+            @Html.EditorFor(m => m.RoadParticipant, new { IsReadonly = Model.Entered })
+            @Html.EditorFor(m => m.HomeParticipant, new { IsReadonly = Model.Entered })
         </div>
     </div>
 </div>

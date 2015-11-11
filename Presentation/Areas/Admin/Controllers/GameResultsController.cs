@@ -112,7 +112,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #region Helpers
 
-        private void PopulateDropdownLists(GameResultsListTeamModel model)
+        private void PopulateDropdownLists(TeamPickerModel model)
         {
             var teams = DbContext.TeamYears
                                  .Where(ty => ty.TeamId != Consts.TeamTBDTeamId && ty.Year == model.Year && ty.GameParticipants.Any())

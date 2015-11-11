@@ -24,8 +24,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                             GameDate = date + TimeSpan.FromHours(date.DayOfWeek == DayOfWeek.Saturday ? 8 : 18.5),
                             GameType = new GameEditTypeModel(),
                             GameStatus = new GameEditStatusModel(),
-                            RoadTeam = new GameParticipantEditModel {TeamYear = new GameEditTeamModel()},
-                            HomeTeam = new GameParticipantEditModel {TeamYear = new GameEditTeamModel()},
+                            RoadParticipant = new GameParticipantEditModel {TeamYear = new GameEditTeamModel()},
+                            HomeParticipant = new GameParticipantEditModel {TeamYear = new GameEditTeamModel()},
                             UrlForReturn = urlForReturn
                         };
             PopulateDropdownLists(model);
@@ -38,8 +38,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Create")]
         public ActionResult Create(GameEditModel model)
         {
-            var roadTeam = Mapper.Map<GameParticipant>(model.RoadTeam);
-            var homeTeam = Mapper.Map<GameParticipant>(model.HomeTeam);
+            var roadTeam = Mapper.Map<GameParticipant>(model.RoadParticipant);
+            var homeTeam = Mapper.Map<GameParticipant>(model.HomeParticipant);
             homeTeam.IsHost = true;
 
             var game = Mapper.Map<Game>(model);
@@ -80,8 +80,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             Mapper.Map(model, game);
-            Mapper.Map(model.RoadTeam, game.GameParticipants.Single(gp => !gp.IsHost));
-            Mapper.Map(model.HomeTeam, game.GameParticipants.Single(gp => gp.IsHost));
+            Mapper.Map(model.RoadParticipant, game.RoadParticipant);
+            Mapper.Map(model.HomeParticipant, game.HomeParticipant);
 
             DbContext.SaveChanges(User.Identity.Name);
 
@@ -170,8 +170,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                      .OrderBy(ty => ty.FullName)
                                      .Select(ty => new SelectListItem {Value = ty.TeamYearId.ToString(), Text = ty.FullName})
                                      .ToList();
-            model.RoadTeam.TeamYear.ItemSelectList = new SelectList(teamYears, "Value", "Text", model.RoadTeam.TeamYear.TeamYearId);
-            model.HomeTeam.TeamYear.ItemSelectList = new SelectList(teamYears, "Value", "Text", model.HomeTeam.TeamYear.TeamYearId);
+            model.RoadParticipant.TeamYear.ItemSelectList = new SelectList(teamYears, "Value", "Text", model.RoadParticipant.TeamYear.TeamYearId);
+            model.HomeParticipant.TeamYear.ItemSelectList = new SelectList(teamYears, "Value", "Text", model.HomeParticipant.TeamYear.TeamYearId);
         }
 
         #endregion

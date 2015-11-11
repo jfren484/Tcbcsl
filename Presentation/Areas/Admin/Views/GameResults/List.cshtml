@@ -4,7 +4,7 @@
     ViewBag.Title = $"{title} for {Model.Team.FullName}{Model.Team.Year.AsTitleSuffix()}";
 }
 <div class="btn-group pull-right">
-    @Html.Partial("_TeamPicker", Model.Team)
+    @Html.EditorFor(m => m.Team)
     @Html.Partial("_YearPartial", Model.Team)
 </div>
 <h2>@title</h2>

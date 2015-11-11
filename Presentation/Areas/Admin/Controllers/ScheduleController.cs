@@ -55,7 +55,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Schedule(DateTime? date, ScheduleEditModel model)
         {
             var modelsForUpdate = model.Buckets
-                                       .SelectMany(b => b.Games.Where(g => g.HomeTeam.RunsScored != 0 || g.RoadTeam.RunsScored != 0))
+                                       .SelectMany(b => b.Games.Where(g => g.HomeParticipant.RunsScored != 0 || g.RoadParticipant.RunsScored != 0))
                                        .ToList();
 
             var gameIds = modelsForUpdate.Select(g => g.GameId)
@@ -69,8 +69,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             foreach (var row in toUpdate)
             {
                 row.Game.GameStatusId = GameStatus.Final;
-                row.Game.GameParticipants.Single(gp => !gp.IsHost).RunsScored = row.Model.RoadTeam.RunsScored;
-                row.Game.GameParticipants.Single(gp => gp.IsHost).RunsScored = row.Model.HomeTeam.RunsScored;
+                row.Game.RoadParticipant.RunsScored = row.Model.RoadParticipant.RunsScored;
+                row.Game.HomeParticipant.RunsScored = row.Model.HomeParticipant.RunsScored;
             }
             DbContext.SaveChanges(User.Identity.Name);
 

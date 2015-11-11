@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Tcbcsl.Data.Entities
 {
@@ -27,5 +28,21 @@ namespace Tcbcsl.Data.Entities
         public virtual ICollection<GameParticipant> GameParticipants { get; set; }
 
         public virtual ICollection<GameResultReport> GameResultReports { get; set; }
+
+        public GameParticipant RoadParticipant
+        {
+            get
+            {
+                return GameParticipants.Single(gp => !gp.IsHost);
+            }
+        }
+
+        public GameParticipant HomeParticipant
+        {
+            get
+            {
+                return GameParticipants.Single(gp => gp.IsHost);
+            }
+        }
     }
 }

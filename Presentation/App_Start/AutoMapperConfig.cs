@@ -98,9 +98,7 @@ namespace Tcbcsl.Presentation
             #region Game
 
             Mapper.CreateMap<Game, GameEditModel>()
-                  .MapEditModelBaseWithAudit()
-                  .ForMember(m => m.RoadTeam, exp => exp.MapFrom(e => e.GameParticipants.SingleOrDefault(gp => !gp.IsHost)))
-                  .ForMember(m => m.HomeTeam, exp => exp.MapFrom(e => e.GameParticipants.SingleOrDefault(gp => gp.IsHost)));
+                  .MapEditModelBaseWithAudit();
 
             Mapper.CreateMap<GameParticipant, GameParticipantEditModel>()
                   .MapEditModelBaseWithAudit();
@@ -144,31 +142,27 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.IsWaitingForMyInput, exp => exp.Ignore())
                   .ForMember(m => m.NoStats, exp => exp.Ignore());
 
-            Mapper.CreateMap<TeamYear, GameResultsListTeamModel>()
-                  .ForMember(m => m.Teams, exp => exp.Ignore());
-
             Mapper.CreateMap<GameParticipant, GameResultsListModel>()
                   .ForMember(m => m.Team, exp => exp.MapFrom(e => e.TeamYear))
                   .ForMember(m => m.GameDate, exp => exp.MapFrom(e => e.Game.GameDate))
-                  .ForMember(m => m.Opponent, exp => exp.MapFrom(e => e.Game.GameParticipants.Single(gp2 => gp2.GameParticipantId != e.GameParticipantId).TeamYear.FullName))
+                  .ForMember(m => m.Opponent, exp => exp.MapFrom(e => e.Opponent.TeamYear.FullName))
                   .ForMember(m => m.Outcome, exp => exp.MapFrom(e => e.GetOutcome()))
                   .ForMember(m => m.KeepsStats, exp => exp.Ignore())
                   .ForMember(m => m.IsWaitingForMyInput, exp => exp.MapFrom(e => e.GetIsWaitingForMyInput()))
                   .ForMember(m => m.NoStats, exp => exp.MapFrom(e => !e.StatLines.Any()));
 
             Mapper.CreateMap<Game, GameResultsEditModel>()
-                  .ForMember(m => m.RoadTeam, exp => exp.MapFrom(e => e.GameParticipants.Single(gp => !gp.IsHost).TeamYear))
-                  .ForMember(m => m.HomeTeam, exp => exp.MapFrom(e => e.GameParticipants.Single(gp => gp.IsHost).TeamYear))
+                  .ForMember(m => m.RoadTeam, exp => exp.MapFrom(e => e.RoadParticipant.TeamYear))
+                  .ForMember(m => m.HomeTeam, exp => exp.MapFrom(e => e.HomeParticipant.TeamYear))
                   .ForMember(m => m.ResultReports, exp => exp.MapFrom(e => Mapper.Map<List<GameResultsEditReportModel>>(e.GameResultReports)));
 
             Mapper.CreateMap<GameResultReport, GameResultsEditReportModel>()
                   .ForMember(m => m.UserName, exp => exp.MapFrom(e => e.CreatedBy))
-                  .ForMember(m => m.Team, exp => exp.MapFrom(e => e.TeamYear))
-                  .ForMember(m => m.RoadTeam, exp => exp.MapFrom(e => e.Game.GameParticipants.Single(gp => !gp.IsHost)))
-                  .ForMember(m => m.HomeTeam, exp => exp.MapFrom(e => e.Game.GameParticipants.Single(gp => gp.IsHost)));
-
-            Mapper.CreateMap<TeamYear, GameResultsEditTeamModel>()
-                  .ForMember(m => m.Teams, exp => exp.Ignore());
+                  .ForMember(m => m.SubmittedFrom, exp => exp.MapFrom(e => e.TeamYear == null
+                      ? ReportSubmitter.League
+                      : e.TeamYearId == e.Game.HomeParticipant.TeamYearId
+                          ? ReportSubmitter.HomeTeam
+                          : ReportSubmitter.RoadTeam));
 
             #endregion
 
@@ -239,9 +233,7 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<Game, ScheduleGameEditModel>()
                   .ForMember(m => m.Entered, exp => exp.MapFrom(e => e.GameStatusId != GameStatus.Scheduled))
-                  .ForMember(m => m.Outcome, exp => exp.MapFrom(e => e.GameStatus.Description))
-                  .ForMember(m => m.RoadTeam, exp => exp.MapFrom(e => e.GameParticipants.SingleOrDefault(gp => !gp.IsHost)))
-                  .ForMember(m => m.HomeTeam, exp => exp.MapFrom(e => e.GameParticipants.SingleOrDefault(gp => gp.IsHost)));
+                  .ForMember(m => m.Outcome, exp => exp.MapFrom(e => e.GameStatus.Description));
 
             Mapper.CreateMap<GameParticipant, ScheduleGameParticipantEditModel>()
                   .ForMember(m => m.TeamName, exp => exp.MapFrom(e => e.TeamYear.FullName));
@@ -272,6 +264,9 @@ namespace Tcbcsl.Presentation
             #region Team
 
             Mapper.CreateMap<TeamYear, TeamBasicInfoModel>();
+
+            Mapper.CreateMap<TeamYear, TeamPickerModel>()
+                  .ForMember(m => m.Teams, exp => exp.Ignore());
 
             Mapper.CreateMap<TeamYear, TeamEditModel>()
                   .MapEditModelBaseWithAudit()
@@ -385,13 +380,12 @@ namespace Tcbcsl.Presentation
 
         private static string GetOutcome(this GameParticipant gp)
         {
-            var opponent = gp.Game.GameParticipants.Single(gp2 => gp2.GameParticipantId != gp.GameParticipantId);
-            var won = gp.RunsScored > opponent.RunsScored;
-            var lost = gp.RunsScored < opponent.RunsScored;
+            var won = gp.RunsScored > gp.Opponent.RunsScored;
+            var lost = gp.RunsScored < gp.Opponent.RunsScored;
 
             return gp.Game.GameStatus.DisplayOutcome
                        ? (gp.Game.GameStatus.AllowStatistics
-                              ? (won ? "W" : lost ? "L" : "T") + " " + gp.RunsScored + "-" + opponent.RunsScored
+                              ? (won ? "W" : lost ? "L" : "T") + " " + gp.RunsScored + "-" + gp.Opponent.RunsScored
                               : gp.Game.GameStatus.Description)
                          + (gp.Game.IsFinalized
                                 ? ""

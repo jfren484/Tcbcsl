@@ -6,7 +6,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
     public class GameResultsListModel
     {
-        public GameResultsListTeamModel Team { get; set; }
+        public TeamPickerModel Team { get; set; }
 
         [Display(Name = "Id")]
         public int GameParticipantId { get; set; }
@@ -27,15 +27,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public Dictionary<string, string> UrlsForActions { get; set; }
     }
 
-    public class GameResultsListTeamModel
-    {
-        public int TeamId { get; set; }
-        public int Year { get; set; }
-        public string FullName { get; set; }
-
-        public List<TeamBasicInfoModel> Teams { get; set; }
-    }
-
     public class GameResultsEditModel
     {
         public DateTime GameDate { get; set; }
@@ -49,28 +40,41 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public List<GameResultsEditReportModel> ResultReports { get; set; }
     }
 
-    public class GameResultsEditTeamModel
+    public enum ReportSubmitter
     {
-        public int TeamId { get; set; }
-        public int Year { get; set; }
-        public string FullName { get; set; }
-
-        public List<TeamBasicInfoModel> Teams { get; set; }
+        HomeTeam,
+        RoadTeam,
+        League
     }
 
     public class GameResultsEditReportModel
     {
         public string UserName { get; set; }
 
-        public GameResultsEditTeamModel Team { get; set; }
+        public ReportSubmitter SubmittedFrom { get; set; }
+
+        public bool IsConfirmation { get; set; }
+
+        public string GameStatus { get; set; }
+
+        public int? RoadTeamScore { get; set; }
+
+        public int? HomeTeamScore { get; set; }
+
+        public string Note { get; set; }
+    }
+
+    public class GameResultsEditCreateReportModel
+    {
+        public TeamPickerModel Team { get; set; }
 
         public bool IsConfirmation { get; set; }
 
         public GameEditStatusModel GameStatus { get; set; }
 
-        public GameParticipantEditModel RoadTeam { get; set; }
+        public GameParticipantEditModel RoadParticipant { get; set; }
 
-        public GameParticipantEditModel HomeTeam { get; set; }
+        public GameParticipantEditModel HomeParticipant { get; set; }
 
         public string Note { get; set; }
     }

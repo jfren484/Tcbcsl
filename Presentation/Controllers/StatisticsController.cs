@@ -81,7 +81,7 @@ namespace Tcbcsl.Presentation.Controllers
                                                         Outs = sl.StatOuts,
                                                         FieldersChoices = sl.StatFieldersChoices,
                                                         ReachedByErrors = sl.StatReachedByErrors,
-                                                        Strikeouts = sl.StatStrikeouts,
+                                                        Strikeouts = sl.StatStrikeouts
                                                     });
             return Json(data);
         }
@@ -117,8 +117,8 @@ namespace Tcbcsl.Presentation.Controllers
                                {
                                    PlayerId = sl.PlayerId,
                                    PlayerFirstName = sl.Player.NameFirst,
-                    PlayerLastName = sl.Player.NameLast,
-                    TeamId = sl.GameParticipant.TeamYear.TeamId,
+                                   PlayerLastName = sl.Player.NameLast,
+                                   TeamId = sl.GameParticipant.TeamYear.TeamId,
                                    TeamName = sl.GameParticipant.TeamYear.FullName
                                })
                 .Select(slg => new LeagueIndividualStatisticsRowModel
@@ -133,7 +133,7 @@ namespace Tcbcsl.Presentation.Controllers
                                    Team = new StatisticsTeamInfoModel
                                           {
                                               TeamId = slg.Key.TeamId,
-                                              TeamName = slg.Key.TeamName,
+                                              TeamName = slg.Key.TeamName
                                           },
                                    Games = slg.Count(),
                                    PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
@@ -151,7 +151,7 @@ namespace Tcbcsl.Presentation.Controllers
                                    Outs = slg.Sum(sl => sl.StatOuts),
                                    FieldersChoices = slg.Sum(sl => sl.StatFieldersChoices),
                                    ReachedByErrors = slg.Sum(sl => sl.StatReachedByErrors),
-                                   Strikeouts = slg.Sum(sl => sl.StatStrikeouts),
+                                   Strikeouts = slg.Sum(sl => sl.StatStrikeouts)
                                });
 
             return Json(data);
@@ -196,7 +196,7 @@ namespace Tcbcsl.Presentation.Controllers
                                    Team = new StatisticsTeamInfoModel
                                           {
                                               TeamId = slg.Key.TeamId,
-                                              TeamName = slg.Key.TeamName,
+                                              TeamName = slg.Key.TeamName
                                           },
                                    Games = slg.Key.Games,
                                    PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
@@ -214,7 +214,7 @@ namespace Tcbcsl.Presentation.Controllers
                                    Outs = slg.Sum(sl => sl.StatOuts),
                                    FieldersChoices = slg.Sum(sl => sl.StatFieldersChoices),
                                    ReachedByErrors = slg.Sum(sl => sl.StatReachedByErrors),
-                                   Strikeouts = slg.Sum(sl => sl.StatStrikeouts),
+                                   Strikeouts = slg.Sum(sl => sl.StatStrikeouts)
                                });
 
             return Json(data);
@@ -291,7 +291,7 @@ namespace Tcbcsl.Presentation.Controllers
                                             Outs = slg.Sum(sl => sl.StatOuts),
                                             FieldersChoices = slg.Sum(sl => sl.StatFieldersChoices),
                                             ReachedByErrors = slg.Sum(sl => sl.StatReachedByErrors),
-                                            Strikeouts = slg.Sum(sl => sl.StatStrikeouts),
+                                            Strikeouts = slg.Sum(sl => sl.StatStrikeouts)
                                         });
         }
 
@@ -313,7 +313,7 @@ namespace Tcbcsl.Presentation.Controllers
                               Opponent = new StatisticsTeamInfoModel
                                      {
                                          TeamId = opponent.TeamId,
-                                         TeamName = opponent.FullName,
+                                         TeamName = opponent.FullName
                                      },
                               PlateAppearances = sl.StatPlateAppearances,
                               AtBats = sl.StatAtBats,
@@ -330,7 +330,7 @@ namespace Tcbcsl.Presentation.Controllers
                               Outs = sl.StatOuts,
                               FieldersChoices = sl.StatFieldersChoices,
                               ReachedByErrors = sl.StatReachedByErrors,
-                              Strikeouts = sl.StatStrikeouts,
+                              Strikeouts = sl.StatStrikeouts
                           };
         }
 
@@ -417,7 +417,7 @@ namespace Tcbcsl.Presentation.Controllers
                                    Outs = slg.Sum(sl => sl.StatOuts),
                                    FieldersChoices = slg.Sum(sl => sl.StatFieldersChoices),
                                    ReachedByErrors = slg.Sum(sl => sl.StatReachedByErrors),
-                                   Strikeouts = slg.Sum(sl => sl.StatStrikeouts),
+                                   Strikeouts = slg.Sum(sl => sl.StatStrikeouts)
                                });
 
             return Json(data);

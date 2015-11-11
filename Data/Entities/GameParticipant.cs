@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Tcbcsl.Data.Entities
 {
@@ -23,5 +24,13 @@ namespace Tcbcsl.Data.Entities
         public virtual TeamYear TeamYear { get; set; }
 
         public virtual ICollection<StatLine> StatLines { get; set; }
+
+        public GameParticipant Opponent
+        {
+            get
+            {
+                return Game.GameParticipants.Single(gp => gp.GameParticipantId != GameParticipantId);
+            }
+        }
     }
 }

@@ -25,8 +25,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public string Outcome { get; set; }
         public DateTime GameDate { get; set; }
 
-        public ScheduleGameParticipantEditModel RoadTeam { get; set; }
-        public ScheduleGameParticipantEditModel HomeTeam { get; set; }
+        public ScheduleGameParticipantEditModel RoadParticipant { get; set; }
+        public ScheduleGameParticipantEditModel HomeParticipant { get; set; }
     }
 
     public class ScheduleGameParticipantEditModel

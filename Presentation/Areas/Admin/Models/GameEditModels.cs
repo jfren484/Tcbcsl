@@ -21,10 +21,10 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public bool IsFinalized { get; set; }
 
         [Display(Name = "Road Team")]
-        public GameParticipantEditModel RoadTeam { get; set; }
+        public GameParticipantEditModel RoadParticipant { get; set; }
 
         [Display(Name = "Home Team")]
-        public GameParticipantEditModel HomeTeam { get; set; }
+        public GameParticipantEditModel HomeParticipant { get; set; }
 
         public string UrlForReturn { get; set; }
     }
