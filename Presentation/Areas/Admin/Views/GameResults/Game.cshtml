@@ -1,2 +1,35 @@
 ﻿@model GameResultsEditModel
-@Html.EditorForModel()
+<style>
+    .table th {
+        text-align: center;
+    }
+</style>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.LabelFor(m => m.RoadTeam)</th>
+            <th>@@</th>
+            <th>@Html.LabelFor(m => m.HomeTeam)</th>
+        </tr>
+        <tr>
+            <th>@Model.RoadTeam.FullName</th>
+            <th>@Model.GameDate.ToString(Consts.DateTimeFormatDisplay)</th>
+            <th>@Model.HomeTeam.FullName</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var report in Model.ResultReports)
+        {
+            <tr>
+                <td>@report.RoadTeamScore</td>
+                <td>@report.GameStatus</td>
+                <td>@report.HomeTeamScore</td>
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>

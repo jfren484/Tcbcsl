@@ -31,8 +31,10 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
     {
         public DateTime GameDate { get; set; }
 
+        [Display(Name = "Road Team")]
         public TeamBasicInfoModel RoadTeam { get; set; }
 
+        [Display(Name = "Home Team")]
         public TeamBasicInfoModel HomeTeam { get; set; }
 
         public bool IsFinalized { get; set; }
