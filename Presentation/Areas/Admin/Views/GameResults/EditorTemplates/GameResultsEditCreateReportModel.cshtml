@@ -1,0 +1,14 @@
+﻿@model GameResultsEditCreateReportModel
+<div class="well">
+    @using (Html.BeginForm("Game", "GameResults", FormMethod.Post, new { @class = "form-horizontal form-with-validation" }))
+    {
+        <fieldset>
+            <legend>Report/Update Results</legend>
+            @Html.EditorFor(m => m.GameStatus)
+            @Html.EditorFor(m => m.RoadParticipant)
+            @Html.EditorFor(m => m.HomeParticipant)
+            @Html.EditorFor(m => m.Note)
+            @Html.Partial("_FormCancelSubmit", Url.Action("List"))
+        </fieldset>
+    }
+</div>

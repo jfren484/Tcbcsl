@@ -154,15 +154,21 @@ namespace Tcbcsl.Presentation
             Mapper.CreateMap<Game, GameResultsEditModel>()
                   .ForMember(m => m.RoadTeam, exp => exp.MapFrom(e => e.RoadParticipant.TeamYear))
                   .ForMember(m => m.HomeTeam, exp => exp.MapFrom(e => e.HomeParticipant.TeamYear))
-                  .ForMember(m => m.ResultReports, exp => exp.MapFrom(e => Mapper.Map<List<GameResultsEditReportModel>>(e.GameResultReports)));
+                  .ForMember(m => m.ResultReports, exp => exp.MapFrom(e => Mapper.Map<List<GameResultsEditReportModel>>(e.GameResultReports)))
+                  .ForMember(m => m.NewReport, exp => exp.MapFrom(e => e));
+
+            Mapper.CreateMap<Game, GameResultsEditCreateReportModel>()
+                  .ForMember(m => m.Team, exp => exp.UseValue(new TeamPickerModel()))
+                  .ForMember(m => m.IsConfirmation, exp => exp.Ignore())
+                  .ForMember(m => m.Note, exp => exp.Ignore());
 
             Mapper.CreateMap<GameResultReport, GameResultsEditReportModel>()
                   .ForMember(m => m.UserName, exp => exp.MapFrom(e => e.CreatedBy))
-                  .ForMember(m => m.SubmittedFrom, exp => exp.MapFrom(e => e.TeamYear == null
-                      ? ReportSubmitter.League
-                      : e.TeamYearId == e.Game.HomeParticipant.TeamYearId
-                          ? ReportSubmitter.HomeTeam
-                          : ReportSubmitter.RoadTeam));
+                  .ForMember(m => m.SubmittedFrom, exp => exp.MapFrom(e => e.TeamYearId == e.Game.HomeParticipant.TeamYearId
+                                                                               ? ReportSubmitter.HomeTeam
+                                                                               : e.TeamYearId == e.Game.RoadParticipant.TeamYearId
+                                                                                     ? ReportSubmitter.RoadTeam
+                                                                                     : ReportSubmitter.League));
 
             #endregion
 

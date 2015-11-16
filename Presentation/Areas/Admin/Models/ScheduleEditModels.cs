@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using DataAnnotationsExtensions;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
@@ -35,7 +36,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         public string TeamName { get; set; }
 
-        [Required, Range(0, 1000)]
+        [Required, Min(0)]
         public int RunsScored { get; set; }
     }
 }

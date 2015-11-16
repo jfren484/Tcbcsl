@@ -426,7 +426,7 @@
     <Content Include="Areas\Admin\Views\Schedule\EditorTemplates\Int.cshtml" />
     <Content Include="Areas\Admin\Views\Game\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Game\EditorTemplates\GameEditTeamModel.cshtml" />
-    <Content Include="Areas\Admin\Views\Game\EditorTemplates\GameEditStatusModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\GameEditStatusModel.cshtml" />
     <Content Include="Areas\Admin\Views\Game\EditorTemplates\GameEditTypeModel.cshtml" />
     <Content Include="Areas\Admin\Views\Game\EditorTemplates\GameParticipantEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\Team\EditorTemplates\TeamEditClinchModel.cshtml" />
@@ -439,6 +439,8 @@
     <Content Include="Areas\Admin\Views\Statistics\_RowNav.cshtml" />
     <Content Include="Areas\Admin\Views\Statistics\Row.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\TeamPickerModel.cshtml" />
+    <Content Include="Areas\Admin\Views\GameResults\EditorTemplates\GameResultsEditCreateReportModel.cshtml" />
+    <Content Include="Areas\Admin\Views\GameResults\EditorTemplates\GameParticipantEditModel.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />

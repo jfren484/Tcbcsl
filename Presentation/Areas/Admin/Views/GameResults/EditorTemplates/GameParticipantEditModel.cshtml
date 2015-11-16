@@ -1,0 +1,15 @@
+﻿@model GameParticipantEditModel
+<div class="form-group">
+    @Html.LabelFor(m => m.RunsScored, Model.TeamYear.FullName, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @if (ViewBag.IsReadonly ?? false)
+        {
+            <p class="form-control-static">@Model.RunsScored</p>
+        }
+        else
+        {
+            @Html.TextBoxFor(m => m.RunsScored, new { @class = "form-control", @type = "number" })
+            @Html.ValidationMessageFor(m => m.RunsScored)
+        }
+    </div>
+</div>

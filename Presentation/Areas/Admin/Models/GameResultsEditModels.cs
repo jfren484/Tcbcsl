@@ -40,6 +40,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public bool IsFinalized { get; set; }
 
         public List<GameResultsEditReportModel> ResultReports { get; set; }
+
+        public GameResultsEditCreateReportModel NewReport { get; set; }
     }
 
     public enum ReportSubmitter

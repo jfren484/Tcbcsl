@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using DataAnnotationsExtensions;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
@@ -34,7 +35,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public GameEditTeamModel TeamYear { get; set; }
 
         [Display(Name = "Runs")]
-        [Required, Range(0, 1000)]
+        [Required, Min(0)]
         public int RunsScored { get; set; }
     }
 

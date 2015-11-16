@@ -1,10 +1,5 @@
 ﻿@model GameResultsEditModel
-<style>
-    .table th {
-        text-align: center;
-    }
-</style>
-<table class="table">
+<table class="table table-centered-headings">
     <thead>
         <tr>
             <th>@Html.LabelFor(m => m.RoadTeam)</th>
@@ -26,10 +21,6 @@
                 <td>@report.HomeTeamScore</td>
             </tr>
         }
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
     </tbody>
 </table>
+@Html.EditorFor(m => m.NewReport)
