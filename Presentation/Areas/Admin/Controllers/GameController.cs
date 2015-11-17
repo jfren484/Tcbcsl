@@ -153,11 +153,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         private void PopulateDropdownLists(GameEditModel model)
         {
-            var gameStatuses = DbContext.GameStatuses
-                                        .OrderBy(gs => gs.GameStatusId)
-                                        .Select(gs => new SelectListItem {Value = gs.GameStatusId.ToString(), Text = gs.Description})
-                                        .ToList();
-            model.GameStatus.ItemSelectList = new SelectList(gameStatuses, "Value", "Text", model.GameStatus.GameStatusId);
+            model.GameStatus.ItemSelectList = GetGameStatusesSelectListItems(model.GameStatus.GameStatusId);
 
             var gameTypes = DbContext.GameTypes
                                      .OrderBy(gt => gt.GameTypeId)

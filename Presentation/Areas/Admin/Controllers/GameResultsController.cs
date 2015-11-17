@@ -124,6 +124,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         private void PopulateDropdownLists(GameResultsEditModel model)
         {
+            model.NewReport.GameStatus.ItemSelectList = GetGameStatusesSelectListItems(null, true);
         }
 
         #endregion

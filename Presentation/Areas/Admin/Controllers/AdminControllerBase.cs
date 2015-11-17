@@ -20,6 +20,21 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #region Helpers
 
+        protected SelectList GetGameStatusesSelectListItems(int? gameStatusId, bool includeEmptyOption = false)
+        {
+            var stateSelectListItems = DbContext.GameStatuses
+                                                .OrderBy(gs => gs.GameStatusId)
+                                                .Select(gs => new SelectListItem { Value = gs.GameStatusId.ToString(), Text = gs.Description })
+                                                .ToList();
+
+            if (includeEmptyOption)
+            {
+                stateSelectListItems.Insert(0, new SelectListItem());
+            }
+
+            return new SelectList(stateSelectListItems, "Value", "Text", gameStatusId);
+        }
+
         protected List<PhoneTypeModel> GetPhoneTypes()
         {
             return DbContext.PhoneNumberTypes
