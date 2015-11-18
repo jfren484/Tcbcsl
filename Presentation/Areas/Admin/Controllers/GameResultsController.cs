@@ -101,11 +101,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 return HttpNotFound();
             }
 
-            Mapper.Map(model, gameParticipant);
+            var newReport = Mapper.Map<GameResultReport>(model.NewReport);
+            gameParticipant.Game.GameResultReports.Add(newReport);
 
             DbContext.SaveChanges(User.Identity.Name);
 
-            return RedirectToAction("List");
+            return RedirectToAction("List"); // TODO: better redirect
         }
 
         #endregion

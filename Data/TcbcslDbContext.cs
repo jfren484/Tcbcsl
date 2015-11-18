@@ -37,20 +37,16 @@ namespace Tcbcsl.Data
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamYear> TeamYears { get; set; }
 
-        private static readonly EntityState[] AddedOrModified = { EntityState.Added, EntityState.Modified };
-
         public int SaveChanges(string username)
         {
-            foreach (var entry in ChangeTracker.Entries<EntityModifiable>().Where(e => AddedOrModified.Contains(e.State)))
+            foreach (var entry in ChangeTracker.Entries<EntityCreatable>().Where(e => e.State == EntityState.Added))
             {
-                if (entry.State == EntityState.Added)
-                {
-                    entry.Entity.UpdateCreatedFields(username);
-                }
-                else
-                {
-                    entry.Entity.UpdateModifiedFields(username);
-                }
+                entry.Entity.UpdateCreatedFields(username);
+            }
+
+            foreach (var entry in ChangeTracker.Entries<EntityModifiable>().Where(e => e.State == EntityState.Modified))
+            {
+                entry.Entity.UpdateModifiedFields(username);
             }
 
             return base.SaveChanges();

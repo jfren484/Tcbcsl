@@ -164,11 +164,23 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<GameResultReport, GameResultsEditReportModel>()
                   .ForMember(m => m.UserName, exp => exp.MapFrom(e => e.CreatedBy))
-                  .ForMember(m => m.SubmittedFrom, exp => exp.MapFrom(e => e.TeamYearId == e.Game.HomeParticipant.TeamYearId
+                  .ForMember(m => m.SubmittedFrom, exp => exp.MapFrom(e => e.TeamId == e.Game.HomeParticipant.TeamYear.TeamId
                                                                                ? ReportSubmitter.HomeTeam
-                                                                               : e.TeamYearId == e.Game.RoadParticipant.TeamYearId
+                                                                               : e.TeamId == e.Game.RoadParticipant.TeamYear.TeamId
                                                                                      ? ReportSubmitter.RoadTeam
                                                                                      : ReportSubmitter.League));
+
+            Mapper.CreateMap<GameResultsEditCreateReportModel, GameResultReport>()
+                  .ForMember(m => m.GameResultReportId, exp => exp.Ignore())
+                  .ForMember(m => m.GameId, exp => exp.Ignore())
+                  .ForMember(m => m.Game, exp => exp.Ignore())
+                  .ForMember(m => m.TeamId, exp => exp.MapFrom(e => e.Team.TeamId))
+                  .ForMember(m => m.Team, exp => exp.Ignore())
+                  .ForMember(m => m.GameStatusId, exp => exp.MapFrom(e => e.GameStatus.GameStatusId))
+                  .ForMember(m => m.GameStatus, exp => exp.Ignore())
+                  .ForMember(m => m.RoadTeamScore, exp => exp.MapFrom(e => e.RoadParticipant.RunsScored))
+                  .ForMember(m => m.HomeTeamScore, exp => exp.MapFrom(e => e.HomeParticipant.RunsScored))
+                  .MapEntityCreatable();
 
             #endregion
 
@@ -313,8 +325,7 @@ namespace Tcbcsl.Presentation
                   .ForMember(e => e.HeadCoachId, exp => exp.MapFrom(m => m.HeadCoach.CoachId))
                   .ForMember(e => e.HeadCoach, exp => exp.Ignore())
                   .ForMember(e => e.Clinch, exp => exp.MapFrom(m => m.Clinch.ClinchChar))
-                  .ForMember(e => e.GameParticipants, exp => exp.Ignore())
-                  .ForMember(e => e.GameResultReports, exp => exp.Ignore());
+                  .ForMember(e => e.GameParticipants, exp => exp.Ignore());
 
             Mapper.CreateMap<TeamEditModel, Team>()
                   .MapEntityModifiable()
@@ -322,7 +333,8 @@ namespace Tcbcsl.Presentation
                   .ForMember(e => e.TeamYears, exp => exp.Ignore())
                   .ForMember(e => e.NewsItems, exp => exp.Ignore())
                   .ForMember(e => e.Players, exp => exp.Ignore())
-                  .ForMember(e => e.ManagingUsers, exp => exp.Ignore());
+                  .ForMember(e => e.ManagingUsers, exp => exp.Ignore())
+                  .ForMember(e => e.GameResultReports, exp => exp.Ignore());
 
             #endregion
 
@@ -381,7 +393,7 @@ namespace Tcbcsl.Presentation
 
             return !UserCache.AssignedTeams
                              .Select(kvp => (int?)kvp.Key)
-                             .Contains(latestNonConfirm.TeamYear.TeamId);
+                             .Contains(latestNonConfirm.TeamId);
         }
 
         private static string GetOutcome(this GameParticipant gp)
@@ -430,12 +442,18 @@ namespace Tcbcsl.Presentation
             return mapping.ForMember(m => m.AuditDetails, exp => exp.MapFrom(e => Mapper.Map<AuditDetailsModel>(e)));
         }
 
+        private static IMappingExpression<TModel, TEntity> MapEntityCreatable<TModel, TEntity>(this IMappingExpression<TModel, TEntity> mapping)
+            where TEntity : EntityCreatable
+        {
+            return mapping.ForMember(e => e.CreatedBy, exp => exp.Ignore())
+                          .ForMember(e => e.Created, exp => exp.Ignore());
+        }
+
         private static IMappingExpression<TModel, TEntity> MapEntityModifiable<TModel, TEntity>(this IMappingExpression<TModel, TEntity> mapping)
             where TModel : EditModelBaseWithAudit
             where TEntity : EntityModifiable
         {
-            return mapping.ForMember(e => e.CreatedBy, exp => exp.Ignore())
-                          .ForMember(e => e.Created, exp => exp.Ignore())
+            return mapping.MapEntityCreatable()
                           .ForMember(e => e.Modified, exp => exp.Ignore())
                           .ForMember(e => e.ModifiedBy, exp => exp.Ignore());
         }

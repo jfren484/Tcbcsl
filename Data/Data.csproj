@@ -170,6 +170,10 @@
     <Compile Include="Migrations\201511090541235_ChangeReportRelationship.Designer.cs">
       <DependentUpon>201511090541235_ChangeReportRelationship.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511182306228_RevertReportRelationshipChange.cs" />
+    <Compile Include="Migrations\201511182306228_RevertReportRelationshipChange.Designer.cs">
+      <DependentUpon>201511182306228_RevertReportRelationshipChange.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
     <Compile Include="Entities\PageContent.cs" />
@@ -254,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511090541235_ChangeReportRelationship.resx">
       <DependentUpon>201511090541235_ChangeReportRelationship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511182306228_RevertReportRelationshipChange.resx">
+      <DependentUpon>201511182306228_RevertReportRelationshipChange.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

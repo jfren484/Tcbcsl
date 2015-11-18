@@ -17,5 +17,7 @@ namespace Tcbcsl.Data.Entities
         public virtual ICollection<Player> Players { get; set; }
 
         public virtual ICollection<TcbcslUser> ManagingUsers { get; set; }
+
+        public virtual ICollection<GameResultReport> GameResultReports { get; set; }
     }
 }
