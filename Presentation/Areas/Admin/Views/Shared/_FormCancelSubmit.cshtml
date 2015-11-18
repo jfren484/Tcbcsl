@@ -1,6 +1,10 @@
 ﻿@model string
+@{
+    var labelWidth = ViewBag.LabelWidth ?? 2;
+    var editorWidth = 12 - labelWidth;
+}
 <div class="form-group">
-    <div class="col-sm-10 col-sm-offset-2">
+    <div class="col-sm-@editorWidth col-sm-offset-@labelWidth">
         <button type="reset" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Reset</button>
         <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Submit</button>
         <a class="return-link" href="@Model"><span class="glyphicon glyphicon-list"></span> Return</a>

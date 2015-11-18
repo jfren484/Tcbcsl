@@ -6,6 +6,9 @@ a {
 body {
   padding-top: 50px;
 }
+footer {
+  clear: both;
+}
 input[type="number"] {
   text-align: right;
 }

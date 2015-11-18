@@ -1,7 +1,11 @@
 ﻿@model GameParticipantEditModel
+@{
+    var labelWidth = ViewBag.LabelWidth ?? 2;
+    var editorWidth = 12 - labelWidth;
+}
 <div class="form-group">
-    @Html.LabelFor(m => m.RunsScored, Model.TeamYear.FullName, new { @class = "control-label col-sm-2" })
-    <div class="col-sm-10">
+    @Html.LabelFor(m => m.RunsScored, Model.TeamYear.FullName, new { @class = $"control-label col-sm-{labelWidth}" })
+    <div class="col-sm-@editorWidth">
         @if (ViewBag.IsReadonly ?? false)
         {
             <p class="form-control-static">@Model.RunsScored</p>
