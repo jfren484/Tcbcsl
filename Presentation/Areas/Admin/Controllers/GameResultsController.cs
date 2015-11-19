@@ -86,7 +86,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             var model = Mapper.Map<GameResultsEditModel>(gameParticipant.Game);
-            PopulateDropdownLists(model);
+            PopulateDropdownLists(model.NewReport);
 
             return View(model);
         }
@@ -123,9 +123,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             model.Teams = Mapper.Map<List<TeamBasicInfoModel>>(teams);
         }
 
-        private void PopulateDropdownLists(GameResultsEditModel model)
+        private void PopulateDropdownLists(GameResultsEditCreateReportModel model)
         {
-            model.NewReport.GameStatus.ItemSelectList = GetGameStatusesSelectListItems(null, true);
+            model.GameStatus.ItemSelectList = GetGameStatusesSelectListItems(null, true);
         }
 
         #endregion

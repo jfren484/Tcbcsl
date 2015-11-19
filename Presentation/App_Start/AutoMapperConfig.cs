@@ -104,6 +104,8 @@ namespace Tcbcsl.Presentation
                   .MapEditModelBaseWithAudit();
 
             Mapper.CreateMap<GameStatus, GameEditStatusModel>();
+            Mapper.CreateMap<GameStatus, string>()
+                  .ConvertUsing(e => e == null ? null : e.Description);
 
             Mapper.CreateMap<GameType, GameEditTypeModel>();
 
