@@ -1,4 +1,8 @@
 ﻿@model GameResultsEditModel
+@{
+    var title = $"Game Result - {Model.GameDate.ToString(Consts.DateFormatDisplay)}";
+    ViewBag.Title = title;
+}
 <table class="table table-centered-headings">
     <thead>
         <tr>

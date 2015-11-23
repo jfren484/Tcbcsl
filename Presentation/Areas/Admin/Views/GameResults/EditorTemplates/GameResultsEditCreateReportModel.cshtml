@@ -1,13 +1,26 @@
 ﻿@model GameResultsEditCreateReportModel
-@{ ViewBag.LabelWidth = 5; }
+@{
+    ViewBag.LabelWidth = 5;
+
+    var confirmable = true;
+    var result = "Fourth TimberCats 15, Radisson Road 3";
+}
 <div class="well col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 row">
-    @using (Html.BeginForm("Game", "GameResults", FormMethod.Post, new { @class = "form-horizontal form-with-validation" }))
+    @using (Html.BeginForm("Game", "GameResults", FormMethod.Post, new {id = "NewReportForm", @class = "form-horizontal form-with-validation"}))
     {
         <fieldset>
-            <legend>Report/Update Results</legend>
-            @Html.EditorFor(m => m.GameStatus)
-            @Html.EditorFor(m => m.RoadParticipant)
-            @Html.EditorFor(m => m.HomeParticipant)
+            <legend>Report Result</legend>
+            @if (confirmable)
+            {
+                <div class="form-group center col-sm-12">
+                    <label>@Html.CheckBoxFor(m => m.IsConfirmation) @Html.DisplayNameFor(m => m.IsConfirmation) (@result)</label>
+                </div>
+            }
+            <div class="confirmable">
+                @Html.EditorFor(m => m.GameStatus)
+                @Html.EditorFor(m => m.RoadParticipant)
+                @Html.EditorFor(m => m.HomeParticipant)
+            </div>
             @Html.EditorFor(m => m.Note)
             @Html.Partial("_FormCancelSubmit", Url.Action("List"))
         </fieldset>

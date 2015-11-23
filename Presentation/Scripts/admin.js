@@ -317,3 +317,24 @@ $('.table-form')
     });
 
 //#endregion
+
+//#region Game Result New Report Form Event Handlers
+
+$('#NewReportForm').on('change', '#NewReport_IsConfirmation', function () {
+    var checked = $(this).is(':checked');
+    if (checked) {
+        $('#NewReportForm .confirmable input').val(function () {
+            return this.defaultValue;
+        });
+        $('#NewReportForm .confirmable option').prop('selected', function () {
+            return this.defaultSelected;
+        });
+    }
+    $('#NewReportForm .confirmable .form-control').prop('disabled', checked);
+});
+
+$('#NewReportForm').on('click', '[type="reset"]', function () {
+    $('#NewReportForm .confirmable .form-control').prop('disabled', false);
+});
+
+//#endregion

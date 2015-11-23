@@ -72,6 +72,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
     {
         public TeamPickerModel Team { get; set; }
 
+        [Display(Name = "Confirm Reported Score")]
         public bool IsConfirmation { get; set; }
 
         public GameEditStatusModel GameStatus { get; set; }

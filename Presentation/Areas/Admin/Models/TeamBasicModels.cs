@@ -4,7 +4,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
     public class TeamPickerModel
     {
-        public int TeamId { get; set; }
+        public int? TeamId { get; set; }
         public int Year { get; set; }
         public string FullName { get; set; }
 
