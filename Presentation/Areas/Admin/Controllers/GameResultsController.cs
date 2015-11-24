@@ -60,7 +60,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                     var model = Mapper.Map<GameResultsListModel>(gp);
                                     model.UrlsForActions = new Dictionary<string, string>
                                                        {
-                                                           ["SubmitResults"] = Url.Action("Game", new {id = model.GameParticipantId }),
+                                                           ["SubmitResults"] = Url.Action("Game", new {id = model.GameParticipantId}),
                                                            ["EnterStats"] = gp.Game.GameStatus.AllowStatistics && gp.TeamYear.KeepsStats
                                                                                 ? Url.Action("Game", "Statistics", new {id = model.GameParticipantId})
                                                                                 : null
@@ -86,6 +86,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             var model = Mapper.Map<GameResultsEditModel>(gameParticipant.Game);
+            model.NewReport.UrlForReturn = Request.UrlReferrer.PathAndQuery;
             PopulateDropdownLists(model.NewReport);
 
             return View(model);
@@ -104,9 +105,23 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var newReport = Mapper.Map<GameResultReport>(model.NewReport);
             gameParticipant.Game.GameResultReports.Add(newReport);
 
+            if (model.NewReport.IsConfirmation)
+            {
+                // TODO: mark game as finalized (maybe)
+            }
+            else
+            {
+                if (model.NewReport.GameStatus.GameStatusId != null)
+                {
+                    gameParticipant.Game.GameStatusId = model.NewReport.GameStatus.GameStatusId.Value;
+                }
+                gameParticipant.Game.RoadParticipant.RunsScored = model.NewReport.RoadParticipant.RunsScored;
+                gameParticipant.Game.HomeParticipant.RunsScored = model.NewReport.HomeParticipant.RunsScored;
+            }
+
             DbContext.SaveChanges(User.Identity.Name);
 
-            return RedirectToAction("List"); // TODO: better redirect
+            return Redirect(model.NewReport.UrlForReturn);
         }
 
         #endregion

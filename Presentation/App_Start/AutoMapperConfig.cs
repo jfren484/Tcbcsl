@@ -160,6 +160,8 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.NewReport, exp => exp.MapFrom(e => e));
 
             Mapper.CreateMap<Game, GameResultsEditCreateReportModel>()
+                  .ForMember(m => m.CurrentResult, exp => exp.MapFrom(g => g.GetResultDescription()))
+                  .ForMember(m => m.IsConfirmable, exp => exp.MapFrom(g => g.GameResultReports.Any()))
                   .ForMember(m => m.Team, exp => exp.UseValue(new TeamPickerModel()))
                   .ForMember(m => m.IsConfirmation, exp => exp.Ignore())
                   .ForMember(m => m.Note, exp => exp.Ignore());
@@ -396,6 +398,31 @@ namespace Tcbcsl.Presentation
             return !UserCache.AssignedTeams
                              .Select(kvp => (int?)kvp.Key)
                              .Contains(latestNonConfirm.TeamId);
+        }
+
+        private static string GetResultDescription(this Game g)
+        {
+            switch (g.GameStatusId)
+            {
+                case GameStatus.Scheduled:
+                    return "";
+                case GameStatus.Postponed:
+                    return "Postponed";
+                case GameStatus.RainedOut:
+                    return "Rained Out";
+            }
+
+            var participants = (from gp in g.GameParticipants
+                                orderby gp.RunsScored descending
+                                select new
+                                {
+                                    Team = gp.TeamYear.FullName,
+                                    Runs = gp.RunsScored
+                                }).ToList();
+
+            return g.GameStatusId == GameStatus.Forfeited
+                ? $"{participants[1].Team} forfeit to {participants[0].Team}"
+                : $"{participants[0].Team} {participants[0].Runs}, {participants[1].Team} {participants[1].Runs}";
         }
 
         private static string GetOutcome(this GameParticipant gp)

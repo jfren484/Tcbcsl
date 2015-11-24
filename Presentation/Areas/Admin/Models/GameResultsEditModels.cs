@@ -70,6 +70,10 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
     public class GameResultsEditCreateReportModel
     {
+        public bool IsConfirmable { get; set; }
+
+        public string CurrentResult { get; set; }
+
         public TeamPickerModel Team { get; set; }
 
         [Display(Name = "Confirm Reported Score")]
@@ -82,5 +86,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public GameParticipantEditModel HomeParticipant { get; set; }
 
         public string Note { get; set; }
+
+        public string UrlForReturn { get; set; }
     }
 }
