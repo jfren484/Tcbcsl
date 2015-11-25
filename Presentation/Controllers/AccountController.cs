@@ -303,6 +303,7 @@ namespace Tcbcsl.Presentation.Controllers
         [Route("LogOff")]
         public ActionResult LogOff()
         {
+            UserCache.Clear();
             AuthenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
         }

@@ -162,7 +162,7 @@ namespace Tcbcsl.Presentation
             Mapper.CreateMap<Game, GameResultsEditCreateReportModel>()
                   .ForMember(m => m.CurrentResult, exp => exp.MapFrom(g => g.GetResultDescription()))
                   .ForMember(m => m.IsConfirmable, exp => exp.MapFrom(g => g.GameResultReports.Any()))
-                  .ForMember(m => m.Team, exp => exp.UseValue(new TeamPickerModel()))
+                  .ForMember(m => m.Team, exp => exp.UseValue(new GameResultsTeamModel()))
                   .ForMember(m => m.IsConfirmation, exp => exp.Ignore())
                   .ForMember(m => m.Note, exp => exp.Ignore());
 

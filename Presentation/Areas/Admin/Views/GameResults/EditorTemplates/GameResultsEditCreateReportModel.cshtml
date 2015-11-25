@@ -3,7 +3,7 @@
     ViewBag.LabelWidth = 5;
 }
 <div class="well col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 row">
-    @using (Html.BeginForm("Game", "GameResults", FormMethod.Post, new {id = "NewReportForm", @class = "form-horizontal form-with-validation"}))
+    @using (Html.BeginForm("Game", "GameResults", FormMethod.Post, new { id = "NewReportForm", @class = "form-horizontal form-with-validation" }))
     {
         <fieldset>
             <legend>Report Result</legend>
@@ -19,6 +19,14 @@
                 @Html.EditorFor(m => m.HomeParticipant)
             </div>
             @Html.EditorFor(m => m.Note)
+            @if (Model.Team.ItemSelectList.Count() > 1)
+            {
+                @Html.EditorFor(m => m.Team)
+            }
+            else
+            {
+                @Html.HiddenFor(m => m.Team.TeamId)
+            }
             @Html.HiddenFor(m => m.UrlForReturn)
             @Html.Partial("_FormCancelSubmit", Model.UrlForReturn)
         </fieldset>

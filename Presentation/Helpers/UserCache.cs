@@ -8,16 +8,23 @@ namespace Tcbcsl.Presentation.Helpers
 {
     public static class UserCache
     {
+        private const string SessionKey = "AssignedTeams";
+
         public static Dictionary<int, string> AssignedTeams
         {
             get
             {
-                return HttpContext.Current.Session["AssignedTeams"] as Dictionary<int, string> ?? SetAssignedTeams();
+                return HttpContext.Current.Session[SessionKey] as Dictionary<int, string> ?? SetAssignedTeams();
             }
             private set
             {
-                HttpContext.Current.Session["AssignedTeams"] = value;
+                HttpContext.Current.Session[SessionKey] = value;
             }
+        }
+
+        public static void Clear()
+        {
+            HttpContext.Current.Session.Remove(SessionKey);
         }
 
         private static Dictionary<int, string> SetAssignedTeams()

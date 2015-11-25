@@ -441,6 +441,7 @@
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\TeamPickerModel.cshtml" />
     <Content Include="Areas\Admin\Views\GameResults\EditorTemplates\GameResultsEditCreateReportModel.cshtml" />
     <Content Include="Areas\Admin\Views\GameResults\EditorTemplates\GameParticipantEditModel.cshtml" />
+    <Content Include="Areas\Admin\Views\GameResults\EditorTemplates\GameResultsTeamModel.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />

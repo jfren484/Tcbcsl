@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
@@ -87,7 +88,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             var model = Mapper.Map<GameResultsEditModel>(gameParticipant.Game);
             model.NewReport.UrlForReturn = Request.UrlReferrer.PathAndQuery;
-            PopulateDropdownLists(model.NewReport);
+            PopulateDropdownLists(model.NewReport, gameParticipant.Game);
 
             return View(model);
         }
@@ -104,12 +105,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             var newReport = Mapper.Map<GameResultReport>(model.NewReport);
             gameParticipant.Game.GameResultReports.Add(newReport);
+            DbContext.SaveChanges(User.Identity.Name);
 
-            if (model.NewReport.IsConfirmation)
-            {
-                // TODO: mark game as finalized (maybe)
-            }
-            else
+            if (!model.NewReport.IsConfirmation)
             {
                 if (model.NewReport.GameStatus.GameStatusId != null)
                 {
@@ -117,9 +115,15 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 }
                 gameParticipant.Game.RoadParticipant.RunsScored = model.NewReport.RoadParticipant.RunsScored;
                 gameParticipant.Game.HomeParticipant.RunsScored = model.NewReport.HomeParticipant.RunsScored;
-            }
+                DbContext.SaveChanges(User.Identity.Name);
 
-            DbContext.SaveChanges(User.Identity.Name);
+                // TODO: email users for other team
+            }
+            else if (CanFinalize(gameParticipant.Game))
+            {
+                gameParticipant.Game.IsFinalized = true;
+                DbContext.SaveChanges(User.Identity.Name);
+            }
 
             return Redirect(model.NewReport.UrlForReturn);
         }
@@ -127,6 +131,27 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         #endregion
 
         #region Helpers
+
+        private bool CanFinalize(Game game)
+        {
+            var reportData = game.GameResultReports
+                                 .OrderByDescending(r => r.Created)
+                                 .Select(r => new
+                                              {
+                                                  r.IsConfirmation,
+                                                  r.TeamId
+                                              })
+                                 .ToList();
+
+            var reportingTeamIds = reportData.Take(reportData.FindIndex(d => !d.IsConfirmation) + 1)
+                                             .Select(d => d.TeamId)
+                                             .ToList();
+
+            return game.GameParticipants
+                       .Select(gp => gp.TeamYear.TeamId)
+                       .ToList()
+                       .All(id => reportingTeamIds.Contains(id));
+        }
 
         private void PopulateDropdownLists(TeamPickerModel model)
         {
@@ -138,8 +163,19 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             model.Teams = Mapper.Map<List<TeamBasicInfoModel>>(teams);
         }
 
-        private void PopulateDropdownLists(GameResultsEditCreateReportModel model)
+        private void PopulateDropdownLists(GameResultsEditCreateReportModel model, Game game)
         {
+            var teams = game.GameParticipants
+                            .Select(gp => gp.TeamYear)
+                            .OrderBy(ty => ty.FullName);
+
+            var teamModels = new[] { new TeamBasicInfoModel { FullName = Consts.LeagueNameForList } }
+                                 .Concat(Mapper.Map<List<TeamBasicInfoModel>>(teams))
+                                 .FilterTeamsForUser(User, m => m.TeamId)
+                                 .ToList();
+            model.Team.TeamId = teamModels.Count == 1 ? teamModels[0].TeamId : null;
+            model.Team.ItemSelectList = new SelectList(teamModels, "TeamId", "FullName", model.Team.TeamId);
+
             model.GameStatus.ItemSelectList = GetGameStatusesSelectListItems(null, true);
         }
 

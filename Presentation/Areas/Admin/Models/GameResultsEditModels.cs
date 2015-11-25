@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
@@ -74,11 +75,13 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         public string CurrentResult { get; set; }
 
-        public TeamPickerModel Team { get; set; }
+        [Display(Name = "Report On Behalf Of")]
+        public GameResultsTeamModel Team { get; set; }
 
         [Display(Name = "Confirm Reported Score")]
         public bool IsConfirmation { get; set; }
 
+        [Display(Name = "Result")]
         public GameEditStatusModel GameStatus { get; set; }
 
         public GameParticipantEditModel RoadParticipant { get; set; }
@@ -88,5 +91,13 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public string Note { get; set; }
 
         public string UrlForReturn { get; set; }
+    }
+
+    public class GameResultsTeamModel
+    {
+        public int? TeamId { get; set; }
+        public string FullName { get; set; }
+
+        public SelectList ItemSelectList { get; set; }
     }
 }
