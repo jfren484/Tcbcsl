@@ -166,6 +166,8 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.IsConfirmation, exp => exp.Ignore())
                   .ForMember(m => m.Note, exp => exp.Ignore());
 
+            Mapper.CreateMap<GameStatus, GameResultsStatusModel>();
+
             Mapper.CreateMap<GameResultReport, GameResultsEditReportModel>()
                   .ForMember(m => m.UserName, exp => exp.MapFrom(e => e.CreatedBy))
                   .ForMember(m => m.SubmittedFrom, exp => exp.MapFrom(e => e.TeamId == e.Game.HomeParticipant.TeamYear.TeamId
