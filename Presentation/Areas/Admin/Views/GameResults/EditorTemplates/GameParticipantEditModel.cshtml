@@ -12,7 +12,7 @@
         }
         else
         {
-            @Html.TextBoxFor(m => m.RunsScored, new { @class = "form-control", @type = "number" })
+            @Html.TextBoxFor(m => m.RunsScored, new { @class = "form-control", @type = "number", data_rule_forfeit_score = true })
             @Html.ValidationMessageFor(m => m.RunsScored)
         }
     </div>

@@ -28,3 +28,22 @@
     </tbody>
 </table>
 @Html.EditorFor(m => m.NewReport)
+@section scripts
+{
+    <script>
+        $(function () {
+            $.validator.addMethod("forfeit-score", function (value, element) {
+                if ($('select[name$=".GameStatusId"').val() != '@Tcbcsl.Data.Entities.GameStatus.Forfeited') return true;
+
+                var otherValue = $('input[name$="number"]').not('#' + element.id).val();
+
+                // The other value is valid - make sure this one is appropriate.
+                if (otherValue === '0') return value === '15';
+                if (otherValue === '15') return value === '0';
+
+                // The other value was not valid, so validate this value on its own.
+                return value === '0' || value === '15';
+            }, "The score of a forfeit must be 15 - 0.");
+        });
+    </script>
+}
