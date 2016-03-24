@@ -20,6 +20,7 @@ namespace Tcbcsl.Presentation
         public const string DateFormat = "yyyy-MM-dd";
         public const string DateFormatDisplay = "MMMM d, yyyy";
         public const string DateTimeFormatDisplay = "MMMM d, yyyy, h:mm tt";
+        public const string GameDateTimeFormat = "MMM d, h:mm tt";
         public const string GamesBackFormat = "0.0;0.0;'---'";
 
         public static readonly DateTime[] TournamentDates =

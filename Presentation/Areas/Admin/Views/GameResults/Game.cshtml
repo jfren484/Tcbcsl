@@ -3,36 +3,45 @@
     var title = $"Game Result - {Model.GameDate.ToString(Consts.DateFormatDisplay)}";
     ViewBag.Title = title;
 }
-<table class="table table-centered-headings">
-    <thead>
-        <tr>
-            <th>@Html.LabelFor(m => m.RoadTeam)</th>
-            <th>@@</th>
-            <th>@Html.LabelFor(m => m.HomeTeam)</th>
-        </tr>
-        <tr>
-            <th>@Model.RoadTeam.FullName</th>
-            <th>@Model.GameDate.ToString(Consts.DateTimeFormatDisplay)</th>
-            <th>@Model.HomeTeam.FullName</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var report in Model.ResultReports)
-        {
-            <tr>
-                <td>@report.RoadTeamScore</td>
-                <td>@report.GameStatus</td>
-                <td>@report.HomeTeamScore</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<style>
+    .row.header {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .game-report-league {
+        border: 1px solid black;
+        border-radius: 10px;
+        box-shadow: 0 0 5px black;
+    }
+</style>
+<div class="row header">
+    <div class="hidden-xs col-sm-4                 col-md-3 col-md-offset-2 col-lg-2 col-lg-offset-3">@Html.LabelFor(m => m.RoadTeam)</div>
+    <div class="hidden-xs col-sm-4 col-sm-offset-4 col-md-3 col-md-offset-2 col-lg-2 col-lg-offset-2">@Html.LabelFor(m => m.HomeTeam)</div>
+</div>
+<div class="row header">
+    <div class="col-xs-12 col-sm-4               col-md-3 col-md-offset-2 col-lg-2 col-lg-offset-3">@Model.RoadTeam.FullName</div>
+    <div class="col-xs-12 col-sm-4 col-sm-push-4 col-md-3 col-md-push-2   col-lg-2 col-lg-push-2"><span class="visible-xs-inline">@@ </span>@Model.HomeTeam.FullName</div>
+    <div class="col-xs-12 col-sm-4 col-sm-pull-4 col-md-2 col-md-pull-3   col-lg-2 col-lg-pull-2">@Model.GameDate.ToString(Consts.GameDateTimeFormat)</div>
+</div>
+@foreach (var report in Model.ResultReports)
+{
+    <div class="row">
+        <div class="game-report-@(report.SubmittedFrom.ToString().ToLower()) col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            <div class="row">
+                <div class="col-sm-4">@report.RoadTeamScore</div>
+                <div class="col-sm-4">@report.GameStatus</div>
+                <div class="col-sm-4">@report.HomeTeamScore</div>
+            </div>
+        </div>
+    </div>
+}
 @Html.EditorFor(m => m.NewReport)
 @section scripts
 {
     <script>
         $(function () {
-            $.validator.addMethod("forfeit-score", function (value, element) {
+            $.validator.addMethod('forfeit-score', function (value, element) {
                 if ($('select[name$=".GameStatusId"').val() != '@Tcbcsl.Data.Entities.GameStatus.Forfeited') return true;
 
                 var otherValue = $('input[name$="number"]').not('#' + element.id).val();
@@ -43,7 +52,7 @@
 
                 // The other value was not valid, so validate this value on its own.
                 return value === '0' || value === '15';
-            }, "The score of a forfeit must be 15 - 0.");
+            }, 'The score of a forfeit must be 15 - 0.');
         });
     </script>
 }
