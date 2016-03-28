@@ -170,6 +170,7 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<GameResultReport, GameResultsEditReportModel>()
                   .ForMember(m => m.UserName, exp => exp.MapFrom(e => e.CreatedBy))
+                  .ForMember(m => m.ReportDate, exp => exp.MapFrom(e => e.Created))
                   .ForMember(m => m.SubmittedFrom, exp => exp.MapFrom(e => e.TeamId == e.Game.HomeParticipant.TeamYear.TeamId
                                                                                ? ReportSubmitter.HomeTeam
                                                                                : e.TeamId == e.Game.RoadParticipant.TeamYear.TeamId

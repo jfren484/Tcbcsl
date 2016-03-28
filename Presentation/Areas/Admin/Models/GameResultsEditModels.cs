@@ -56,6 +56,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
     {
         public string UserName { get; set; }
 
+        public DateTime ReportDate { get; set; }
+
         public ReportSubmitter SubmittedFrom { get; set; }
 
         public bool IsConfirmation { get; set; }
