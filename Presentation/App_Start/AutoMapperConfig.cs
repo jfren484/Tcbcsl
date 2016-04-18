@@ -63,6 +63,7 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<AddressEditModel, Address>()
                   .MapEntityModifiable()
+                  .ForMember(e => e.AddressId, exp => exp.Ignore())
                   .ForMember(e => e.StateId, exp => exp.MapFrom(m => m.State.StateId))
                   .ForMember(e => e.State, exp => exp.Ignore());
 

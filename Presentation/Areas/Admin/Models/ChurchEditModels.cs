@@ -24,5 +24,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [UIHint("HtmlEditor")]
         [AllowHtml]
         public string Information { get; set; }
+
+        public string UrlForReturn { get; set; }
     }
 }
