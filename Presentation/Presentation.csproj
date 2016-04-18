@@ -532,6 +532,7 @@
     <Content Include="Content\bootswatch.less" />
     <Content Include="Content\variables.less" />
     <Content Include="Content\_bootstrap-datetimepicker.less" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\admin.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
@@ -822,7 +823,7 @@
     <None Include="Views\Statistics\StatisticsForTeam.cshtml" />
     <Content Include="Views\Statistics\_StatsTable.cshtml" />
     <None Include="Views\Team\View.cshtml" />
-    <None Include="Web.Sensitive.config" />
+    <Content Include="Web.Sensitive.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
