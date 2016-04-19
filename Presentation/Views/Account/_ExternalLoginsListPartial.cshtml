@@ -1,11 +1,11 @@
 ﻿@model ExternalLoginListViewModel
 @using Microsoft.Owin.Security
-
 <h4>Use another service to log in.</h4>
 <hr />
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes().ToList();
-    if (!loginProviders.Any()) {
+    if (!loginProviders.Any())
+    {
         <div>
             <p>
                 There are no external authentication services configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=313242">this article</a>
@@ -13,15 +13,17 @@
             </p>
         </div>
     }
-    else {
-        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl })) {
+    else
+    {
+        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl }))
+        {
             @Html.AntiForgeryToken()
             <div id="socialLoginList">
-                <p>
-                    @foreach (AuthenticationDescription p in loginProviders) {
-                        <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
-                    }
-                </p>
+                @foreach (var p in loginProviders)
+                {
+                    <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider"
+                        value="@p.AuthenticationType" title="Log in using your @p.Caption account"><img src="~/Content/Images/LoginProviders/@(p.AuthenticationType).png" /></button>
+                }
             </div>
         }
     }

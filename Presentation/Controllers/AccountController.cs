@@ -103,7 +103,14 @@ namespace Tcbcsl.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new TcbcslUser { UserName = model.Email, Email = model.Email };
+                var user = new TcbcslUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    NameFirst = model.FirstName,
+                    NameLast = model.LastName
+                };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -279,7 +286,14 @@ namespace Tcbcsl.Presentation.Controllers
                     return View("ExternalLoginFailure");
                 }
 
-                var user = new TcbcslUser { UserName = model.Email, Email = model.Email };
+                var user = new TcbcslUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    NameFirst = model.FirstName,
+                    NameLast = model.LastName
+                };
+
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

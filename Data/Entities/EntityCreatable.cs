@@ -5,7 +5,7 @@ namespace Tcbcsl.Data.Entities
 {
     public abstract class EntityCreatable : EntityBase
     {
-        [Required]
+        [Required, MaxLength(200)]
         public string CreatedBy { get; set; }
 
         [Required]

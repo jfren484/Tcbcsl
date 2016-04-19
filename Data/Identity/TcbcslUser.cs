@@ -4,11 +4,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Tcbcsl.Data.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tcbcsl.Data.Identity
 {
     public class TcbcslUser : IdentityUser
     {
+        [MaxLength(30), Required]
+        public string NameLast { get; set; }
+
+        [MaxLength(20), Required]
+        public string NameFirst { get; set; }
+
         public virtual ICollection<Team> AssignedTeams { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<TcbcslUser> manager)
