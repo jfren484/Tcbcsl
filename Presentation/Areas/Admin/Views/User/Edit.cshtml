@@ -12,6 +12,8 @@
             <legend>@title</legend>
             @Html.EditorFor(m => m.UserName, new { IsReadonly = true })
             @Html.EditorFor(m => m.Email, new { IsReadonly = true })
+            @Html.EditorFor(m => m.FirstName)
+            @Html.EditorFor(m => m.LastName)
             @Html.EditorFor(m => m.Roles)
             @Html.EditorFor(m => m.AssignedTeams)
             @Html.Partial("_FormCancelSubmit", Url.Action("List"))

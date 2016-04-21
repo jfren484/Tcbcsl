@@ -349,6 +349,8 @@ namespace Tcbcsl.Presentation
             #region User Management
 
             Mapper.CreateMap<TcbcslUser, UserEditModel>()
+                  .ForMember(m => m.FirstName, exp => exp.MapFrom(e => e.NameFirst))
+                  .ForMember(m => m.LastName, exp => exp.MapFrom(e => e.NameLast))
                   .ForMember(m => m.Roles, exp => exp.MapFrom(e => new RolesEditModel {RoleIds = e.Roles.Select(r => r.RoleId).ToList()}))
                   .ForMember(m => m.AssignedTeams, exp => exp.MapFrom(e => new AssignedTeamsEditModel
                                                                            {
@@ -374,6 +376,8 @@ namespace Tcbcsl.Presentation
                   .ConvertUsing(ty => $"{ty.FullName} ({ty.Year})");
 
             Mapper.CreateMap<UserEditModel, TcbcslUser>()
+                  .ForMember(m => m.NameFirst, exp => exp.MapFrom(e => e.FirstName))
+                  .ForMember(m => m.NameLast, exp => exp.MapFrom(e => e.LastName))
                   .ForMember(e => e.Roles, exp => exp.MapFrom(m => m.Roles.RoleIds.Select(id => new IdentityUserRole {UserId = m.Id, RoleId = id})))
                   .ForMember(e => e.AssignedTeams, exp => exp.Ignore())
                   .ForMember(e => e.UserName, exp => exp.Ignore())

@@ -818,6 +818,7 @@
     <Content Include="Views\Home\Unauthorized.cshtml" />
     <Content Include="Views\Shared\_AdminNavigation.cshtml" />
     <Content Include="Scripts\jquery.validate.dynamicFix.js" />
+    <Content Include="Views\Manage\Edit.cshtml" />
     <None Include="Views\Statistics\StatisticsForGame.cshtml" />
     <Content Include="Views\Statistics\StatisticsForPlayer.cshtml" />
     <Content Include="Views\Statistics\StatisticsForLeagueIndividual.cshtml" />

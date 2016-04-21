@@ -13,7 +13,7 @@
             @foreach (var account in Model.CurrentLogins)
             {
                 <tr>
-                    <td>@account.LoginProvider</td>
+                    <td><img src="~/Content/Images/LoginProviders/@(account.LoginProvider).png" /> </td>
                     <td>
                         @if (ViewBag.ShowRemoveButton)
                         {
@@ -45,12 +45,13 @@
     {
         @Html.AntiForgeryToken()
         <div id="socialLoginList">
-            <p>
-                @foreach (AuthenticationDescription p in Model.OtherLogins)
-                {
-                    <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
-                }
-            </p>
+            @foreach (var p in Model.OtherLogins)
+            {
+                <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider"
+                        value="@p.AuthenticationType" title="Log in using your @p.Caption account">
+                    <img src="~/Content/Images/LoginProviders/@(p.AuthenticationType).png" />
+                </button>
+            }
         </div>
     }
 }

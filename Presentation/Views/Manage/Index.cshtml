@@ -8,6 +8,8 @@
     <h4>Change your account settings</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>Name:</dt>
+        <dd>@Model.Name [ @Html.ActionLink("Update", "Edit") ]</dd>
         <dt>Password:</dt>
         <dd>[ @(Model.HasPassword ? Html.ActionLink("Change your password", "ChangePassword") : Html.ActionLink("Create", "SetPassword")) ]</dd>
         <dt>External Logins:</dt>

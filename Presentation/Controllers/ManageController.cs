@@ -45,12 +45,43 @@ namespace Tcbcsl.Presentation.Controllers
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
 
+            var tcbcslUser = UserManager.FindByName(User.Identity.Name);
+
             var model = new IndexViewModel
             {
+                Name = tcbcslUser.FullName,
                 HasPassword = HasPassword(),
                 Logins = await UserManager.GetLoginsAsync(User.Identity.GetUserId())
             };
             return View(model);
+        }
+
+        [Route("Edit")]
+        public ActionResult Edit()
+        {
+            var tcbcslUser = UserManager.FindByName(User.Identity.Name);
+
+            var model = new RegisterViewModel
+            {
+                FirstName = tcbcslUser.NameFirst,
+                LastName = tcbcslUser.NameLast
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Edit")]
+        public ActionResult Edit(RegisterViewModel userModel)
+        {
+            var tcbcslUser = UserManager.FindByName(User.Identity.Name);
+            tcbcslUser.NameFirst = userModel.FirstName;
+            tcbcslUser.NameLast = userModel.LastName;
+
+            UserManager.Update(tcbcslUser);
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

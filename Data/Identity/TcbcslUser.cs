@@ -18,6 +18,8 @@ namespace Tcbcsl.Data.Identity
 
         public virtual ICollection<Team> AssignedTeams { get; set; }
 
+        public string FullName => $"{NameFirst} {NameLast}";
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<TcbcslUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

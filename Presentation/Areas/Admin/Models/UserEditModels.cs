@@ -14,6 +14,16 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "Email Address")]
         public string Email { get; set; }
 
+        [Required]
+        [MaxLength(20)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [MaxLength(30)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
         [Display(Name = "Roles")]
         public RolesEditModel Roles { get; set; }
 
