@@ -11,14 +11,14 @@ namespace Tcbcsl.Data.Identity
     public class TcbcslUser : IdentityUser
     {
         [MaxLength(30), Required]
-        public string NameLast { get; set; }
+        public string LastName { get; set; }
 
         [MaxLength(20), Required]
-        public string NameFirst { get; set; }
+        public string FirstName { get; set; }
 
         public virtual ICollection<Team> AssignedTeams { get; set; }
 
-        public string FullName => $"{NameFirst} {NameLast}";
+        public string FullName => $"{FirstName} {LastName}";
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<TcbcslUser> manager)
         {

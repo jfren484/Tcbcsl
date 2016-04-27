@@ -5,6 +5,7 @@ using AutoMapper;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
+using Microsoft.AspNet.Identity;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
@@ -46,7 +47,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             game.GameParticipants = new[] {roadTeam, homeTeam};
 
             DbContext.Games.Add(game);
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return Redirect(model.UrlForReturn);
         }
@@ -83,7 +84,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             Mapper.Map(model.RoadParticipant, game.RoadParticipant);
             Mapper.Map(model.HomeParticipant, game.HomeParticipant);
 
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return Redirect(model.UrlForReturn);
         }
@@ -106,7 +107,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             gameParticipant.Game.GameStatusId = GameStatus.Forfeited;
             gameParticipant.RunsScored = 15;
 
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return HttpOk();
         }
@@ -124,7 +125,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             game.GameStatusId = GameStatus.Postponed;
 
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return HttpOk();
         }
@@ -142,7 +143,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             game.GameStatusId = GameStatus.RainedOut;
 
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return HttpOk();
         }

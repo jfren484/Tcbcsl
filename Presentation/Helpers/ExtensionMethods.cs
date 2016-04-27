@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Models;
+using Tcbcsl.Data.Identity;
 
 namespace Tcbcsl.Presentation.Helpers
 {
@@ -102,6 +103,14 @@ namespace Tcbcsl.Presentation.Helpers
                               .GetOwinContext()
                               .GetUserManager<ApplicationUserManager>()
                               .IsInRole(userPrincipal.Identity.GetUserId(), role);
+        }
+
+        public static TcbcslUser TcbcslUser(this IPrincipal userPrincipal)
+        {
+            return HttpContext.Current
+                              .GetOwinContext()
+                              .GetUserManager<ApplicationUserManager>()
+                              .FindByName(userPrincipal.Identity.Name);
         }
 
         public static string Sanitize(this string htmlString)

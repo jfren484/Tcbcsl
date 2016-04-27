@@ -8,6 +8,7 @@ using Tcbcsl.Presentation.Models;
 using Tcbcsl.Data.Identity;
 using System.Linq;
 using Tcbcsl.Presentation.Helpers;
+using System.Security.Claims;
 
 // ReSharper disable  RedundantCaseLabel
 
@@ -107,8 +108,8 @@ namespace Tcbcsl.Presentation.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    NameFirst = model.FirstName,
-                    NameLast = model.LastName
+                    FirstName = model.FirstName,
+                    LastName = model.LastName
                 };
 
                 var result = await UserManager.CreateAsync(user, model.Password);
@@ -262,7 +263,9 @@ namespace Tcbcsl.Presentation.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    var firstName = loginInfo.ExternalIdentity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value;
+                    var lastName = loginInfo.ExternalIdentity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value;
+                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email, FirstName = firstName, LastName = lastName });
             }
         }
 
@@ -290,8 +293,8 @@ namespace Tcbcsl.Presentation.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    NameFirst = model.FirstName,
-                    NameLast = model.LastName
+                    FirstName = model.FirstName,
+                    LastName = model.LastName
                 };
 
                 var result = await UserManager.CreateAsync(user);

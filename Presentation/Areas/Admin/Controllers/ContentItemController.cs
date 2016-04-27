@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Data.Entities;
+using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
+using Microsoft.AspNet.Identity;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
@@ -54,7 +55,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         {
             var contentItem = Mapper.Map<PageContent>(model);
             DbContext.PageContents.Add(contentItem);
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return RedirectToAction("List");
         }
@@ -84,7 +85,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             Mapper.Map(model, contentItem);
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return RedirectToAction("List");
         }

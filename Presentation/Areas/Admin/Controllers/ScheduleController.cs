@@ -4,6 +4,7 @@ using System.Data.Entity.SqlServer;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -72,7 +73,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 row.Game.RoadParticipant.RunsScored = row.Model.RoadParticipant.RunsScored;
                 row.Game.HomeParticipant.RunsScored = row.Model.HomeParticipant.RunsScored;
             }
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return RedirectToAction("Schedule", new { date = date });
         }

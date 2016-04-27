@@ -1,19 +1,18 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Tcbcsl.Data.Identity;
 
 namespace Tcbcsl.Data.Entities
 {
     public abstract class EntityModifiable : EntityCreatable
     {
-        [MaxLength(200)]
+        [MaxLength(128)]
         public string ModifiedBy { get; set; }
 
         public DateTime? Modified { get; set; }
 
-        public void UpdateModifiedFields(string username)
-        {
-            Modified = DateTime.Now;
-            ModifiedBy = username;
-        }
+        [ForeignKey("ModifiedBy")]
+        public virtual TcbcslUser ModifiedByUser { get; set; }
     }
 }

@@ -170,7 +170,7 @@ namespace Tcbcsl.Presentation
             Mapper.CreateMap<GameStatus, GameResultsStatusModel>();
 
             Mapper.CreateMap<GameResultReport, GameResultsEditReportModel>()
-                  .ForMember(m => m.UserName, exp => exp.MapFrom(e => e.CreatedBy))
+                  .ForMember(m => m.UserFullName, exp => exp.MapFrom(e => e.CreatedByUser.FullName))
                   .ForMember(m => m.ReportDate, exp => exp.MapFrom(e => e.Created))
                   .ForMember(m => m.SubmittedFrom, exp => exp.MapFrom(e => e.TeamId == e.Game.HomeParticipant.TeamYear.TeamId
                                                                                ? ReportSubmitter.HomeTeam
@@ -349,8 +349,6 @@ namespace Tcbcsl.Presentation
             #region User Management
 
             Mapper.CreateMap<TcbcslUser, UserEditModel>()
-                  .ForMember(m => m.FirstName, exp => exp.MapFrom(e => e.NameFirst))
-                  .ForMember(m => m.LastName, exp => exp.MapFrom(e => e.NameLast))
                   .ForMember(m => m.Roles, exp => exp.MapFrom(e => new RolesEditModel {RoleIds = e.Roles.Select(r => r.RoleId).ToList()}))
                   .ForMember(m => m.AssignedTeams, exp => exp.MapFrom(e => new AssignedTeamsEditModel
                                                                            {
@@ -376,8 +374,8 @@ namespace Tcbcsl.Presentation
                   .ConvertUsing(ty => $"{ty.FullName} ({ty.Year})");
 
             Mapper.CreateMap<UserEditModel, TcbcslUser>()
-                  .ForMember(m => m.NameFirst, exp => exp.MapFrom(e => e.FirstName))
-                  .ForMember(m => m.NameLast, exp => exp.MapFrom(e => e.LastName))
+                  .ForMember(m => m.FirstName, exp => exp.MapFrom(e => e.FirstName))
+                  .ForMember(m => m.LastName, exp => exp.MapFrom(e => e.LastName))
                   .ForMember(e => e.Roles, exp => exp.MapFrom(m => m.Roles.RoleIds.Select(id => new IdentityUserRole {UserId = m.Id, RoleId = id})))
                   .ForMember(e => e.AssignedTeams, exp => exp.Ignore())
                   .ForMember(e => e.UserName, exp => exp.Ignore())
@@ -482,8 +480,9 @@ namespace Tcbcsl.Presentation
         private static IMappingExpression<TModel, TEntity> MapEntityCreatable<TModel, TEntity>(this IMappingExpression<TModel, TEntity> mapping)
             where TEntity : EntityCreatable
         {
-            return mapping.ForMember(e => e.CreatedBy, exp => exp.Ignore())
-                          .ForMember(e => e.Created, exp => exp.Ignore());
+            return mapping.ForMember(e => e.Created, exp => exp.Ignore())
+                          .ForMember(e => e.CreatedBy, exp => exp.Ignore())
+                          .ForMember(e => e.CreatedByUser, exp => exp.Ignore());
         }
 
         private static IMappingExpression<TModel, TEntity> MapEntityModifiable<TModel, TEntity>(this IMappingExpression<TModel, TEntity> mapping)
@@ -492,7 +491,8 @@ namespace Tcbcsl.Presentation
         {
             return mapping.MapEntityCreatable()
                           .ForMember(e => e.Modified, exp => exp.Ignore())
-                          .ForMember(e => e.ModifiedBy, exp => exp.Ignore());
+                          .ForMember(e => e.ModifiedBy, exp => exp.Ignore())
+                          .ForMember(e => e.ModifiedByUser, exp => exp.Ignore());
         }
 
         private static IMappingExpression<TModel, TEntity> MapEntityWithContactInfo<TModel, TEntity>(this IMappingExpression<TModel, TEntity> mapping)

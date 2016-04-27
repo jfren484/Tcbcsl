@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -105,7 +105,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             var newReport = Mapper.Map<GameResultReport>(model.NewReport);
             gameParticipant.Game.GameResultReports.Add(newReport);
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             if (!model.NewReport.IsConfirmation)
             {
@@ -115,14 +115,14 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 }
                 gameParticipant.Game.RoadParticipant.RunsScored = model.NewReport.RoadParticipant.RunsScored;
                 gameParticipant.Game.HomeParticipant.RunsScored = model.NewReport.HomeParticipant.RunsScored;
-                DbContext.SaveChanges(User.Identity.Name);
+                DbContext.SaveChanges(User.Identity.GetUserId());
 
                 // TODO: email users for other team
             }
             else if (CanFinalize(gameParticipant.Game))
             {
                 gameParticipant.Game.IsFinalized = true;
-                DbContext.SaveChanges(User.Identity.Name);
+                DbContext.SaveChanges(User.Identity.GetUserId());
             }
 
             return Redirect(model.NewReport.UrlForReturn);
@@ -144,13 +144,14 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                  .ToList();
 
             var reportingTeamIds = reportData.Take(reportData.FindIndex(d => !d.IsConfirmation) + 1)
-                                             .Select(d => d.TeamId)
+                                             .Where(d => d.TeamId.HasValue)
+                                             .Select(d => d.TeamId.Value)
                                              .ToList();
 
             return game.GameParticipants
                        .Select(gp => gp.TeamYear.TeamId)
                        .ToList()
-                       .All(id => reportingTeamIds.Contains(id));
+                       .All(reportingTeamIds.Contains);
         }
 
         private void PopulateDropdownLists(TeamPickerModel model)

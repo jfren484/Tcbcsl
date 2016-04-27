@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using CsQuery.ExtensionMethods.Internal;
+using Microsoft.AspNet.Identity;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -86,7 +87,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 user.AssignedTeams.AddRange(DbContext.Teams.Where(t => changes.RightOnly.Contains(t.TeamId)));
             }
 
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return RedirectToAction("List");
         }

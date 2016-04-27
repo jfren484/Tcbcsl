@@ -10,8 +10,8 @@
     <script>
         var columns = [
             { 'data': 'PlayerId',                'title': '@Html.DisplayNameFor(m => m.PlayerId)',                'visible':   false },
-            { 'data': 'NameFirst',               'title': '@Html.DisplayNameFor(m => m.NameFirst)' },
-            { 'data': 'NameLast',                'title': '@Html.DisplayNameFor(m => m.NameLast)' },
+            { 'data': 'FirstName',               'title': '@Html.DisplayNameFor(m => m.FirstName)' },
+            { 'data': 'LastName',                'title': '@Html.DisplayNameFor(m => m.LastName)' },
             { 'data': 'Team',                    'title': '@Html.DisplayNameFor(m => m.Team)',                                          'render': 'FullName' },
             { 'data': 'IsActive',                'title': '@Html.DisplayNameFor(m => m.IsActive)',                                      'render': renderBool },
             { 'data': 'AuditDetails.CreatedBy',  'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible':   false },
@@ -29,8 +29,8 @@
             'sorting': true,
             'paging': true,
             'order': [
-                [findColumnIndex(columns, 'NameLast'), 'asc'],
-                [findColumnIndex(columns, 'NameFirst'), 'asc']
+                [findColumnIndex(columns, 'LastName'), 'asc'],
+                [findColumnIndex(columns, 'FirstName'), 'asc']
             ]
         });
     </script>

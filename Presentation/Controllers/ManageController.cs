@@ -63,8 +63,8 @@ namespace Tcbcsl.Presentation.Controllers
 
             var model = new RegisterViewModel
             {
-                FirstName = tcbcslUser.NameFirst,
-                LastName = tcbcslUser.NameLast
+                FirstName = tcbcslUser.FirstName,
+                LastName = tcbcslUser.LastName
             };
 
             return View(model);
@@ -76,8 +76,8 @@ namespace Tcbcsl.Presentation.Controllers
         public ActionResult Edit(RegisterViewModel userModel)
         {
             var tcbcslUser = UserManager.FindByName(User.Identity.Name);
-            tcbcslUser.NameFirst = userModel.FirstName;
-            tcbcslUser.NameLast = userModel.LastName;
+            tcbcslUser.FirstName = userModel.FirstName;
+            tcbcslUser.LastName = userModel.LastName;
 
             UserManager.Update(tcbcslUser);
 

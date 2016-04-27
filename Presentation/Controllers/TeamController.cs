@@ -176,7 +176,7 @@ namespace Tcbcsl.Presentation.Controllers
                    select new PlayerStats
                           {
                               PlayerId = lineGroup.Key.PlayerId,
-                              Name = lineGroup.Key.NameFirst + " " + lineGroup.Key.NameLast,
+                              Name = lineGroup.Key.FirstName + " " + lineGroup.Key.LastName,
                               Games = lineGroup.Count(),
                               AVG = lineGroup.Sum(line => line.StatHits) / (decimal)lineGroup.Sum(line => line.StatAtBats),
                               HR = lineGroup.Sum(line => line.StatHomeRuns),

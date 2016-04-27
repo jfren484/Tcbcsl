@@ -1,20 +1,19 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Tcbcsl.Data.Identity;
 
 namespace Tcbcsl.Data.Entities
 {
     public abstract class EntityCreatable : EntityBase
     {
-        [Required, MaxLength(200)]
+        [Required, MaxLength(128)]
         public string CreatedBy { get; set; }
 
         [Required]
         public DateTime Created { get; set; }
 
-        public void UpdateCreatedFields(string username)
-        {
-            Created = DateTime.Now;
-            CreatedBy = username;
-        }
+        [ForeignKey("CreatedBy")]
+        public virtual TcbcslUser CreatedByUser { get; set; }
     }
 }

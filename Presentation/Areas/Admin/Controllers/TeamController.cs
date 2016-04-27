@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -69,7 +70,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             PopulateFullname(teamYear);
 
             DbContext.TeamYears.Add(teamYear);
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return RedirectToAction("List");
         }
@@ -102,7 +103,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             Mapper.Map(model, teamYear);
             PopulateFullname(teamYear);
 
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             if (id == Consts.PlayerPoolTeamId)
             {
@@ -166,7 +167,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             model.HeadCoach.ItemSelectList = new SelectList(coaches, "Value", "Text", model.HeadCoach.CoachId);
 
             var clinchItems = Consts.ClinchDescriptions
-                                    .Select(kvp => new SelectListItem {Value = kvp.Key.ToString(), Text = kvp.ClinchDescriptionFormatted()})
+                                    .Select(kvp => new SelectListItem {Value = kvp.Key, Text = kvp.ClinchDescriptionFormatted()})
                                     .ToList();
             clinchItems.Insert(0, new SelectListItem {Text = "(none)"});
             model.Clinch.ItemSelectList = new SelectList(clinchItems, "Value", "Text", model.Clinch.ClinchChar);

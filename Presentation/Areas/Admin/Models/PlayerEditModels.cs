@@ -15,11 +15,11 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         [MaxLength(30), Required]
         [Display(Name = "Last Name")]
-        public string NameLast { get; set; }
+        public string LastName { get; set; }
 
         [MaxLength(20), Required]
         [Display(Name = "First Name")]
-        public string NameFirst { get; set; }
+        public string FirstName { get; set; }
 
         public bool IsActive { get; set; }
 

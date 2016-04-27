@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -65,7 +66,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             DbContext.StatLines.RemoveRange(changes.LeftOnly);
 
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return Redirect(model.UrlForReturn);
         }
@@ -106,8 +107,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         {
             var playerList = DbContext.Players
                             .Where(p => p.CurrentTeamId == teamId && p.IsActive)
-                            .OrderBy(p => p.NameLast)
-                            .ThenBy(p => p.NameFirst)
+                            .OrderBy(p => p.LastName)
+                            .ThenBy(p => p.FirstName)
                             .ToList()
                             .Select(p => new SelectListItem { Value = p.PlayerId.ToString(), Text = p.FullName })
                             .ToList();

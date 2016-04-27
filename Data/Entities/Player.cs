@@ -9,10 +9,10 @@ namespace Tcbcsl.Data.Entities
         public int PlayerId { get; set; }
 
         [MaxLength(30), Required]
-        public string NameLast { get; set; }
+        public string LastName { get; set; }
 
         [MaxLength(20), Required]
-        public string NameFirst { get; set; }
+        public string FirstName { get; set; }
 
         [Required]
         public bool IsActive { get; set; }
@@ -25,6 +25,6 @@ namespace Tcbcsl.Data.Entities
 
         public virtual ICollection<StatLine> StatLines { get; set; }
 
-        public string FullName => $"{NameFirst} {NameLast}";
+        public string FullName => $"{FirstName} {LastName}";
     }
 }

@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
-using System.Web;
-using System;
+using Microsoft.AspNet.Identity;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
@@ -87,7 +88,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var player = Mapper.Map<Player>(model);
 
             DbContext.Players.Add(player);
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return RedirectToAction("List");
         }
@@ -118,7 +119,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             Mapper.Map(model, player);
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return RedirectToAction("List");
         }
@@ -139,7 +140,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             player.CurrentTeamId = teamId;
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             if (!Request.Cookies.AllKeys.Contains("lastTeamId") || Request.Cookies["lastTeamId"].Value != teamId.ToString())
             {

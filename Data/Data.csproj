@@ -182,6 +182,10 @@
     <Compile Include="Migrations\201604190314151_EliminateSomeMaxLengthFields.Designer.cs">
       <DependentUpon>201604190314151_EliminateSomeMaxLengthFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604242132441_ChangeAuditFieldsAndNameFields.cs" />
+    <Compile Include="Migrations\201604242132441_ChangeAuditFieldsAndNameFields.Designer.cs">
+      <DependentUpon>201604242132441_ChangeAuditFieldsAndNameFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
     <Compile Include="Entities\PageContent.cs" />
@@ -275,6 +279,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604190314151_EliminateSomeMaxLengthFields.resx">
       <DependentUpon>201604190314151_EliminateSomeMaxLengthFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604242132441_ChangeAuditFieldsAndNameFields.resx">
+      <DependentUpon>201604242132441_ChangeAuditFieldsAndNameFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

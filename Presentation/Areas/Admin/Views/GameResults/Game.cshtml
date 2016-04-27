@@ -92,7 +92,7 @@
                     <div class="game-report-col col-sm-12">@report.Note</div>
                 }
                 <div class="game-report-submitted-by col-sm-12">
-                    @(report.IsConfirmation ? "Confirmed" : "Submitted") by: @report.UserName
+                    @(report.IsConfirmation ? "Confirmed" : "Submitted") by: @report.UserFullName
                     <span style="float: right;">@report.ReportDate.ToString(Consts.DateTimeFormatDisplay)</span>
                 </div>
             </div>

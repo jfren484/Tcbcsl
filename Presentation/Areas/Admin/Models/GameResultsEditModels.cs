@@ -54,7 +54,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
     public class GameResultsEditReportModel
     {
-        public string UserName { get; set; }
+        public string UserFullName { get; set; }
 
         public DateTime ReportDate { get; set; }
 

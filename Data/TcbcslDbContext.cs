@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using Tcbcsl.Data.Entities;
@@ -37,19 +38,36 @@ namespace Tcbcsl.Data
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamYear> TeamYears { get; set; }
 
-        public int SaveChanges(string username)
+        public int SaveChanges(string userId)
         {
             foreach (var entry in ChangeTracker.Entries<EntityCreatable>().Where(e => e.State == EntityState.Added))
             {
-                entry.Entity.UpdateCreatedFields(username);
+                entry.Entity.Created = DateTime.Now;
+                entry.Entity.CreatedBy = userId;
             }
 
             foreach (var entry in ChangeTracker.Entries<EntityModifiable>().Where(e => e.State == EntityState.Modified))
             {
-                entry.Entity.UpdateModifiedFields(username);
+                entry.Entity.Modified = DateTime.Now;
+                entry.Entity.ModifiedBy = userId;
             }
 
             return base.SaveChanges();
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<TcbcslUser>()
+                        .HasMany<Team>(u => u.AssignedTeams)
+                        .WithMany(t => t.ManagingUsers)
+                        .Map(tu =>
+                        {
+                            tu.MapLeftKey("TcbcslUser_Id");
+                            tu.MapRightKey("Team_TeamId");
+                            tu.ToTable("TcbcslUserTeams");
+                        });
         }
     }
 }

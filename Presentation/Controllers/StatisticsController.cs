@@ -63,8 +63,8 @@ namespace Tcbcsl.Presentation.Controllers
                                                         Player = new StatisticsPlayerInfoModel
                                                                  {
                                                                      PlayerId = sl.PlayerId,
-                                                                     PlayerFirstName = sl.Player.NameFirst,
-                                                                     PlayerLastName = sl.Player.NameLast
+                                                                     PlayerFirstName = sl.Player.FirstName,
+                                                                     PlayerLastName = sl.Player.LastName
                                                                  },
                                                         PlateAppearances = sl.StatPlateAppearances,
                                                         AtBats = sl.StatAtBats,
@@ -116,8 +116,8 @@ namespace Tcbcsl.Presentation.Controllers
                 .GroupBy(sl => new
                                {
                                    PlayerId = sl.PlayerId,
-                                   PlayerFirstName = sl.Player.NameFirst,
-                                   PlayerLastName = sl.Player.NameLast,
+                                   PlayerFirstName = sl.Player.FirstName,
+                                   PlayerLastName = sl.Player.LastName,
                                    TeamId = sl.GameParticipant.TeamYear.TeamId,
                                    TeamName = sl.GameParticipant.TeamYear.FullName
                                })
@@ -239,8 +239,8 @@ namespace Tcbcsl.Presentation.Controllers
                             Player = new StatisticsPlayerInfoModel
                                      {
                                          PlayerId = player.PlayerId,
-                                         PlayerFirstName = player.NameFirst,
-                                         PlayerLastName = player.NameLast
+                                         PlayerFirstName = player.FirstName,
+                                         PlayerLastName = player.LastName
                                      }
                         };
 
@@ -391,15 +391,15 @@ namespace Tcbcsl.Presentation.Controllers
 
             var data = gameParticipants
                 .SelectMany(gp => gp.StatLines)
-                .GroupBy(sl => new {sl.PlayerId, sl.Player.NameFirst, sl.Player.NameLast})
+                .GroupBy(sl => new {sl.PlayerId, sl.Player.FirstName, sl.Player.LastName})
                 .Select(slg => new TeamPlayerStatisticsRowModel
                                {
                                    Year = year,
                                    Player = new StatisticsPlayerInfoModel
                                             {
                                                 PlayerId = slg.Key.PlayerId,
-                                                PlayerFirstName = slg.Key.NameFirst,
-                                                PlayerLastName = slg.Key.NameLast
+                                                PlayerFirstName = slg.Key.FirstName,
+                                                PlayerLastName = slg.Key.LastName
                                             },
                                    Games = slg.Count(),
                                    PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),

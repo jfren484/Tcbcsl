@@ -4,8 +4,9 @@ using System.Web.Mvc;
 using AutoMapper;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
-using MoreLinq;
 using Tcbcsl.Presentation.Helpers;
+using Microsoft.AspNet.Identity;
+using MoreLinq;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
@@ -71,7 +72,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             coach.PhoneNumbers = Mapper.Map<List<ContactPhoneNumber>>(model.PhoneNumbers);
 
             DbContext.Coaches.Add(coach);
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return RedirectToAction("List");
         }
@@ -120,7 +121,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             // TODO: Add
             // TODO: Delete
 
-            DbContext.SaveChanges(User.Identity.Name);
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return RedirectToAction("List");
         }
