@@ -6,7 +6,7 @@ namespace Tcbcsl.Presentation
     public static class Consts
     {
         public const int FirstYear = 2001;
-        public const int CurrentYear = 2015;
+        public const int CurrentYear = 2016;
 
         public const int PlayerPoolTeamId = 60;
         public static string PlayerPoolTeamName = ""; // Set in Global.asax

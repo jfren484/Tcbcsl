@@ -9,6 +9,11 @@
     <td class="hidden-xs">@ScheduleService.FormatRecord(Model.DivisionWins, Model.DivisionLosses, Model.DivisionTies)</td>
     <td class="hidden-xs">@Model.RunsScored</td>
     <td class="hidden-xs">@Model.RunsAllowed</td>
-    <td class="hidden-xs">@Consts.GameOutcomeVerbs[Model.StreakOutcome] @Model.StreakCount</td>
+    <td class="hidden-xs">
+        @if (Model.StreakCount > 0)
+        {
+            <text>@Consts.GameOutcomeVerbs[Model.StreakOutcome] @Model.StreakCount</text>
+        }
+    </td>
     <td class="hidden-xs">@ScheduleService.FormatRecord(Model.Last5Wins, Model.Last5Losses, Model.Last5Ties)</td>
 </tr>

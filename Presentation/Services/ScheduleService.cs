@@ -34,7 +34,7 @@ namespace Tcbcsl.Presentation.Services
                                .Select(GameTeamRowModelFromParticipant)
                                .ToList();
 
-            if (teamRows[0].Runs != teamRows[1].Runs)
+            if (!teamRows[0].Runs.Equals(teamRows[1].Runs))
             {
                 teamRows.OrderByDescending(tr => tr.Runs)
                         .First()

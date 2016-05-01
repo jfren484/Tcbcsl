@@ -2,13 +2,18 @@
 @{
     ViewBag.Title = "Home Page";
 }
-<h1>News</h1>
+<h1>
+    <span class="hidden-md hidden-lg">TCBCSL</span>
+    <span class="hidden-xs hidden-sm">Twin Cities Baptist Church Softball League</span>
+    News
+</h1>
 <div class="container">
     <div class="row">
         @foreach (var newsItem in Model)
         {
-            <div class="col-md-4">
-                <h2>@newsItem.StartDate - @newsItem.Subject</h2>
+            <div class="col-md-6 col-sm-12">
+                <h2>@newsItem.Subject</h2>
+                <h4>@newsItem.StartDate.ToString(Consts.GameDateTimeFormat)</h4>
                 <p>@Html.Raw(newsItem.Content)</p>
             </div>
         }

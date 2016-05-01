@@ -25,6 +25,7 @@ namespace Tcbcsl.Presentation.Models
     public class StandingsTeamModel
     {
         public int Year { get; set; }
+        public int DivisionYearId { get; set; }
         public int TeamId { get; set; }
         public string TeamName { get; set; }
         public string ClinchChar { get; set; }

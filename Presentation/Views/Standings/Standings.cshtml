@@ -4,7 +4,9 @@
     ViewBag.Title = title + Model.Year.AsTitleSuffix();
 
     // Make the columns the same size across tables by making the team name column very long
-    var hackText = new string('X', Model.Groups.SelectMany(g => g.Teams.Select(t => t.TeamName.Length)).Max());
+    var teamNameLengths = Model.Groups.SelectMany(g => g.Teams.Select(t => t.TeamName.Length));
+    var charCount = teamNameLengths.Any() ? teamNameLengths.Max() : 20;
+    var hackText = new string('X', charCount);
 }
 @Html.Partial("_YearPartial")
 <h2>@title</h2>

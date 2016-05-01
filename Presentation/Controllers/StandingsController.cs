@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Tcbcsl.Data.Entities;
@@ -12,13 +11,13 @@ namespace Tcbcsl.Presentation.Controllers
         [Route("Standings/{type}/{year:year?}")]
         public ActionResult Standings(StandingsType type, int year = Consts.CurrentYear)
         {
-            var teams = GetTeamRawModels(year);
+            var teams = GetStandingsModels(year);
 
             var model = new StandingsModel
                         {
                             Year = year,
                             Type = type,
-                            ShowTies = teams.Any(t => t.Model.Ties > 0),
+                            ShowTies = teams.Any(t => t.Ties > 0),
                             Groups = type == StandingsType.Division
                                          ? GetDivisionStandingsTeamModels(teams)
                                          : GetLeagueStandingsTeamModels(teams)
@@ -29,92 +28,76 @@ namespace Tcbcsl.Presentation.Controllers
 
         #region GetTeamRawModels (and helpers)
 
-        private List<TeamStandingsRaw> GetTeamRawModels(int year)
+        private List<StandingsTeamModel> GetStandingsModels(int year)
         {
-            var games = GetGameRawModels(year);
+            return (from ty in DbContext.TeamYears
+                    where ty.Year == year && ty.DivisionYear.IsInLeague
+                    let games = from gp in ty.GameParticipants
+                                where gp.Game.GameTypeId == GameType.RegularSeason &&
+                                      gp.Game.GameStatus.IsComplete
+                                let opponent = gp.Game.GameParticipants.FirstOrDefault(gp2 => gp2.GameParticipantId != gp.GameParticipantId)
+                                select new
+                                {
+                                    gp.Game.GameDate,
+                                    gp.RunsScored,
+                                    RunsAllowed = opponent.RunsScored,
+                                    Outcome = gp.RunsScored.CompareTo(opponent.RunsScored),
+                                    IsDivision = gp.TeamYear.DivisionYear.DivisionId == opponent.TeamYear.DivisionYear.DivisionId
+                                }
+                    let wins = games.Count(g => g.Outcome > 0)
+                    let losses = games.Count(g => g.Outcome < 0)
+                    let ties = games.Count(g => g.Outcome == 0)
+                    let last5GameInfo = games.OrderByDescending(g => g.GameDate).Take(5)
+                    let first = games.FirstOrDefault()
+                    select new
+                    {
+                        StandingsTeamModel = new StandingsTeamModel
+                        {
+                            Year = year,
+                            DivisionYearId = ty.DivisionYearId,
+                            TeamId = ty.TeamId,
+                            TeamName = ty.FullName,
+                            ClinchChar = ty.Clinch,
+                            Wins = wins,
+                            Losses = losses,
+                            Ties = ties,
+                            WinningPercentage = games.Any() ? (double)wins / (wins + losses + ties) : 0,
+                            GamesBack = (double)(wins - losses) / 2,
+                            DivisionWins = games.Count(g => g.IsDivision && g.Outcome > 0),
+                            DivisionLosses = games.Count(g => g.IsDivision && g.Outcome < 0),
+                            DivisionTies = games.Count(g => g.IsDivision && g.Outcome == 0),
+                            RunsScored = games.Any() ? games.Sum(g => g.RunsScored) : 0,
+                            RunsAllowed = games.Any() ? games.Sum(g => g.RunsAllowed) : 0,
+                            Last5Wins = last5GameInfo.Count(g => g.Outcome > 0),
+                            Last5Losses = last5GameInfo.Count(g => g.Outcome < 0),
+                            Last5Ties = last5GameInfo.Count(g => g.Outcome == 0),
+                            StreakOutcome = games.Any() ? games.OrderByDescending(g => g.GameDate).FirstOrDefault().Outcome : 0
+                        },
+                        Record = games.OrderByDescending(g => g.GameDate)
+                                                               .Select(g => g.Outcome)
+                                                               .ToList()
+                    })
+                    .ToList()
+                    .Select(data =>
+                        {
+                            data.StandingsTeamModel.StreakCount = 0;
 
-            var teamModels = (from g in games
-                              group g by new {g.DivisionYearId, g.TeamId}
-                              into gg
-                              let wins = gg.Count(g => g.Outcome > 0)
-                              let losses = gg.Count(g => g.Outcome < 0)
-                              let ties = gg.Count(g => g.Outcome == 0)
-                              let last5GameInfo = gg.OrderByDescending(g => g.GameDate).Take(5)
-                              let first = gg.FirstOrDefault()
-                              select new TeamStandingsRaw
-                                     {
-                                         Model = new StandingsTeamModel
-                                                 {
-                                                     Year = year,
-                                                     TeamId = gg.Key.TeamId,
-                                                     TeamName = first.TeamFullName,
-                                                     ClinchChar = first.ClinchChar,
-                                                     Wins = wins,
-                                                     Losses = losses,
-                                                     Ties = ties,
-                                                     WinningPercentage = (double)wins / (wins + losses + ties),
-                                                     GamesBack = (double)(wins - losses) / 2,
-                                                     DivisionWins = gg.Count(g => g.IsDivision && g.Outcome > 0),
-                                                     DivisionLosses = gg.Count(g => g.IsDivision && g.Outcome < 0),
-                                                     DivisionTies = gg.Count(g => g.IsDivision && g.Outcome == 0),
-                                                     RunsScored = gg.Sum(g => g.RunsScored),
-                                                     RunsAllowed = gg.Sum(g => g.RunsAllowed),
-                                                     Last5Wins = last5GameInfo.Count(g => g.Outcome > 0),
-                                                     Last5Losses = last5GameInfo.Count(g => g.Outcome < 0),
-                                                     Last5Ties = last5GameInfo.Count(g => g.Outcome == 0),
-                                                     StreakOutcome = gg.OrderByDescending(g => g.GameDate).FirstOrDefault().Outcome
-                                                 },
-                                         DivisionYearId = gg.Key.DivisionYearId,
-                                         Record = gg.OrderByDescending(g => g.GameDate)
-                                                    .Select(g => g.Outcome)
-                                                    .ToList()
-                                     }).ToList();
+                            while (data.StandingsTeamModel.StreakCount < data.Record.Count &&
+                                   data.Record[data.StandingsTeamModel.StreakCount] == data.StandingsTeamModel.StreakOutcome)
+                            {
+                                ++data.StandingsTeamModel.StreakCount;
+                            }
 
-            teamModels.ForEach(UpdateTeamStreaks);
-
-            return teamModels;
-        }
-
-        private IQueryable<GameRaw> GetGameRawModels(int year)
-        {
-            return from gp1 in DbContext.GameParticipants
-                   let g = gp1.Game
-                   where g.GameDate.Year == year &&
-                         g.GameTypeId == GameType.RegularSeason &&
-                         g.GameStatus.IsComplete
-                   let gp2 = g.GameParticipants.FirstOrDefault(gp => gp.GameParticipantId != gp1.GameParticipantId)
-                   select new GameRaw
-                          {
-                              DivisionYearId = gp1.TeamYear.DivisionYearId,
-                              TeamId = gp1.TeamYear.TeamId,
-                              TeamFullName = gp1.TeamYear.FullName,
-                              ClinchChar = gp1.TeamYear.Clinch,
-                              GameDate = gp1.Game.GameDate,
-                              RunsScored = gp1.RunsScored,
-                              RunsAllowed = gp2.RunsScored,
-                              Outcome = gp1.RunsScored.CompareTo(gp2.RunsScored),
-                              IsDivision = gp1.TeamYear.DivisionYear.DivisionId == gp2.TeamYear.DivisionYear.DivisionId
-                          };
-        }
-
-        private static void UpdateTeamStreaks(TeamStandingsRaw teamRawModel)
-        {
-            var streakCount = 1;
-
-            while (streakCount < teamRawModel.Record.Count &&
-                   teamRawModel.Record[streakCount] == teamRawModel.Model.StreakOutcome)
-            {
-                ++streakCount;
-            }
-
-            teamRawModel.Model.StreakCount = streakCount;
+                            return data.StandingsTeamModel;
+                        })
+                    .ToList();
         }
 
         #endregion
 
         #region GetXXXStandingsTeamModels (and helpers)
 
-        private List<StandingsGroupModel> GetDivisionStandingsTeamModels(List<TeamStandingsRaw> teams)
+        private List<StandingsGroupModel> GetDivisionStandingsTeamModels(List<StandingsTeamModel> teams)
         {
             var models = (from t in teams
                           group t by t.DivisionYearId
@@ -132,7 +115,7 @@ namespace Tcbcsl.Presentation.Controllers
             return models;
         }
 
-        private static List<StandingsGroupModel> GetLeagueStandingsTeamModels(List<TeamStandingsRaw> teams)
+        private static List<StandingsGroupModel> GetLeagueStandingsTeamModels(List<StandingsTeamModel> teams)
         {
             var allTeamsModel = new StandingsGroupModel
                                 {
@@ -145,45 +128,20 @@ namespace Tcbcsl.Presentation.Controllers
             return new List<StandingsGroupModel> {allTeamsModel};
         }
 
-        private static List<StandingsTeamModel> GetTeamsForGroup(IEnumerable<TeamStandingsRaw> teamRawModels)
+        private static List<StandingsTeamModel> GetTeamsForGroup(IEnumerable<StandingsTeamModel> teamRawModels)
         {
-            return teamRawModels.Select(t => t.Model)
-                                .OrderByDescending(t => t.GamesBack)
+            return teamRawModels.OrderByDescending(t => t.GamesBack)
                                 .ThenByDescending(t => t.WinningPercentage)
                                 .ToList();
         }
 
         private static void UpdateGamesBack(StandingsGroupModel groupModel)
         {
-            var gbDiff = groupModel.Teams.First().GamesBack;
+            var gbDiff = groupModel.Teams.Max(t => t.GamesBack);
             groupModel.Teams.ForEach(t =>
                                      {
                                          t.GamesBack -= gbDiff;
                                      });
-        }
-
-        #endregion
-
-        #region Helper Classes
-
-        private class GameRaw
-        {
-            public int DivisionYearId { get; set; }
-            public int TeamId { get; set; }
-            public string TeamFullName { get; set; }
-            public string ClinchChar { get; set; }
-            public DateTime GameDate { get; set; }
-            public int RunsScored { get; set; }
-            public int RunsAllowed { get; set; }
-            public int Outcome { get; set; }
-            public bool IsDivision { get; set; }
-        }
-
-        private class TeamStandingsRaw
-        {
-            public StandingsTeamModel Model { get; set; }
-            public int DivisionYearId { get; set; }
-            public List<int> Record { get; set; }
         }
 
         #endregion
