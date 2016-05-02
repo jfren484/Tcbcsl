@@ -16,7 +16,7 @@
             @Html.EditorFor(m => m.PhoneNumbers)
             @Html.EditorFor(m => m.Address)
             @Html.EditorFor(m => m.Comments)
-            @Html.Partial("_FormCancelSubmit", Url.Action("List"))
+            @Html.Partial("_FormCancelSubmit", Model)
         </fieldset>
     }
 </div>

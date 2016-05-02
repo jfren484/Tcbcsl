@@ -13,7 +13,7 @@
             @Html.EditorFor(m => m.PageTag)
             @Html.EditorFor(m => m.Title)
             @Html.EditorFor(m => m.Content)
-            @Html.Partial("_FormCancelSubmit", Url.Action("List"))
+            @Html.Partial("_FormCancelSubmit", Model)
         </fieldset>
     }
 </div>

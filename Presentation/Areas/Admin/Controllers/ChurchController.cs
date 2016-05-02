@@ -74,7 +74,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             DbContext.Churches.Add(church);
             DbContext.SaveChanges(User.Identity.GetUserId());
 
-            return RedirectToAction("List");
+            return Redirect(model.UrlForReturn);
         }
 
         [Route("Edit/{id:int}")]
@@ -89,7 +89,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             var model = Mapper.Map<ChurchEditModel>(church);
-            model.UrlForReturn = Request.UrlReferrer.PathAndQuery;
             model.Address.State.ItemSelectList = GetStatesSelectList(church.Address.StateId);
 
             var phoneTypes = GetPhoneTypes();

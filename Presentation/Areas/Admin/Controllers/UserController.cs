@@ -89,7 +89,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             DbContext.SaveChanges(User.Identity.GetUserId());
 
-            return RedirectToAction("List");
+            return Redirect(model.UrlForReturn);
         }
 
         #endregion

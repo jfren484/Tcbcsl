@@ -27,14 +27,16 @@ namespace Tcbcsl.Presentation
 
             #region Base mappings
 
-            Mapper.CreateMap<EntityModifiable, AuditDetailsModel>();
+            Mapper.CreateMap<EntityModifiable, AuditDetailsModel>()
+                .ForMember(m => m.CreatedBy, exp => exp.MapFrom(e => e.CreatedByUser.FullName))
+                .ForMember(m => m.ModifiedBy, exp => exp.MapFrom(e => e.ModifiedByUser.FullName));
 
             #endregion
 
             #region Church
 
             Mapper.CreateMap<Church, ChurchEditModel>()
-                  .MapEditModelBaseWithAudit();
+                  .MapEditModelBaseWithContactInfo();
 
             Mapper.CreateMap<ChurchEditModel, Church>()
                   .MapEntityWithContactInfo()
@@ -45,7 +47,7 @@ namespace Tcbcsl.Presentation
             #region Coach
 
             Mapper.CreateMap<Coach, CoachEditModel>()
-                  .MapEditModelBaseWithAudit();
+                  .MapEditModelBaseWithContactInfo();
 
             Mapper.CreateMap<CoachEditModel, Coach>()
                   .MapEntityWithContactInfo()
@@ -56,7 +58,8 @@ namespace Tcbcsl.Presentation
             #region Contact Info mappings
 
             Mapper.CreateMap<Address, AddressEditModel>()
-                  .MapEditModelBaseWithAudit();
+                  .MapEditModelBaseWithAudit()
+                  .ForMember(m => m.State, exp => exp.MapFrom(e => Mapper.Map<StateEditModel>(e.State) ?? new StateEditModel()));
 
             Mapper.CreateMap<Address, AddressInfoModel>()
                   .ForMember(m => m.State, exp => exp.MapFrom(e => e.State.Abbreviation));
@@ -475,6 +478,14 @@ namespace Tcbcsl.Presentation
             where TModel : EditModelBaseWithAudit
         {
             return mapping.ForMember(m => m.AuditDetails, exp => exp.MapFrom(e => Mapper.Map<AuditDetailsModel>(e)));
+        }
+
+        private static IMappingExpression<TEntity, TModel> MapEditModelBaseWithContactInfo<TEntity, TModel>(this IMappingExpression<TEntity, TModel> mapping)
+            where TEntity : EntityWithContactInfo
+            where TModel : EditModelBaseWithContactInfo
+        {
+            return mapping.MapEditModelBaseWithAudit()
+                          .ForMember(m => m.Address, exp => exp.MapFrom(e => Mapper.Map<AddressEditModel>(e.Address) ?? new AddressEditModel { State = new StateEditModel() }));
         }
 
         private static IMappingExpression<TModel, TEntity> MapEntityCreatable<TModel, TEntity>(this IMappingExpression<TModel, TEntity> mapping)

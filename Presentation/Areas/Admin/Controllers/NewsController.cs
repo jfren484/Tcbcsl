@@ -81,7 +81,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             DbContext.NewsItems.Add(newsItem);
             DbContext.SaveChanges(User.Identity.GetUserId());
 
-            return RedirectToAction("List");
+            return Redirect(model.UrlForReturn);
         }
 
         [Route("Edit/{id:int}")]
@@ -112,7 +112,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             Mapper.Map(model, newsItem);
             DbContext.SaveChanges(User.Identity.GetUserId());
 
-            return RedirectToAction("List");
+            return Redirect(model.UrlForReturn);
         }
 
         #endregion

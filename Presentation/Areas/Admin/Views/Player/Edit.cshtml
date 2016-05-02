@@ -12,7 +12,7 @@
             @Html.EditorFor(m => m.LastName)
             @Html.EditorFor(m => m.Team)
             @Html.EditorFor(m => m.IsActive)
-            @Html.Partial("_FormCancelSubmit", Url.Action("List"))
+            @Html.Partial("_FormCancelSubmit", Model)
         </fieldset>
     }
 </div>

@@ -49,12 +49,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Create")]
         public ActionResult Create()
         {
-            var model = new TeamEditModel
-            {
-                Division = new TeamEditDivisionModel(),
-                Church = new TeamEditChurchModel(),
-                HeadCoach = new TeamEditCoachModel()
-            };
+            var model = new TeamEditModel { Year = Consts.CurrentYear };
+
             PopulateDropdownLists(model);
 
             return View("Edit", model);
@@ -72,7 +68,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             DbContext.TeamYears.Add(teamYear);
             DbContext.SaveChanges(User.Identity.GetUserId());
 
-            return RedirectToAction("List");
+            return Redirect(model.UrlForReturn);
         }
 
         [Route("Edit/{id:int}")]
@@ -110,7 +106,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 Consts.PlayerPoolTeamName = teamYear.FullName;
             }
 
-            return RedirectToAction("List");
+            return Redirect(model.UrlForReturn);
         }
 
         #endregion
@@ -150,12 +146,14 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                      .OrderBy(dy => dy.Sort)
                                      .Select(dy => new SelectListItem { Value = dy.DivisionYearId.ToString(), Text = dy.Name })
                                      .ToList();
+            divisions.Insert(0, new SelectListItem());
             model.Division.ItemSelectList = new SelectList(divisions, "Value", "Text", model.Division.DivisionYearId);
 
             var churches = DbContext.Churches
                                     .OrderBy(c => c.FullName)
                                     .Select(c => new SelectListItem { Value = c.ChurchId.ToString(), Text = c.FullName })
                                     .ToList();
+            churches.Insert(0, new SelectListItem());
             model.Church.ItemSelectList = new SelectList(churches, "Value", "Text", model.Church.ChurchId);
 
             var coaches = DbContext.Coaches
@@ -164,6 +162,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                    .ToList()
                                    .Select(c => new SelectListItem { Value = c.CoachId.ToString(), Text = c.FullName })
                                    .ToList();
+            coaches.Insert(0, new SelectListItem());
             model.HeadCoach.ItemSelectList = new SelectList(coaches, "Value", "Text", model.HeadCoach.CoachId);
 
             var clinchItems = Consts.ClinchDescriptions

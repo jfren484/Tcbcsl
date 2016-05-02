@@ -90,7 +90,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             DbContext.Players.Add(player);
             DbContext.SaveChanges(User.Identity.GetUserId());
 
-            return RedirectToAction("List");
+            return Redirect(model.UrlForReturn);
         }
 
         [Route("Edit/{id:int}")]
@@ -121,7 +121,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             Mapper.Map(model, player);
             DbContext.SaveChanges(User.Identity.GetUserId());
 
-            return RedirectToAction("List");
+            return Redirect(model.UrlForReturn);
         }
 
         #endregion

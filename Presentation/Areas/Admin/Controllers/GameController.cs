@@ -18,7 +18,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
         [Route("Create")]
-        public ActionResult Create(string urlForReturn, DateTime date)
+        public ActionResult Create(DateTime date)
         {
             var model = new GameEditModel
                         {
@@ -26,8 +26,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                             GameType = new GameEditTypeModel(),
                             GameStatus = new GameEditStatusModel(),
                             RoadParticipant = new GameParticipantEditModel {TeamYear = new GameEditTeamModel()},
-                            HomeParticipant = new GameParticipantEditModel {TeamYear = new GameEditTeamModel()},
-                            UrlForReturn = urlForReturn
+                            HomeParticipant = new GameParticipantEditModel {TeamYear = new GameEditTeamModel()}
                         };
             PopulateDropdownLists(model);
 
@@ -54,7 +53,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
         [Route("Edit/{id:int}")]
-        public ActionResult Edit(int id, string urlForReturn)
+        public ActionResult Edit(int id)
         {
             var game = DbContext.Games.SingleOrDefault(g => g.GameId == id);
             if (game == null)
@@ -63,7 +62,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             var model = Mapper.Map<GameEditModel>(game);
-            model.UrlForReturn = urlForReturn;
             PopulateDropdownLists(model);
 
             return View(model);

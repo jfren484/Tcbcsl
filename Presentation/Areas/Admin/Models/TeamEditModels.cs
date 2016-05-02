@@ -49,13 +49,26 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [UIHint("HtmlEditor")]
         [AllowHtml]
         public string Comments { get; set; }
+
+        public TeamEditModel()
+        {
+            Conference = new TeamEditDivisionModel();
+            Division = new TeamEditDivisionModel();
+            Church = new TeamEditChurchModel();
+            HeadCoach = new TeamEditCoachModel();
+            Clinch = new TeamEditClinchModel();
+        }
     }
 
     public class TeamEditDivisionModel
     {
+        [Display(Name = "Division")]
         public int DivisionYearId { get; set; }
+
         public bool IsInLeague { get; set; }
+
         public string Name { get; set; }
+
         public int Sort { get; set; }
 
         public SelectList ItemSelectList { get; set; }
@@ -63,7 +76,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
     public class TeamEditChurchModel
     {
+        [Display(Name = "Church")]
         public int ChurchId { get; set; }
+
         public string FullName { get; set; }
 
         public SelectList ItemSelectList { get; set; }
@@ -71,8 +86,11 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
     public class TeamEditCoachModel
     {
+        [Display(Name = "Head Coach")]
         public int CoachId { get; set; }
+
         public string FullName { get; set; }
+
         public string SortableName { get; set; }
 
         public SelectList ItemSelectList { get; set; }
@@ -81,6 +99,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
     public class TeamEditClinchModel
     {
         public string ClinchChar { get; set; }
+
         public string Description { get; set; }
 
         public SelectList ItemSelectList { get; set; }

@@ -87,7 +87,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             var model = Mapper.Map<GameResultsEditModel>(gameParticipant.Game);
-            model.NewReport.UrlForReturn = Request.UrlReferrer.PathAndQuery;
             PopulateDropdownLists(model.NewReport, gameParticipant.Game);
 
             return View(model);

@@ -74,7 +74,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             DbContext.Coaches.Add(coach);
             DbContext.SaveChanges(User.Identity.GetUserId());
 
-            return RedirectToAction("List");
+            return Redirect(model.UrlForReturn);
         }
 
         [Route("Edit/{id:int}")]
@@ -89,7 +89,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             var model = Mapper.Map<CoachEditModel>(coach);
-            model.Address.State.ItemSelectList = GetStatesSelectList(coach.Address.StateId);
+            model.Address.State.ItemSelectList = GetStatesSelectList(coach.Address?.StateId);
 
             var phoneTypes = GetPhoneTypes();
             model.PhoneNumbers.ForEach(pn => { pn.PhoneTypes = phoneTypes; });
@@ -123,7 +123,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             DbContext.SaveChanges(User.Identity.GetUserId());
 
-            return RedirectToAction("List");
+            return Redirect(model.UrlForReturn);
         }
 
         #endregion

@@ -6,14 +6,13 @@ using DataAnnotationsExtensions;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
-    public class StatisticsEditModel
+    public class StatisticsEditModel : EditModelBase
     {
         public string TeamName { get; set; }
         public DateTime GameDate { get; set; }
 
         public List<StatisticsEditStatLineModel> StatLines { get; set; }
 
-        public string UrlForReturn { get; set; }
         public string UrlForNewRow { get; set; }
     }
 

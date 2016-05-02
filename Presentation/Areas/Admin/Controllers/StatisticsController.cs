@@ -34,10 +34,10 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             PopulateDropdownLists(model, gameParticipant.TeamYear.TeamId, newGame);
             model.UrlForNewRow = Url.Action("Row", new {id = gameParticipant.TeamYear.TeamId});
             model.UrlForReturn = Url.Action("List", "GameResults", new
-                                                                {
-                                                                    id = gameParticipant.TeamYear.TeamId,
-                                                                    year = gameParticipant.TeamYear.Year.AsRouteParameter()
-                                                                });
+                                                                   {
+                                                                       id = gameParticipant.TeamYear.TeamId,
+                                                                       year = gameParticipant.TeamYear.Year.AsRouteParameter()
+                                                                   });
 
             return View(model);
         }

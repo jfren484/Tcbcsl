@@ -30,8 +30,7 @@
                     </tr>
                 </tfoot>
             </table>
-            @Html.HiddenFor(m => m.UrlForReturn)
-            @Html.Partial("_FormCancelSubmit", Model.UrlForReturn)
+            @Html.Partial("_FormCancelSubmit", Model)
         </fieldset>
     }
 </div>

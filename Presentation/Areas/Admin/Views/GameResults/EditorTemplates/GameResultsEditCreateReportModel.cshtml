@@ -27,8 +27,7 @@
             {
                 @Html.HiddenFor(m => m.Team.TeamId)
             }
-            @Html.HiddenFor(m => m.UrlForReturn)
-            @Html.Partial("_FormCancelSubmit", Model.UrlForReturn)
+            @Html.Partial("_FormCancelSubmit", Model)
         </fieldset>
     }
 </div>

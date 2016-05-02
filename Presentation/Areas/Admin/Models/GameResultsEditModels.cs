@@ -71,7 +71,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public string Note { get; set; }
     }
 
-    public class GameResultsEditCreateReportModel
+    public class GameResultsEditCreateReportModel : EditModelBase
     {
         public bool IsConfirmable { get; set; }
 
@@ -91,8 +91,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public GameParticipantEditModel HomeParticipant { get; set; }
 
         public string Note { get; set; }
-
-        public string UrlForReturn { get; set; }
     }
 
     public class GameResultsTeamModel

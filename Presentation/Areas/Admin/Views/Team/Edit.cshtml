@@ -8,6 +8,7 @@
     {
         <fieldset>
             <legend>@title</legend>
+            @Html.HiddenFor(m => m.Year)
             @Html.EditorFor(m => m.Church)
             @Html.EditorFor(m => m.TeamName)
             @Html.EditorFor(m => m.Division)
@@ -17,7 +18,7 @@
             @Html.EditorFor(m => m.Clinch)
             @Html.EditorFor(m => m.FieldInformation, new { IsReadonly = Model.Year != Consts.CurrentYear })
             @Html.EditorFor(m => m.Comments, new { IsReadonly = Model.Year != Consts.CurrentYear })
-            @Html.Partial("_FormCancelSubmit", Url.Action("List"))
+            @Html.Partial("_FormCancelSubmit", Model)
         </fieldset>
     }
 </div>
