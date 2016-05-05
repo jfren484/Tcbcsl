@@ -1,6 +1,8 @@
 ﻿@model GameResultsEditCreateReportModel
 @{
     ViewBag.LabelWidth = 5;
+
+    var noteOnly = ViewBag.NoteOnly ?? false;
 }
 <div class="well col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 row">
     @using (Html.BeginForm("Game", "GameResults", FormMethod.Post, new { id = "NewReportForm", @class = "form-horizontal form-with-validation" }))
@@ -14,10 +16,14 @@
                 </div>
             }
             <div class="confirmable">
-                @Html.EditorFor(m => m.GameStatus)
-                @Html.EditorFor(m => m.RoadParticipant)
-                @Html.EditorFor(m => m.HomeParticipant)
+                @Html.EditorFor(m => m.GameStatus, new { IsReadonly = noteOnly })
+                @Html.EditorFor(m => m.RoadParticipant, new { IsReadonly = noteOnly })
+                @Html.EditorFor(m => m.HomeParticipant, new { IsReadonly = noteOnly })
             </div>
+            @if (noteOnly)
+            {
+                <div class="form-group center text-danger">* Only Notes can be added to game results that have been confirmed.</div>
+            }
             @Html.EditorFor(m => m.Note)
             @if (Model.Team.ItemSelectList.Count() > 1)
             {

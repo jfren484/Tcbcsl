@@ -123,7 +123,10 @@ namespace Tcbcsl.Presentation
                   .ForMember(e => e.GameStatusId, exp => exp.MapFrom(m => m.GameStatus.GameStatusId))
                   .ForMember(e => e.GameStatus, exp => exp.Ignore())
                   .ForMember(e => e.GameParticipants, exp => exp.Ignore())
-                  .ForMember(e => e.GameResultReports, exp => exp.Ignore());
+                  .ForMember(e => e.GameResultReports, exp => exp.Ignore())
+                  .ForMember(e => e.IsFinalized, exp => exp.MapFrom(m => m.GameStatus.GameStatusId != GameStatus.Scheduled ||
+                                                                         m.HomeParticipant.RunsScored != 0 ||
+                                                                         m.RoadParticipant.RunsScored != 0));
 
             Mapper.CreateMap<GameParticipantEditModel, GameParticipant>()
                   .MapEntityModifiable()
@@ -146,6 +149,7 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.Opponent, exp => exp.Ignore())
                   .ForMember(m => m.Outcome, exp => exp.Ignore())
                   .ForMember(m => m.IsWaitingForMyInput, exp => exp.Ignore())
+                  .ForMember(m => m.IsFinalized, exp => exp.Ignore())
                   .ForMember(m => m.NoStats, exp => exp.Ignore());
 
             Mapper.CreateMap<GameParticipant, GameResultsListModel>()
@@ -155,6 +159,7 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.Outcome, exp => exp.MapFrom(e => e.GetOutcome()))
                   .ForMember(m => m.KeepsStats, exp => exp.Ignore())
                   .ForMember(m => m.IsWaitingForMyInput, exp => exp.MapFrom(e => e.GetIsWaitingForMyInput()))
+                  .ForMember(m => m.IsFinalized, exp => exp.MapFrom(e => e.Game.IsFinalized))
                   .ForMember(m => m.NoStats, exp => exp.MapFrom(e => !e.StatLines.Any()));
 
             Mapper.CreateMap<Game, GameResultsEditModel>()
@@ -165,7 +170,7 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<Game, GameResultsEditCreateReportModel>()
                   .ForMember(m => m.CurrentResult, exp => exp.MapFrom(g => g.GetResultDescription()))
-                  .ForMember(m => m.IsConfirmable, exp => exp.MapFrom(g => g.GameResultReports.Any()))
+                  .ForMember(m => m.IsConfirmable, exp => exp.MapFrom(g => !g.IsFinalized && g.GameResultReports.Any()))
                   .ForMember(m => m.Team, exp => exp.UseValue(new GameResultsTeamModel()))
                   .ForMember(m => m.IsConfirmation, exp => exp.Ignore())
                   .ForMember(m => m.Note, exp => exp.Ignore());
@@ -405,7 +410,8 @@ namespace Tcbcsl.Presentation
             }
 
             return !UserCache.AssignedTeams
-                             .Select(kvp => (int?)kvp.Key)
+                             .Keys
+                             .Cast<int?>()
                              .Contains(latestNonConfirm.TeamId);
         }
 

@@ -45,6 +45,11 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var game = Mapper.Map<Game>(model);
             game.GameParticipants = new[] {roadTeam, homeTeam};
 
+            if (game.IsFinalized)
+            {
+                game.AddResultReportFromLeague();
+            }
+
             DbContext.Games.Add(game);
             DbContext.SaveChanges(User.Identity.GetUserId());
 
@@ -82,6 +87,11 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             Mapper.Map(model.RoadParticipant, game.RoadParticipant);
             Mapper.Map(model.HomeParticipant, game.HomeParticipant);
 
+            if (game.IsFinalized)
+            {
+                game.AddResultReportFromLeague();
+            }
+
             DbContext.SaveChanges(User.Identity.GetUserId());
 
             return Redirect(model.UrlForReturn);
@@ -104,6 +114,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             gameParticipant.Game.GameStatusId = GameStatus.Forfeited;
             gameParticipant.RunsScored = 15;
+            gameParticipant.Game.IsFinalized = true;
+            gameParticipant.Game.AddResultReportFromLeague();
 
             DbContext.SaveChanges(User.Identity.GetUserId());
 
@@ -122,6 +134,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             game.GameStatusId = GameStatus.Postponed;
+            game.IsFinalized = true;
+            game.AddResultReportFromLeague();
 
             DbContext.SaveChanges(User.Identity.GetUserId());
 
@@ -140,6 +154,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             game.GameStatusId = GameStatus.RainedOut;
+            game.IsFinalized = true;
+            game.AddResultReportFromLeague();
 
             DbContext.SaveChanges(User.Identity.GetUserId());
 

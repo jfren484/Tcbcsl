@@ -122,9 +122,31 @@ function renderEditLink(data, type) {
 function renderGameResultsLinks(data, type, row) {
     if (type !== 'display' || !data) return null;
 
+    var submitResultsTitle = 'submit game result' + (row.IsWaitingForMyInput
+        ? ' (awaiting your input)'
+        : row.IsFinalized
+            ? ' (confirmed result - add notes only)'
+            : '');
+
+    var enterStatsTitle = row.NoStats
+        ? 'enter stats'
+        : 'modify stats';
+
+    var needActionClasses = 'btn btn-xs btn-success';
+
+    var submitResultsClasses = row.IsWaitingForMyInput
+        ? needActionClasses
+        : row.IsFinalized
+            ? 'text-danger'
+            : undefined;
+
+    var enterStatsClasses = row.NoStats
+        ? needActionClasses
+        : undefined;
+
     return [
-        renderLink(data.SubmitResults, 'submit game result', 'pencil', row.IsWaitingForMyInput ? 'text-danger' : undefined),
-        renderLink(data.EnterStats,    'enter stats',        'stats',  row.NoStats             ? 'text-danger' : undefined)
+        renderLink(data.SubmitResults, submitResultsTitle, 'pencil', submitResultsClasses),
+        renderLink(data.EnterStats, enterStatsTitle, 'stats', enterStatsClasses)
     ].join(' ');
 }
 

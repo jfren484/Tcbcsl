@@ -44,5 +44,15 @@ namespace Tcbcsl.Data.Entities
                 return GameParticipants.Single(gp => gp.IsHost);
             }
         }
+
+        public void AddResultReportFromLeague()
+        {
+            GameResultReports.Add(new GameResultReport
+            {
+                GameStatusId = GameStatusId,
+                RoadTeamScore = RoadParticipant.RunsScored,
+                HomeTeamScore = HomeParticipant.RunsScored
+            });
+        }
     }
 }

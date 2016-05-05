@@ -100,7 +100,7 @@
         </div>
     </div>
 }
-@Html.EditorFor(m => m.NewReport)
+@Html.EditorFor(m => m.NewReport, new {NoteOnly = Model.IsFinalized})
 @section scripts
 {
     <script>

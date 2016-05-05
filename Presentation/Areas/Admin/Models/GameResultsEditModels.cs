@@ -22,6 +22,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         public bool IsWaitingForMyInput { get; set; }
 
+        public bool IsFinalized { get; set; }
+
         public bool NoStats { get; set; }
 
         [Display(Name = "")]
