@@ -1,24 +1,15 @@
 ﻿@model StatsLeaderModel
+@{ 
+    var year = Model.Year == Consts.CurrentYear ? null : $"/{Model.Year.AsRouteParameter()}";
+}
 <tr>
     <th>
-        @Html.RouteLink(Model.Category.Name, new
-                                             {
-                                                 Controller = "Statistics",
-                                                 Action = "StatisticsForTeam",
-                                                 TeamId = Model.TeamId,
-                                                 Year = Model.Year == Consts.CurrentYear ? (YearEnum?)null : (YearEnum)Model.Year,
-                                                 Sort = Model.Category.Field
-                                             }, null)
+        <a href="/Statistics/Team/@Model.TeamId@year?sort=@Model.Category.Field">@Model.Category.Name</a>
     </th>
     <td>
         @if (Model.PlayerId.HasValue)
         {
-            @Html.RouteLink(Model.Name, new
-                                        {
-                                            Controller = "Statistics",
-                                            PlayerId = Model.PlayerId,
-                                            Year = Model.Year == Consts.CurrentYear ? (YearEnum?)null : (YearEnum)Model.Year
-                                        }, null)
+            <a href="/Statistics/Player/@Model.PlayerId@year">@Model.Name</a>
         }
         else
         {

@@ -71,7 +71,7 @@ namespace Tcbcsl.Presentation
                   .ForMember(e => e.State, exp => exp.Ignore());
 
             Mapper.CreateMap<ICollection<ContactPhoneNumber>, PhoneEditModelList>()
-                  .ConvertUsing(e => new PhoneEditModelList(Mapper.Map<List<PhoneEditModel>>(e)));
+                  .ConvertUsing((ICollection<ContactPhoneNumber>  e) => new PhoneEditModelList(Mapper.Map<List<PhoneEditModel>>(e)));
 
             Mapper.CreateMap<ContactPhoneNumber, PhoneEditModel>()
                   .MapEditModelBaseWithAudit()

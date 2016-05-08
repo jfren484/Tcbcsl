@@ -31,11 +31,11 @@ namespace Tcbcsl.Presentation.Helpers
                        : ((int)year).ToString();
         }
 
-        public static int? AsRouteParameter(this int year)
+        public static string AsRouteParameter(this int year)
         {
             return year == Consts.CurrentYear
                        ? null
-                       : (int?)year;
+                       : year.ToString();
         }
 
         public static string AsTitleSuffix(this YearEnum year)

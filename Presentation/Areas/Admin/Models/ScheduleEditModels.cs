@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using DataAnnotationsExtensions;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
@@ -36,7 +35,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         public string TeamName { get; set; }
 
-        [Required, Min(0)]
+        [Required, Range(0, int.MaxValue, ErrorMessage = "RunsScored must be greater than or equal to 0.")]
         public int RunsScored { get; set; }
     }
 }
