@@ -1,16 +1,11 @@
 using DataAnnotationsExtensions.ClientValidation;
-using JetBrains.Annotations;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof(Tcbcsl.Presentation.RegisterClientValidationExtensions), "Start")]
-
-namespace Tcbcsl.Presentation
-{
-    public static class RegisterClientValidationExtensions
-    {
-        [UsedImplicitly]
-        public static void Start()
-        {
-            DataAnnotationsModelValidatorProviderExtensions.RegisterValidationExtensions();
+[assembly: WebActivator.PreApplicationStartMethod(typeof(Tcbcsl.Presentation.App_Start.RegisterClientValidationExtensions), "Start")]
+ 
+namespace Tcbcsl.Presentation.App_Start {
+    public static class RegisterClientValidationExtensions {
+        public static void Start() {
+            DataAnnotationsModelValidatorProviderExtensions.RegisterValidationExtensions();            
         }
     }
 }
