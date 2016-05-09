@@ -14,7 +14,7 @@ namespace Tcbcsl.Presentation
                 "~/Scripts/DataTables/dataTables.bootstrap.js",
                 "~/Scripts/respond.js",
                 "~/Scripts/moment.js",
-                "~/Scripts/knockout-{version}.debug.js",
+                "~/Scripts/knockout-{version}.js",
                 "~/Scripts/site.js",
                 "~/Scripts/stats.js"));
 
@@ -23,7 +23,6 @@ namespace Tcbcsl.Presentation
                 "~/Scripts/jquery.maskedinput.js",
                 "~/Scripts/bootstrap-datetimepicker.js",
                 "~/Scripts/bootstrap-multiselect.js",
-                "~/Scripts/tinymce/tinymce.js",
                 "~/Scripts/admin.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
