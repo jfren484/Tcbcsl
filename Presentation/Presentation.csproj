@@ -446,7 +446,7 @@
     <Content Include="Areas\Admin\Views\Church\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Coach\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Coach\List.cshtml" />
-    <None Include="Areas\Admin\Views\ContentItem\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\ContentItem\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\String.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\HtmlEditor.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
