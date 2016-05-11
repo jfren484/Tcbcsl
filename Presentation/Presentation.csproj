@@ -912,6 +912,14 @@
     <Content Include="Scripts\jquery.validate.dynamicFix.js" />
     <Content Include="Views\Manage\Edit.cshtml" />
     <Content Include="Scripts\jquery-2.2.3.min.map" />
+    <Content Include="Views\Statistics\StatisticsForGame.cshtml" />
+    <Content Include="Views\Statistics\StatisticsForPlayer.cshtml" />
+    <Content Include="Views\Statistics\StatisticsForLeagueIndividual.cshtml" />
+    <Content Include="Views\Statistics\StatisticsForLeagueTeam.cshtml" />
+    <Content Include="Views\Statistics\StatisticsForTeam.cshtml" />
+    <Content Include="Views\Statistics\_StatsTable.cshtml" />
+    <Content Include="Views\Team\View.cshtml" />
+    <Content Include="Web.Sensitive.config" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.json" />
@@ -922,14 +930,6 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\readme.md" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
-    <Content Include="Views\Statistics\StatisticsForGame.cshtml" />
-    <Content Include="Views\Statistics\StatisticsForPlayer.cshtml" />
-    <Content Include="Views\Statistics\StatisticsForLeagueIndividual.cshtml" />
-    <Content Include="Views\Statistics\StatisticsForLeagueTeam.cshtml" />
-    <Content Include="Views\Statistics\StatisticsForTeam.cshtml" />
-    <Content Include="Views\Statistics\_StatsTable.cshtml" />
-    <Content Include="Views\Team\View.cshtml" />
-    <Content Include="Web.Sensitive.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
