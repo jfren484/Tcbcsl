@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Tcbcsl.Presentation.Services;
 
 namespace Tcbcsl.Presentation.Controllers
@@ -22,6 +23,12 @@ namespace Tcbcsl.Presentation.Controllers
         public ActionResult Unauthorized()
         {
             return View();
+        }
+
+        [Route("Throw")]
+        public ActionResult Throw()
+        {
+            throw new Exception("Test Error Page");
         }
     }
 }
