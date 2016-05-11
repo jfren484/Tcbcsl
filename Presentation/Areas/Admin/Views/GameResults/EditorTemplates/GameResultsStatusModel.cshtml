@@ -4,7 +4,12 @@
 }
 @section Editable
 {
-    @Html.DropDownListFor(m => m.GameStatusId, Model.ItemSelectList, new { @class = "form-control" })
+    @Html.DropDownListFor(m => m.GameStatusId, Model.ItemSelectList, new
+                                                                     {
+                                                                         @class = "form-control",
+                                                                         data_rule_result_scheduled_with_score = true,
+                                                                         data_rule_result_missed_with_score = true
+                                                                     })
     @Html.ValidationMessageFor(m => m.GameStatusId)
 }
 @section Readonly
