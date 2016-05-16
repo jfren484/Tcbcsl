@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -9,6 +10,7 @@ using Tcbcsl.Data.Identity;
 using System.Linq;
 using Tcbcsl.Presentation.Helpers;
 using System.Security.Claims;
+using Elmah;
 
 // ReSharper disable  RedundantCaseLabel
 
@@ -247,6 +249,7 @@ namespace Tcbcsl.Presentation.Controllers
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
             {
+                ErrorSignal.FromCurrentContext().Raise(new Exception("GetExternalLoginInfoAsync returned null"), System.Web.HttpContext.Current);
                 return RedirectToAction("Login");
             }
 
@@ -286,6 +289,7 @@ namespace Tcbcsl.Presentation.Controllers
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
+                    ErrorSignal.FromCurrentContext().Raise(new Exception("GetExternalLoginInfoAsync returned null"), System.Web.HttpContext.Current);
                     return View("ExternalLoginFailure");
                 }
 
