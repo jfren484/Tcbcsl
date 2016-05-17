@@ -34,11 +34,8 @@
         </div>
         <div class="container-fluid game-body">
             <div class="overlay">Updated</div>
-            @if (!Model.Entered)
-            {
-                @Html.HiddenFor(m => m.GameId)
-                @Html.HiddenFor(m => m.GameDate)
-            }
+            @Html.HiddenFor(m => m.GameId)
+            @Html.HiddenFor(m => m.GameDate)
             @Html.EditorFor(m => m.RoadParticipant, new { IsReadonly = Model.Entered })
             @Html.EditorFor(m => m.HomeParticipant, new { IsReadonly = Model.Entered })
         </div>

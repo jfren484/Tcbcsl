@@ -1,14 +1,15 @@
 ﻿@if (Request.IsAuthenticated)
 {
     var userIsCommissioner = User.IsInRole(Tcbcsl.Data.Entities.Roles.LeagueCommissioner);
+    var userIsCoach = User.IsInRole(Tcbcsl.Data.Entities.Roles.TeamCoach);
 
     var myTeamLinks = UserCache.AssignedTeams
-                               .SelectMany(kvp => new[]
-                                                  {
+                   .SelectMany(kvp => new[]
+                                      {
                                                       Html.RouteLink($"Manage {kvp.Value} Information", new {area = "Admin", controller = "Team", action = "Manage", id = kvp.Key}),
-                                                      Html.RouteLink($"Game Results for {kvp.Value}", new {area = "Admin", controller = "GameResults", action = "Default", id = kvp.Key})
-                                                  })
-                               .OrderBy(s => s.ToString());
+                                                      Html.RouteLink($"Game Results for {kvp.Value}", new {area = "Admin", controller = "GameResults", action = "List", id = kvp.Key})
+                                      })
+                   .OrderBy(s => s.ToString());
 
     var adminAreaLinks = new[]
                          {
@@ -24,17 +25,20 @@
                              new {Link = Html.RouteLink("Users",        new {area = "Admin", controller = "User",        action = "List"},     null), CommishOnly = true  }
                          };
 
-    <li class="dropdown">
+    <li class="dropdown @(userIsCoach ? "" : "visible-sm")">
         @Html.Partial("_NavDropdownToggle", "Admin")
         <ul class="dropdown-menu">
-            <li>@Html.RouteLink("Account", new { area = "", controller = "Manage", action = "Index" }, new { @class = "visible-sm" })</li>
-            @foreach (var myTeamLink in myTeamLinks)
+            <li>@Html.RouteLink("Account", new {area = "", controller = "Manage", action = "Index"}, new {@class = "visible-sm"})</li>
+            @if (userIsCoach)
             {
-                <li>@myTeamLink</li>
-            }
-            @foreach (var adminAreaLink in adminAreaLinks.Where(adminAreaLink => userIsCommissioner || !adminAreaLink.CommishOnly))
-            {
-                <li>@adminAreaLink.Link</li>
+                foreach (var myTeamLink in myTeamLinks)
+                {
+                    <li>@myTeamLink</li>
+                }
+                foreach (var adminAreaLink in adminAreaLinks.Where(adminAreaLink => userIsCommissioner || !adminAreaLink.CommishOnly))
+                {
+                    <li>@adminAreaLink.Link</li>
+                }
             }
         </ul>
     </li>

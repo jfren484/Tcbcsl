@@ -106,7 +106,7 @@
     <script>
         $(function () {
             $.validator.addMethod('forfeit-score', function (value, element) {
-                if ($('select[name$=".GameStatusId"').val() != '@Tcbcsl.Data.Entities.GameStatus.Forfeited') return true;
+                if ($('select[name$=".GameStatusId"').val() !== '@Tcbcsl.Data.Entities.GameStatus.Forfeited') return true;
 
                 var otherValue = $('input[name$=".RunsScored"]').not('#' + element.id).val();
 
@@ -118,23 +118,31 @@
                 return value === '0' || value === '15';
             }, 'The score of a forfeit must be 15 - 0.');
 
-            $.validator.addMethod('result-scheduled-with-score', function (value, element) {
-                if (value != '@Tcbcsl.Data.Entities.GameStatus.Scheduled') return true;
+            $.validator.addMethod('result-scheduled-with-score', function (value) {
+                if (value !== '@Tcbcsl.Data.Entities.GameStatus.Scheduled') return true;
 
-                var nonZeroScoreValues = $('input[name$=".RunsScored"]').not('[value="0"]').length;
+                var nonZeroScoreValues = $('input[name$=".RunsScored"]')
+                    .filter(function() {
+                        return parseInt($(this).val(), 10);
+                    })
+                    .length;
 
                 // If any scores were not zero, this status is invalid.
-                return nonZeroScoreValues == 0;
+                return !nonZeroScoreValues;
             }, 'The Result of the game should be set to Final.');
 
-            $.validator.addMethod('result-missed-with-score', function (value, element) {
-                if (value != '@Tcbcsl.Data.Entities.GameStatus.Postponed' &&
-                    value != '@Tcbcsl.Data.Entities.GameStatus.RainedOut') return true;
+            $.validator.addMethod('result-missed-with-score', function (value) {
+                if (value !== '@Tcbcsl.Data.Entities.GameStatus.Postponed' &&
+                    value !== '@Tcbcsl.Data.Entities.GameStatus.RainedOut') return true;
 
-                var nonZeroScoreValues = $('input[name$=".RunsScored"]').not('[value="0"]').length;
+                var nonZeroScoreValues = $('input[name$=".RunsScored"]')
+                    .filter(function() {
+                        return parseInt($(this).val(), 10);
+                    })
+                    .length;
 
                 // If any scores were not zero, this status is invalid.
-                return nonZeroScoreValues == 0;
+                return !nonZeroScoreValues;
             }, 'Results of Postponed or Rained Out are invalid for games with a score.');
         });
     </script>

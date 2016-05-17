@@ -105,8 +105,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         private void PopulateDropdownLists(StatisticsEditModel model, int teamId, bool includeEmptyOption)
         {
+            var playerIds = model.StatLines.Select(sl => sl.Player.PlayerId);
             var playerList = DbContext.Players
-                            .Where(p => p.CurrentTeamId == teamId && p.IsActive)
+                            .Where(p => (p.CurrentTeamId == teamId && p.IsActive) || playerIds.Contains(p.PlayerId))
                             .OrderBy(p => p.LastName)
                             .ThenBy(p => p.FirstName)
                             .ToList()
@@ -118,10 +119,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 playerList.Insert(0, new SelectListItem());
             }
 
-            model.StatLines.ForEach(sl =>
-                                    {
-                                        sl.Player.ItemSelectList = new SelectList(playerList, "Value", "Text", sl.Player.PlayerId);
-                                    });
+            model.StatLines.ForEach(sl => sl.Player.ItemSelectList = new SelectList(playerList, "Value", "Text", sl.Player.PlayerId));
         }
 
         #endregion

@@ -173,18 +173,20 @@ namespace Tcbcsl.Presentation.Controllers
                          && line.GameParticipant.TeamYear.Year == year
                    group line by line.Player
                    into lineGroup
+                   let plateAppearances = lineGroup.Sum(line => line.StatPlateAppearances)
+                   let atBats = lineGroup.Sum(line => line.StatAtBats)
                    select new PlayerStats
                           {
                               PlayerId = lineGroup.Key.PlayerId,
                               Name = lineGroup.Key.FirstName + " " + lineGroup.Key.LastName,
                               Games = lineGroup.Count(),
-                              AVG = lineGroup.Sum(line => line.StatHits) / (decimal)lineGroup.Sum(line => line.StatAtBats),
+                              AVG = atBats == 0 ? 0 : lineGroup.Sum(line => line.StatHits) / (decimal)atBats,
                               HR = lineGroup.Sum(line => line.StatHomeRuns),
                               BB = lineGroup.Sum(line => line.StatWalks),
                               RBI = lineGroup.Sum(line => line.StatRunsBattedIn),
                               Runs = lineGroup.Sum(line => line.StatRuns),
-                              OPS = lineGroup.Sum(line => line.StatHits + line.StatWalks) / (decimal)lineGroup.Sum(line => line.StatPlateAppearances) +
-                                    lineGroup.Sum(line => line.StatTotalBases) / (decimal)lineGroup.Sum(line => line.StatAtBats)
+                              OPS = (plateAppearances == 0 ? 0 : lineGroup.Sum(line => line.StatHits + line.StatWalks) / (decimal)plateAppearances) +
+                                    (atBats == 0 ? 0 : lineGroup.Sum(line => line.StatTotalBases) / (decimal)atBats)
                           };
         }
     }
