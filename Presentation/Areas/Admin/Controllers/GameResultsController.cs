@@ -24,7 +24,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 return HttpNotFound();
             }
 
-
             var teamId = UserCache.AssignedTeams.Any()
                              ? UserCache.AssignedTeams.First().Key
                              : DbContext.TeamYears
@@ -105,6 +104,11 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var newReport = Mapper.Map<GameResultReport>(model.NewReport);
             gameParticipant.Game.GameResultReports.Add(newReport);
             DbContext.SaveChanges(User.Identity.GetUserId());
+
+            if (gameParticipant.Game.IsFinalized)
+            {
+                return Redirect(model.NewReport.UrlForReturn);
+            }
 
             if (!model.NewReport.IsConfirmation)
             {

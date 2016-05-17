@@ -158,7 +158,7 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.Opponent, exp => exp.MapFrom(e => e.Opponent.TeamYear.FullName))
                   .ForMember(m => m.Outcome, exp => exp.MapFrom(e => e.GetOutcome()))
                   .ForMember(m => m.KeepsStats, exp => exp.Ignore())
-                  .ForMember(m => m.IsWaitingForMyInput, exp => exp.MapFrom(e => e.GetIsWaitingForMyInput()))
+                  .ForMember(m => m.IsWaitingForMyInput, exp => exp.MapFrom(e => e.Game.GetIsWaitingForMyInput()))
                   .ForMember(m => m.IsFinalized, exp => exp.MapFrom(e => e.Game.IsFinalized))
                   .ForMember(m => m.NoStats, exp => exp.MapFrom(e => !e.StatLines.Any()));
 
@@ -170,7 +170,7 @@ namespace Tcbcsl.Presentation
 
             Mapper.CreateMap<Game, GameResultsEditCreateReportModel>()
                   .ForMember(m => m.CurrentResult, exp => exp.MapFrom(g => g.GetResultDescription()))
-                  .ForMember(m => m.IsConfirmable, exp => exp.MapFrom(g => !g.IsFinalized && g.GameResultReports.Any()))
+                  .ForMember(m => m.IsConfirmable, exp => exp.MapFrom(g => g.GetIsWaitingForMyInput() && g.GameResultReports.Any(r => r.GameStatusId != GameStatus.Scheduled)))
                   .ForMember(m => m.Team, exp => exp.UseValue(new GameResultsTeamModel()))
                   .ForMember(m => m.IsConfirmation, exp => exp.Ignore())
                   .ForMember(m => m.Note, exp => exp.Ignore());
@@ -396,23 +396,27 @@ namespace Tcbcsl.Presentation
 
         #region Mapping Extension Methods
 
-        private static bool GetIsWaitingForMyInput(this GameParticipant gp)
+        private static bool GetIsWaitingForMyInput(this Game game)
         {
-            if (gp.Game.IsFinalized)
+            if (game.IsFinalized)
             {
                 return false;
             }
 
-            var latestNonConfirm = gp.Game.GameResultReports.OrderByDescending(r => r.Created).FirstOrDefault(r => !r.IsConfirmation);
-            if (latestNonConfirm == null)
+            foreach (var report in game.GameResultReports.Where(r => r.GameStatusId != GameStatus.Scheduled).OrderByDescending(r => r.Created))
             {
-                return gp.Game.GameDate < DateTime.Now;
+                if (report.TeamId.HasValue && UserCache.AssignedTeams.ContainsKey(report.TeamId.Value))
+                {
+                    return false;
+                }
+
+                if (!report.IsConfirmation)
+                {
+                    return true;
+                }
             }
 
-            return !UserCache.AssignedTeams
-                             .Keys
-                             .Cast<int?>()
-                             .Contains(latestNonConfirm.TeamId);
+            return game.GameDate < DateTime.Now;
         }
 
         private static string GetResultDescription(this Game g)

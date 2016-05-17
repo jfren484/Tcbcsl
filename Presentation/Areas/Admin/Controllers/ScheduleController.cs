@@ -56,7 +56,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Schedule(DateTime? date, ScheduleEditModel model)
         {
             var modelsForUpdate = model.Buckets
-                                       .SelectMany(b => b.Games.Where(g => g.HomeParticipant.RunsScored != 0 || g.RoadParticipant.RunsScored != 0))
+                                       .SelectMany(b => b.Games.Where(g => g.HomeParticipant != null &&
+                                                                           g.RoadParticipant != null &&
+                                                                           (g.HomeParticipant.RunsScored != 0 || g.RoadParticipant.RunsScored != 0)))
                                        .ToList();
 
             var gameIds = modelsForUpdate.Select(g => g.GameId)
@@ -77,7 +79,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
             DbContext.SaveChanges(User.Identity.GetUserId());
 
-            return RedirectToAction("Schedule", new { date = date });
+            return RedirectToAction("Schedule", new { date = date?.ToString(Consts.DateFormat) });
         }
 
         #endregion
