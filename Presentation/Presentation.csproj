@@ -503,6 +503,7 @@
     <Content Include="Areas\Admin\Views\GameResults\EditorTemplates\GameParticipantEditModel.cshtml" />
     <Content Include="Areas\Admin\Views\GameResults\EditorTemplates\GameResultsTeamModel.cshtml" />
     <Content Include="Areas\Admin\Views\GameResults\EditorTemplates\GameResultsStatusModel.cshtml" />
+    <Content Include="Areas\Admin\Views\GameResults\DisplayTemplates\GameResultsEditReportModel.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
     <Content Include="Content\bootstrap.min.css.map" />

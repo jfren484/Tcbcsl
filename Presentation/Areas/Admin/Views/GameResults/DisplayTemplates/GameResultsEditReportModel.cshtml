@@ -1,0 +1,22 @@
+﻿@model GameResultsEditReportModel
+<div class="row">
+    <div class="game-report @(Model.IsConfirmation ? "game-report-confirmation" : "") col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="game-report-row row">
+            @if (!Model.IsConfirmation)
+            {
+                <div class="game-report-col col-sm-4">@Model.RoadTeamScore</div>
+                <div class="game-report-col col-sm-4">@Model.GameStatus</div>
+                <div class="game-report-col col-sm-4">@Model.HomeTeamScore</div>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.Note))
+            {
+                <div class="game-report-col col-sm-12">@Model.Note</div>
+            }
+            <div class="game-report-submitted-by col-sm-12">
+                @(Model.IsConfirmation ? "Confirmed" : "Submitted") by: @Model.UserFullName
+                <span style="float: right;">@Model.ReportDate.ToString(Consts.DateTimeFormatDisplay)</span>
+            </div>
+        </div>
+        <div class="arrow arrow-@(Model.SubmittedFrom.ToString().ToLower())"></div>
+    </div>
+</div>

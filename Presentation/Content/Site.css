@@ -181,6 +181,54 @@ legend a {
 .form-with-validation .tooltip.right .tooltip-arrow {
   border-right-color: #9a161a;
 }
+.game-report {
+  border-radius: 8px;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  background-color: #f5f5f5;
+  border: solid 1px #e3e3e3;
+}
+.game-report .game-report-row {
+  padding: 5px;
+}
+.game-report .game-report-row .game-report-col {
+  text-align: center;
+  border-bottom: solid 1px #e3e3e3;
+}
+.game-report .game-report-row .game-report-submitted-by {
+  font-size: 0.8em;
+}
+.game-report .arrow {
+  width: 70px;
+  height: 16px;
+  overflow: hidden;
+  position: absolute;
+  top: -16px;
+}
+.game-report .arrow:after {
+  content: "";
+  position: absolute;
+  left: 20px;
+  bottom: -20px;
+  width: 25px;
+  height: 25px;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  background-color: #f5f5f5;
+  border: solid 1px #e3e3e3;
+}
+.game-report .arrow.arrow-roadteam {
+  left: 20px;
+}
+.game-report .arrow.arrow-league {
+  left: 50%;
+  margin-left: -35px;
+}
+.game-report .arrow.arrow-hometeam {
+  right: 20px;
+}
 @media (min-width: 768px) and (max-width: 991px) {
   .grid4321:nth-child(2n + 1),
   .grid4421:nth-child(2n + 1) {
@@ -245,6 +293,10 @@ legend a {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+.row.header {
+  text-align: center;
+  font-weight: bold;
 }
 .return-link {
   float: right;

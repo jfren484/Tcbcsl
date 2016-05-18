@@ -340,7 +340,7 @@ $('.table-form')
 
 //#endregion
 
-//#region Game Result New Report Form Event Handlers
+//#region Game Result New Report Form Event Handlers and Validation
 
 $('#NewReportForm').on('change', '#NewReport_IsConfirmation', function () {
     var checked = $(this).is(':checked');
@@ -357,6 +357,54 @@ $('#NewReportForm').on('change', '#NewReport_IsConfirmation', function () {
 
 $('#NewReportForm').on('click', '[type="reset"]', function () {
     $('#NewReportForm .confirmable .form-control').prop('disabled', false);
+});
+
+$(function () {
+    if ($.validator) {
+        $.validator.addMethod('forfeit-score',
+            function(value, element) {
+                if (parseInt($('select[name$=".GameStatusId"').val()) !== consts.gameStatus.forfeited) return true;
+
+                var otherValue = $('input[name$=".RunsScored"]').not('#' + element.id).val();
+
+                // The other value is valid - make sure this one is appropriate.
+                if (otherValue === '0') return value === '15';
+                if (otherValue === '15') return value === '0';
+
+                // The other value was not valid, so validate this value on its own.
+                return value === '0' || value === '15';
+            },
+            'The score of a forfeit must be 15 - 0.');
+
+        $.validator.addMethod('result-scheduled-with-score',
+            function(value) {
+                if (parseInt(value) !== consts.gameStatus.scheduled) return true;
+
+                var nonZeroScoreValues = $('input[name$=".RunsScored"]')
+                    .filter(function() {
+                        return parseInt($(this).val(), 10);
+                    })
+                    .length;
+
+                // If any scores were not zero, this status is invalid.
+                return !nonZeroScoreValues;
+            },
+            'The Result of the game should be set to Final.');
+
+        $.validator.addMethod('result-missed-with-score',
+            function(value) {
+                if (parseInt(value) !== consts.gameStatus.postponed &&
+                    parseInt(value) !== consts.gameStatus.rainedOut) return true;
+
+                var nonZeroScoreValues = $('input[name$=".RunsScored"]')
+                    .filter(function() { return parseInt($(this).val()); })
+                    .length;
+
+                // If any scores were not zero, this status is invalid.
+                return !nonZeroScoreValues;
+            },
+            'Results of Postponed or Rained Out are invalid for games with a score.');
+    }
 });
 
 //#endregion

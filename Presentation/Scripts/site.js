@@ -5,7 +5,15 @@ var consts = {
     playerPoolTeamId: 0,
     playerPoolTeamName: '',
     editorDateFormat: 'MMMM D, YYYY, h:mm A',
-    tableDateFormat: 'MMM D, YYYY, h:mm A'
+    tableDateFormat: 'MMM D, YYYY, h:mm A',
+
+    gameStatus: {
+        scheduled: 0,
+        postponed: 0,
+        rainedOut: 0,
+        forfeited: 0,
+        final: 0
+    }
 }
 
 $('.calendar-content').on('click', '.calendar-year-nav a', function (e) {
