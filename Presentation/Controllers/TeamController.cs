@@ -64,7 +64,12 @@ namespace Tcbcsl.Presentation.Controllers
         {
             var teamYear = DbContext
                 .TeamYears
-                .Single(ty => ty.TeamId == teamId && ty.Year == year);
+                .SingleOrDefault(ty => ty.TeamId == teamId && ty.Year == year);
+
+            if (teamYear == null)
+            {
+                return HttpNotFound($"Team {teamId} not found for {year}.");
+            }
 
             var model = new TeamViewModel
                         {

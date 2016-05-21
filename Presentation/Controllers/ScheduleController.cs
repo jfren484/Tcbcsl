@@ -27,7 +27,7 @@ namespace Tcbcsl.Presentation.Controllers
 
             if (model == null)
             {
-                return new HttpNotFoundResult();
+                return HttpNotFound($"No games found for {date?.ToString(Consts.DateFormatDisplay)}.");
             }
 
             return View(model);
