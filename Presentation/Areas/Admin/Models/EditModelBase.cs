@@ -13,7 +13,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         protected EditModelBase()
         {
-            UrlForReturn = HttpContext.Current?.Request?.UrlReferrer?.PathAndQuery;
+            UrlForReturn = HttpContext.Current?.Request.UrlReferrer?.PathAndQuery;
         }
     }
 }

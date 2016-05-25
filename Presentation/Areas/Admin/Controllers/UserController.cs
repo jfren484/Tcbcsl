@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using CsQuery.ExtensionMethods.Internal;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -90,6 +93,21 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             DbContext.SaveChanges(User.Identity.GetUserId());
 
             return Redirect(model.UrlForReturn);
+        }
+
+        #endregion
+
+        #region Reset Password
+
+        [Route("ResetPassword/{id}")]
+        [HttpPost]
+        public async Task<ActionResult> ResetUserPassword(string id)
+        {
+            var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var resetToken = await userManager.GeneratePasswordResetTokenAsync(id);
+            var passwordChangeResult = await userManager.ResetPasswordAsync(id, resetToken, "Password#1");
+
+            return Json(passwordChangeResult);
         }
 
         #endregion
