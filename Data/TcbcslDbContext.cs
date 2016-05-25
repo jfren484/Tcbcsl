@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using System;
+﻿using System;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Data.Identity;
@@ -42,17 +43,25 @@ namespace Tcbcsl.Data
         {
             foreach (var entry in ChangeTracker.Entries<EntityCreatable>().Where(e => e.State == EntityState.Added))
             {
-                entry.Entity.Created = DateTime.Now;
+                entry.Entity.Created = CentralTimeZone.Now;
                 entry.Entity.CreatedBy = userId;
             }
 
             foreach (var entry in ChangeTracker.Entries<EntityModifiable>().Where(e => e.State == EntityState.Modified))
             {
-                entry.Entity.Modified = DateTime.Now;
+                entry.Entity.Modified = CentralTimeZone.Now;
                 entry.Entity.ModifiedBy = userId;
             }
 
-            return base.SaveChanges();
+            try { return base.SaveChanges(); }
+            catch (DbEntityValidationException ex)
+            {
+                var errors = ex.EntityValidationErrors
+                               .SelectMany(err => err.ValidationErrors)
+                               .Select(err => $"{err.PropertyName}: {err.ErrorMessage}");
+
+                throw new Exception($"DbEntityValidationException: {string.Join(Environment.NewLine, errors)}");
+            }
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -60,7 +69,7 @@ namespace Tcbcsl.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<TcbcslUser>()
-                        .HasMany<Team>(u => u.AssignedTeams)
+                        .HasMany(u => u.AssignedTeams)
                         .WithMany(t => t.ManagingUsers)
                         .Map(tu =>
                         {

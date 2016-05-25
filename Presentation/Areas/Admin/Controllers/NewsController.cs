@@ -7,6 +7,7 @@ using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
 using Microsoft.AspNet.Identity;
+using Tcbcsl.Data;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
@@ -55,8 +56,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var model = new NewsEditModel
                         {
                             IsActive = true,
-                            StartDate = DateTime.Now,
-                            EndDate = DateTime.Today.AddDays(14),
+                            StartDate = CentralTimeZone.Now,
+                            EndDate = CentralTimeZone.Today.AddDays(14),
                             Team = new NewsEditTeamModel {Teams = GetTeams(Consts.CurrentYear)}
                         };
 

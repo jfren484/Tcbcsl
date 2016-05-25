@@ -8,7 +8,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
     public class ScheduleEditModel
     {
         public string Label { get; set; }
-        public DateTime Date { get; set; }
+        public DateTimeOffset Date { get; set; }
         public List<ScheduleBucketEditModel> Buckets { get; set; }
     }
 
@@ -23,7 +23,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public int GameId { get; set; }
         public bool Entered { get; set; }
         public string Outcome { get; set; }
-        public DateTime GameDate { get; set; }
+        public DateTimeOffset GameDate { get; set; }
 
         public ScheduleGameParticipantEditModel RoadParticipant { get; set; }
         public ScheduleGameParticipantEditModel HomeParticipant { get; set; }

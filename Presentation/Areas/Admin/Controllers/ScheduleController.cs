@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
+using Tcbcsl.Data;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -33,7 +34,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("{date:datetime?}")]
         public ActionResult Schedule(DateTime? date)
         {
-            var now = DateTime.Now;
+            var now = CentralTimeZone.Now;
             var games = date == null
                             ? DbContext.Games.Where(g => !g.GameStatus.DisplayOutcome && g.GameDate < now && g.GameDate.Year == Consts.CurrentYear)
                             : DbContext.Games.Where(g => SqlFunctions.DateDiff("day", g.GameDate, date.Value) == 0);

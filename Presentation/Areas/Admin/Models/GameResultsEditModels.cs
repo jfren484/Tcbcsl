@@ -12,7 +12,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "Id")]
         public int GameParticipantId { get; set; }
 
-        public DateTime GameDate { get; set; }
+        public DateTimeOffset GameDate { get; set; }
 
         public string Opponent { get; set; }
 
@@ -32,7 +32,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
     public class GameResultsEditModel
     {
-        public DateTime GameDate { get; set; }
+        public DateTimeOffset GameDate { get; set; }
 
         [Display(Name = "Road Team")]
         public TeamBasicInfoModel RoadTeam { get; set; }
@@ -58,7 +58,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
     {
         public string UserFullName { get; set; }
 
-        public DateTime ReportDate { get; set; }
+        public DateTimeOffset ReportDate { get; set; }
 
         public ReportSubmitter SubmittedFrom { get; set; }
 

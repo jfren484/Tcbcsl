@@ -4,6 +4,7 @@ using AutoMapper;
 using System.Linq;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Tcbcsl.Data;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Data.Identity;
 using Tcbcsl.Presentation.Areas.Admin.Models;
@@ -30,6 +31,18 @@ namespace Tcbcsl.Presentation
             Mapper.CreateMap<EntityModifiable, AuditDetailsModel>()
                 .ForMember(m => m.CreatedBy, exp => exp.MapFrom(e => e.CreatedByUser.FullName))
                 .ForMember(m => m.ModifiedBy, exp => exp.MapFrom(e => e.ModifiedByUser.FullName));
+
+            Mapper.CreateMap<DateTime, DateTimeOffset>()
+                .ConvertUsing(dateTime => new DateTimeOffset(dateTime, CentralTimeZone.DaylightSavingsOffset));
+
+            Mapper.CreateMap<DateTime?, DateTimeOffset?>()
+                  .ConvertUsing(dateTime => dateTime == null ? null : (DateTimeOffset?)Mapper.Map<DateTimeOffset>(dateTime.Value));
+
+            Mapper.CreateMap<DateTimeOffset, DateTime>()
+                  .ConvertUsing(dateTimeOffset => dateTimeOffset.DateTime);
+
+            Mapper.CreateMap<DateTimeOffset?, DateTime?>()
+                  .ConvertUsing(dateTimeOffset => dateTimeOffset == null ? null : (DateTime?)Mapper.Map<DateTime>(dateTimeOffset.Value));
 
             #endregion
 
@@ -203,7 +216,7 @@ namespace Tcbcsl.Presentation
             #region NewsItem
 
             Mapper.CreateMap<NewsItem, NewsEditTeamModel>()
-                  .ForMember(m => m.IsReadonly, exp => exp.MapFrom(e => (DateTime.Now - e.Created) > TimeSpan.FromDays(30)))
+                  .ForMember(m => m.IsReadonly, exp => exp.MapFrom(e => CentralTimeZone.Now - e.Created > TimeSpan.FromDays(30)))
                   .ForMember(m => m.FullName, exp => exp.MapFrom(e => e.GetTeamName() ?? Consts.LeagueNameForList))
                   .ForMember(m => m.Teams, exp => exp.MapFrom(e => new List<TeamBasicInfoModel>()));
 
@@ -416,7 +429,7 @@ namespace Tcbcsl.Presentation
                 }
             }
 
-            return game.GameDate < DateTime.Now;
+            return game.GameDate < CentralTimeZone.Now;
         }
 
         private static string GetResultDescription(this Game g)

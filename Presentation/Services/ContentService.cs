@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Tcbcsl.Data;
 using Tcbcsl.Presentation.Models;
@@ -17,7 +16,7 @@ namespace Tcbcsl.Presentation.Services
 
         public List<NewsItemModel> GetCurrentNews(int? teamId = null)
         {
-            var now = DateTime.Now;
+            var now = CentralTimeZone.Now;
 
             var news = _db.NewsItems.Where(n => n.IsActive && n.StartDate < now && n.EndDate > now);
 

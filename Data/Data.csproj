@@ -63,6 +63,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="CentralTimeZone.cs" />
     <Compile Include="Consts.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

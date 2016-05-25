@@ -9,7 +9,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public int GameId { get; set; }
 
         [Required, Display(Name = "Date")]
-        public DateTime GameDate { get; set; }
+        public DateTimeOffset GameDate { get; set; }
 
         [Display(Name = "Game Type")]
         public GameEditTypeModel GameType { get; set; }

@@ -14,12 +14,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public string CreatedBy { get; set; }
 
         [Display(Name = "Created")]
-        public DateTime Created { get; set; }
+        public DateTimeOffset Created { get; set; }
 
         [Display(Name = "Modified By")]
         public string ModifiedBy { get; set; }
 
         [Display(Name = "Modified")]
-        public DateTime Modified { get; set; }
+        public DateTimeOffset? Modified { get; set; }
     }
 }

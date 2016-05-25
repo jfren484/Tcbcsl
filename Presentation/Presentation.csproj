@@ -287,6 +287,7 @@
     <Compile Include="Helpers\AuthorizeRedirectAttribute.cs" />
     <Compile Include="Helpers\ChangeTracker.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
+    <Compile Include="Helpers\JsonDotNetResult.cs" />
     <Compile Include="Helpers\UserCache.cs" />
     <Compile Include="Models\YearEnum.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -455,7 +456,7 @@
     <Content Include="Areas\Admin\Views\Shared\_FormCancelSubmit.cshtml" />
     <Content Include="Areas\Admin\Views\News\List.cshtml" />
     <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\DateTimeOffset.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\Boolean.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\NewsEditTeamModel.cshtml" />
     <Content Include="Areas\Admin\Views\User\List.cshtml" />

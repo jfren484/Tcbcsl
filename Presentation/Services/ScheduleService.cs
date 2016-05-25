@@ -87,7 +87,7 @@ namespace Tcbcsl.Presentation.Services
         private  DateTime GetClosestGameDate()
         {
             var dateQuery = from g in _dbContext.Games
-                            orderby Math.Abs(SqlFunctions.DateDiff("day", g.GameDate, DateTime.Now).Value)
+                            orderby Math.Abs(SqlFunctions.DateDiff("day", g.GameDate, CentralTimeZone.Now).Value)
                             select g.GameDate;
 
             return dateQuery.First().Date;
