@@ -80,7 +80,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             Mapper.Map(model, user);
 
             // Update assigned teams
-            var changes = ChangeTracker.GetChangeSets(user.AssignedTeams, model.AssignedTeams?.TeamIds, t => t.TeamId, i => i);
+            var changes = ChangeTracker.GetChangeSets(user.AssignedTeams, model.AssignedTeams?.TeamIds ?? new List<int>(), t => t.TeamId, i => i);
             foreach (var teamToRemove in changes.LeftOnly)
             {
                 user.AssignedTeams.Remove(teamToRemove);
