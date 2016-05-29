@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
@@ -8,7 +9,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "Id")]
         public int TeamId { get; set; }
 
-        public int Year { get; set; }
+        public YearModel YearModel { get; set; }
 
         public int TeamYearId { get; set; }
 

@@ -1,4 +1,5 @@
-﻿@{ 
+﻿@model YearModel
+@{ 
     var dict = ViewContext.RouteData.Values;
 }
 <div class="btn-group dropdown year-dropdown pull-right">
@@ -7,7 +8,7 @@
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-        @for (var year = Consts.CurrentYear; year >= Consts.FirstYear; --year)
+        @foreach (var year in Model.Years)
         {
             if (year == Model.Year)
             {

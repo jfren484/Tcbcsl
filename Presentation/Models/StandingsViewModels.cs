@@ -8,9 +8,8 @@ namespace Tcbcsl.Presentation.Models
         League
     }
 
-    public class StandingsModel
+    public class StandingsModel : YearModel
     {
-        public int Year { get; set; }
         public StandingsType Type { get; set; }
         public bool ShowTies { get; set; }
         public List<StandingsGroupModel> Groups { get; set; }

@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
+using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
@@ -19,7 +20,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("{year:year?}")]
         public ActionResult List(int year = Consts.CurrentYear)
         {
-            return View(new TeamEditModel {Year = year});
+            return View(new TeamEditModel {YearModel = new YearModel()});
         }
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
@@ -49,7 +50,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Create")]
         public ActionResult Create()
         {
-            var model = new TeamEditModel { Year = Consts.CurrentYear };
+            var model = new TeamEditModel {YearModel = new YearModel()};
 
             PopulateDropdownLists(model);
 

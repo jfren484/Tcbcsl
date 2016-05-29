@@ -313,7 +313,12 @@ namespace Tcbcsl.Presentation
             Mapper.CreateMap<TeamYear, TeamBasicInfoModel>();
 
             Mapper.CreateMap<TeamYear, TeamPickerModel>()
-                  .ForMember(m => m.Teams, exp => exp.Ignore());
+                  .ForMember(m => m.Teams, exp => exp.Ignore())
+                  .ForMember(m => m.Years, exp => exp.MapFrom(e => e.Team
+                                                                    .TeamYears
+                                                                    .Select(ty => ty.Year)
+                                                                    .OrderByDescending(y => y)
+                                                                    .ToArray()));
 
             Mapper.CreateMap<TeamYear, TeamEditModel>()
                   .MapEditModelBaseWithAudit()
@@ -321,7 +326,8 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.Division, exp => exp.MapFrom(e => e.DivisionYear))
                   .ForMember(m => m.Clinch, exp => exp.NullSubstitute(new TeamEditClinchModel()))
                   .ForMember(m => m.FieldInformation, exp => exp.MapFrom(e => e.Team.FieldInformation))
-                  .ForMember(m => m.Comments, exp => exp.MapFrom(e => e.Team.Comments));
+                  .ForMember(m => m.Comments, exp => exp.MapFrom(e => e.Team.Comments))
+                  .ForMember(m => m.YearModel, exp => exp.MapFrom(e => new YearModel {Year = e.Year}));
 
             Mapper.CreateMap<TeamYear, TeamManageModel>()
                   .ForMember(m => m.Team, exp => exp.MapFrom(e => e));

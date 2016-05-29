@@ -3,9 +3,8 @@ using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Models
 {
-    public class CoachListModel
+    public class CoachListModel : YearModel
     {
-        public int Year { get; set; }
         public List<CoachListDivisionModel> Divisions { get; set; }
     }
 

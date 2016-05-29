@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Tcbcsl.Presentation.Models
 {
-    public class TeamsListModel
+    public class TeamsListModel : YearModel
     {
-        public int Year { get; set; }
         public List<DivisionTeamsModel> Divisions { get; set; }
     }
 
@@ -22,9 +21,8 @@ namespace Tcbcsl.Presentation.Models
         public string TeamName { get; set; }
     }
 
-    public class TeamViewModel
+    public class TeamViewModel : YearModel
     {
-        public int Year { get; set; }
         public int TeamId { get; set; }
         public string TeamName { get; set; }
         public string DivisionName { get; set; }

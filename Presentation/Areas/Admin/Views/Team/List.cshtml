@@ -1,9 +1,9 @@
 ﻿@model TeamEditModel
 @{
     const string title = "Manage Teams";
-    ViewBag.Title = title + Model.Year.AsTitleSuffix();
+    ViewBag.Title = title + Model.YearModel.Year.AsTitleSuffix();
 }
-@Html.Partial("_YearPartial")
+@Html.Partial("_YearPartial", Model.YearModel)
 <h2>@title</h2>
 @Html.Partial("_AdminListTable", new AdminListTableModel { ListItemName = "Team", CreateItemUrl = Url.Action("Create") })
 
@@ -30,7 +30,7 @@
 
         datatable_RenderList({
             'tableSelector': '.admin-list',
-            'dataUrl': '@Url.Action("Data", new {year = Model.Year})',
+            'dataUrl': '@Url.Action("Data", new {year = Model.YearModel.Year})',
             'columns': columns,
             'sorting': true,
             'paging': true,

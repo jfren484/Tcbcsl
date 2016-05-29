@@ -74,6 +74,7 @@ namespace Tcbcsl.Presentation.Controllers
             var model = new TeamViewModel
                         {
                             Year = teamYear.Year,
+                            Years = teamYear.Team.TeamYears.Select(ty => ty.Year).OrderByDescending(y => y).ToArray(),
                             TeamId = teamYear.TeamId,
                             TeamName = teamYear.FullName,
                             DivisionName = teamYear.DivisionYear.Name,

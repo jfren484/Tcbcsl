@@ -37,4 +37,10 @@ namespace Tcbcsl.Presentation.Models
         public string PhoneNumber { get; set; }
         public string PhoneType { get; set; }
     }
+
+    public class YearModel
+    {
+        public int Year { get; set; } = Consts.CurrentYear;
+        public int[] Years { get; set; } = Enumerable.Range(Consts.FirstYear, Consts.CurrentYear - Consts.FirstYear + 1).Reverse().ToArray();
+    }
 }
