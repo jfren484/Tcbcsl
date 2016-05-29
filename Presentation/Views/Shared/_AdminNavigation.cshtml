@@ -7,7 +7,7 @@
                                .SelectMany(kvp => new[]
                                                   {
                                                       Html.RouteLink($"Manage {kvp.Value} Information", new {area = "Admin", controller = "Team", action = "Manage", id = kvp.Key}),
-                                                      Html.RouteLink($"Game Results for {kvp.Value}", new {area = "Admin", controller = "GameResults", action = "List", id = kvp.Key})
+                                                      Html.RouteLink($"Game Results for {kvp.Value}", new {area = "Admin", controller = "GameResults", action = "List", id = kvp.Key, year = (int?)null})
                                                   })
                                .OrderBy(s => s.ToString());
 
