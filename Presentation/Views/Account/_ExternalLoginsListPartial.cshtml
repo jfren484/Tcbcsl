@@ -1,7 +1,11 @@
 ﻿@model ExternalLoginListViewModel
 @using Microsoft.Owin.Security
-<h4>Use another service to log in.</h4>
+<h4>Use an external service to log in.</h4>
 <hr />
+<p>
+    If you registered for the site using an external service, you should log in with the same one. If you registered
+    ith a password (or added one to your account after registering), you may log in with that password.
+</p>
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes().ToList();
     if (!loginProviders.Any())
