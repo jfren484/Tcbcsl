@@ -8,7 +8,7 @@ var commonStatsColumns = [
     { 'title': 'AVG', 'data': 'BattingAverage',     'render': statstable_RenderPct },
     { 'title': 'OBP', 'data': 'OnBasePercentage',   'render': statstable_RenderPct },
     { 'title': 'SLG', 'data': 'SluggingPercentage', 'render': statstable_RenderPct },
-    { 'title': 'OBP', 'data': 'OnBasePlusSlugging', 'render': statstable_RenderPct },
+    { 'title': 'OPS', 'data': 'OnBasePlusSlugging', 'render': statstable_RenderPct },
     { 'title': 'R',   'data': 'Runs' },
     { 'title': 'RBI', 'data': 'RunsBattedIn' },
     { 'title': '1B',  'data': 'Singles' },

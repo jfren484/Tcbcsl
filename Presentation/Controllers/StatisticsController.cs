@@ -107,20 +107,35 @@ namespace Tcbcsl.Presentation.Controllers
         {
             var statLines = DbContext.StatLines.AsQueryable();
 
+            IQueryable<IGrouping<PlayerStatGroup, StatLine>> groupedStatLines;
+
             if (year != YearEnum.All)
             {
-                statLines = statLines.Where(sl => sl.GameParticipant.Game.GameDate.Year == (int)year);
+                groupedStatLines = statLines
+                    .Where(sl => sl.GameParticipant.Game.GameDate.Year == (int)year)
+                    .GroupBy(sl => new PlayerStatGroup
+                                   {
+                                       PlayerId = sl.PlayerId,
+                                       PlayerFirstName = sl.Player.FirstName,
+                                       PlayerLastName = sl.Player.LastName,
+                                       TeamId = sl.GameParticipant.TeamYear.TeamId,
+                                       TeamName = sl.GameParticipant.TeamYear.FullName
+                                   });
+            }
+            else
+            {
+                groupedStatLines = statLines
+                    .GroupBy(sl => new PlayerStatGroup
+                                   {
+                                       PlayerId = sl.PlayerId,
+                                       PlayerFirstName = sl.Player.FirstName,
+                                       PlayerLastName = sl.Player.LastName,
+                                       TeamId = sl.Player.CurrentTeam.TeamYears.OrderByDescending(ty => ty.Year).FirstOrDefault().TeamId,
+                                       TeamName = sl.Player.CurrentTeam.TeamYears.OrderByDescending(ty => ty.Year).FirstOrDefault().FullName
+                                   });
             }
 
-            var data = statLines
-                .GroupBy(sl => new
-                               {
-                                   PlayerId = sl.PlayerId,
-                                   PlayerFirstName = sl.Player.FirstName,
-                                   PlayerLastName = sl.Player.LastName,
-                                   TeamId = sl.GameParticipant.TeamYear.TeamId,
-                                   TeamName = sl.GameParticipant.TeamYear.FullName
-                               })
+            var data = groupedStatLines
                 .Select(slg => new LeagueIndividualStatisticsRowModel
                                {
                                    Year = year,
@@ -424,5 +439,14 @@ namespace Tcbcsl.Presentation.Controllers
         }
 
         #endregion
+    }
+
+    public class PlayerStatGroup
+    {
+        public int PlayerId { get; set; }
+        public string PlayerFirstName { get; set; }
+        public string PlayerLastName { get; set; }
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
     }
 }
