@@ -40,7 +40,6 @@ namespace Tcbcsl.Presentation.Models
         public bool DisplayScores { get; set; }
 
         [Range(0, 1000)]
-        [UIHint("Runs")]
         public object Runs { get; set; }
 
         public object Hits { get; set; }

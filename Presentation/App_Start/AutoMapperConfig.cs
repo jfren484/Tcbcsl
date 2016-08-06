@@ -19,39 +19,42 @@ namespace Tcbcsl.Presentation
     {
         public static void RegisterMappings()
         {
-            Mapper.Initialize(cfg =>
-                              {
-                                  cfg.AddGlobalIgnore("ItemSelectList");
-                                  cfg.AddGlobalIgnore("UrlFor");
-                                  cfg.AddGlobalIgnore("UrlsFor");
-                              });
+            Mapper.Initialize(Configure);
+            Mapper.AssertConfigurationIsValid();
+        }
+
+        private static void Configure(IMapperConfigurationExpression config)
+        {
+            config.AddGlobalIgnore("ItemSelectList");
+            config.AddGlobalIgnore("UrlFor");
+            config.AddGlobalIgnore("UrlsFor");
 
             #region Base mappings
 
-            Mapper.CreateMap<EntityModifiable, AuditDetailsModel>()
-                .ForMember(m => m.CreatedBy, exp => exp.MapFrom(e => e.CreatedByUser.FullName))
-                .ForMember(m => m.ModifiedBy, exp => exp.MapFrom(e => e.ModifiedByUser.FullName));
+            config.CreateMap<EntityModifiable, AuditDetailsModel>()
+                  .ForMember(m => m.CreatedBy, exp => exp.MapFrom(e => e.CreatedByUser.FullName))
+                  .ForMember(m => m.ModifiedBy, exp => exp.MapFrom(e => e.ModifiedByUser.FullName));
 
-            Mapper.CreateMap<DateTime, DateTimeOffset>()
-                .ConvertUsing(dateTime => new DateTimeOffset(dateTime, CentralTimeZone.DaylightSavingsOffset));
+            config.CreateMap<DateTime, DateTimeOffset>()
+                  .ConvertUsing(dateTime => new DateTimeOffset(dateTime, CentralTimeZone.DaylightSavingsOffset));
 
-            Mapper.CreateMap<DateTime?, DateTimeOffset?>()
+            config.CreateMap<DateTime?, DateTimeOffset?>()
                   .ConvertUsing(dateTime => dateTime == null ? null : (DateTimeOffset?)Mapper.Map<DateTimeOffset>(dateTime.Value));
 
-            Mapper.CreateMap<DateTimeOffset, DateTime>()
+            config.CreateMap<DateTimeOffset, DateTime>()
                   .ConvertUsing(dateTimeOffset => dateTimeOffset.DateTime);
 
-            Mapper.CreateMap<DateTimeOffset?, DateTime?>()
+            config.CreateMap<DateTimeOffset?, DateTime?>()
                   .ConvertUsing(dateTimeOffset => dateTimeOffset == null ? null : (DateTime?)Mapper.Map<DateTime>(dateTimeOffset.Value));
 
             #endregion
 
             #region Church
 
-            Mapper.CreateMap<Church, ChurchEditModel>()
+            config.CreateMap<Church, ChurchEditModel>()
                   .MapEditModelBaseWithContactInfo();
 
-            Mapper.CreateMap<ChurchEditModel, Church>()
+            config.CreateMap<ChurchEditModel, Church>()
                   .MapEntityWithContactInfo()
                   .ForMember(m => m.TeamYears, exp => exp.Ignore());
 
@@ -59,10 +62,10 @@ namespace Tcbcsl.Presentation
 
             #region Coach
 
-            Mapper.CreateMap<Coach, CoachEditModel>()
+            config.CreateMap<Coach, CoachEditModel>()
                   .MapEditModelBaseWithContactInfo();
 
-            Mapper.CreateMap<CoachEditModel, Coach>()
+            config.CreateMap<CoachEditModel, Coach>()
                   .MapEntityWithContactInfo()
                   .ForMember(m => m.TeamYears, exp => exp.Ignore());
 
@@ -70,34 +73,34 @@ namespace Tcbcsl.Presentation
 
             #region Contact Info mappings
 
-            Mapper.CreateMap<Address, AddressEditModel>()
+            config.CreateMap<Address, AddressEditModel>()
                   .MapEditModelBaseWithAudit()
                   .ForMember(m => m.State, exp => exp.MapFrom(e => Mapper.Map<StateEditModel>(e.State) ?? new StateEditModel()));
 
-            Mapper.CreateMap<Address, AddressInfoModel>()
+            config.CreateMap<Address, AddressInfoModel>()
                   .ForMember(m => m.State, exp => exp.MapFrom(e => e.State.Abbreviation));
 
-            Mapper.CreateMap<AddressEditModel, Address>()
+            config.CreateMap<AddressEditModel, Address>()
                   .MapEntityModifiable()
                   .ForMember(e => e.AddressId, exp => exp.Ignore())
                   .ForMember(e => e.StateId, exp => exp.MapFrom(m => m.State.StateId))
                   .ForMember(e => e.State, exp => exp.Ignore());
 
-            Mapper.CreateMap<ICollection<ContactPhoneNumber>, PhoneEditModelList>()
-                  .ConvertUsing((ICollection<ContactPhoneNumber>  e) => new PhoneEditModelList(Mapper.Map<List<PhoneEditModel>>(e)));
+            config.CreateMap<ICollection<ContactPhoneNumber>, PhoneEditModelList>()
+                  .ConvertUsing(e => new PhoneEditModelList(Mapper.Map<List<PhoneEditModel>>(e)));
 
-            Mapper.CreateMap<ContactPhoneNumber, PhoneEditModel>()
+            config.CreateMap<ContactPhoneNumber, PhoneEditModel>()
                   .MapEditModelBaseWithAudit()
                   .ForMember(m => m.PhoneTypeName, exp => exp.MapFrom(e => e.PhoneNumberType.Description))
                   .ForMember(m => m.PhoneTypes, exp => exp.Ignore());
 
-            Mapper.CreateMap<ContactPhoneNumber, string>()
+            config.CreateMap<ContactPhoneNumber, string>()
                   .ConvertUsing(e => $"{e.PhoneNumber} ({e.PhoneNumberType.Description})");
 
-            Mapper.CreateMap<EntityWithContactInfo, ContactInfoModel>()
+            config.CreateMap<EntityWithContactInfo, ContactInfoModel>()
                   .ForMember(m => m.EmailAddress, exp => exp.MapFrom(e => MvcHtmlString.Create(e.EmailAddress.Replace("@", "@<span style=\"display: none;\">null</span>"))));
 
-            Mapper.CreateMap<PhoneEditModel, ContactPhoneNumber>()
+            config.CreateMap<PhoneEditModel, ContactPhoneNumber>()
                   .MapEntityModifiable()
                   .ForMember(e => e.PhoneNumberType, exp => exp.Ignore())
                   .ForMember(e => e.ChurchId, exp => exp.Ignore())
@@ -105,30 +108,30 @@ namespace Tcbcsl.Presentation
                   .ForMember(e => e.CoachId, exp => exp.Ignore())
                   .ForMember(e => e.Coach, exp => exp.Ignore());
 
-            Mapper.CreateMap<PhoneNumberType, PhoneTypeModel>();
+            config.CreateMap<PhoneNumberType, PhoneTypeModel>();
 
-            Mapper.CreateMap<State, StateEditModel>()
+            config.CreateMap<State, StateEditModel>()
                   .ForMember(m => m.StateName, exp => exp.MapFrom(e => e.Name));
 
             #endregion
 
             #region Game
 
-            Mapper.CreateMap<Game, GameEditModel>()
+            config.CreateMap<Game, GameEditModel>()
                   .MapEditModelBaseWithAudit();
 
-            Mapper.CreateMap<GameParticipant, GameParticipantEditModel>()
+            config.CreateMap<GameParticipant, GameParticipantEditModel>()
                   .MapEditModelBaseWithAudit();
 
-            Mapper.CreateMap<GameStatus, GameEditStatusModel>();
-            Mapper.CreateMap<GameStatus, string>()
-                  .ConvertUsing(e => e == null ? null : e.Description);
+            config.CreateMap<GameStatus, GameEditStatusModel>();
+            config.CreateMap<GameStatus, string>()
+                  .ConvertUsing(e => e?.Description);
 
-            Mapper.CreateMap<GameType, GameEditTypeModel>();
+            config.CreateMap<GameType, GameEditTypeModel>();
 
-            Mapper.CreateMap<TeamYear, GameEditTeamModel>();
+            config.CreateMap<TeamYear, GameEditTeamModel>();
 
-            Mapper.CreateMap<GameEditModel, Game>()
+            config.CreateMap<GameEditModel, Game>()
                   .MapEntityModifiable()
                   .ForMember(e => e.GameId, exp => exp.Ignore())
                   .ForMember(e => e.GameTypeId, exp => exp.MapFrom(m => m.GameType.GameTypeId))
@@ -141,7 +144,7 @@ namespace Tcbcsl.Presentation
                                                                          m.HomeParticipant.RunsScored != 0 ||
                                                                          m.RoadParticipant.RunsScored != 0));
 
-            Mapper.CreateMap<GameParticipantEditModel, GameParticipant>()
+            config.CreateMap<GameParticipantEditModel, GameParticipant>()
                   .MapEntityModifiable()
                   .ForMember(e => e.GameParticipantId, exp => exp.Ignore())
                   .ForMember(e => e.GameId, exp => exp.Ignore())
@@ -155,7 +158,7 @@ namespace Tcbcsl.Presentation
 
             #region Game Results
 
-            Mapper.CreateMap<TeamYear, GameResultsListModel>()
+            config.CreateMap<TeamYear, GameResultsListModel>()
                   .ForMember(m => m.Team, exp => exp.MapFrom(e => e))
                   .ForMember(m => m.GameParticipantId, exp => exp.Ignore())
                   .ForMember(m => m.GameDate, exp => exp.Ignore())
@@ -165,7 +168,7 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.IsFinalized, exp => exp.Ignore())
                   .ForMember(m => m.NoStats, exp => exp.Ignore());
 
-            Mapper.CreateMap<GameParticipant, GameResultsListModel>()
+            config.CreateMap<GameParticipant, GameResultsListModel>()
                   .ForMember(m => m.Team, exp => exp.MapFrom(e => e.TeamYear))
                   .ForMember(m => m.GameDate, exp => exp.MapFrom(e => e.Game.GameDate))
                   .ForMember(m => m.Opponent, exp => exp.MapFrom(e => e.Opponent.TeamYear.FullName))
@@ -175,22 +178,22 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.IsFinalized, exp => exp.MapFrom(e => e.Game.IsFinalized))
                   .ForMember(m => m.NoStats, exp => exp.MapFrom(e => !e.StatLines.Any()));
 
-            Mapper.CreateMap<Game, GameResultsEditModel>()
+            config.CreateMap<Game, GameResultsEditModel>()
                   .ForMember(m => m.RoadTeam, exp => exp.MapFrom(e => e.RoadParticipant.TeamYear))
                   .ForMember(m => m.HomeTeam, exp => exp.MapFrom(e => e.HomeParticipant.TeamYear))
-                  .ForMember(m => m.ResultReports, exp => exp.MapFrom(e => Mapper.Map<List<GameResultsEditReportModel>>(e.GameResultReports)))
+                  .ForMember(m => m.ResultReports, exp => exp.MapFrom(e => e.GameResultReports))
                   .ForMember(m => m.NewReport, exp => exp.MapFrom(e => e));
 
-            Mapper.CreateMap<Game, GameResultsEditCreateReportModel>()
+            config.CreateMap<Game, GameResultsEditCreateReportModel>()
                   .ForMember(m => m.CurrentResult, exp => exp.MapFrom(g => g.GetResultDescription()))
                   .ForMember(m => m.IsConfirmable, exp => exp.MapFrom(g => g.GetIsWaitingForMyInput() && g.GameResultReports.Any(r => r.GameStatusId != GameStatus.Scheduled)))
                   .ForMember(m => m.Team, exp => exp.UseValue(new GameResultsTeamModel()))
                   .ForMember(m => m.IsConfirmation, exp => exp.Ignore())
                   .ForMember(m => m.Note, exp => exp.Ignore());
 
-            Mapper.CreateMap<GameStatus, GameResultsStatusModel>();
+            config.CreateMap<GameStatus, GameResultsStatusModel>();
 
-            Mapper.CreateMap<GameResultReport, GameResultsEditReportModel>()
+            config.CreateMap<GameResultReport, GameResultsEditReportModel>()
                   .ForMember(m => m.UserFullName, exp => exp.MapFrom(e => e.CreatedByUser.FullName))
                   .ForMember(m => m.ReportDate, exp => exp.MapFrom(e => e.Created))
                   .ForMember(m => m.SubmittedFrom, exp => exp.MapFrom(e => e.TeamId == e.Game.HomeParticipant.TeamYear.TeamId
@@ -199,7 +202,7 @@ namespace Tcbcsl.Presentation
                                                                                      ? ReportSubmitter.RoadTeam
                                                                                      : ReportSubmitter.League));
 
-            Mapper.CreateMap<GameResultsEditCreateReportModel, GameResultReport>()
+            config.CreateMap<GameResultsEditCreateReportModel, GameResultReport>()
                   .ForMember(m => m.GameResultReportId, exp => exp.Ignore())
                   .ForMember(m => m.GameId, exp => exp.Ignore())
                   .ForMember(m => m.Game, exp => exp.Ignore())
@@ -215,16 +218,16 @@ namespace Tcbcsl.Presentation
 
             #region NewsItem
 
-            Mapper.CreateMap<NewsItem, NewsEditTeamModel>()
+            config.CreateMap<NewsItem, NewsEditTeamModel>()
                   .ForMember(m => m.IsReadonly, exp => exp.MapFrom(e => CentralTimeZone.Now - e.Created > TimeSpan.FromDays(30)))
                   .ForMember(m => m.FullName, exp => exp.MapFrom(e => e.GetTeamName() ?? Consts.LeagueNameForList))
                   .ForMember(m => m.Teams, exp => exp.MapFrom(e => new List<TeamBasicInfoModel>()));
 
-            Mapper.CreateMap<NewsItem, NewsEditModel>()
+            config.CreateMap<NewsItem, NewsEditModel>()
                   .MapEditModelBaseWithAudit()
-                  .ForMember(m => m.Team, exp => exp.MapFrom(e => Mapper.Map<NewsEditTeamModel>(e)));
+                  .ForMember(m => m.Team, exp => exp.MapFrom(e => e));
 
-            Mapper.CreateMap<NewsEditModel, NewsItem>()
+            config.CreateMap<NewsEditModel, NewsItem>()
                   .MapEntityModifiable()
                   .ForMember(e => e.TeamId, exp => exp.MapFrom(m => m.Team.TeamId))
                   .ForMember(e => e.Team, exp => exp.Ignore())
@@ -234,10 +237,10 @@ namespace Tcbcsl.Presentation
 
             #region PageContent
 
-            Mapper.CreateMap<PageContent, PageContentEditModel>()
+            config.CreateMap<PageContent, PageContentEditModel>()
                   .MapEditModelBaseWithAudit();
 
-            Mapper.CreateMap<PageContentEditModel, PageContent>()
+            config.CreateMap<PageContentEditModel, PageContent>()
                   .MapEntityModifiable()
                   .ForMember(e => e.Content, exp => exp.MapFrom(m => m.Content.Sanitize()));
 
@@ -245,7 +248,7 @@ namespace Tcbcsl.Presentation
 
             #region Player
 
-            Mapper.CreateMap<Player, PlayerEditModel>()
+            config.CreateMap<Player, PlayerEditModel>()
                   .MapEditModelBaseWithAudit()
                   .ForMember(m => m.Team, exp => exp.MapFrom(e => e.CurrentTeam))
                   .ForMember(m => m.HasStatsFor, exp => exp.MapFrom(e => e.StatLines
@@ -253,13 +256,13 @@ namespace Tcbcsl.Presentation
                                                                           .Distinct()
                                                                           .GroupBy(ty => ty.Team)));
 
-            Mapper.CreateMap<Team, PlayerEditTeamModel>()
+            config.CreateMap<Team, PlayerEditTeamModel>()
                   .ForMember(m => m.FullName, exp => exp.MapFrom(e => e.TeamYears.OrderByDescending(ty => ty.Year).First().FullName));
 
-            Mapper.CreateMap<IGrouping<Team, TeamYear>, string>()
+            config.CreateMap<IGrouping<Team, TeamYear>, string>()
                   .ConvertUsing(g => $"{g.Key.TeamYears.OrderByDescending(ty => ty.Year).First().FullName} ({string.Join(", ", g.Select(ty => ty.Year).OrderByDescending(y => y))})");
 
-            Mapper.CreateMap<PlayerEditModel, Player>()
+            config.CreateMap<PlayerEditModel, Player>()
                   .MapEntityModifiable()
                   .ForMember(e => e.PlayerId, exp => exp.Ignore())
                   .ForMember(e => e.CurrentTeamId, exp => exp.MapFrom(m => m.Team.TeamId))
@@ -270,33 +273,33 @@ namespace Tcbcsl.Presentation
 
             #region Schedule
 
-            Mapper.CreateMap<KeyValuePair<GameBucket, List<Game>>, ScheduleBucketEditModel>()
+            config.CreateMap<KeyValuePair<GameBucket, List<Game>>, ScheduleBucketEditModel>()
                   .ForMember(m => m.Bucket, exp => exp.MapFrom(kvp => kvp.Key))
                   .ForMember(m => m.Games, exp => exp.MapFrom(kvp => kvp.Value));
 
-            Mapper.CreateMap<IGrouping<GameBucket, Game>, ScheduleBucketEditModel>()
+            config.CreateMap<IGrouping<GameBucket, Game>, ScheduleBucketEditModel>()
                   .ForMember(m => m.Bucket, exp => exp.MapFrom(g => g.Key))
                   .ForMember(m => m.Games, exp => exp.MapFrom(g => g.ToList()));
 
-            Mapper.CreateMap<Game, ScheduleGameEditModel>()
+            config.CreateMap<Game, ScheduleGameEditModel>()
                   .ForMember(m => m.Entered, exp => exp.MapFrom(e => e.GameStatusId != GameStatus.Scheduled))
                   .ForMember(m => m.Outcome, exp => exp.MapFrom(e => e.GameStatus.Description));
 
-            Mapper.CreateMap<GameParticipant, ScheduleGameParticipantEditModel>()
+            config.CreateMap<GameParticipant, ScheduleGameParticipantEditModel>()
                   .ForMember(m => m.TeamName, exp => exp.MapFrom(e => e.TeamYear.FullName));
 
             #endregion
 
             #region Statistics
 
-            Mapper.CreateMap<GameParticipant, StatisticsEditModel>()
+            config.CreateMap<GameParticipant, StatisticsEditModel>()
                   .ForMember(m => m.TeamName, exp => exp.MapFrom(e => e.TeamYear.FullName))
                   .ForMember(m => m.GameDate, exp => exp.MapFrom(e => e.Game.GameDate));
 
-            Mapper.CreateMap<StatLine, StatisticsEditStatLineModel>()
+            config.CreateMap<StatLine, StatisticsEditStatLineModel>()
                   .MapEditModelBaseWithAudit();
 
-            Mapper.CreateMap<StatisticsEditStatLineModel, StatLine>()
+            config.CreateMap<StatisticsEditStatLineModel, StatLine>()
                   .ForMember(e => e.PlayerId, exp => exp.MapFrom(m => m.Player.PlayerId))
                   .ForMember(e => e.Player, exp => exp.Ignore())
                   .ForMember(e => e.GameParticipantId, exp => exp.Ignore())
@@ -304,15 +307,15 @@ namespace Tcbcsl.Presentation
                   .MapEntityModifiable()
                   .IgnoreAllPropertiesWithAnInaccessibleSetter();
 
-            Mapper.CreateMap<Player, StatisticsEditPlayerModel>();
+            config.CreateMap<Player, StatisticsEditPlayerModel>();
 
             #endregion
 
             #region Team
 
-            Mapper.CreateMap<TeamYear, TeamBasicInfoModel>();
+            config.CreateMap<TeamYear, TeamBasicInfoModel>();
 
-            Mapper.CreateMap<TeamYear, TeamPickerModel>()
+            config.CreateMap<TeamYear, TeamPickerModel>()
                   .ForMember(m => m.Teams, exp => exp.Ignore())
                   .ForMember(m => m.Years, exp => exp.MapFrom(e => e.Team
                                                                     .TeamYears
@@ -320,33 +323,33 @@ namespace Tcbcsl.Presentation
                                                                     .OrderByDescending(y => y)
                                                                     .ToArray()));
 
-            Mapper.CreateMap<TeamYear, TeamEditModel>()
+            config.CreateMap<TeamYear, TeamEditModel>()
                   .MapEditModelBaseWithAudit()
                   .ForMember(m => m.Conference, exp => exp.MapFrom(e => e.DivisionYear.ConferenceYear))
                   .ForMember(m => m.Division, exp => exp.MapFrom(e => e.DivisionYear))
-                  .ForMember(m => m.Clinch, exp => exp.NullSubstitute(new TeamEditClinchModel()))
+                  .ForMember(m => m.Clinch, exp => exp.MapFrom(e => e.Clinch == null ? new TeamEditClinchModel() : Mapper.Map<TeamEditClinchModel>(e.Clinch)))
                   .ForMember(m => m.FieldInformation, exp => exp.MapFrom(e => e.Team.FieldInformation))
                   .ForMember(m => m.Comments, exp => exp.MapFrom(e => e.Team.Comments))
                   .ForMember(m => m.YearModel, exp => exp.MapFrom(e => new YearModel {Year = e.Year}));
 
-            Mapper.CreateMap<TeamYear, TeamManageModel>()
+            config.CreateMap<TeamYear, TeamManageModel>()
                   .ForMember(m => m.Team, exp => exp.MapFrom(e => e));
 
-            Mapper.CreateMap<ConferenceYear, TeamEditDivisionModel>()
+            config.CreateMap<ConferenceYear, TeamEditDivisionModel>()
                   .ForMember(m => m.DivisionYearId, exp => exp.Ignore());
 
-            Mapper.CreateMap<DivisionYear, TeamEditDivisionModel>();
+            config.CreateMap<DivisionYear, TeamEditDivisionModel>();
 
-            Mapper.CreateMap<Church, TeamEditChurchModel>();
+            config.CreateMap<Church, TeamEditChurchModel>();
 
-            Mapper.CreateMap<Coach, TeamEditCoachModel>()
+            config.CreateMap<Coach, TeamEditCoachModel>()
                   .ForMember(m => m.SortableName, exp => exp.MapFrom(e => $"{e.LastName}, {e.FirstName}"));
 
-            Mapper.CreateMap<string, TeamEditClinchModel>()
+            config.CreateMap<string, TeamEditClinchModel>()
                   .ForMember(m => m.ClinchChar, exp => exp.MapFrom(s => s))
-                  .ForMember(m => m.Description, exp => exp.MapFrom(s => s == null ? null : Consts.ClinchDescriptions[s]));
+                  .ForMember(m => m.Description, exp => exp.MapFrom(s => Consts.ClinchDescriptions[s]));
 
-            Mapper.CreateMap<TeamEditModel, TeamYear>()
+            config.CreateMap<TeamEditModel, TeamYear>()
                   .MapEntityModifiable()
                   .ForMember(e => e.TeamId, exp => exp.Ignore())
                   .ForMember(e => e.Year, exp => exp.Ignore())
@@ -362,7 +365,7 @@ namespace Tcbcsl.Presentation
                   .ForMember(e => e.Clinch, exp => exp.MapFrom(m => m.Clinch.ClinchChar))
                   .ForMember(e => e.GameParticipants, exp => exp.Ignore());
 
-            Mapper.CreateMap<TeamEditModel, Team>()
+            config.CreateMap<TeamEditModel, Team>()
                   .MapEntityModifiable()
                   .ForMember(e => e.TeamId, exp => exp.Ignore())
                   .ForMember(e => e.TeamYears, exp => exp.Ignore())
@@ -375,7 +378,7 @@ namespace Tcbcsl.Presentation
 
             #region User Management
 
-            Mapper.CreateMap<TcbcslUser, UserEditModel>()
+            config.CreateMap<TcbcslUser, UserEditModel>()
                   .ForMember(m => m.Roles, exp => exp.MapFrom(e => new RolesEditModel {RoleIds = e.Roles.Select(r => r.RoleId).ToList()}))
                   .ForMember(m => m.AssignedTeams, exp => exp.MapFrom(e => new AssignedTeamsEditModel
                                                                            {
@@ -384,33 +387,45 @@ namespace Tcbcsl.Presentation
                                                                                    string.Join(", ", e.AssignedTeams.Select(t => Mapper.Map<string>(t.TeamYears.Last())))
                                                                            }));
 
-            Mapper.CreateMap<IEnumerable<IdentityRole>, string>()
+            config.CreateMap<IEnumerable<IdentityRole>, string>()
                   .ConvertUsing(en => string.Join(", ", en.Select(r => r.Name)));
 
-            Mapper.CreateMap<IdentityRole, SelectListItem>()
+            config.CreateMap<IdentityRole, SelectListItem>()
                   .ForMember(m => m.Value, exp => exp.MapFrom(e => e.Id))
                   .ForMember(m => m.Text, exp => exp.MapFrom(e => e.Name))
-                  .IgnoreTheRest();
+                  .ForMember(m => m.Disabled, exp => exp.Ignore())
+                  .ForMember(m => m.Group, exp => exp.Ignore())
+                  .ForMember(m => m.Selected, exp => exp.Ignore());
 
-            Mapper.CreateMap<Team, SelectListItem>()
+            config.CreateMap<Team, SelectListItem>()
                   .ForMember(m => m.Value, exp => exp.MapFrom(e => e.TeamId))
-                  .ForMember(m => m.Text, exp => exp.MapFrom(e => Mapper.Map<string>(e.TeamYears.OrderByDescending(ty => ty.Year).First())))
-                  .IgnoreTheRest();
+                  .ForMember(m => m.Text, exp => exp.MapFrom(e => e.TeamYears.OrderByDescending(ty => ty.Year).First()))
+                  .ForMember(m => m.Disabled, exp => exp.Ignore())
+                  .ForMember(m => m.Group, exp => exp.Ignore())
+                  .ForMember(m => m.Selected, exp => exp.Ignore());
 
-            Mapper.CreateMap<TeamYear, string>()
+            config.CreateMap<TeamYear, string>()
                   .ConvertUsing(ty => $"{ty.FullName} ({ty.Year})");
 
-            Mapper.CreateMap<UserEditModel, TcbcslUser>()
+            config.CreateMap<UserEditModel, TcbcslUser>()
                   .ForMember(m => m.FirstName, exp => exp.MapFrom(e => e.FirstName))
                   .ForMember(m => m.LastName, exp => exp.MapFrom(e => e.LastName))
-                  .ForMember(e => e.Roles, exp => exp.MapFrom(m => m.Roles.RoleIds.Select(id => new IdentityUserRole {UserId = m.Id, RoleId = id})))
+                  .ForMember(e => e.Roles, exp => exp.Ignore())
                   .ForMember(e => e.AssignedTeams, exp => exp.Ignore())
                   .ForMember(e => e.UserName, exp => exp.Ignore())
-                  .IgnoreTheRest();
+                  .ForMember(e => e.EmailConfirmed, exp => exp.Ignore())
+                  .ForMember(e => e.PasswordHash, exp => exp.Ignore())
+                  .ForMember(e => e.SecurityStamp, exp => exp.Ignore())
+                  .ForMember(e => e.PhoneNumber, exp => exp.Ignore())
+                  .ForMember(e => e.PhoneNumberConfirmed, exp => exp.Ignore())
+                  .ForMember(e => e.TwoFactorEnabled, exp => exp.Ignore())
+                  .ForMember(e => e.LockoutEndDateUtc, exp => exp.Ignore())
+                  .ForMember(e => e.LockoutEnabled, exp => exp.Ignore())
+                  .ForMember(e => e.AccessFailedCount, exp => exp.Ignore())
+                  .ForMember(e => e.Claims, exp => exp.Ignore())
+                  .ForMember(e => e.Logins, exp => exp.Ignore());
 
             #endregion
-
-            Mapper.AssertConfigurationIsValid();
         }
 
         #region Mapping Extension Methods
@@ -453,14 +468,14 @@ namespace Tcbcsl.Presentation
             var participants = (from gp in g.GameParticipants
                                 orderby gp.RunsScored descending
                                 select new
-                                {
-                                    Team = gp.TeamYear.FullName,
-                                    Runs = gp.RunsScored
-                                }).ToList();
+                                       {
+                                           Team = gp.TeamYear.FullName,
+                                           Runs = gp.RunsScored
+                                       }).ToList();
 
             return g.GameStatusId == GameStatus.Forfeited
-                ? $"{participants[1].Team} forfeit to {participants[0].Team}"
-                : $"{participants[0].Team} {participants[0].Runs}, {participants[1].Team} {participants[1].Runs}";
+                       ? $"{participants[1].Team} forfeit to {participants[0].Team}"
+                       : $"{participants[0].Team} {participants[0].Runs}, {participants[1].Team} {participants[1].Runs}";
         }
 
         private static string GetOutcome(this GameParticipant gp)
@@ -486,22 +501,6 @@ namespace Tcbcsl.Presentation
                            .FullName;
         }
 
-        private static IMappingExpression<TSource, TDestination> IgnoreTheRest<TSource, TDestination>(this IMappingExpression<TSource, TDestination> expression)
-        {
-            var typeMap = Mapper.FindTypeMapFor<TSource, TDestination>();
-            if (typeMap == null)
-            {
-                return expression;
-            }
-
-            foreach (var unmappedPropertyName in typeMap.GetUnmappedPropertyNames())
-            {
-                expression.ForMember(unmappedPropertyName, opt => opt.Ignore());
-            }
-
-            return expression;
-        }
-
         private static IMappingExpression<TEntity, TModel> MapEditModelBaseWithAudit<TEntity, TModel>(this IMappingExpression<TEntity, TModel> mapping)
             where TEntity : EntityModifiable
             where TModel : EditModelBaseWithAudit
@@ -514,7 +513,7 @@ namespace Tcbcsl.Presentation
             where TModel : EditModelBaseWithContactInfo
         {
             return mapping.MapEditModelBaseWithAudit()
-                          .ForMember(m => m.Address, exp => exp.MapFrom(e => Mapper.Map<AddressEditModel>(e.Address) ?? new AddressEditModel { State = new StateEditModel() }));
+                          .ForMember(m => m.Address, exp => exp.MapFrom(e => Mapper.Map<AddressEditModel>(e.Address) ?? new AddressEditModel {State = new StateEditModel()}));
         }
 
         private static IMappingExpression<TModel, TEntity> MapEntityCreatable<TModel, TEntity>(this IMappingExpression<TModel, TEntity> mapping)

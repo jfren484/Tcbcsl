@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using CsQuery.ExtensionMethods.Internal;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
@@ -33,15 +34,15 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var data = DbContext.Users
                                 .ToList()
                                 .Select(u =>
-                                {
-                                    var model = Mapper.Map<UserEditModel>(u);
-                                    model.UrlForEdit = Url.Action("Edit", new { id = model.Id });
+                                        {
+                                            var model = Mapper.Map<UserEditModel>(u);
+                                            model.UrlForEdit = Url.Action("Edit", new {id = model.Id});
 
-                                    var userRoleIds = u.Roles.Select(r => r.RoleId).ToList();
-                                    model.Roles.SelectedRoleNames = Mapper.Map<string>(DbContext.Roles.Where(r => userRoleIds.Contains(r.Id)));
+                                            var userRoleIds = u.Roles.Select(r => r.RoleId).ToList();
+                                            model.Roles.SelectedRoleNames = Mapper.Map<string>(DbContext.Roles.Where(r => userRoleIds.Contains(r.Id)));
 
-                                    return model;
-                                });
+                                            return model;
+                                        });
 
             return Json(data);
         }
@@ -53,16 +54,21 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("Edit/{id}")]
         public ActionResult Edit(string id)
         {
-            var user = Mapper.Map<List<UserEditModel>>(DbContext.Users)
-                             .SingleOrDefault(u => u.Id == id);
+            var user = Mapper.Map<UserEditModel>(DbContext.Users.SingleOrDefault(u => u.Id == id));
             if (user == null)
             {
                 return HttpNotFound();
             }
 
+            var allTeams = DbContext.Teams
+                                    .Where(t => t.TeamYears.Any())
+                                    .OrderByDescending(t => t.TeamYears.OrderByDescending(ty => ty.Year).FirstOrDefault().Year)
+                                    .ThenBy(t => t.TeamYears.OrderByDescending(ty => ty.Year).FirstOrDefault().FullName)
+                                    .ToList();
+
             user.Roles.SelectedRoleNames = Mapper.Map<string>(DbContext.Roles.Where(r => user.Roles.RoleIds.Contains(r.Id)));
             user.Roles.AllRoles = Mapper.Map<List<SelectListItem>>(DbContext.Roles);
-            user.AssignedTeams.AllTeams = Mapper.Map<List<SelectListItem>>(DbContext.Teams.Where(t => t.TeamYears.Any()).OrderByDescending(t => t.TeamYears.OrderByDescending(ty => ty.Year).FirstOrDefault().Year).ThenBy(t => t.TeamYears.OrderByDescending(ty => ty.Year).FirstOrDefault().FullName));
+            user.AssignedTeams.AllTeams = Mapper.Map<List<SelectListItem>>(allTeams);
 
             return View(user);
         }
@@ -80,14 +86,32 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             Mapper.Map(model, user);
 
             // Update assigned teams
-            var changes = ChangeTracker.GetChangeSets(user.AssignedTeams, model.AssignedTeams?.TeamIds ?? new List<int>(), t => t.TeamId, i => i);
-            foreach (var teamToRemove in changes.LeftOnly)
+            var teamChanges = ChangeTracker.GetChangeSets(user.AssignedTeams, model.AssignedTeams?.TeamIds ?? new List<int>(), t => t.TeamId, i => i);
+            foreach (var teamToRemove in teamChanges.LeftOnly)
             {
                 user.AssignedTeams.Remove(teamToRemove);
             }
-            if (changes.RightOnly.Any())
+            if (teamChanges.RightOnly.Any())
             {
-                user.AssignedTeams.AddRange(DbContext.Teams.Where(t => changes.RightOnly.Contains(t.TeamId)));
+                user.AssignedTeams.AddRange(DbContext.Teams.Where(t => teamChanges.RightOnly.Contains(t.TeamId)));
+            }
+
+            // Update roles
+            var roleChanges = ChangeTracker.GetChangeSets(user.Roles, model.Roles.RoleIds ?? new List<string>(), r => r.RoleId, s => s);
+            foreach (var roleToRemove in roleChanges.LeftOnly)
+            {
+                user.Roles.Remove(roleToRemove);
+            }
+            if (roleChanges.RightOnly.Any())
+            {
+                user.Roles.AddRange(DbContext.Roles
+                                             .ToList()
+                                             .Where(r => roleChanges.RightOnly.Contains(r.Id))
+                                             .Select(r => new IdentityUserRole
+                                                          {
+                                                              UserId = user.Id,
+                                                              RoleId = r.Id
+                                                          }));
             }
 
             DbContext.SaveChanges(User.Identity.GetUserId());

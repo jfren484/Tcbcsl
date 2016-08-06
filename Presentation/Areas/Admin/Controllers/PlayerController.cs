@@ -43,7 +43,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         {
             var model = new PlayerEditModel {Team = new PlayerEditTeamModel()};
 
-            if (Request.Cookies.AllKeys.Contains("lastTeamId"))
+            if (Request.Cookies["lastTeamId"] != null)
             {
                 model.Team.TeamId = int.Parse(Request.Cookies["lastTeamId"].Value);
             }
@@ -142,10 +142,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             player.CurrentTeamId = teamId;
             DbContext.SaveChanges(User.Identity.GetUserId());
 
-            if (!Request.Cookies.AllKeys.Contains("lastTeamId") || Request.Cookies["lastTeamId"].Value != teamId.ToString())
+            if (Request.Cookies["lastTeamId"] == null || Request.Cookies["lastTeamId"].Value != teamId.ToString())
             {
-                var cookie = new HttpCookie("lastTeamId", teamId.ToString());
-                cookie.Expires = DateTime.MaxValue;
+                var cookie = new HttpCookie("lastTeamId", teamId.ToString()) {Expires = DateTime.MaxValue};
                 Response.Cookies.Add(cookie);
             }
 

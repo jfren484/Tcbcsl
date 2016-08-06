@@ -33,7 +33,7 @@
     <script>
         $('#passwordField').on('click', '#resetPassword', function () {
             $.post('/Admin/User/ResetPassword/@Model.Id',
-                function(data) {
+                function() {
                     $('#passwordField').text('Password Reset!');
                 });
         });

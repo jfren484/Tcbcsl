@@ -21,8 +21,8 @@ namespace Tcbcsl.Presentation.Helpers
             return new ChangeSets<TLeft, TRight>
             {
                 CommonItems = commonItems,
-                LeftOnly = leftItems.Except(commonItems.Select(t => t.LeftItem)).ToList(),
-                RightOnly = rightItems.Except(commonItems.Select(t => t.RightItem)).ToList()
+                LeftOnly = onlyInA,
+                RightOnly = onlyInB
             };
         }
 
