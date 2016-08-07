@@ -20,7 +20,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("{year:year?}")]
         public ActionResult List(int year = Consts.CurrentYear)
         {
-            return View(new TeamEditModel {YearModel = new YearModel()});
+            return View(new TeamEditModel {YearModel = new YearModel {Year = year}});
         }
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
