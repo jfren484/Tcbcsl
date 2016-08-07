@@ -66,7 +66,10 @@ var adminListTable;
 
 function datatable_RenderList(options) {
     ko.applyBindings({
-        columns: options.columns.slice(0, -1)
+        columns: options.columns.slice(0, -1),
+        customizableColumns: options.columns.filter(function(column) {
+            return !!column.title;
+        })
     });
 
     adminListTable = $(options.tableSelector).DataTable({

@@ -9,8 +9,8 @@
             <th data-bind="attr: { colspan: columns.length + 1 }">
                 <a class="admin-list-settings"><span class="glyphicon glyphicon-remove"></span></a>
                 <h4>Choose which columns to include:</h4>
-                <div class="btn-group" data-toggle="buttons" data-bind="foreach: columns">
-                    <label class="btn btn-primary column-toggle" data-bind="attr: { 'data-column': $index }, css: {active: $data.visible !== false}">
+                <div class="btn-group" data-toggle="buttons" data-bind="foreach: customizableColumns">
+                    <label class="btn btn-primary column-toggle" data-bind="attr: {'data-column': $index}, css: {active: $data.visible !== false}">
                         <input type="checkbox" autocomplete="off">
                         <span data-bind="text: title"></span>
                     </label>
