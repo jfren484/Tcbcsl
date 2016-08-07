@@ -302,8 +302,8 @@ $('.form-grid')
         $(this).find('[type="reset"],[type="submit"]').attr('disabled', 'disabled');
     });
 
-$('.row-nav')
-    .on('click', 'button', function() {
+$('.table-stats')
+    .on('click', '.row-nav button', function () {
         var $btn = $(this);
         var $row = $btn.closest('tr');
 
