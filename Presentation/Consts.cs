@@ -39,7 +39,8 @@ namespace Tcbcsl.Presentation
             DateTime.Parse("2012-08-18"),
             DateTime.Parse("2013-08-17"),
             DateTime.Parse("2014-08-16"),
-            DateTime.Parse("2015-08-15")
+            DateTime.Parse("2015-08-15"),
+            DateTime.Parse("2016-08-20")
         };
 
         public static readonly Dictionary<int, string> GameOutcomeVerbs = new Dictionary<int, string>
