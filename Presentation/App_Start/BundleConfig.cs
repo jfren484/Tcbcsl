@@ -9,6 +9,7 @@ namespace Tcbcsl.Presentation
         {
             bundles.Add(new ScriptBundle("~/bundles/script-base").Include(
                 "~/Scripts/jquery-{version}.js",
+                "~/Scripts/jquery-migrate-{version}.js",
                 "~/Scripts/DataTables/jquery.dataTables.js",
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/DataTables/dataTables.bootstrap.js",
