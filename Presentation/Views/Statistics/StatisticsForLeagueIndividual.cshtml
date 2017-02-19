@@ -5,12 +5,34 @@
 }
 @Html.Partial("_YearsPartial", Model.Year)
 <h2>@title</h2>
+@*<nav class="navbar navbar-default">
+    <p class="navbar-text">Filter</p>
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Team <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="#">Inner</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>*@
 @Html.Partial("_StatsTable", "statsTable")
 @section scripts
 {
     <script>
+        var table;
         $(function () {
             statstable_RenderLeagueIndividualStats('@Model.Year.AsRouteParameter()');
         });
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                return !$('#filterVal').val() || dataIndex % $('#filterVal').val() === 0;
+            }
+        );
+        $('#test')
+            .click(function () {
+                table = $('#statsTable').DataTable();
+                table.draw();
+            });
     </script>
 }

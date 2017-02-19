@@ -19,8 +19,9 @@ namespace Tcbcsl.Presentation
 
             var db = new TcbcslDbContext();
             Consts.PlayerPoolTeamName = db.TeamYears
-                                          .Single(ty => ty.TeamId == Consts.PlayerPoolTeamId && ty.Year == Consts.CurrentYear)
-                                          .FullName;
+                                          .Where(ty => ty.TeamId == Consts.PlayerPoolTeamId && ty.Year == Consts.CurrentYear)
+                                          .Select(ty => ty.FullName)
+                                          .SingleOrDefault();
         }
     }
 }

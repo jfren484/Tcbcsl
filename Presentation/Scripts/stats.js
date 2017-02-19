@@ -113,7 +113,7 @@ function statstable_RenderBase(options) {
                 { 'orderSequence': ['desc', 'asc'], 'targets': '_all' }
             ],
             'columns': options.columns,
-            'dom': '<"row"<"col-lg-12"tr>><"row"<"col-lg-3"i><"col-lg-3"l><"col-lg-6"p>>'
+            'dom': '<"row"<"col-lg-12"tr>><"row"<"col-lg-5"i><"col-lg-2"l><"col-lg-5"p>>'
         });
 }
 

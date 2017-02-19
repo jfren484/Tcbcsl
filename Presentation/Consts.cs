@@ -6,7 +6,7 @@ namespace Tcbcsl.Presentation
     public static class Consts
     {
         public const int FirstYear = 2001;
-        public const int CurrentYear = 2016;
+        public const int CurrentYear = 2017;
 
         public const int PlayerPoolTeamId = 60;
         public static string PlayerPoolTeamName = ""; // Set in Global.asax
@@ -40,7 +40,8 @@ namespace Tcbcsl.Presentation
             DateTime.Parse("2013-08-17"),
             DateTime.Parse("2014-08-16"),
             DateTime.Parse("2015-08-15"),
-            DateTime.Parse("2016-08-20")
+            DateTime.Parse("2016-08-20"),
+            DateTime.Parse("2017-08-19")
         };
 
         public static readonly Dictionary<int, string> GameOutcomeVerbs = new Dictionary<int, string>
