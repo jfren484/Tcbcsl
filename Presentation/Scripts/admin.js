@@ -25,18 +25,20 @@ function fixValidationClassesForBootstrap() {
 
     if (validationForms.hasClass('form-grid')) {
         settings.showErrors = function(errorMap, errorList) {
-            $('.valid').each(function(i, v) {
-                $(v).tooltip('destroy');
-                $(v.closest('td')).removeClass('has-error');
-            });
+            $('.valid')
+                .each(function(i, v) {
+                    $(v).tooltip('destroy');
+                    $(v.closest('td')).removeClass('has-error');
+                });
 
-            $.each(errorList, function(i, v) {
-                $(v.element).tooltip({ title: v.message, placement: 'top' });
-                $(v.element.closest('td')).addClass('has-error');
-            });
+            $.each(errorList,
+                function(i, v) {
+                    $(v.element).tooltip({ title: v.message, placement: 'top' });
+                    $(v.element.closest('td')).addClass('has-error');
+                });
 
             this.defaultShowErrors();
-        }
+        };
     } else {
         settings.errorPlacement = function(label, element) {
             // Call original handler so it can update the HTML
@@ -177,6 +179,12 @@ function renderPlayerTransferLink(data, type) {
     return '<a class="player-transfer" href="' + data.UrlForTransfer + '">Transfer to ' + transferDestination + '</a>';
 }
 
+function renderTransfer(data, type, row) {
+    if (type !== 'display' || row.ExistsInCurrentYear) return null;
+
+    return '<input name="teamYearIds" type="checkbox" checked="checked" value="' + row.TeamYearId + '" />';
+}
+
 //#endregion
 
 //#region List Table Settings Functions
@@ -210,6 +218,10 @@ $('.admin-list').on('click', 'a.player-transfer', function (e) {
         .done(function(data) {
             adminListTable.row(rowIndex).data(data[0]).draw();
         });
+});
+
+$('.admin-list').on('click', '.select-all', function () {
+    $('.admin-list td input[type="checkbox"]').prop('checked', this.checked);
 });
 
 $('#teamPickerModal').on('click', 'button.btn-primary', function () {

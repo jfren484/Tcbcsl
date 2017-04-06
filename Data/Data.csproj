@@ -70,6 +70,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Consts.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbConsts.cs" />
     <Compile Include="Entities\Address.cs" />
     <Compile Include="Entities\Church.cs" />
     <Compile Include="Entities\Coach.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Entities\ConferenceYear.cs" />
     <Compile Include="Entities\EntityCreatable.cs" />
     <Compile Include="Entities\GameResultReport.cs" />
+    <Compile Include="Entities\GameTournamentDate.cs" />
     <Compile Include="Entities\PhoneNumberType.cs" />
     <Compile Include="Entities\ContactPhoneNumber.cs" />
     <Compile Include="Entities\Division.cs" />
@@ -188,6 +190,10 @@
     <Compile Include="Migrations\201604242132441_ChangeAuditFieldsAndNameFields.Designer.cs">
       <DependentUpon>201604242132441_ChangeAuditFieldsAndNameFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702220549370_AddTournamentDates.cs" />
+    <Compile Include="Migrations\201702220549370_AddTournamentDates.Designer.cs">
+      <DependentUpon>201702220549370_AddTournamentDates.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
     <Compile Include="Entities\PageContent.cs" />
@@ -284,6 +290,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604242132441_ChangeAuditFieldsAndNameFields.resx">
       <DependentUpon>201604242132441_ChangeAuditFieldsAndNameFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702220549370_AddTournamentDates.resx">
+      <DependentUpon>201702220549370_AddTournamentDates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

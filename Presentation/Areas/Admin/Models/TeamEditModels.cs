@@ -61,6 +61,34 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         }
     }
 
+    public class TeamYearTransferModel
+    {
+        [Display(Name = "Id")]
+        public int TeamId { get; set; }
+
+        public YearModel YearModel { get; set; }
+
+        public int TeamYearId { get; set; }
+
+        [Display(Name = "Conference")]
+        public TeamEditDivisionModel Conference { get; set; }
+
+        [Display(Name = "Division")]
+        public TeamEditDivisionModel Division { get; set; }
+
+        [Display(Name = "Name")]
+        public string FullName { get; set; }
+
+        [Display(Name = "Exists in Current Year")]
+        public bool ExistsInCurrentYear { get; set; }
+
+        public TeamYearTransferModel()
+        {
+            Conference = new TeamEditDivisionModel();
+            Division = new TeamEditDivisionModel();
+        }
+    }
+
     public class TeamEditDivisionModel
     {
         [Display(Name = "Division")]

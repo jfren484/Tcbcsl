@@ -21,7 +21,16 @@
             <!-- ko foreach: columns -->
             <th></th>
             <!-- /ko -->
-            <th><a class="admin-list-settings"><span class="glyphicon glyphicon-cog"></span></a></th>
+            <th>
+                @if (Model.CustomActionHeader == null)
+                {
+                    <a class="admin-list-settings"><span class="glyphicon glyphicon-cog"></span></a>
+                }
+                else
+                {
+                    @Model.CustomActionHeader
+                }
+            </th>
         </tr>
     </thead>
 </table>

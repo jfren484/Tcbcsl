@@ -30,6 +30,7 @@ namespace Tcbcsl.Data
         public DbSet<GameParticipant> GameParticipants { get; set; }
         public DbSet<GameResultReport> GameResultReports { get; set; }
         public DbSet<GameStatus> GameStatuses { get; set; }
+        public DbSet<GameTournamentDate> GameTournamentDates { get; set; }
         public DbSet<GameType> GameTypes { get; set; }
         public DbSet<NewsItem> NewsItems { get; set; }
         public DbSet<PageContent> PageContents { get; set; }

@@ -18,6 +18,9 @@ namespace Tcbcsl.Presentation
             AutoMapperConfig.RegisterMappings();
 
             var db = new TcbcslDbContext();
+            Consts.TournamentDates = db.GameTournamentDates
+                                       .Select(row => row.GameDate)
+                                       .ToArray();
             Consts.PlayerPoolTeamName = db.TeamYears
                                           .Where(ty => ty.TeamId == Consts.PlayerPoolTeamId && ty.Year == Consts.CurrentYear)
                                           .Select(ty => ty.FullName)

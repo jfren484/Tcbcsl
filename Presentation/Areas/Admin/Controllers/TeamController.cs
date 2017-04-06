@@ -42,6 +42,37 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             return Json(data);
         }
 
+        [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
+        [Route("Years/{year:year?}")]
+        public ActionResult ListTeamYears(int year = Consts.CurrentYear)
+        {
+            return View(new TeamEditModel {YearModel = new YearModel {Year = year}});
+        }
+
+        [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
+        [HttpPost]
+        [Route("Years/Data/{year:year}")]
+        public JsonResult TeamYearData(int year)
+        {
+            var data = DbContext.TeamYears
+                                .Where(ty => ty.Year == year)
+                                .Select(ty => new
+                                              {
+                                                  TeamYear = ty,
+                                                  ExistsInCurrentYear = ty.Team.TeamYears.Any(ty2 => ty2.Year == Consts.CurrentYear)
+                                              })
+                                .ToList()
+                                .Select(ty =>
+                                        {
+                                            var model = Mapper.Map<TeamYearTransferModel>(ty.TeamYear);
+                                            model.ExistsInCurrentYear = ty.ExistsInCurrentYear;
+
+                                            return model;
+                                        });
+
+            return Json(data);
+        }
+
         #endregion
 
         #region Create/Edit
@@ -134,6 +165,81 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             model.HeadCoach.Address.State.ItemSelectList = new SelectList(new string[0]);
 
             return View(model);
+        }
+
+        #endregion
+
+        #region Transfer
+
+        [Route("Transfer")]
+        public ActionResult Transfer(int[] teamYearIds)
+        {
+            var missingTeams = DbContext.TeamYears
+                                        .Where(ty => teamYearIds.Contains(ty.TeamYearId) && !ty.Team.TeamYears.Any(ty2 => ty2.Year == Consts.CurrentYear))
+                                        .ToList();
+
+            if (!missingTeams.Any())
+            {
+                return RedirectToAction("ListTeamYears");
+            }
+
+            if (!DbContext.ConferenceYears.Any(cy => cy.Year == Consts.CurrentYear))
+            {
+                var prevConferenceYears = DbContext.ConferenceYears
+                                                   .Where(cy => cy.Year == Consts.CurrentYear - 1)
+                                                   .ToList();
+
+                var newConferenceYears = prevConferenceYears
+                    .Select(cy => new ConferenceYear
+                                  {
+                                      ConferenceId = cy.ConferenceId,
+                                      Year = Consts.CurrentYear,
+                                      Name = cy.Name,
+                                      IsInLeague = cy.IsInLeague,
+                                      Sort = cy.Sort,
+                                      DivisionYears = cy.DivisionYears
+                                                        .Select(dy => new DivisionYear
+                                                                      {
+                                                                          DivisionId = dy.DivisionId,
+                                                                          Year = Consts.CurrentYear,
+                                                                          Name = dy.Name,
+                                                                          IsInLeague = dy.IsInLeague,
+                                                                          Sort = dy.Sort
+                                                                      })
+                                                        .ToList()
+                                  })
+                    .ToList();
+
+                DbContext.ConferenceYears.AddRange(newConferenceYears);
+                DbContext.SaveChanges(User.Identity.GetUserId());
+            }
+
+            var divYearIds = DbContext.DivisionYears
+                                      .Where(dy => dy.Year == Consts.CurrentYear)
+                                      .ToDictionary(dy => dy.DivisionId, dy => dy.DivisionYearId);
+
+            DbContext.TeamYears
+                     .AddRange(missingTeams.Select(ty =>
+                                                   {
+                                                       var divisionYearId = divYearIds.ContainsKey(ty.DivisionYear.DivisionId)
+                                                                                ? divYearIds[ty.DivisionYear.DivisionId]
+                                                                                : divYearIds[Consts.NonLeagueDivisionId];
+                                                       return new TeamYear
+                                                              {
+                                                                  TeamId = ty.TeamId,
+                                                                  Year = Consts.CurrentYear,
+                                                                  TeamName = ty.TeamName,
+                                                                  FullName = ty.FullName,
+                                                                  DivisionYearId = divisionYearId,
+                                                                  ChurchId = ty.ChurchId,
+                                                                  HeadCoachId = ty.HeadCoachId,
+                                                                  KeepsStats = ty.KeepsStats,
+                                                                  HasPaid = false
+                                                              };
+                                                   }));
+            DbContext.SaveChanges(User.Identity.GetUserId());
+
+            return RedirectToAction("ListTeamYears");
         }
 
         #endregion

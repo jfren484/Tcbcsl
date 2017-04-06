@@ -31,6 +31,13 @@ legend a {
 .admin-list th {
   white-space: nowrap;
 }
+.admin-list th label {
+  margin: 0;
+}
+.admin-list th label input {
+  margin: 0;
+  vertical-align: -2px;
+}
 .admin-list td {
   overflow: hidden;
 }

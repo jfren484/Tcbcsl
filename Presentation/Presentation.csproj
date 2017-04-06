@@ -543,6 +543,7 @@
     <Content Include="Areas\Admin\Views\GameResults\EditorTemplates\GameResultsTeamModel.cshtml" />
     <Content Include="Areas\Admin\Views\GameResults\EditorTemplates\GameResultsStatusModel.cshtml" />
     <Content Include="Areas\Admin\Views\GameResults\DisplayTemplates\GameResultsEditReportModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Team\ListTeamYears.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
     <Content Include="Content\DataTables\css\semanticui.scss" />

@@ -1,0 +1,37 @@
+﻿@model TeamEditModel
+@{
+    var title = $"Transfer Teams to {Consts.CurrentYear}";
+    ViewBag.Title = title + Model.YearModel.Year.AsTitleSuffix();
+}
+@Html.Partial("_YearPartial", Model.YearModel)
+<h2>@title</h2>
+@using (Html.BeginForm("Transfer", "Team", FormMethod.Post))
+{
+    @Html.Partial("_AdminListTable", new AdminListTableModel {CustomActionHeader = new MvcHtmlString("<label><input class=\"select-all\" type=\"checkbox\" checked=\"checked\" /> Select/Deselect All</label>")})
+    <input type="submit" value="Transfer Teams"/>
+}
+
+@section scripts
+{
+    <script>
+        var columns = [
+            { 'data': 'Conference',          'title': '@Html.DisplayNameFor(m => m.Conference)', 'orderable': false, 'render': renderConfDiv },
+            { 'data': 'Division',            'title': '@Html.DisplayNameFor(m => m.Division)',   'orderable': false, 'render': renderConfDiv },
+            { 'data': 'FullName',            'title': '@Html.DisplayNameFor(m => m.FullName)',   'orderable': false },
+            { 'data': 'ExistsInCurrentYear',                                                     'orderable': false, 'render': renderTransfer }
+        ];
+
+        datatable_RenderList({
+            'tableSelector': '.admin-list',
+            'dataUrl': '@Url.Action("TeamYearData", new {year = Model.YearModel.Year})',
+            'columns': columns,
+            'sorting': true,
+            'paging': false,
+            'order': [
+                [findColumnIndex(columns, 'Conference'), 'asc'],
+                [findColumnIndex(columns, 'Division'), 'asc'],
+                [findColumnIndex(columns, 'FullName'), 'asc']
+            ]
+        });
+    </script>
+}

@@ -332,6 +332,12 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.Comments, exp => exp.MapFrom(e => e.Team.Comments))
                   .ForMember(m => m.YearModel, exp => exp.MapFrom(e => new YearModel {Year = e.Year}));
 
+            config.CreateMap<TeamYear, TeamYearTransferModel>()
+                  .ForMember(m => m.ExistsInCurrentYear, exp => exp.Ignore())
+                  .ForMember(m => m.Conference, exp => exp.MapFrom(e => e.DivisionYear.ConferenceYear))
+                  .ForMember(m => m.Division, exp => exp.MapFrom(e => e.DivisionYear))
+                  .ForMember(m => m.YearModel, exp => exp.MapFrom(e => new YearModel {Year = e.Year}));
+
             config.CreateMap<TeamYear, TeamManageModel>()
                   .ForMember(m => m.Team, exp => exp.MapFrom(e => e));
 

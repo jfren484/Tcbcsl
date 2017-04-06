@@ -1,6 +1,4 @@
 ﻿namespace Tcbcsl.Data.Entities
 {
-    public abstract class EntityBase
-    {
-    }
+    public abstract class EntityBase {}
 }
