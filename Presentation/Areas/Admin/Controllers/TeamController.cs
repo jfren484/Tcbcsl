@@ -129,6 +129,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             Mapper.Map(model, teamYear);
+            Mapper.Map(model, teamYear.Team);
             PopulateFullname(teamYear);
 
             DbContext.SaveChanges(User.Identity.GetUserId());
