@@ -294,7 +294,8 @@ namespace Tcbcsl.Presentation
 
             config.CreateMap<GameParticipant, StatisticsEditModel>()
                   .ForMember(m => m.TeamName, exp => exp.MapFrom(e => e.TeamYear.FullName))
-                  .ForMember(m => m.GameDate, exp => exp.MapFrom(e => e.Game.GameDate));
+                  .ForMember(m => m.GameDate, exp => exp.MapFrom(e => e.Game.GameDate))
+                  .ForMember(m => m.StatLines, exp => exp.MapFrom(e => e.StatLines.OrderBy(sl => sl.BattingOrderPosition)));
 
             config.CreateMap<StatLine, StatisticsEditStatLineModel>()
                   .MapEditModelBaseWithAudit();

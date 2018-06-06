@@ -264,6 +264,18 @@ namespace Tcbcsl.Presentation.Services
                                                                  ? gp.Game.GameStatus.Description
                                                                  : string.Empty
                            })
+                .Concat(_dbContext.Games
+                                  .Where(g => g.GameDate.Year == teamYear.Year
+                                                && g.GameTypeId == GameType.GamePlaceholder)
+                                  .ToList()
+                                  .Select(g => new TeamGameModel
+                                              {
+                                                  GameId = g.GameId,
+                                                  Date = g.GameDate,
+                                                  OpponentName = g.HomeParticipant.TeamYear.FullName,
+                                                  IsNeutralSite = true,
+                                                  IsPlaceholder = true
+                                              }))
                 .ToList();
         }
 
