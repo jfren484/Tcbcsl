@@ -26,7 +26,7 @@
             'tableSelector': '.admin-list',
             'dataUrl': '@Url.Action("Data", new {id = Model.Team.TeamId, year = Model.Team.Year})',
             'columns': columns,
-            'sorting': false,
+            'sorting': true,
             'paging': false,
             'order': [[findColumnIndex(columns, 'GameDate'), 'asc']]
         });
