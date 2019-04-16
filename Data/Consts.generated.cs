@@ -30,5 +30,4 @@
         public const string LeagueCommissioner = "League Commissioner";
         public const string TeamCoach = "Team Coach";
     }
-
 }

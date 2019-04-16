@@ -16,6 +16,7 @@
 namespace Tcbcsl.Data.Entities
 {
 <#
+	var connString = @"Server=.\SQLEXPRESS;Database=DB_99B339_tcbcsl;Integrated Security=True";
     var commandTextFormat = "SELECT {0}Id AS Id, Description FROM {1}";
     var tableInfos = new[]
     {
@@ -24,7 +25,7 @@ namespace Tcbcsl.Data.Entities
         new { BaseName = "GameType", TableName = "GameTypes" }
     };
 
-    using (var connection = new SqlConnection(@"Server=.;Database=Tcbcsl;Integrated Security=True"))
+    using (var connection = new SqlConnection(connString))
     {
         connection.Open();
         foreach (var tableInfo in tableInfos)
@@ -57,7 +58,7 @@ namespace Tcbcsl.Data.Entities
         new { LabelField = "Name", ValueField = "Name", TableName = "AspNetRoles", ClassName = "Roles" }
     };
 
-    using (var connection = new SqlConnection(@"Server=.;Database=Tcbcsl;Integrated Security=True"))
+    using (var connection = new SqlConnection(connString))
     {
         connection.Open();
         foreach (var tableInfo in tableInfo2s)
@@ -79,7 +80,6 @@ namespace Tcbcsl.Data.Entities
             }
 #>
     }
-
 <#
         }
     }
