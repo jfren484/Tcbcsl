@@ -110,6 +110,14 @@ function renderConfDiv(data, type) {
         : data.Name;
 }
 
+function renderDivDropdown(data, type) {
+    return type === 'sort'
+        ? (data.IsInLeague ? 0 : 1000) + data.Sort
+        : type === 'display'
+            ? '<select name="divId" class="divSelect">' + divisions + '</select>'
+            : data.Name;
+}
+
 function renderDate(data, type) {
     return data
         ? type === 'display'
