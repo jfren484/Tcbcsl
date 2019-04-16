@@ -208,6 +208,7 @@
     <Compile Include="Entities\TeamYear.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="Consts.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Consts.generated.cs</LastGenOutput>
