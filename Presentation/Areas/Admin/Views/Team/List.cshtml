@@ -10,7 +10,13 @@
 @section scripts
 {
     <script>
-        var divisions = $.get('@Url.Action("Divisions", new { year = Model.YearModel.Year })');
+        var divisionOptions;
+        var clinchOptions;
+        $.post('@Url.Action("ListDropdownData", new { year = Model.YearModel.Year })', function (data) {
+            var html = $($.parseHTML(data))
+            divisionOptions = html.filter('#Division_DivisionYearId').html();
+            clinchOptions = html.filter('#Clinch_ClinchChar').html();
+        });
 
         var columns = [
             { 'data': 'TeamId',                  'title': '@Html.DisplayNameFor(m => m.TeamId)',                  'visible':   false },
@@ -20,7 +26,7 @@
             { 'data': 'HeadCoach',               'title': '@Html.DisplayNameFor(m => m.HeadCoach)',                                     'render': {'_': 'FullName', 'sort': 'SortableName'} },
             { 'data': 'HasPaid',                 'title': '@Html.DisplayNameFor(m => m.HasPaid)',                                       'render': renderBool },
             { 'data': 'KeepsStats',              'title': '@Html.DisplayNameFor(m => m.KeepsStats)',                                    'render': renderBool },
-            { 'data': 'Clinch',                  'title': '@Html.DisplayNameFor(m => m.Clinch)',                                        'render': 'ClinchChar' },
+            { 'data': 'Clinch',                  'title': '@Html.DisplayNameFor(m => m.Clinch)',                                        'render': renderClinchDropdown },
             { 'data': 'FieldInformation',        'title': '@Html.DisplayNameFor(m => m.FieldInformation)',        'visible':   false,   'render': renderPartialContent },
             { 'data': 'Comments',                'title': '@Html.DisplayNameFor(m => m.Comments)',                'visible':   false,   'render': renderPartialContent },
             { 'data': 'AuditDetails.CreatedBy',  'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible':   false },

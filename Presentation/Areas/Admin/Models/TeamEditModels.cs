@@ -61,6 +61,24 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         }
     }
 
+    /// <summary>
+    /// Model for holding the common data used to populate division and clinch dropdowns in the Teams List page
+    /// </summary>
+    public class TeamListEditModel
+    {
+        [Display(Name = "Division")]
+        public TeamEditDivisionModel Division { get; set; }
+
+        [Display(Name = "Clinch Char")]
+        public TeamEditClinchModel Clinch { get; set; }
+
+        public TeamListEditModel()
+        {
+            Division = new TeamEditDivisionModel();
+            Clinch = new TeamEditClinchModel();
+        }
+    }
+
     public class TeamYearTransferModel
     {
         [Display(Name = "Id")]

@@ -1,0 +1,5 @@
+﻿@model TeamListEditModel
+
+@{ Html.EnableClientValidation(false); }
+@Html.DropDownListFor(m => m.Division.DivisionYearId, Model.Division.ItemSelectList)
+@Html.DropDownListFor(m => m.Clinch.ClinchChar, Model.Clinch.ItemSelectList)

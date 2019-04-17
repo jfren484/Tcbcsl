@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
@@ -40,6 +41,19 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                         });
 
             return Json(data);
+        }
+
+        [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
+        [Route("ListDropdownData/{year:year}")]
+        public ActionResult ListDropdownData(int year)
+        {
+            var model = new TeamListEditModel
+            {
+                Division = new TeamEditDivisionModel { ItemSelectList = new SelectList(GetDivisionSelectListItems(), "Value", "Text") },
+                Clinch = new TeamEditClinchModel { ItemSelectList = new SelectList(GetClinchSelectListItems(), "Value", "Text") }
+            };
+
+            return PartialView(model);
         }
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
@@ -249,13 +263,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         private void PopulateDropdownLists(TeamEditModel model)
         {
-            var divisions = DbContext.DivisionYears
-                                     .Where(dy => dy.Year == Consts.CurrentYear)
-                                     .OrderBy(dy => dy.Sort)
-                                     .Select(dy => new SelectListItem { Value = dy.DivisionYearId.ToString(), Text = dy.Name })
-                                     .ToList();
-            divisions.Insert(0, new SelectListItem());
-            model.Division.ItemSelectList = new SelectList(divisions, "Value", "Text", model.Division.DivisionYearId);
+            model.Division.ItemSelectList = new SelectList(GetDivisionSelectListItems(), "Value", "Text", model.Division.DivisionYearId);
 
             var churches = DbContext.Churches
                                     .OrderBy(c => c.FullName)
@@ -273,11 +281,33 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             coaches.Insert(0, new SelectListItem());
             model.HeadCoach.ItemSelectList = new SelectList(coaches, "Value", "Text", model.HeadCoach.CoachId);
 
+            model.Clinch.ItemSelectList = new SelectList(GetClinchSelectListItems(), "Value", "Text", model.Clinch.ClinchChar);
+        }
+
+        private List<SelectListItem> GetClinchSelectListItems()
+        {
             var clinchItems = Consts.ClinchDescriptions
-                                    .Select(kvp => new SelectListItem {Value = kvp.Key, Text = kvp.ClinchDescriptionFormatted()})
+                                    .Select(kvp => new SelectListItem { Value = kvp.Key, Text = kvp.ClinchDescriptionFormatted() })
                                     .ToList();
-            clinchItems.Insert(0, new SelectListItem {Text = "(none)"});
-            model.Clinch.ItemSelectList = new SelectList(clinchItems, "Value", "Text", model.Clinch.ClinchChar);
+            clinchItems.Insert(0, new SelectListItem { Text = "(none)" });
+
+            return clinchItems;
+        }
+
+        private List<SelectListItem> GetDivisionSelectListItems(bool appendEmptyItem = true, int year = Consts.CurrentYear)
+        {
+            var divisions = DbContext.DivisionYears
+                                     .Where(dy => dy.Year == year)
+                                     .OrderBy(dy => dy.Sort)
+                                     .Select(dy => new SelectListItem { Value = dy.DivisionYearId.ToString(), Text = dy.Name })
+                                     .ToList();
+
+            if (appendEmptyItem)
+            {
+                divisions.Insert(0, new SelectListItem());
+            }
+
+            return divisions;
         }
 
         private void PopulateFullname(TeamYear teamYear)

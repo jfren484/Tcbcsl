@@ -104,6 +104,12 @@ function renderBool(data, type) {
         : data;
 }
 
+function renderClinchDropdown(data, type) {
+    if (type !== 'display' || !data) return data.ClinchChar;
+
+    return '<select name="clinchChar">' + clinchOptions + '</select>';
+}
+
 function renderConfDiv(data, type) {
     return type === 'sort'
         ? (data.IsInLeague ? 0 : 1000) + data.Sort
@@ -111,11 +117,11 @@ function renderConfDiv(data, type) {
 }
 
 function renderDivDropdown(data, type) {
-    return type === 'sort'
-        ? (data.IsInLeague ? 0 : 1000) + data.Sort
-        : type === 'display'
-            ? '<select name="divId" class="divSelect">' + divisions + '</select>'
-            : data.Name;
+    if (type === 'sort') return (data.IsInLeague ? 0 : 1000) + data.Sort;
+    if (type !== 'display') return data.Name;
+
+    //var options = $($.parseHTML(divisionOptions));
+    return '<select name="divId">' + divisionOptions + '</select>';
 }
 
 function renderDate(data, type) {
