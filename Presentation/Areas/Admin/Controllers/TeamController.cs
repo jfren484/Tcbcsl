@@ -26,6 +26,16 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
         [HttpPost]
+        [Route("{year:year?}")]
+        public ActionResult ListSave(int year, int[] divisionYearId, int[] hasPaid, int[] keepsStats, string[] clinchChar)
+        {
+            // TODO: Save changes to teams
+
+            return RedirectToAction("List", new { Year = year });
+        }
+
+        [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
+        [HttpPost]
         [Route("Data/{year:year}")]
         public JsonResult Data(int year)
         {
@@ -49,7 +59,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         {
             var model = new TeamListEditModel
             {
-                Division = new TeamEditDivisionModel { ItemSelectList = new SelectList(GetDivisionSelectListItems(), "Value", "Text") },
+                Division = new TeamEditDivisionModel { ItemSelectList = new SelectList(GetDivisionSelectListItems(false, year), "Value", "Text") },
                 Clinch = new TeamEditClinchModel { ItemSelectList = new SelectList(GetClinchSelectListItems(), "Value", "Text") }
             };
 

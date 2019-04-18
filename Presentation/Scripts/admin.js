@@ -104,10 +104,17 @@ function renderBool(data, type) {
         : data;
 }
 
+function renderBoolCheckbox(data, type, row, meta) {
+    return type === 'display'
+        ? '<input name="' + meta.settings.aoColumns[meta.col].data + '" type="checkbox"' + (data ? ' checked="checked"' : '') + ' value="1" />'
+        : data;
+}
+
 function renderClinchDropdown(data, type) {
     if (type !== 'display' || !data) return data.ClinchChar;
 
-    return '<select name="clinchChar">' + clinchOptions + '</select>';
+    selectOption(clinchSelect, data.ClinchChar);
+    return '<select name="ClinchChar">' + clinchSelect.html() + '</select>';
 }
 
 function renderConfDiv(data, type) {
@@ -120,8 +127,8 @@ function renderDivDropdown(data, type) {
     if (type === 'sort') return (data.IsInLeague ? 0 : 1000) + data.Sort;
     if (type !== 'display') return data.Name;
 
-    //var options = $($.parseHTML(divisionOptions));
-    return '<select name="divId">' + divisionOptions + '</select>';
+    selectOption(divisionSelect, data.DivisionYearId);
+    return '<select name="DivisionYearId">' + divisionSelect.html() + '</select>';
 }
 
 function renderDate(data, type) {
@@ -197,6 +204,12 @@ function renderTransfer(data, type, row) {
     if (type !== 'display' || row.ExistsInCurrentYear) return null;
 
     return '<input name="teamYearIds" type="checkbox" checked="checked" value="' + row.TeamYearId + '" />';
+}
+
+function selectOption(select, value) {
+    select.val(value);
+    select.find('option[selected]').removeAttr('selected');
+    select.find('option:selected').attr('selected', 'selected');
 }
 
 //#endregion

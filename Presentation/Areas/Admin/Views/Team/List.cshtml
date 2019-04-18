@@ -5,17 +5,22 @@
 }
 @Html.Partial("_YearPartial", Model.YearModel)
 <h2>@title</h2>
-@Html.Partial("_AdminListTable", new AdminListTableModel { ListItemName = "Team", CreateItemUrl = Url.Action("Create") })
+@using (Html.BeginForm())
+{
+    @Html.Hidden("Year", Model.YearModel.Year)
+    @Html.Partial("_AdminListTable", new AdminListTableModel { ListItemName = "Team", CreateItemUrl = Url.Action("Create") })
+    <input type="submit" value="Save Changes" />
+}
 
 @section scripts
 {
     <script>
-        var divisionOptions;
-        var clinchOptions;
+        var divisionSelect;
+        var clinchSelect;
         $.post('@Url.Action("ListDropdownData", new { year = Model.YearModel.Year })', function (data) {
             var html = $($.parseHTML(data))
-            divisionOptions = html.filter('#Division_DivisionYearId').html();
-            clinchOptions = html.filter('#Clinch_ClinchChar').html();
+            divisionSelect = html.filter('#Division_DivisionYearId');//.prop('outerHTML');
+            clinchSelect = html.filter('#Clinch_ClinchChar');//.prop('outerHTML');
         });
 
         var columns = [
@@ -24,8 +29,8 @@
             { 'data': 'Division',                'title': '@Html.DisplayNameFor(m => m.Division)',                                      'render': renderDivDropdown },
             { 'data': 'FullName',                'title': '@Html.DisplayNameFor(m => m.FullName)' },
             { 'data': 'HeadCoach',               'title': '@Html.DisplayNameFor(m => m.HeadCoach)',                                     'render': {'_': 'FullName', 'sort': 'SortableName'} },
-            { 'data': 'HasPaid',                 'title': '@Html.DisplayNameFor(m => m.HasPaid)',                                       'render': renderBool },
-            { 'data': 'KeepsStats',              'title': '@Html.DisplayNameFor(m => m.KeepsStats)',                                    'render': renderBool },
+            { 'data': 'HasPaid',                 'title': '@Html.DisplayNameFor(m => m.HasPaid)',                                       'render': renderBoolCheckbox },
+            { 'data': 'KeepsStats',              'title': '@Html.DisplayNameFor(m => m.KeepsStats)',                                    'render': renderBoolCheckbox },
             { 'data': 'Clinch',                  'title': '@Html.DisplayNameFor(m => m.Clinch)',                                        'render': renderClinchDropdown },
             { 'data': 'FieldInformation',        'title': '@Html.DisplayNameFor(m => m.FieldInformation)',        'visible':   false,   'render': renderPartialContent },
             { 'data': 'Comments',                'title': '@Html.DisplayNameFor(m => m.Comments)',                'visible':   false,   'render': renderPartialContent },
@@ -41,7 +46,7 @@
             'dataUrl': '@Url.Action("Data", new {year = Model.YearModel.Year})',
             'columns': columns,
             'sorting': true,
-            'paging': true,
+            'paging': false,
             'order': [
                 [findColumnIndex(columns, 'Conference'), 'asc'],
                 [findColumnIndex(columns, 'Division'), 'asc'],
