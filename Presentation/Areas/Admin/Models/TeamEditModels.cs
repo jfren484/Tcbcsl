@@ -61,10 +61,19 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         }
     }
 
+    public class TeamListEditModel
+    {
+        public int TeamYearId { get; set; }
+        public int DivisionYearId { get; set; }
+        public bool HasPaid { get; set; }
+        public bool KeepsStats { get; set; }
+        public string Clinch { get; set; }
+    }
+
     /// <summary>
     /// Model for holding the common data used to populate division and clinch dropdowns in the Teams List page
     /// </summary>
-    public class TeamListEditModel
+    public class TeamListCommonEditModel
     {
         [Display(Name = "Division")]
         public TeamEditDivisionModel Division { get; set; }
@@ -72,7 +81,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "Clinch Char")]
         public TeamEditClinchModel Clinch { get; set; }
 
-        public TeamListEditModel()
+        public TeamListCommonEditModel()
         {
             Division = new TeamEditDivisionModel();
             Clinch = new TeamEditClinchModel();

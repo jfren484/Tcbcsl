@@ -27,9 +27,15 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
         [HttpPost]
         [Route("{year:year?}")]
-        public ActionResult ListSave(int year, int[] divisionYearId, int[] hasPaid, int[] keepsStats, string[] clinchChar)
+        public ActionResult ListSave(int year, ICollection<TeamListEditModel> teams)
         {
-            // TODO: Save changes to teams
+            foreach (var team in teams)
+            {
+                var teamYear = DbContext.TeamYears.Single(ty => ty.TeamYearId == team.TeamYearId);
+                Mapper.Map(team, teamYear);
+            }
+
+            DbContext.SaveChanges(User.Identity.GetUserId());
 
             return RedirectToAction("List", new { Year = year });
         }
@@ -57,7 +63,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("ListDropdownData/{year:year}")]
         public ActionResult ListDropdownData(int year)
         {
-            var model = new TeamListEditModel
+            var model = new TeamListCommonEditModel
             {
                 Division = new TeamEditDivisionModel { ItemSelectList = new SelectList(GetDivisionSelectListItems(false, year), "Value", "Text") },
                 Clinch = new TeamEditClinchModel { ItemSelectList = new SelectList(GetClinchSelectListItems(), "Value", "Text") }

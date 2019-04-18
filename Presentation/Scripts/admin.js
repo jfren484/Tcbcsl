@@ -65,6 +65,7 @@ function fixValidationClassesForBootstrap() {
 //#region Table-Rendering Functions
 
 var adminListTable;
+var dtRowKey;
 
 function datatable_RenderList(options) {
     ko.applyBindings({
@@ -106,15 +107,15 @@ function renderBool(data, type) {
 
 function renderBoolCheckbox(data, type, row, meta) {
     return type === 'display'
-        ? '<input name="' + meta.settings.aoColumns[meta.col].data + '" type="checkbox"' + (data ? ' checked="checked"' : '') + ' value="1" />'
+        ? '<input name="[' + row[dtRowKey] + '].' + meta.settings.aoColumns[meta.col].data + '" type="checkbox"' + (data ? ' checked="checked"' : '') + ' value="true" />'
         : data;
 }
 
-function renderClinchDropdown(data, type) {
+function renderClinchDropdown(data, type, row) {
     if (type !== 'display' || !data) return data.ClinchChar;
 
     selectOption(clinchSelect, data.ClinchChar);
-    return '<select name="ClinchChar">' + clinchSelect.html() + '</select>';
+    return '<select name="[' + row[dtRowKey] + '].Clinch">' + clinchSelect.html() + '</select>';
 }
 
 function renderConfDiv(data, type) {
@@ -123,12 +124,12 @@ function renderConfDiv(data, type) {
         : data.Name;
 }
 
-function renderDivDropdown(data, type) {
+function renderDivDropdown(data, type, row) {
     if (type === 'sort') return (data.IsInLeague ? 0 : 1000) + data.Sort;
     if (type !== 'display') return data.Name;
 
     selectOption(divisionSelect, data.DivisionYearId);
-    return '<select name="DivisionYearId">' + divisionSelect.html() + '</select>';
+    return '<select name="[' + row[dtRowKey] + '].DivisionYearId">' + divisionSelect.html() + '</select>';
 }
 
 function renderDate(data, type) {
@@ -143,6 +144,15 @@ function renderEditLink(data, type) {
     if (type !== 'display' || !data) return null;
 
     return renderLink(data, 'edit', 'edit');
+}
+
+function renderEditLinkWithHiddenId(data, type, row) {
+    if (type !== 'display' || !data) return null;
+
+    var hiddenId = '<input type="hidden" name="[' + row[dtRowKey] + '].' + dtRowKey + '" value="' + row[dtRowKey] + '" />';
+    var hiddenIndex = '<input type="hidden" name="Index" value="' + row[dtRowKey] + '" />';
+
+    return renderEditLink(data, type) + hiddenId + hiddenIndex;
 }
 
 function renderGameResultsLinks(data, type, row) {

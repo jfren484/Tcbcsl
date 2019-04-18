@@ -23,6 +23,8 @@
             clinchSelect = html.filter('#Clinch_ClinchChar');//.prop('outerHTML');
         });
 
+        dtRowKey = 'TeamYearId';
+
         var columns = [
             { 'data': 'TeamId',                  'title': '@Html.DisplayNameFor(m => m.TeamId)',                  'visible':   false },
             { 'data': 'Conference',              'title': '@Html.DisplayNameFor(m => m.Conference)',                                    'render': renderConfDiv },
@@ -38,7 +40,7 @@
             { 'data': 'AuditDetails.Created',    'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'visible':   false,   'render': renderDate },
             { 'data': 'AuditDetails.ModifiedBy', 'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'visible':   false },
             { 'data': 'AuditDetails.Modified',   'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'visible':   false,   'render': renderDate },
-            { 'data': 'UrlForEdit',                                                                               'orderable': false,   'render': renderEditLink }
+            { 'data': 'UrlForEdit',                                                                               'orderable': false,   'render': renderEditLinkWithHiddenId }
         ];
 
         datatable_RenderList({
