@@ -89,7 +89,7 @@ function datatable_RenderList(options) {
         'pageLength': 25,
         'paging': options.paging,
         'pagingType': 'full_numbers',
-        'searching': false
+        'searching': options.searching || false
     });
 }
 
@@ -200,6 +200,12 @@ function renderPartialContent(data, type) {
         : data;
 }
 
+function renderPlayerMerge(data, type) {
+    if (type !== 'display') return null;
+
+    return '<input type="checkbox" class="merge-player" value="' + data + '" /> ' + renderLink('#', 'merge', 'random', 'merge-link');
+}
+
 function renderPlayerTransferLink(data, type) {
     if (type !== 'display') return null;
 
@@ -236,6 +242,22 @@ $('.admin-list').on('click', '.column-toggle', function () {
 
     column.visible(!column.visible());
 });
+
+function setupPlayerMerge(url) {
+    $('.admin-list').on('click', 'a.merge-link', function () {
+        var checkedBoxes = $('.merge-player:checked');
+
+        if (checkedBoxes.length > 1 && $(this).parent().find('.merge-player:checked').length > 0) {
+            if (confirm('Are you sure you want to merge?')) {
+                var data = checkedBoxes.map(function () { return 'ids=' + this.value; }).get().join("&");
+
+                $.post(url, data, function () {
+                    location.reload(true);
+                });
+            }
+        }
+    });
+}
 
 $('.admin-list').on('click', 'a.player-transfer', function (e) {
     e.preventDefault();

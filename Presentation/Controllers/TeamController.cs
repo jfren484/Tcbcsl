@@ -42,6 +42,7 @@ namespace Tcbcsl.Presentation.Controllers
                               {
                                   DivisionName = dy.Name,
                                   Teams = dy.TeamYears
+                                            .OrderBy(ty => ty.FullName)
                                             .Select(ty => new TeamsListTeamModel
                                                           {
                                                               TeamId = ty.TeamId,

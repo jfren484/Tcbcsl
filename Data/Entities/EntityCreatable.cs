@@ -15,5 +15,10 @@ namespace Tcbcsl.Data.Entities
 
         [ForeignKey("CreatedBy")]
         public virtual TcbcslUser CreatedByUser { get; set; }
+
+        public EntityCreatable()
+        {
+            Created = DateTime.Now;
+        }
     }
 }

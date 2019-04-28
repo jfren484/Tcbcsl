@@ -36,4 +36,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         public SelectList ItemSelectList { get; set; }
     }
+
+    public class PlayerEditMergeModel
+    {
+        public IList<int> PlayerIds { get; set; }
+    }
 }

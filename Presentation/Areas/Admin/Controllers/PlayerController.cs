@@ -126,7 +126,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #endregion
 
-        #region Transfer
+        #region Transfer/Merge
 
         [HttpPost]
         [Route("Transfer/{id:int}/{teamId:int}")]
@@ -153,6 +153,34 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                                        .ToList());
 
             return Json(data);
+        }
+
+        [HttpPost]
+        [Route("Merge")]
+        public ActionResult Merge(int[] ids)
+        {
+            var players = DbContext.Players.Where(p => ids.Contains(p.PlayerId)).OrderBy(p => p.PlayerId).ToList();
+
+            var playerToSave = players.First();
+            playerToSave.IsActive = players.Any(p => p.IsActive);
+
+            foreach (var player in players.Skip(1))
+            {
+                playerToSave.FirstName = player.FirstName;
+                playerToSave.LastName = player.LastName;
+                playerToSave.CurrentTeamId = player.CurrentTeamId;
+
+                foreach (var statLine in player.StatLines)
+                {
+                    statLine.Player = playerToSave;
+                }
+
+                DbContext.Players.Remove(player);
+            }
+
+            DbContext.SaveChanges(User.Identity.GetUserId());
+
+            return HttpOk();
         }
 
         #endregion

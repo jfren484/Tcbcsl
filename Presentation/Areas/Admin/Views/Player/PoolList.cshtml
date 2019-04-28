@@ -34,11 +34,13 @@
             { 'data': 'LastName',                'title': '@Html.DisplayNameFor(m => m.LastName)' },
             { 'data': 'HasStatsFor',             'title': '@Html.DisplayNameFor(m => m.HasStatsFor)',                                   'render': '[<br />]' },
             { 'data': 'Team',                    'title': '@Html.DisplayNameFor(m => m.Team)',                                          'render': 'FullName' },
-            { 'data': 'AuditDetails.CreatedBy',  'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible':   false },
-            { 'data': 'AuditDetails.Created',    'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'visible':   false,   'render': renderDate },
-            { 'data': 'AuditDetails.ModifiedBy', 'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'visible':   false },
-            { 'data': 'AuditDetails.Modified',   'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'visible':   false,   'render': renderDate },
             { 'data': 'Team',                    'title': '',                                                     'orderable': false,   'render': renderPlayerTransferLink }
+    @if (User.IsInRole(Tcbcsl.Data.Entities.Roles.LeagueCommissioner))
+    {
+        <text>
+            ,{ 'data': 'PlayerId',               'title': 'Merge',                                                'orderable': false,   'render': renderPlayerMerge, }
+        </text>
+    }
         ];
 
         datatable_RenderList({
@@ -47,10 +49,13 @@
             'columns': columns,
             'sorting': true,
             'paging': true,
+            'searching': true,
             'order': [
                 [findColumnIndex(columns, 'LastName'), 'asc'],
                 [findColumnIndex(columns, 'FirstName'), 'asc']
             ]
         });
+
+        setupPlayerMerge('@Url.Action("Merge")');
     </script>
 }

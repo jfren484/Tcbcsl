@@ -13,12 +13,24 @@
             { 'data': 'FirstName',               'title': '@Html.DisplayNameFor(m => m.FirstName)' },
             { 'data': 'LastName',                'title': '@Html.DisplayNameFor(m => m.LastName)' },
             { 'data': 'Team',                    'title': '@Html.DisplayNameFor(m => m.Team)',                                          'render': 'FullName' },
+    @if (User.IsInRole(Tcbcsl.Data.Entities.Roles.LeagueCommissioner))
+    {
+        <text>
+            { 'data': 'HasStatsFor',             'title': '@Html.DisplayNameFor(m => m.HasStatsFor)',                                   'render': '[<br />]' },
+        </text>
+    }
             { 'data': 'IsActive',                'title': '@Html.DisplayNameFor(m => m.IsActive)',                                      'render': renderBool },
-            { 'data': 'AuditDetails.CreatedBy',  'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible':   false },
+            { 'data': 'AuditDetails.CreatedBy',  'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible':   false,   'searchable': false },
             { 'data': 'AuditDetails.Created',    'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'visible':   false,   'render': renderDate },
-            { 'data': 'AuditDetails.ModifiedBy', 'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'visible':   false },
+            { 'data': 'AuditDetails.ModifiedBy', 'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'visible':   false,   'searchable': false },
             { 'data': 'AuditDetails.Modified',   'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'visible':   false,   'render': renderDate },
             { 'data': 'Team',                    'title': '',                                                     'orderable': false,   'render': renderPlayerTransferLink },
+    @if (User.IsInRole(Tcbcsl.Data.Entities.Roles.LeagueCommissioner))
+    {
+        <text>
+            { 'data': 'PlayerId',                'title': 'Merge',                                                'orderable': false,   'render': renderPlayerMerge, },
+        </text>
+    }
             { 'data': 'UrlForEdit',                                                                               'orderable': false,   'render': renderEditLink }
         ];
 
@@ -28,10 +40,13 @@
             'columns': columns,
             'sorting': true,
             'paging': true,
+            'searching': true,
             'order': [
                 [findColumnIndex(columns, 'LastName'), 'asc'],
                 [findColumnIndex(columns, 'FirstName'), 'asc']
             ]
         });
+
+        setupPlayerMerge('@Url.Action("Merge")');
     </script>
 }
