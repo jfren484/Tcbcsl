@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
@@ -20,5 +21,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [UIHint("HtmlEditor")]
         [AllowHtml]
         public string Comments { get; set; }
+
+        [Display(Name = "Has Coached")]
+        public List<string> HasCoachedFor { get; set; }
     }
 }

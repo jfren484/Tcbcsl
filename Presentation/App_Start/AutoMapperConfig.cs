@@ -52,7 +52,10 @@ namespace Tcbcsl.Presentation
             #region Church
 
             config.CreateMap<Church, ChurchEditModel>()
-                  .MapEditModelBaseWithContactInfo();
+                  .MapEditModelBaseWithContactInfo()
+                  .ForMember(m => m.Teams, exp => exp.MapFrom(e => e.TeamYears
+                                                                    .Distinct()
+                                                                    .GroupBy(ty => ty.Team)));
 
             config.CreateMap<ChurchEditModel, Church>()
                   .MapIgnoreEntityWithContactInfo()
@@ -63,7 +66,10 @@ namespace Tcbcsl.Presentation
             #region Coach
 
             config.CreateMap<Coach, CoachEditModel>()
-                  .MapEditModelBaseWithContactInfo();
+                  .MapEditModelBaseWithContactInfo()
+                  .ForMember(m => m.HasCoachedFor, exp => exp.MapFrom(e => e.TeamYears
+                                                                            .Distinct()
+                                                                            .GroupBy(ty => ty.Team)));
 
             config.CreateMap<CoachEditModel, Coach>()
                   .MapIgnoreEntityWithContactInfo()
@@ -261,9 +267,6 @@ namespace Tcbcsl.Presentation
             config.CreateMap<Team, PlayerEditTeamModel>()
                   .ForMember(m => m.FullName, exp => exp.MapFrom(e => e.TeamYears.OrderByDescending(ty => ty.Year).First().FullName));
 
-            config.CreateMap<IGrouping<Team, TeamYear>, string>()
-                  .ConvertUsing(g => $"{g.Key.TeamYears.OrderByDescending(ty => ty.Year).First().FullName} ({string.Join(", ", g.Select(ty => ty.Year).OrderByDescending(y => y))})");
-
             config.CreateMap<PlayerEditModel, Player>()
                   .MapIgnoreEntityModifiable()
                   .ForMember(e => e.PlayerId, exp => exp.Ignore())
@@ -398,6 +401,19 @@ namespace Tcbcsl.Presentation
                   .ForMember(e => e.HeadCoach, exp => exp.Ignore())
                   .ForMember(e => e.GameParticipants, exp => exp.Ignore());
 
+            config.CreateMap<IGrouping<Team, TeamYear>, string>()
+                  .ConvertUsing(g => $"{g.Key.TeamYears.OrderByDescending(ty => ty.Year).First().FullName} ({string.Join(", ", g.Select(ty => ty.Year).OrderByDescending(y => y))})");
+
+            config.CreateMap<Team, SelectListItem>()
+                  .ForMember(m => m.Value, exp => exp.MapFrom(e => e.TeamId))
+                  .ForMember(m => m.Text, exp => exp.MapFrom(e => e.TeamYears.OrderByDescending(ty => ty.Year).First()))
+                  .ForMember(m => m.Disabled, exp => exp.Ignore())
+                  .ForMember(m => m.Group, exp => exp.Ignore())
+                  .ForMember(m => m.Selected, exp => exp.Ignore());
+
+            config.CreateMap<TeamYear, string>()
+                  .ConvertUsing(ty => $"{ty.FullName} ({ty.Year})");
+
             #endregion
 
             #region User Management
@@ -420,16 +436,6 @@ namespace Tcbcsl.Presentation
                   .ForMember(m => m.Disabled, exp => exp.Ignore())
                   .ForMember(m => m.Group, exp => exp.Ignore())
                   .ForMember(m => m.Selected, exp => exp.Ignore());
-
-            config.CreateMap<Team, SelectListItem>()
-                  .ForMember(m => m.Value, exp => exp.MapFrom(e => e.TeamId))
-                  .ForMember(m => m.Text, exp => exp.MapFrom(e => e.TeamYears.OrderByDescending(ty => ty.Year).First()))
-                  .ForMember(m => m.Disabled, exp => exp.Ignore())
-                  .ForMember(m => m.Group, exp => exp.Ignore())
-                  .ForMember(m => m.Selected, exp => exp.Ignore());
-
-            config.CreateMap<TeamYear, string>()
-                  .ConvertUsing(ty => $"{ty.FullName} ({ty.Year})");
 
             config.CreateMap<UserEditModel, TcbcslUser>()
                   .ForMember(m => m.FirstName, exp => exp.MapFrom(e => e.FirstName))

@@ -9,7 +9,7 @@
 {
     <script>
         var columns = [
-            { 'data': 'PlayerId',                'title': '@Html.DisplayNameFor(m => m.PlayerId)',                'visible':   false },
+            { 'data': 'PlayerId',                'title': '@Html.DisplayNameFor(m => m.PlayerId)',                'visible':   false,                                       'searchable': false },
             { 'data': 'FirstName',               'title': '@Html.DisplayNameFor(m => m.FirstName)' },
             { 'data': 'LastName',                'title': '@Html.DisplayNameFor(m => m.LastName)' },
             { 'data': 'Team',                    'title': '@Html.DisplayNameFor(m => m.Team)',                                          'render': 'FullName' },
@@ -19,19 +19,19 @@
             { 'data': 'HasStatsFor',             'title': '@Html.DisplayNameFor(m => m.HasStatsFor)',                                   'render': '[<br />]' },
         </text>
     }
-            { 'data': 'IsActive',                'title': '@Html.DisplayNameFor(m => m.IsActive)',                                      'render': renderBool },
-            { 'data': 'AuditDetails.CreatedBy',  'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible':   false,   'searchable': false },
-            { 'data': 'AuditDetails.Created',    'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'visible':   false,   'render': renderDate },
-            { 'data': 'AuditDetails.ModifiedBy', 'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'visible':   false,   'searchable': false },
-            { 'data': 'AuditDetails.Modified',   'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'visible':   false,   'render': renderDate },
-            { 'data': 'Team',                    'title': '',                                                     'orderable': false,   'render': renderPlayerTransferLink },
+            { 'data': 'IsActive',                'title': '@Html.DisplayNameFor(m => m.IsActive)',                                      'render': renderBool,               'searchable': false },
+            { 'data': 'AuditDetails.CreatedBy',  'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible':   false,                                       'searchable': false },
+            { 'data': 'AuditDetails.Created',    'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'visible':   false,   'render': renderDate,               'searchable': false },
+            { 'data': 'AuditDetails.ModifiedBy', 'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'visible':   false,                                       'searchable': false },
+            { 'data': 'AuditDetails.Modified',   'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'visible':   false,   'render': renderDate,               'searchable': false },
+            { 'data': 'Team',                    'title': '',                                                     'orderable': false,   'render': renderPlayerTransferLink, 'searchable': false },
     @if (User.IsInRole(Tcbcsl.Data.Entities.Roles.LeagueCommissioner))
     {
         <text>
-            { 'data': 'PlayerId',                'title': 'Merge',                                                'orderable': false,   'render': renderPlayerMerge, },
+            { 'data': 'PlayerId',                'title': 'Merge',                                                'orderable': false,   'render': renderPlayerMerge,        'searchable': false, },
         </text>
     }
-            { 'data': 'UrlForEdit',                                                                               'orderable': false,   'render': renderEditLink }
+            { 'data': 'UrlForEdit',                                                                               'orderable': false,   'render': renderEditLink,           'searchable': false }
         ];
 
         datatable_RenderList({

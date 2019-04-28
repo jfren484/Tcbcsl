@@ -10,17 +10,18 @@
 {
     <script>
         var columns = [
-            { 'data': 'CoachId',                 'title': '@Html.DisplayNameFor(m => m.CoachId)',                 'visible':   false },
+            { 'data': 'CoachId',                 'title': '@Html.DisplayNameFor(m => m.CoachId)',                 'visible':   false,                             'searchable': false },
             { 'data': 'FirstName',               'title': '@Html.DisplayNameFor(m => m.FirstName)' },
             { 'data': 'LastName',                'title': '@Html.DisplayNameFor(m => m.LastName)' },
             { 'data': 'PhoneNumbers',            'title': '@Html.DisplayNameFor(m => m.PhoneNumbers)',                                  'render': '[<br />].PhoneNumber' },
             { 'data': 'EmailAddress',            'title': '@Html.DisplayNameFor(m => m.EmailAddress)' },
             { 'data': 'Comments',                'title': '@Html.DisplayNameFor(m => m.Comments)',                                      'render': renderPartialContent },
-            { 'data': 'AuditDetails.CreatedBy',  'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible':   false },
-            { 'data': 'AuditDetails.Created',    'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'visible':   false,   'render': renderDate },
-            { 'data': 'AuditDetails.ModifiedBy', 'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'visible':   false },
-            { 'data': 'AuditDetails.Modified',   'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'visible':   false,   'render': renderDate },
-            { 'data': 'UrlForEdit',                                                                               'orderable': false,   'render': renderEditLink }
+            { 'data': 'HasCoachedFor',           'title': '@Html.DisplayNameFor(m => m.HasCoachedFor)',                                 'render': '[<br />]' },
+            { 'data': 'AuditDetails.CreatedBy',  'title': '@Html.DisplayNameFor(m => m.AuditDetails.CreatedBy)',  'visible':   false,                             'searchable': false },
+            { 'data': 'AuditDetails.Created',    'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'visible':   false,   'render': renderDate,     'searchable': false },
+            { 'data': 'AuditDetails.ModifiedBy', 'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'visible':   false,   'searchable': false },
+            { 'data': 'AuditDetails.Modified',   'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'visible':   false,   'render': renderDate,     'searchable': false },
+            { 'data': 'UrlForEdit',                                                                               'orderable': false,   'render': renderEditLink, 'searchable': false }
         ];
 
         datatable_RenderList({
@@ -29,6 +30,7 @@
             'columns': columns,
             'sorting': true,
             'paging': true,
+            'searching': true,
             'order': [[findColumnIndex(columns, 'LastName'), 'asc'], [findColumnIndex(columns, 'FirstName'), 'asc']]
         });
     </script>

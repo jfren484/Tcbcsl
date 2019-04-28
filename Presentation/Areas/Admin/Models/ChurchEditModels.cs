@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
@@ -24,5 +25,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [UIHint("HtmlEditor")]
         [AllowHtml]
         public string Information { get; set; }
+
+        [Display(Name = "Teams")]
+        public List<string> Teams { get; set; }
     }
 }
