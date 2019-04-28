@@ -251,10 +251,12 @@ namespace Tcbcsl.Presentation
             config.CreateMap<Player, PlayerEditModel>()
                   .MapEditModelBaseWithAudit()
                   .ForMember(m => m.Team, exp => exp.MapFrom(e => e.CurrentTeam))
+                  .ForMember(m => m.UserManagesMultipleTeams, exp => exp.Ignore())
                   .ForMember(m => m.HasStatsFor, exp => exp.MapFrom(e => e.StatLines
                                                                           .Select(sl => sl.GameParticipant.TeamYear)
                                                                           .Distinct()
-                                                                          .GroupBy(ty => ty.Team)));
+                                                                          .GroupBy(ty => ty.Team)))
+                  .ForMember(m => m.UserManagesMultipleTeams, exp => exp.Ignore());
 
             config.CreateMap<Team, PlayerEditTeamModel>()
                   .ForMember(m => m.FullName, exp => exp.MapFrom(e => e.TeamYears.OrderByDescending(ty => ty.Year).First().FullName));

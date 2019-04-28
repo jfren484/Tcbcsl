@@ -21,7 +21,14 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         [Route("")]
         public ActionResult List()
         {
-            var model = new PlayerEditModel {Team = new PlayerEditTeamModel()};
+            var model = new PlayerEditModel
+            {
+                Team = new PlayerEditTeamModel(),
+                UserManagesMultipleTeams = DbContext.Teams
+                                   .Select(t => t.TeamId)
+                                   .FilterTeamsForUser(User, id => id)
+                                   .Count() > 1
+            };
             PopulateDropdownLists(model);
 
             return View(model);

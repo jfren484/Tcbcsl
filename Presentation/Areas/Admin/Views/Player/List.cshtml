@@ -13,7 +13,7 @@
             { 'data': 'FirstName',               'title': '@Html.DisplayNameFor(m => m.FirstName)' },
             { 'data': 'LastName',                'title': '@Html.DisplayNameFor(m => m.LastName)' },
             { 'data': 'Team',                    'title': '@Html.DisplayNameFor(m => m.Team)',                                          'render': 'FullName' },
-    @if (User.IsInRole(Tcbcsl.Data.Entities.Roles.LeagueCommissioner))
+    @if (Model.UserManagesMultipleTeams)
     {
         <text>
             { 'data': 'HasStatsFor',             'title': '@Html.DisplayNameFor(m => m.HasStatsFor)',                                   'render': '[<br />]' },

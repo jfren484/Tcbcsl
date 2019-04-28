@@ -21,10 +21,13 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
 
         [Display(Name = "Has Stats For")]
         public List<string> HasStatsFor { get; set; }
+
+        public bool UserManagesMultipleTeams { get; set; }
     }
 
     public class PlayerEditTeamModel
