@@ -58,9 +58,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 .Select(gp =>
                                 {
                                     var model = Mapper.Map<GameResultsListModel>(gp);
+
                                     model.UrlsForActions = new Dictionary<string, string>
                                                        {
-                                                           ["SubmitResults"] = Url.Action("Game", new {id = model.GameParticipantId}),
+                                                           ["SubmitResults"] = User.IsInRole(Roles.LeagueCommissioner)
+                                                               ? Url.Action("Game", new {id = model.GameParticipantId, reportingTeamId = id})
+                                                               : Url.Action("Game", new {id = model.GameParticipantId}),
                                                            ["EnterStats"] = gp.Game.GameStatus.AllowStatistics && gp.TeamYear.KeepsStats
                                                                                 ? Url.Action("Game", "Statistics", new {id = model.GameParticipantId})
                                                                                 : null
@@ -77,7 +80,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         #region Game
 
         [Route("{id:int}")]
-        public ActionResult Game(int id)
+        public ActionResult Game(int id, int? reportingTeamId = null)
         {
             var gameParticipant = DbContext.GameParticipants.SingleOrDefault(gp => gp.GameParticipantId == id);
             if (gameParticipant == null || !User.IsTeamIdValidForUser(gameParticipant.TeamYear.TeamId))
@@ -86,7 +89,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             }
 
             var model = Mapper.Map<GameResultsEditModel>(gameParticipant.Game);
-            PopulateDropdownLists(model.NewReport, gameParticipant.Game);
+            PopulateDropdownLists(model.NewReport, gameParticipant.Game, reportingTeamId);
 
             return View(model);
         }
@@ -167,7 +170,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             model.Teams = Mapper.Map<List<TeamBasicInfoModel>>(teams);
         }
 
-        private void PopulateDropdownLists(GameResultsEditCreateReportModel model, Game game)
+        private void PopulateDropdownLists(GameResultsEditCreateReportModel model, Game game, int? teamId)
         {
             var teams = game.GameParticipants
                             .Select(gp => gp.TeamYear)
@@ -177,7 +180,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                  .Concat(Mapper.Map<List<TeamBasicInfoModel>>(teams))
                                  .FilterTeamsForUser(User, m => m.TeamId)
                                  .ToList();
-            model.Team.TeamId = teamModels.Count == 1 ? teamModels[0].TeamId : null;
+            model.Team.TeamId = teamModels.Count == 1 ? teamModels[0].TeamId : teamId;
             model.Team.ItemSelectList = new SelectList(teamModels, "TeamId", "FullName", model.Team.TeamId);
 
             model.GameStatus.ItemSelectList = GetGameStatusesSelectListItems(null, true);
