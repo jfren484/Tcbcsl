@@ -57,6 +57,28 @@ namespace Tcbcsl.Presentation.Helpers
             return $"{kvp.Key} - Clinched {kvp.Value}";
         }
 
+        public static IEnumerable<T> AddSeasonToDateStats<T>(this IEnumerable<T> stats) where T : BaseStatisticsRowModel
+        {
+            int hits = 0, walks = 0, totalBases = 0, sacrificeFlies = 0;
+            double atBats = 0;
+
+            foreach (var statsModel in stats.OrderBy(s => s.Year).ToList())
+            {
+                hits += statsModel.Hits;
+                walks += statsModel.Walks;
+                totalBases += statsModel.TotalBases;
+                sacrificeFlies += statsModel.SacrificeFlies;
+                atBats += statsModel.AtBats;
+
+                statsModel.ToDateAverage = atBats == 0 ? 0 : hits / atBats;
+                statsModel.ToDateOnBasePercentage = (atBats + walks + sacrificeFlies) == 0 ? 0 : (hits + walks) / (atBats + walks + sacrificeFlies);
+                statsModel.ToDateSluggingPercentage = atBats == 0 ? 0 : totalBases / atBats;
+                statsModel.ToDateOnBasePlusSlugging = statsModel.ToDateOnBasePercentage + statsModel.ToDateSluggingPercentage;
+            }
+
+            return stats;
+        }
+
         public static IEnumerable<T> FilterTeamsForUser<T>(this IEnumerable<T> allEntities, IPrincipal userPrincipal, Func<T, int?> getTeamId)
         {
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();

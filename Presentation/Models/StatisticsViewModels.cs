@@ -67,6 +67,12 @@ namespace Tcbcsl.Presentation.Models
         public int ReachedByErrors { get; set; }
         public int Strikeouts { get; set; }
 
+        // To-date columns - only used on Player screens
+        public double ToDateAverage { get; set; }
+        public double ToDateOnBasePercentage { get; set; }
+        public double ToDateSluggingPercentage { get; set; }
+        public double ToDateOnBasePlusSlugging { get; set; }
+
         // Computed columns
         private double _battingAverage = -1;
         public double BattingAverage

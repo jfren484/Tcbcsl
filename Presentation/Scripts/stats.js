@@ -36,16 +36,20 @@ var leagueIndividualStatsColumns = [
     { 'title': 'Player', 'data': 'Player', 'render': statstable_RenderPlayerLink, 'orderSequence': ['asc', 'desc'] }
 ].concat(leagueTeamStatsColumns);
 
+var playerCommonStatsColumns = commonStatsColumns.concat([
+    { 'title': 'AVG*', 'data': 'ToDateAverage', 'render': statstable_RenderPct }
+]);
+
 var playerCareerStatsColumns = [
     { 'title': 'Year', 'data': 'Year', 'render': statstable_RenderPlayerYearLink },
     { 'title': 'Team', 'data': 'Team', 'render': statstable_RenderTeamLink, 'orderSequence': ['asc', 'desc'] },
     { 'title': 'G',    'data': 'Games' }
-].concat(commonStatsColumns);
+].concat(playerCommonStatsColumns);
 
 var playerSeasonStatsColumns = [
     { 'title': 'Date',     'data': 'GameDate', 'render': statstable_RenderGameDate },
     { 'title': 'Opponent', 'data': 'Opponent', 'render': statstable_RenderTeamLink }
-].concat(commonStatsColumns);
+].concat(playerCommonStatsColumns);
 
 var teamStatsColumns = [
     { 'title': 'Player', 'data': 'Player', 'render': statstable_RenderPlayerLink, 'orderSequence': ['asc', 'desc'] },

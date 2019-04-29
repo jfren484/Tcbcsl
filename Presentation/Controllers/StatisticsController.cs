@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Tcbcsl.Data.Entities;
+using Tcbcsl.Presentation.Helpers;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Controllers
@@ -273,13 +274,13 @@ namespace Tcbcsl.Presentation.Controllers
             }
 
             var data = year == YearEnum.All
-                           ? GetPlayerCareerData(player)
+                           ? (IEnumerable<object>)GetPlayerCareerData(player)
                            : GetPlayerSeasonData(player, (int)year);
 
             return Json(data);
         }
 
-        private static IEnumerable<object> GetPlayerCareerData(Player player)
+        private static IEnumerable<PlayerCareerStatisticsRowModel> GetPlayerCareerData(Player player)
         {
             return player.StatLines
                          .GroupBy(sl => new { sl.GameParticipant.Game.GameDate.Year, sl.GameParticipant.TeamYear })
@@ -312,46 +313,50 @@ namespace Tcbcsl.Presentation.Controllers
                                             FieldersChoices = slg.Sum(sl => sl.StatFieldersChoices),
                                             ReachedByErrors = slg.Sum(sl => sl.StatReachedByErrors),
                                             Strikeouts = slg.Sum(sl => sl.StatStrikeouts)
-                                        });
+                                        })
+                         .ToList()
+                         .AddSeasonToDateStats();
         }
 
-        private static IEnumerable<object> GetPlayerSeasonData(Player player, int year)
+        private static IEnumerable<PlayerSeasonStatisticsRowModel> GetPlayerSeasonData(Player player, int year)
         {
-            return from sl in player.StatLines
-                   where sl.GameParticipant.Game.GameDate.Year == year
-                   orderby sl.GameParticipant.Game.GameDate
-                   let opponent = sl.GameParticipant
-                                    .Game
-                                    .GameParticipants
-                                    .Single(gp => gp.GameParticipantId != sl.GameParticipantId)
-                                    .TeamYear
-                   select new PlayerSeasonStatisticsRowModel
-                          {
-                              GameId = sl.GameParticipant.GameId,
-                              GameDate = sl.GameParticipant.Game.GameDate.ToString(Consts.DateFormat),
-                              Year = (YearEnum)year,
-                              Opponent = new StatisticsTeamInfoModel
-                                     {
-                                         TeamId = opponent.TeamId,
-                                         TeamName = opponent.FullName
-                                     },
-                              PlateAppearances = sl.StatPlateAppearances,
-                              AtBats = sl.StatAtBats,
-                              Hits = sl.StatHits,
-                              TotalBases = sl.StatTotalBases,
-                              Runs = sl.StatRuns,
-                              RunsBattedIn = sl.StatRunsBattedIn,
-                              Singles = sl.StatSingles,
-                              Doubles = sl.StatDoubles,
-                              Triples = sl.StatTriples,
-                              HomeRuns = sl.StatHomeRuns,
-                              Walks = sl.StatWalks,
-                              SacrificeFlies = sl.StatSacrificeFlies,
-                              Outs = sl.StatOuts,
-                              FieldersChoices = sl.StatFieldersChoices,
-                              ReachedByErrors = sl.StatReachedByErrors,
-                              Strikeouts = sl.StatStrikeouts
-                          };
+            return (from sl in player.StatLines
+                    where sl.GameParticipant.Game.GameDate.Year == year
+                    orderby sl.GameParticipant.Game.GameDate
+                    let opponent = sl.GameParticipant
+                                     .Game
+                                     .GameParticipants
+                                     .Single(gp => gp.GameParticipantId != sl.GameParticipantId)
+                                     .TeamYear
+                    select new PlayerSeasonStatisticsRowModel
+                           {
+                               GameId = sl.GameParticipant.GameId,
+                               GameDate = sl.GameParticipant.Game.GameDate.ToString(Consts.DateFormat),
+                               Year = (YearEnum)year,
+                               Opponent = new StatisticsTeamInfoModel
+                                      {
+                                          TeamId = opponent.TeamId,
+                                          TeamName = opponent.FullName
+                                      },
+                               PlateAppearances = sl.StatPlateAppearances,
+                               AtBats = sl.StatAtBats,
+                               Hits = sl.StatHits,
+                               TotalBases = sl.StatTotalBases,
+                               Runs = sl.StatRuns,
+                               RunsBattedIn = sl.StatRunsBattedIn,
+                               Singles = sl.StatSingles,
+                               Doubles = sl.StatDoubles,
+                               Triples = sl.StatTriples,
+                               HomeRuns = sl.StatHomeRuns,
+                               Walks = sl.StatWalks,
+                               SacrificeFlies = sl.StatSacrificeFlies,
+                               Outs = sl.StatOuts,
+                               FieldersChoices = sl.StatFieldersChoices,
+                               ReachedByErrors = sl.StatReachedByErrors,
+                               Strikeouts = sl.StatStrikeouts
+                           })
+                .ToList()
+                .AddSeasonToDateStats();
         }
 
         #endregion

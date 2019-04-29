@@ -8,6 +8,7 @@
 @Html.Partial("_YearsPartial", Model.Year)
 <h2>@title</h2>
 @Html.Partial("_StatsTable", "statsTable")
+<p>* The second AVG column is @(Model.Year == YearEnum.All ? "career" : "season")-to-date cummulative average.</p>
 @section scripts
 {
     @if (Model.Year == YearEnum.All)
