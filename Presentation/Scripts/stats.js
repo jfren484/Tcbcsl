@@ -38,6 +38,7 @@ var leagueIndividualStatsColumns = [
 
 var playerCareerStatsColumns = [
     { 'title': 'Year', 'data': 'Year', 'render': statstable_RenderPlayerYearLink },
+    { 'title': 'Team', 'data': 'Team', 'render': statstable_RenderTeamLink, 'orderSequence': ['asc', 'desc'] },
     { 'title': 'G',    'data': 'Games' }
 ].concat(commonStatsColumns);
 

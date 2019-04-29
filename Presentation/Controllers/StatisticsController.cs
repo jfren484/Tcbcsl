@@ -282,14 +282,19 @@ namespace Tcbcsl.Presentation.Controllers
         private static IEnumerable<object> GetPlayerCareerData(Player player)
         {
             return player.StatLines
-                         .GroupBy(sl => sl.GameParticipant.Game.GameDate.Year)
+                         .GroupBy(sl => new { sl.GameParticipant.Game.GameDate.Year, sl.GameParticipant.TeamYear })
                          .Select(slg => new PlayerCareerStatisticsRowModel
                                         {
-                                            Year = (YearEnum)slg.Key,
+                                            Year = (YearEnum)slg.Key.Year,
                                             Player = new StatisticsPlayerInfoModel
                                                      {
                                                          PlayerId = player.PlayerId
                                                      },
+                                            Team = new StatisticsTeamInfoModel
+                                                   {
+                                                       TeamId = slg.Key.TeamYear.TeamId,
+                                                       TeamName = slg.Key.TeamYear.FullName
+                                                   },
                                             Games = slg.Count(),
                                             PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
                                             AtBats = slg.Sum(sl => sl.StatAtBats),

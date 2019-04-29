@@ -168,6 +168,7 @@ namespace Tcbcsl.Presentation.Models
     public class PlayerCareerStatisticsRowModel : CommonStatisticsRowModel
     {
         public StatisticsPlayerInfoModel Player { get; set; }
+        public StatisticsTeamInfoModel Team { get; set; }
     }
 
     public class PlayerSeasonStatisticsRowModel : BaseStatisticsRowModel
