@@ -1,6 +1,6 @@
 ﻿@model PlayerStatisticsPageModel
 @{
-    var title = $"Statistics - {Model.Player.PlayerFirstName} {Model.Player.PlayerLastName}";
+    var title = $"Statistics - {Model.Player.DisplayName}";
     ViewBag.Title = title + Model.Year.AsTitleSuffix();
 
     var ajaxData = Model.Player.PlayerId + "/" + Model.Year.AsRouteParameter();
@@ -12,7 +12,7 @@
 <h2>@title</h2>
 <div id="chart"></div>
 @Html.Partial("_StatsTable", "statsTable")
-<p>* The second AVG column is @(Model.Year == YearEnum.All ? "career" : "season")-to-date cummulative average.</p>
+<p>* The second AVG column is @(statsRenderMethod.ToLower())-to-date cummulative average.</p>
 @section scripts
 {
     @Scripts.Render("~/bundles/highcharts")
@@ -21,64 +21,117 @@
             statstable_RenderPlayer@(statsRenderMethod)Stats('@ajaxData');
         });
 
-        Highcharts.chart('chart', {
-
+        var statsChart = Highcharts.chart('chart', {
             title: {
-                text: null// 'Player Stats'
+                text: '@Model.Player.DisplayName'
             },
-
-            //subtitle: {
-            //    text: 'Source: thesolarfoundation.com'
-            //},
-
-            //yAxis: {
-            //    title: {
-            //        text: 'Number of Employees'
-            //    }
-            //},
-            //legend: {
-            //    layout: 'vertical',
-            //    align: 'right',
-            //    verticalAlign: 'middle'
-            //},
-
-            //plotOptions: {
-            //    series: {
-            //        label: {
-            //            connectorAllowed: false
-            //        },
-            //        pointStart: 2010
-            //    }
-            //},
-
-            series: [{
-                name: 'AVG',
-                data: [0.6, 0.5, 0.6]
+            subtitle: {
+                text: '@(Model.Year == YearEnum.All ? "Career" : $"{(int)Model.Year} Season")'
+            },
+            yAxis: [{
+                title: { text: null },
+                labels: {
+                    format: '{value:.3f}'
+                }
             }, {
-                name: 'OBP',
-                data: [0.65, 0.45, 0.6]
-            }, {
-                name: 'SLG',
-                data: [0.7, 0.65, 0.8]
-            }, {
-                name: 'OPS',
-                data: [1.35, 1.1, 1.4]
+                gridLineWidth: 0,
+                title: { text: null },
+                opposite: true
             }],
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            tooltip: {
+                shared: true,
+                headerFormat: '<span style="font-weight: bold">{point.key}</span><br/>'
+            },
+            xAxis: [{
+                categories: [],
+                crosshair: true
+            }],
+            series: [{
+                id: 'Hits',
+                name: 'Hits',
+                type: 'column',
+                yAxis: 1,
+                data: []
+            }, {
+                id: 'AVG',
+                name: 'Batting Average',
+                type: 'line',
+                tooltip: {
+                    pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y:,.3f}</b><br/>'
+                },
+                data: []
+            }, {
+                id: 'OBP',
+                name: 'On-base Percentage',
+                type: 'line',
+                tooltip: {
+                    pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y:,.3f}</b><br/>'
+                },
+                data: []
+            }, {
+                id: 'SLG',
+                name: 'Slugging Percentage',
+                type: 'line',
+                tooltip: {
+                    pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y:,.3f}</b><br/>'
+                },
+                data: []
+            }, {
+                id: 'OPS',
+                name: 'On-base + Slugging',
+                type: 'line',
+                tooltip: {
+                    pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y:,.3f}</b><br/>'
+                },
+                data: []
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        });
 
-            //responsive: {
-            //    rules: [{
-            //        condition: {
-            //            maxWidth: 500
-            //        },
-            //        chartOptions: {
-            //            legend: {
-            //                layout: 'horizontal',
-            //                align: 'center',
-            //                verticalAlign: 'bottom'
-            //            }
-            //        }
-            //    }]
-            //}
+        $('#statsTable').on('init.dt', function () {
+            var xAxisData = [], avgData = [], obpData = [], slgData = [], opsData = [], hitsData = [];
+
+            var statsData = statsTable.data();
+            for (var i = 0; i < statsData.length; i++) {
+                var row = statsData[i];
+
+                if (row['GameDate']) {
+                    xAxisData.push(moment(row['GameDate']).format('MMMM D'));
+                } else {
+                    xAxisData.push(row['Year']);
+                }
+
+                avgData.push(row['ToDateAverage']);
+                obpData.push(row['ToDateOnBasePercentage']);
+                slgData.push(row['ToDateSluggingPercentage']);
+                opsData.push(row['ToDateOnBasePlusSlugging']);
+                hitsData.push(row['Hits']);
+            }
+
+            statsChart.xAxis[0].setCategories(xAxisData);
+            statsChart.get('AVG').setData(avgData);
+            statsChart.get('OBP').setData(obpData);
+            statsChart.get('SLG').setData(slgData);
+            statsChart.get('OPS').setData(opsData);
+            statsChart.get('Hits').setData(hitsData);
         });
     </script>
 }

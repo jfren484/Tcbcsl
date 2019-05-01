@@ -96,11 +96,13 @@ function statstable_RenderTeamLink(data, type, row) {
 
 //#region Table-Rendering Functions
 
+var statsTable;
+
 function statstable_RenderBase(options) {
     addDataTableHeaderCells(options.tableSelector, options.columns);
 
-    return $(options.tableSelector)
-        .dataTable({
+    statsTable = $(options.tableSelector)
+        .DataTable({
             'ajax': {
                 'url': options.dataUrl,
                 'type': 'POST',
@@ -123,7 +125,7 @@ function statstable_RenderBase(options) {
 }
 
 function statstable_RenderGameStats(tableSelector, data) {
-    return statstable_RenderBase({
+    statstable_RenderBase({
         'tableSelector': tableSelector,
         'dataUrl': '/Statistics/GameData/' + data,
         'columns': gameStatsColumns,
@@ -135,7 +137,7 @@ function statstable_RenderGameStats(tableSelector, data) {
 function statstable_RenderLeagueIndividualStats(data) {
     var sortColumnIndex = findColumnIndex(leagueIndividualStatsColumns, 'AVG');
 
-    return statstable_RenderBase({
+    statstable_RenderBase({
         'tableSelector': '#statsTable',
         'dataUrl': '/Statistics/LeagueData/Individual/' + data,
         'columns': leagueIndividualStatsColumns,
@@ -148,7 +150,7 @@ function statstable_RenderLeagueIndividualStats(data) {
 function statstable_RenderLeagueTeamStats(data) {
     var sortColumnIndex = findColumnIndex(leagueTeamStatsColumns, 'AVG');
 
-    return statstable_RenderBase({
+    statstable_RenderBase({
         'tableSelector': '#statsTable',
         'dataUrl': '/Statistics/LeagueData/Team/' + data,
         'columns': leagueTeamStatsColumns,
@@ -161,7 +163,7 @@ function statstable_RenderLeagueTeamStats(data) {
 function statstable_RenderPlayerCareerStats(data) {
     var sortColumnIndex = findColumnIndex(playerCareerStatsColumns, 'Year');
 
-    return statstable_RenderBase({
+    statstable_RenderBase({
         'tableSelector': '#statsTable',
         'dataUrl': '/Statistics/PlayerData/' + data,
         'columns': playerCareerStatsColumns,
@@ -172,7 +174,7 @@ function statstable_RenderPlayerCareerStats(data) {
 }
 
 function statstable_RenderPlayerSeasonStats(data) {
-    return statstable_RenderBase({
+    statstable_RenderBase({
         'tableSelector': '#statsTable',
         'dataUrl': '/Statistics/PlayerData/' + data,
         'columns': playerSeasonStatsColumns,
@@ -184,7 +186,7 @@ function statstable_RenderPlayerSeasonStats(data) {
 function statstable_RenderTeamStats(data, sortColumn) {
     var sortColumnIndex = findColumnIndex(teamStatsColumns, sortColumn) || findColumnIndex(teamStatsColumns, 'AVG');
 
-    return statstable_RenderBase({
+    statstable_RenderBase({
         'tableSelector': '#statsTable',
         'dataUrl': '/Statistics/TeamData/' + data,
         'columns': teamStatsColumns,
