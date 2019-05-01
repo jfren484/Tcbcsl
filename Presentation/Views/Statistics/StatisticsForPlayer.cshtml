@@ -4,27 +4,81 @@
     ViewBag.Title = title + Model.Year.AsTitleSuffix();
 
     var ajaxData = Model.Player.PlayerId + "/" + Model.Year.AsRouteParameter();
+    var statsRenderMethod = Model.Year == YearEnum.All
+        ? "Career"
+        : "Season";
 }
 @Html.Partial("_YearsPartial", Model.Year)
 <h2>@title</h2>
+<div id="chart"></div>
 @Html.Partial("_StatsTable", "statsTable")
 <p>* The second AVG column is @(Model.Year == YearEnum.All ? "career" : "season")-to-date cummulative average.</p>
 @section scripts
 {
-    @if (Model.Year == YearEnum.All)
-    {
-        <script>
-            $(function () {
-                statstable_RenderPlayerCareerStats('@ajaxData');
-            });
-        </script>
-    }
-    else
-    {
-        <script>
-            $(function () {
-                statstable_RenderPlayerSeasonStats('@ajaxData');
-            });
-        </script>
-    }
+    @Scripts.Render("~/bundles/highcharts")
+    <script>
+        $(function () {
+            statstable_RenderPlayer@(statsRenderMethod)Stats('@ajaxData');
+        });
+
+        Highcharts.chart('chart', {
+
+            title: {
+                text: null// 'Player Stats'
+            },
+
+            //subtitle: {
+            //    text: 'Source: thesolarfoundation.com'
+            //},
+
+            //yAxis: {
+            //    title: {
+            //        text: 'Number of Employees'
+            //    }
+            //},
+            //legend: {
+            //    layout: 'vertical',
+            //    align: 'right',
+            //    verticalAlign: 'middle'
+            //},
+
+            //plotOptions: {
+            //    series: {
+            //        label: {
+            //            connectorAllowed: false
+            //        },
+            //        pointStart: 2010
+            //    }
+            //},
+
+            series: [{
+                name: 'AVG',
+                data: [0.6, 0.5, 0.6]
+            }, {
+                name: 'OBP',
+                data: [0.65, 0.45, 0.6]
+            }, {
+                name: 'SLG',
+                data: [0.7, 0.65, 0.8]
+            }, {
+                name: 'OPS',
+                data: [1.35, 1.1, 1.4]
+            }],
+
+            //responsive: {
+            //    rules: [{
+            //        condition: {
+            //            maxWidth: 500
+            //        },
+            //        chartOptions: {
+            //            legend: {
+            //                layout: 'horizontal',
+            //                align: 'center',
+            //                verticalAlign: 'bottom'
+            //            }
+            //        }
+            //    }]
+            //}
+        });
+    </script>
 }

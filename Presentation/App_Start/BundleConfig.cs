@@ -18,6 +18,12 @@ namespace Tcbcsl.Presentation
                 "~/Scripts/site.js",
                 "~/Scripts/stats.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/highcharts").Include(
+                "~/Scripts/highcharts/highcharts.js",
+                "~/Scripts/highcharts/modules/series-label.js",
+                "~/Scripts/highcharts/modules/exporting.js",
+                "~/Scripts/highcharts/modules/export-data.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/admin").Include(
                 "~/Scripts/jquery.are-you-sure.js",
                 "~/Scripts/jquery.maskedinput.js",
