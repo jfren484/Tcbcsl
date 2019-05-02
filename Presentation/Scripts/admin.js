@@ -82,6 +82,7 @@ function datatable_RenderList(options) {
             'dataSrc': ''
         },
         'columns': options.columns,
+        'dom': options.dom || '<"row"<"col-sm-6"l><"col-sm-6"f>><"row"<"col-sm-12"tr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
         'info': options.paging,
         'order': options.order,
         'orderCellsTop': false,
@@ -190,6 +191,12 @@ function renderLink(data, title, icon, linkClass) {
     return data
         ? '<a href="' + data + '" title="' + title + '"' + (linkClass ? ' class="' + linkClass + '"' : '') + '><span class="glyphicon glyphicon-' + icon + '"></span></a>'
         : '';
+}
+
+function renderNewsLinks(data, type, row) {
+    if (type !== 'display') return null;
+
+    return renderLink(data.Deactivate, 'deactivate', 'remove', 'deactivate-news') + ' ' + renderEditLink(data.Edit, type);
 }
 
 function renderPartialContent(data, type) {

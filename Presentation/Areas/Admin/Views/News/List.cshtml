@@ -14,7 +14,7 @@
         var columns = [
             { 'data': 'NewsItemId',              'title': '@Html.DisplayNameFor(m => m.NewsItemId)',              'visible': false },
             { 'data': 'Team',                    'title': '@Html.DisplayNameFor(m => m.Team)',                    'visible': @showTeam, 'render': 'FullName' },
-            { 'data': 'IsActive',                'title': '@Html.DisplayNameFor(m => m.IsActive)',                                      'render': renderActiveCell },
+            { 'data': 'IsActive',                'title': '@Html.DisplayNameFor(m => m.IsActive)',                'name': 'IsActive',   'render': renderActiveCell },
             { 'data': 'StartDate',               'title': '@Html.DisplayNameFor(m => m.StartDate)',                                     'render': renderDate },
             { 'data': 'EndDate',                 'title': '@Html.DisplayNameFor(m => m.EndDate)',                                       'render': renderDate },
             { 'data': 'Subject',                 'title': '@Html.DisplayNameFor(m => m.Subject)' },
@@ -23,16 +23,42 @@
             { 'data': 'AuditDetails.Created',    'title': '@Html.DisplayNameFor(m => m.AuditDetails.Created)',    'visible':   false,   'render': renderDate },
             { 'data': 'AuditDetails.ModifiedBy', 'title': '@Html.DisplayNameFor(m => m.AuditDetails.ModifiedBy)', 'visible':   false },
             { 'data': 'AuditDetails.Modified',   'title': '@Html.DisplayNameFor(m => m.AuditDetails.Modified)',   'visible':   false,   'render': renderDate },
-            { 'data': 'UrlForEdit',                                                                               'orderable': false,   'render': renderEditLink }
+            { 'data': 'UrlsForActions',                                                                           'orderable': false,   'render': renderNewsLinks }
         ];
 
         datatable_RenderList({
             'tableSelector': '.admin-list',
             'dataUrl': '@Url.Action("Data")',
+            'dom': '<"row"<"col-sm-3"l><"col-sm-5 activebar"><"col-sm-4"f>><"row"<"col-sm-12"tr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
             'columns': columns,
             'sorting': true,
             'paging': true,
+            'searching': true,
             'order': [[findColumnIndex(columns, 'NewsItemId'), 'desc']]
+        });
+
+        $('div.activebar').html('<div style="padding-top: 7px; text-align: center;"><label><input id="activeOnly" type="checkbox" checked="checked" /> Active Only</label></div>');
+
+        $('div.activebar').on('change', '#activeOnly', function () {
+            adminListTable.columns('IsActive:name').search(this.checked ? true : '').draw();
+        });
+
+        $('.admin-list').on('click', 'a.deactivate-news', function (e) {
+            e.preventDefault();
+
+            var link = $(this);
+            var href = link.attr('href');
+            var rowIndex = adminListTable.row(link.closest('tr')[0]).index();
+            var colIndex = adminListTable.column('IsActive:name').index();
+
+            $.post(href)
+                .done(function () {
+                    adminListTable.cell({ row: rowIndex, column: colIndex }).data(false).draw();
+                });
+        });
+
+        $('.admin-list').on('init.dt', function () {
+            adminListTable.columns('IsActive:name').search(true).draw();
         });
     </script>
 }

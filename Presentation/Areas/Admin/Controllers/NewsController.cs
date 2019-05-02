@@ -37,7 +37,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 .Select(n =>
                                         {
                                             var model = Mapper.Map<NewsEditModel>(n);
-                                            model.UrlForEdit = Url.Action("Edit", new {id = model.NewsItemId});
+
+                                            model.UrlsForActions = new Dictionary<string, string>
+                                            {
+                                                ["Deactivate"] = Url.Action("Deactivate", new { id = model.NewsItemId }),
+                                                ["Edit"] = Url.Action("Edit", new { id = model.NewsItemId })
+                                            };
 
                                             return model;
                                         });
@@ -113,6 +118,26 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             DbContext.SaveChanges(User.Identity.GetUserId());
 
             return Redirect(model.UrlForReturn);
+        }
+
+        #endregion
+
+        #region Deactivate
+
+        [HttpPost]
+        [Route("Deactivate/{id:int}")]
+        public ActionResult Deactivate(int id)
+        {
+            var newsItem = DbContext.NewsItems.SingleOrDefault(n => n.NewsItemId == id);
+            if (newsItem == null || !User.IsTeamIdValidForUser(newsItem.Team?.TeamId))
+            {
+                return HttpNotFound();
+            }
+
+            newsItem.IsActive = false;
+            DbContext.SaveChanges(User.Identity.GetUserId());
+
+            return HttpOk();
         }
 
         #endregion

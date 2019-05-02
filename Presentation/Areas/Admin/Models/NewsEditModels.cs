@@ -34,6 +34,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [UIHint("HtmlEditor")]
         [AllowHtml]
         public string Content { get; set; }
+
+        [Display(Name = "")]
+        public Dictionary<string, string> UrlsForActions { get; set; }
     }
 
     public class NewsEditTeamModel : TeamBasicInfoModel
