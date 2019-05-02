@@ -200,21 +200,21 @@ namespace Tcbcsl.Presentation.Controllers
             }
 
             var data = statLines
-                .GroupBy(sl => new
+                .GroupBy(sl => sl.GameParticipant.TeamYear.Team /* new
                                {
                                    TeamId = sl.GameParticipant.TeamYear.TeamId,
                                    TeamName = sl.GameParticipant.TeamYear.FullName,
                                    Games = sl.GameParticipant.TeamYear.GameParticipants.Count(gp => gp.StatLines.Any())
-                               })
+                               }*/)
                 .Select(slg => new LeagueTeamStatisticsRowModel
                                {
                                    Year = year,
                                    Team = new StatisticsTeamInfoModel
                                           {
                                               TeamId = slg.Key.TeamId,
-                                              TeamName = slg.Key.TeamName
+                                              TeamName = slg.Key.TeamYears.OrderByDescending(ty => ty.Year).FirstOrDefault().FullName
                                           },
-                                   Games = slg.Key.Games,
+                                   Games = slg.Key.TeamYears.Sum(ty => ty.GameParticipants.Count(gp => gp.StatLines.Any())),
                                    PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
                                    AtBats = slg.Sum(sl => sl.StatAtBats),
                                    Hits = slg.Sum(sl => sl.StatHits),
