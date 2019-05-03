@@ -75,23 +75,9 @@ function datatable_RenderList(options) {
         })
     });
 
-    adminListTable = $(options.tableSelector).DataTable({
-        'ajax': {
-            'url': options.dataUrl,
-            'type': 'POST',
-            'dataSrc': ''
-        },
-        'columns': options.columns,
-        'dom': options.dom || '<"row"<"col-sm-6"l><"col-sm-6"f>><"row"<"col-sm-12"tr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
-        'info': options.paging,
-        'order': options.order,
-        'orderCellsTop': false,
-        'ordering': options.sorting,
-        'pageLength': 25,
-        'paging': options.paging,
-        'pagingType': 'full_numbers',
-        'searching': options.searching || false
-    });
+    options.tableSelector = '#adminListTable';
+
+    adminListTable = initDataTables(options);
 }
 
 function renderActiveCell(data, type) {
@@ -218,7 +204,9 @@ function renderPlayerTransferLink(data, type) {
 
     var transferDestination = (data.UrlForTransfer.substr(-3) === '/' + consts.playerPoolTeamId)
         ? consts.playerPoolTeamName
-        : 'My Team';
+        : (data.UrlForTransfer.substr(-2) === '/0')
+            ? 'A Team'
+            : 'My Team';
 
     return '<a class="player-transfer" href="' + data.UrlForTransfer + '">Transfer to ' + transferDestination + '</a>';
 }
@@ -239,19 +227,19 @@ function selectOption(select, value) {
 
 //#region List Table Settings Functions
 
-$('.admin-list').on('click', '.admin-list-settings', function () {
+$('#adminListTable').on('click', '.admin-list-settings', function () {
     $('.datatable-settings').toggle();
 });
 
-$('.admin-list').on('click', '.column-toggle', function () {
+$('#adminListTable').on('click', '.column-toggle', function () {
     var index = $(this).attr('data-column'); // TODO: use .data method
-    var column = $('.admin-list').DataTable().column(index);
+    var column = adminListTable.column(index);
 
     column.visible(!column.visible());
 });
 
 function setupPlayerMerge(url) {
-    $('.admin-list').on('click', 'a.merge-link', function () {
+    $('#adminListTable').on('click', 'a.merge-link', function () {
         var checkedBoxes = $('.merge-player:checked');
 
         if (checkedBoxes.length > 1 && $(this).parent().find('.merge-player:checked').length > 0) {
@@ -266,7 +254,7 @@ function setupPlayerMerge(url) {
     });
 }
 
-$('.admin-list').on('click', 'a.player-transfer', function (e) {
+$('#adminListTable').on('click', 'a.player-transfer', function (e) {
     e.preventDefault();
 
     var link = $(this);
@@ -286,7 +274,7 @@ $('.admin-list').on('click', 'a.player-transfer', function (e) {
         });
 });
 
-$('.admin-list').on('click', '.select-all', function () {
+$('#adminListTable').on('click', '.select-all', function () {
     $('.admin-list td input[type="checkbox"]').prop('checked', this.checked);
 });
 

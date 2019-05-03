@@ -27,7 +27,6 @@
         ];
 
         datatable_RenderList({
-            'tableSelector': '.admin-list',
             'dataUrl': '@Url.Action("Data")',
             'dom': '<"row"<"col-sm-3"l><"col-sm-5 activebar"><"col-sm-4"f>><"row"<"col-sm-12"tr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
             'columns': columns,
@@ -43,7 +42,7 @@
             adminListTable.columns('IsActive:name').search(this.checked ? true : '').draw();
         });
 
-        $('.admin-list').on('click', 'a.deactivate-news', function (e) {
+        $('#adminListTable').on('click', 'a.deactivate-news', function (e) {
             e.preventDefault();
 
             var link = $(this);
@@ -57,7 +56,7 @@
                 });
         });
 
-        $('.admin-list').on('init.dt', function () {
+        $('#adminListTable').on('init.dt', function () {
             adminListTable.columns('IsActive:name').search(true).draw();
         });
     </script>

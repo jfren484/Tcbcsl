@@ -4,6 +4,7 @@
 }
 <h2>@title</h2>
 @Html.Partial("_AdminListTable", new AdminListTableModel { ListItemName = "Player", CreateItemUrl = Url.Action("Create") })
+@Html.Partial("_TeamPickerModal", Model)
 
 @section scripts
 {
@@ -35,7 +36,6 @@
         ];
 
         datatable_RenderList({
-            'tableSelector': '.admin-list',
             'dataUrl': '@Url.Action("Data")',
             'columns': columns,
             'sorting': true,

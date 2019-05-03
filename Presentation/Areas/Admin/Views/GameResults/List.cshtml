@@ -23,7 +23,6 @@
         ];
 
         datatable_RenderList({
-            'tableSelector': '.admin-list',
             'dataUrl': '@Url.Action("Data", new {id = Model.Team.TeamId, year = Model.Team.Year})',
             'columns': columns,
             'sorting': true,

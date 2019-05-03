@@ -31,6 +31,30 @@ $(function() {
 
 //#region Helpers
 
+function initDataTables(options) {
+    return $(options.tableSelector)
+        .DataTable({
+            'ajax': {
+                'url': options.dataUrl,
+                'type': 'POST',
+                'dataSrc': ''
+            },
+            'columnDefs': options.columnDefs,
+            'columns': options.columns,
+            'dom': options.dom || '<"row"<"col-sm-6"l><"col-sm-6"f>><"row"<"col-sm-12"tr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
+            'info': options.paging || false,
+            'language': options.language,
+            'order': options.order,
+            'ordering': options.sorting || false,
+            'pageLength': options.pageLength || 25,
+            'paging': options.paging || false,
+            'pagingType': options.pagingType || 'full_numbers',
+            'searching': options.searching || false,
+            'stateDuration': 0,
+            'stateSave': true
+        });
+}
+
 function addDataTableHeaderCells(tableSelector, columnArray) { // TODO: this should go away by using Knockout in the stats tables
     var headerRow = $(tableSelector + '>thead>tr.datatable-headers');
     for (var i = 0; i < columnArray.length; ++i) {

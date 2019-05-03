@@ -99,29 +99,19 @@ function statstable_RenderTeamLink(data, type, row) {
 var statsTable;
 
 function statstable_RenderBase(options) {
+    Object.assign(options, {
+        'columnDefs': [
+            { 'orderSequence': ['desc', 'asc'], 'targets': '_all' }
+        ],
+        'dom': '<"row"<"col-lg-12"tr>><"row"<"col-lg-3"i><"col-lg-2"l><"col-lg-7"p>>',
+        'language': { 'emptyTable': 'No statistics available' },
+        'searching': true,
+        'tableSelector': options.tableSelector || '#statsTable'
+    });
+
     addDataTableHeaderCells(options.tableSelector, options.columns);
 
-    statsTable = $(options.tableSelector)
-        .DataTable({
-            'ajax': {
-                'url': options.dataUrl,
-                'type': 'POST',
-                'dataSrc': ''
-            },
-            'language': { 'emptyTable': 'No statistics available' },
-            'info': options.paging,
-            'ordering': options.sorting,
-            'paging': options.paging,
-            'pagingType': 'full_numbers',
-            'pageLength': 25,
-            'searching': true,
-            'order': options.order,
-            'columnDefs': [
-                { 'orderSequence': ['desc', 'asc'], 'targets': '_all' }
-            ],
-            'columns': options.columns,
-            'dom': '<"row"<"col-lg-12"tr>><"row"<"col-lg-5"i><"col-lg-2"l><"col-lg-5"p>>'
-        });
+    statsTable = initDataTables(options);
 }
 
 function statstable_RenderGameStats(tableSelector, data) {
@@ -138,7 +128,6 @@ function statstable_RenderLeagueIndividualStats(data) {
     var sortColumnIndex = findColumnIndex(leagueIndividualStatsColumns, 'AVG');
 
     statstable_RenderBase({
-        'tableSelector': '#statsTable',
         'dataUrl': '/Statistics/LeagueData/Individual/' + data,
         'columns': leagueIndividualStatsColumns,
         'sorting': true,
@@ -151,7 +140,6 @@ function statstable_RenderLeagueTeamStats(data) {
     var sortColumnIndex = findColumnIndex(leagueTeamStatsColumns, 'AVG');
 
     statstable_RenderBase({
-        'tableSelector': '#statsTable',
         'dataUrl': '/Statistics/LeagueData/Team/' + data,
         'columns': leagueTeamStatsColumns,
         'sorting': true,
@@ -164,7 +152,6 @@ function statstable_RenderPlayerCareerStats(data) {
     var sortColumnIndex = findColumnIndex(playerCareerStatsColumns, 'Year');
 
     statstable_RenderBase({
-        'tableSelector': '#statsTable',
         'dataUrl': '/Statistics/PlayerData/' + data,
         'columns': playerCareerStatsColumns,
         'sorting': true,
@@ -175,7 +162,6 @@ function statstable_RenderPlayerCareerStats(data) {
 
 function statstable_RenderPlayerSeasonStats(data) {
     statstable_RenderBase({
-        'tableSelector': '#statsTable',
         'dataUrl': '/Statistics/PlayerData/' + data,
         'columns': playerSeasonStatsColumns,
         'sorting': false,
@@ -187,7 +173,6 @@ function statstable_RenderTeamStats(data, sortColumn) {
     var sortColumnIndex = findColumnIndex(teamStatsColumns, sortColumn) || findColumnIndex(teamStatsColumns, 'AVG');
 
     statstable_RenderBase({
-        'tableSelector': '#statsTable',
         'dataUrl': '/Statistics/TeamData/' + data,
         'columns': teamStatsColumns,
         'sorting': true,

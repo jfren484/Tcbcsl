@@ -548,6 +548,7 @@
     <Content Include="Areas\Admin\Views\Team\ListTeamYears.cshtml" />
     <Content Include="Areas\Admin\Views\Advanced\FrameworkVersion.cshtml" />
     <Content Include="Areas\Admin\Views\Team\ListDropdownData.cshtml" />
+    <Content Include="Areas\Admin\Views\Player\_TeamPickerModal.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
     <Content Include="Content\DataTables\css\semanticui.scss" />
