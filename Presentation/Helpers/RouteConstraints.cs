@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using System;
 using System.Globalization;
-using System.Web;
-using System.Web.Routing;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Helpers
@@ -10,7 +10,7 @@ namespace Tcbcsl.Presentation.Helpers
     {
         protected abstract bool MatchValue(object value);
 
-        public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
+        public bool Match(HttpContext httpContext, IRouter route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
         {
             if (parameterName == null)
             {

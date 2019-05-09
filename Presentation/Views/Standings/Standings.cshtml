@@ -8,7 +8,7 @@
     var charCount = teamNameLengths.Any() ? teamNameLengths.Max() : 20;
     var hackText = new string('X', charCount);
 }
-@Html.Partial("_YearPartial")
+<partial name="_YearPartial" />
 <h2>@title</h2>
 @if (!Model.ShowTies)
 {

@@ -1,0 +1,38 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "datatables@1.10.19",
+      "destination": "wwwroot/lib/datatables/"
+    },
+    {
+      "library": "knockout@3.5.0",
+      "destination": "wwwroot/lib/knockout/"
+    },
+    {
+      "library": "moment.js@2.24.0",
+      "destination": "wwwroot/lib/moment.js/"
+    },
+    {
+      "library": "highcharts@7.1.1",
+      "destination": "wwwroot/lib/highcharts/"
+    },
+    {
+      "library": "tinymce@5.0.4",
+      "destination": "wwwroot/lib/tinymce/"
+    },
+    {
+      "library": "bootstrap-datetimepicker@4.17.47",
+      "destination": "wwwroot/lib/bootstrap-datetimepicker/"
+    },
+    {
+      "library": "bootswatch@4.3.1",
+      "destination": "wwwroot/lib/bootswatch/",
+      "files": [
+        "cerulean/bootstrap.min.css",
+        "cerulean/bootstrap.css"
+      ]
+    }
+  ]
+}

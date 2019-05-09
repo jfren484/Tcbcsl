@@ -1,62 +1,58 @@
-﻿<div class="navbar navbar-inverse navbar-fixed-top">
+﻿@{
+    var routeData = new Dictionary<string, string>
+            {
+                { "year", null }
+            };
+}
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            @Html.RouteLink("TCBCSL", new {area = "", controller = "Home", action = "Index"}, new {@class = "navbar-brand"})
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">TCBCSL</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    @Html.RouteLink("Schedule", new {area = "", controller = "Schedule", action = "Schedule", date = (DateTime?)null}, null)
+                    <a asp-area="" asp-controller="Schedule" asp-action="Schedule" asp-route-date="">Schedule</a>
                 </li>
                 <li class="dropdown">
-                    @Html.Partial("_NavDropdownToggle", "Standings")
-                    @{ var dict = new RouteValueDictionary(new {area = "", controller = "Standings", action = "Standings", year = (int?)null}); }
+                    <partial name="_NavDropdownToggle" model='"Standings"' />
                     <ul class="dropdown-menu">
-                        <li>
-                            @{ dict["type"] = StandingsType.Division; }
-                            @Html.RouteLink("Division", dict)
-                        </li>
-                        <li>
-                            @{ dict["type"] = StandingsType.League; }
-                            @Html.RouteLink("League", dict)
-                        </li>
+                        <li><a asp-area="" asp-controller="Standings" asp-action="Standings" asp-all-route-data="routeData" asp-route-type="@StandingsType.Division.ToString()">Division</a></li>
+                        <li><a asp-area="" asp-controller="Standings" asp-action="Standings" asp-all-route-data="routeData" asp-route-type="@StandingsType.League.ToString()">League</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    @Html.Partial("_NavDropdownToggle", "Statistics")
+                    <partial name="_NavDropdownToggle" model='"Statistics"' />
                     <ul class="dropdown-menu">
-                        <li>
-                            @Html.RouteLink("Individual", new {area = "", controller = "Statistics", action = "StatisticsForLeagueIndividual", year = (YearEnum?)null}, null)
-                        </li>
-                        <li>
-                            @Html.RouteLink("Teams", new {area = "", controller = "Statistics", action = "StatisticsForLeagueTeam", year = (YearEnum?)null}, null)
-                        </li>
+                        <li><a asp-area="" asp-controller="Statistics" asp-action="StatisticsForLeagueIndividual" asp-all-route-data="routeData">Individual</a></li>
+                        <li><a asp-area="" asp-controller="Statistics" asp-action="StatisticsForLeagueTeam" asp-all-route-data="routeData">Teams</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    @Html.Partial("_NavDropdownToggle", "Members")
+                    <partial name="_NavDropdownToggle" model='"Members"' />
                     <ul class="dropdown-menu">
-                        <li>@Html.RouteLink("Churches", new {area = "", controller = "Church", action = "Churches", year = (int?)null}, null)</li>
-                        <li>@Html.RouteLink("Coaches", new {area = "", controller = "Coach", action = "Coaches", year = (int?)null}, null)</li>
-                        <li>@Html.RouteLink("Teams", new {area = "", controller = "Team", action = "Teams", year = (int?)null}, null)</li>
+                        <li><a asp-area="" asp-controller="Church" asp-action="Churches" asp-all-route-data="routeData">Churches</a></li>
+                        <li><a asp-area="" asp-controller="Coach" asp-action="Coaches" asp-all-route-data="routeData">Coaches</a></li>
+                        <li><a asp-area="" asp-controller="Team" asp-action="Teams" asp-all-route-data="routeData">Teams</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    @Html.Partial("_NavDropdownToggle", "Rules")
+                    <partial name="_NavDropdownToggle" model='"Rules"' />
                     <ul class="dropdown-menu">
-                        <li>@Html.RouteLink("League Rules", new {area = "", controller = "ContentItem", action = "PageContent", tag = "LeagueRules"}, null)</li>
-                        <li>@Html.RouteLink("Umpire Guidelines", new {area = "", controller = "ContentItem", action = "PageContent", tag = "UmpireGuidelines"}, null)</li>
-                        <li>@Html.RouteLink("Tournament Rules", new {area = "", controller = "ContentItem", action = "PageContent", tag = "TournamentRules"}, null)</li>
+                        <li><a asp-area="" asp-controller="ContentItem" asp-action="PageContent" asp-all-route-data="routeData" asp-route-tag="LeagueRules">League Rules</a></li>
+                        <li><a asp-area="" asp-controller="ContentItem" asp-action="PageContent" asp-all-route-data="routeData" asp-route-tag="UmpireGuidelines">Umpire Guidelines</a></li>
+                        <li><a asp-area="" asp-controller="ContentItem" asp-action="PageContent" asp-all-route-data="routeData" asp-route-tag="TournamentRules">Tournament Rules</a></li>
                     </ul>
                 </li>
-                @Html.Partial("_AdminNavigation")
+                <partial name="_AdminNavigation" />
             </ul>
-            @Html.Partial("_LoginPartial")
+            <partial name="_LoginPartial" />
         </div>
     </div>
-</div>
+</nav>

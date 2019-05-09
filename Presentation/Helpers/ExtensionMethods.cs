@@ -1,17 +1,12 @@
-﻿using System;
+﻿using Ganss.XSS;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Mvc.Html;
-using System.Web.Routing;
-using Ganss.XSS;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Models;
-using Tcbcsl.Data.Identity;
 
 namespace Tcbcsl.Presentation.Helpers
 {
@@ -94,7 +89,7 @@ namespace Tcbcsl.Presentation.Helpers
             return allEntities.Where(n => teamIds.Contains(getTeamId(n)));
         }
 
-        public static object GameStatsField(this HtmlHelper htmlHelper, object statInfo, int gameId)
+        public static object GameStatsField(this IHtmlHelper htmlHelper, object statInfo, int gameId)
         {
             if (!(statInfo is int))
             {
@@ -141,9 +136,9 @@ namespace Tcbcsl.Presentation.Helpers
             return sanitizer.Sanitize(htmlString);
         }
 
-        public static MvcHtmlString TeamLink(this HtmlHelper htmlHelper, string teamName, int teamId, int year)
+        public static IHtmlContent TeamLink(this IHtmlHelper htmlHelper, string teamName, int teamId, int year)
         {
-            var extraParameters = new RouteValueDictionary
+            var extraParameters = new Dictionary<string, int?>
                                   {
                                       { "teamId", teamId },
                                       { "year", year == Consts.CurrentYear ? (int?)null : year }
@@ -152,16 +147,16 @@ namespace Tcbcsl.Presentation.Helpers
             return htmlHelper.ActionLink(teamName, "View", "Team", extraParameters, null);
         }
 
-        public static MvcHtmlString ToLines<T>(this IEnumerable<T> items)
+        public static IHtmlContent ToLines<T>(this IEnumerable<T> items)
         {
-            return MvcHtmlString.Create(string.Join("<br />", items.Where(i => i != null).Select(i => i.ToString())));
+            return new HtmlString(string.Join("<br />", items.Where(i => i != null).Select(i => i.ToString())));
         }
 
-        public static MvcHtmlString UrlToLink(this string url)
+        public static IHtmlContent UrlToLink(this string url)
         {
             return url == null
                        ? null
-                       : MvcHtmlString.Create($"<a href=\"{new UriBuilder(url).Uri}\" target=\"_blank\">{url}</a>");
+                       : new HtmlString($"<a href=\"{new UriBuilder(url).Uri}\" target=\"_blank\">{url}</a>");
         }
     }
 }

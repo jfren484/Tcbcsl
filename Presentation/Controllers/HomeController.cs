@@ -1,5 +1,6 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using Tcbcsl.Presentation.Models;
 using Tcbcsl.Presentation.Services;
 
 namespace Tcbcsl.Presentation.Controllers
@@ -13,22 +14,20 @@ namespace Tcbcsl.Presentation.Controllers
             _contentService = contentService;
         }
 
-        [Route("")]
-        public ActionResult Index()
+        public IActionResult Index()
         {
             return View(_contentService.GetCurrentNews());
         }
 
-        [Route("Unauthorized")]
-        public ActionResult Unauthorized()
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
         {
-            return View();
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [Route("Throw")]
-        public ActionResult Throw()
+        public IActionResult Privacy()
         {
-            throw new Exception("Test Error Page");
+            return View();
         }
     }
 }
