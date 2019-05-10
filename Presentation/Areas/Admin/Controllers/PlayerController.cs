@@ -7,7 +7,6 @@ using AutoMapper;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
-using Microsoft.AspNet.Identity;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {

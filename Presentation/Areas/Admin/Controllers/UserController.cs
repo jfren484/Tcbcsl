@@ -5,8 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using CsQuery.ExtensionMethods.Internal;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;

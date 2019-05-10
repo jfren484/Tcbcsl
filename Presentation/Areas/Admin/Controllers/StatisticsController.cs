@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using Microsoft.AspNet.Identity;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;

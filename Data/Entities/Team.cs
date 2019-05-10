@@ -16,7 +16,7 @@ namespace Tcbcsl.Data.Entities
         [InverseProperty("CurrentTeam")]
         public virtual ICollection<Player> Players { get; set; }
 
-        public virtual ICollection<TcbcslUser> ManagingUsers { get; set; }
+        public virtual ICollection<TcbcslUser> Managers { get; set; }
 
         public virtual ICollection<GameResultReport> GameResultReports { get; set; }
     }

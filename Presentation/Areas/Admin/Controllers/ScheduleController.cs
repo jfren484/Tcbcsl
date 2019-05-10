@@ -4,7 +4,6 @@ using System.Data.Entity.SqlServer;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using Microsoft.AspNet.Identity;
 using Tcbcsl.Data;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;

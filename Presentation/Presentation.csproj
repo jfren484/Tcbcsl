@@ -5,7 +5,12 @@
     <UserSecretsId>aspnet-Presentation-C01CD139-ED1A-4CB1-9945-82A0CA3C4D71</UserSecretsId>
     <AssemblyName>Tcbcsl.Presentation</AssemblyName>
     <RootNamespace>Tcbcsl.Presentation</RootNamespace>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\js\empty.ts" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="HtmlSanitizer" Version="4.0.210" />
@@ -16,6 +21,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\js\empty.ts" />
   </ItemGroup>
 
 </Project>
