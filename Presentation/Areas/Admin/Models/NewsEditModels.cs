@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
@@ -32,7 +29,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         [Required]
         [UIHint("HtmlEditor")]
-        [AllowHtml]
         public string Content { get; set; }
 
         [Display(Name = "")]

@@ -3,12 +3,12 @@
     const string title = "Manage Teams";
     ViewBag.Title = title + Model.YearModel.Year.AsTitleSuffix();
 }
-@Html.Partial("_YearPartial", Model.YearModel)
+<partial name="_YearPartial" for="YearModel" />
 <h2>@title</h2>
 @using (Html.BeginForm())
 {
     @Html.Hidden("Year", Model.YearModel.Year)
-    @Html.Partial("_AdminListTable", new AdminListTableModel { ListItemName = "Team", CreateItemUrl = Url.Action("Create") })
+    <partial name="_AdminListTable" model='new AdminListTableModel { ListItemName = "Team", CreateItemUrl = Url.Action("Create") }' />
     <input type="submit" value="Save Changes" />
 }
 

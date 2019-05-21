@@ -1,10 +1,9 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using Tcbcsl.Presentation.Services;
 
 namespace Tcbcsl.Presentation.Controllers
 {
-    [RoutePrefix("Schedule")]
     public class ScheduleController : ControllerBase
     {
         #region Constructor and Private Fields
@@ -27,7 +26,7 @@ namespace Tcbcsl.Presentation.Controllers
 
             if (model == null)
             {
-                return HttpNotFound($"No games found for {date?.ToString(Consts.DateFormatDisplay)}.");
+                return NotFound($"No games found for {date?.ToString(Consts.DateFormatDisplay)}.");
             }
 
             return View(model);

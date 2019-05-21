@@ -4,7 +4,7 @@
     ViewBag.Title = title;
 }
 <h2>@title</h2>
-@Html.Partial("_AdminListTable", new AdminListTableModel { ListItemName = "Church", CreateItemUrl = Url.Action("Create") })
+<partial name="_AdminListTable" model='new AdminListTableModel { ListItemName = "Church", CreateItemUrl = Url.Action("Create") }' />
 
 @section scripts
 {

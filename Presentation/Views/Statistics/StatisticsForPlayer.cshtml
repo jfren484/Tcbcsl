@@ -8,14 +8,17 @@
         ? "Career"
         : "Season";
 }
-@Html.Partial("_YearsPartial", Model.Year)
+<partial name="_YearsPartial" model="@Model.Year" />
 <h2>@title</h2>
 <div id="chart"></div>
-@Html.Partial("_StatsTable", "statsTable")
+<partial name="_StatsTable" model='"statsTable"' />
 <p>* The second AVG column is @(statsRenderMethod.ToLower())-to-date cummulative average.</p>
 @section scripts
-{
-    @Scripts.Render("~/bundles/highcharts")
+    {
+    <script src="~/lib/highcharts/highcharts.js"></script>
+    <script src="~/lib/highcharts/modules/series-label.js"></script>
+    <script src="~/lib/highcharts/modules/exporting.js"></script>
+    <script src="~/lib/highcharts/modules/export-data.js"></script>
     <script>
         $(function () {
             statstable_RenderPlayer@(statsRenderMethod)Stats('@ajaxData');
@@ -96,15 +99,18 @@
             id: 'ToDateOnBasePlusSlugging',
             name: 'On-base + Slugging',
             visible: false
-@{
+        }];
+
+@if  (Model.Year == YearEnum.All)
+{
     <text>
-        }, {
+        seriesData.push({
             id: 'Games',
             name: 'Games',
             visible: false
+        });
     </text>
 }
-        }];
 
         var statsChart = Highcharts.chart('chart', {
             chart: {

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using AutoMapper;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -11,13 +12,10 @@ using Tcbcsl.Presentation.Helpers;
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(Roles = Roles.LeagueCommissioner + ", " + Roles.TeamCoach)]
-    [RouteArea("Admin")]
-    [RoutePrefix("Player")]
     public class PlayerController : AdminControllerBase
     {
         #region List
 
-        [Route("")]
         public ActionResult List()
         {
             var model = new PlayerEditModel
@@ -34,7 +32,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Route("Data")]
         public JsonResult Data()
         {
             var data = SelectPlayerEditModels(DbContext.Players
@@ -51,7 +48,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
             if (Request.Cookies["lastTeamId"] != null)
             {
-                model.Team.TeamId = int.Parse(Request.Cookies["lastTeamId"].Value);
+                model.Team.TeamId = int.Parse(Request.Cookies["lastTeamId"]);
             }
 
             PopulateDropdownLists(model);
@@ -74,7 +71,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #region Create/Edit
 
-        [Route("Create")]
         public ActionResult Create()
         {
             var model = new PlayerEditModel
@@ -88,7 +84,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Route("Create")]
         public ActionResult Create(PlayerEditModel model)
         {
             var player = Mapper.Map<Player>(model);
@@ -105,7 +100,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var player = DbContext.Players.SingleOrDefault(p => p.PlayerId == id);
             if (player == null || !User.IsTeamIdValidForUser(player.CurrentTeamId))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var model = Mapper.Map<PlayerEditModel>(player);
@@ -121,7 +116,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var player = DbContext.Players.SingleOrDefault(p => p.PlayerId == id);
             if (player == null || !User.IsTeamIdValidForUser(player.CurrentTeamId))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             Mapper.Map(model, player);
@@ -142,16 +137,15 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var team = DbContext.Teams.SingleOrDefault(t => t.TeamId == teamId);
             if (player == null || team == null || !(User.IsTeamIdValidForUser(player.CurrentTeamId) && User.IsTeamIdValidForUser(teamId)))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             player.CurrentTeamId = teamId;
             DbContext.SaveChanges(User.Identity.GetUserId());
 
-            if (Request.Cookies["lastTeamId"] == null || Request.Cookies["lastTeamId"].Value != teamId.ToString())
+            if (Request.Cookies["lastTeamId"] == null || Request.Cookies["lastTeamId"] != teamId.ToString())
             {
-                var cookie = new HttpCookie("lastTeamId", teamId.ToString()) {Expires = DateTime.MaxValue};
-                Response.Cookies.Add(cookie);
+                Response.Cookies.Append("lastTeamId", teamId.ToString(), new CookieOptions { Expires = DateTime.MaxValue });
             }
 
             var data = SelectPlayerEditModels(DbContext.Players

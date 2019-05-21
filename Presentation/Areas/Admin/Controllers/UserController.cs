@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using MoreLinq;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using AutoMapper;
-using CsQuery.ExtensionMethods.Internal;
-using Microsoft.AspNet.Identity.Owin;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -13,20 +13,16 @@ using Tcbcsl.Presentation.Helpers;
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
-    [RouteArea("Admin")]
-    [RoutePrefix("User")]
     public class UserController : AdminControllerBase
     {
         #region List
 
-        [Route("")]
         public ActionResult List()
         {
             return View();
         }
 
         [HttpPost]
-        [Route("Data")]
         public JsonResult Data()
         {
             var data = DbContext.Users
@@ -36,8 +32,12 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                             var model = Mapper.Map<UserEditModel>(u);
                                             model.UrlForEdit = Url.Action("Edit", new {id = model.Id});
 
-                                            var userRoleIds = u.Roles.Select(r => r.RoleId).ToList();
-                                            model.Roles.SelectedRoleNames = Mapper.Map<string>(DbContext.Roles.Where(r => userRoleIds.Contains(r.Id)));
+                                            var usersRoles = (from ur in DbContext.UserRoles
+                                                              join r in DbContext.Roles
+                                                              on ur.RoleId equals r.Id
+                                                              where ur.UserId == model.Id
+                                                              select r).ToList();
+                                            model.Roles.SelectedRoleNames = Mapper.Map<string>(usersRoles);
 
                                             return model;
                                         });
@@ -55,7 +55,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var user = Mapper.Map<UserEditModel>(DbContext.Users.SingleOrDefault(u => u.Id == id));
             if (user == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var allTeams = DbContext.Teams
@@ -78,38 +78,36 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var user = DbContext.Users.SingleOrDefault(u => u.Id == id);
             if (user == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             Mapper.Map(model, user);
 
             // Update assigned teams
-            var teamChanges = ChangeTracker.GetChangeSets(user.AssignedTeams, model.AssignedTeams?.TeamIds ?? new List<int>(), t => t.TeamId, i => i);
+            var teamChanges = ChangeTracker.GetChangeSets(user.TeamsManaged, model.AssignedTeams?.TeamIds ?? new List<int>(), t => t.TeamId, i => i);
             foreach (var teamToRemove in teamChanges.LeftOnly)
             {
-                user.AssignedTeams.Remove(teamToRemove);
+                user.TeamsManaged.Remove(teamToRemove);
             }
             if (teamChanges.RightOnly.Any())
             {
-                user.AssignedTeams.AddRange(DbContext.Teams.Where(t => teamChanges.RightOnly.Contains(t.TeamId)));
+                DbContext.Teams.Where(t => teamChanges.RightOnly.Contains(t.TeamId)).ForEach(user.TeamsManaged.Add);
             }
 
             // Update roles
-            var roleChanges = ChangeTracker.GetChangeSets(user.Roles, model.Roles.RoleIds ?? new List<string>(), r => r.RoleId, s => s);
-            foreach (var roleToRemove in roleChanges.LeftOnly)
+            var userRoles = DbContext.UserRoles.Where(ur => ur.UserId == user.Id).ToList();
+            var modelRoleIds = model.Roles.RoleIds ?? new List<string>();
+            var roleChanges = ChangeTracker.GetChangeSets(userRoles, modelRoleIds, r => r.RoleId, s => s);
+
+            if (roleChanges.LeftOnly.Any())
             {
-                user.Roles.Remove(roleToRemove);
+                DbContext.UserRoles.RemoveRange(roleChanges.LeftOnly);
             }
+
             if (roleChanges.RightOnly.Any())
             {
-                user.Roles.AddRange(DbContext.Roles
-                                             .ToList()
-                                             .Where(r => roleChanges.RightOnly.Contains(r.Id))
-                                             .Select(r => new IdentityUserRole
-                                                          {
-                                                              UserId = user.Id,
-                                                              RoleId = r.Id
-                                                          }));
+                var newUserRoles = roleChanges.RightOnly.Select(roleId => new IdentityUserRole<string> { UserId = user.Id, RoleId = roleId });
+                DbContext.UserRoles.AddRange(newUserRoles);
             }
 
             DbContext.SaveChanges(User.Identity.GetUserId());
@@ -119,19 +117,19 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #endregion
 
-        #region Reset Password
+        //#region Reset Password
 
-        [Route("ResetPassword/{id}")]
-        [HttpPost]
-        public async Task<ActionResult> ResetUserPassword(string id)
-        {
-            var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var resetToken = await userManager.GeneratePasswordResetTokenAsync(id);
-            var passwordChangeResult = await userManager.ResetPasswordAsync(id, resetToken, "Password#1");
+        //[Route("ResetPassword/{id}")]
+        //[HttpPost]
+        //public async Task<ActionResult> ResetUserPassword(string id)
+        //{
+        //    var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        //    var resetToken = await userManager.GeneratePasswordResetTokenAsync(id);
+        //    var passwordChangeResult = await userManager.ResetPasswordAsync(id, resetToken, "Password#1");
 
-            return Json(passwordChangeResult);
-        }
+        //    return Json(passwordChangeResult);
+        //}
 
-        #endregion
+        //#endregion
     }
 }

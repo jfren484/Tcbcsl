@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
-using AutoMapper;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -9,22 +10,19 @@ using Tcbcsl.Presentation.Helpers;
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(Roles = Roles.LeagueCommissioner + ", " + Roles.TeamCoach)]
-    [RouteArea("Admin")]
-    [RoutePrefix("GameResults")]
     public class GameResultsController : AdminControllerBase
     {
         #region List
 
-        [Route("")]
-        public ActionResult Default()
+        public ActionResult List()
         {
-            if (!UserCache.AssignedTeams.Any() && !User.IsInRole(Roles.LeagueCommissioner))
+            if (!AssignedTeams.Any() && !User.IsInRole(Roles.LeagueCommissioner))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
-            var teamId = UserCache.AssignedTeams.Any()
-                             ? UserCache.AssignedTeams.First().Key
+            var teamId = AssignedTeams.Any()
+                             ? AssignedTeams.First().Key
                              : DbContext.TeamYears
                                         .First(ty => ty.Year == Consts.CurrentYear)
                                         .TeamId;
@@ -38,7 +36,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamId == id && ty.Year == year);
             if (teamYear == null || !User.IsTeamIdValidForUser(id))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var model = Mapper.Map<GameResultsListModel>(teamYear);
@@ -84,7 +82,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var gameParticipant = DbContext.GameParticipants.SingleOrDefault(gp => gp.GameParticipantId == id);
             if (gameParticipant == null || !User.IsTeamIdValidForUser(gameParticipant.TeamYear.TeamId))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var model = Mapper.Map<GameResultsEditModel>(gameParticipant.Game);
@@ -100,7 +98,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var gameParticipant = DbContext.GameParticipants.SingleOrDefault(gp => gp.GameParticipantId == id);
             if (gameParticipant == null || !User.IsTeamIdValidForUser(gameParticipant.TeamYear.TeamId))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var newReport = Mapper.Map<GameResultReport>(model.NewReport);

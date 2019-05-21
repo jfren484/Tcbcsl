@@ -1,5 +1,5 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Html;
+using System;
 
 namespace Tcbcsl.Presentation.Models
 {
@@ -14,6 +14,6 @@ namespace Tcbcsl.Presentation.Models
     {
         public string Tag { get; set; }
         public string Title { get; set; }
-        public MvcHtmlString Content { get; set; }
+        public HtmlString Content { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model TeamPickerModel
 @if (Model.Teams.Count > 1)
 {
-    var dict = new RouteValueDictionary(ViewContext.RouteData.Values);
+    var dict = new Microsoft.AspNetCore.Routing.RouteValueDictionary(ViewContext.RouteData.Values);
 
     <div class="btn-group dropdown year-dropdown">
         <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -10,7 +10,7 @@
         </button>
         <ul class="dropdown-menu">
             @foreach (var team in Model.Teams)
-                {
+            {
                     dict["id"] = team.TeamId;
                     var activeClass = team.TeamId == Model.TeamId ? "active" : "";
                     var url = team.TeamId == Model.TeamId ? "" : Url.RouteUrl(dict);

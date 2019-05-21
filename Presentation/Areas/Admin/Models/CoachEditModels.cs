@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
@@ -19,7 +18,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         [Display(Name = "Other Info")]
         [UIHint("HtmlEditor")]
-        [AllowHtml]
         public string Comments { get; set; }
 
         [Display(Name = "Has Coached")]

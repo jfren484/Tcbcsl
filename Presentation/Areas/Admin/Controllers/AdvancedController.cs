@@ -1,17 +1,14 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Win32;
 using System;
-using System.Web.Mvc;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Helpers;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
-    [RouteArea("Admin")]
-    [RoutePrefix("Advanced")]
     public class AdvancedController : Controller
     {
-        [Route("FrameworkVersion")]
         public ActionResult FrameworkVersion()
         {
             var version = Get45or451FromRegistry();

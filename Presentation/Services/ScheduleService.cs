@@ -1,7 +1,7 @@
-﻿using MoreLinq;
+﻿using Microsoft.EntityFrameworkCore;
+using MoreLinq;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.SqlServer;
 using System.Linq;
 using Tcbcsl.Data;
 using Tcbcsl.Data.Entities;
@@ -87,7 +87,7 @@ namespace Tcbcsl.Presentation.Services
         private  DateTime GetClosestGameDate()
         {
             var dateQuery = from g in _dbContext.Games
-                            orderby Math.Abs(SqlFunctions.DateDiff("day", g.GameDate, CentralTimeZone.Now).Value)
+                            orderby Math.Abs(EF.Functions.DateDiffDay(g.GameDate, CentralTimeZone.Now))
                             select g.GameDate;
 
             return dateQuery.First().Date;
@@ -199,7 +199,7 @@ namespace Tcbcsl.Presentation.Services
             var scheduleDate = date ?? GetClosestGameDate();
 
             var gamesOnDate = _dbContext.Games
-                                       .Where(g => SqlFunctions.DateDiff("day", g.GameDate, scheduleDate) == 0)
+                                       .Where(g => EF.Functions.DateDiffDay(g.GameDate, scheduleDate) == 0)
                                        .ToList();
 
             if (!gamesOnDate.Any())

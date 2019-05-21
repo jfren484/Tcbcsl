@@ -1,5 +1,6 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Controllers
@@ -13,12 +14,12 @@ namespace Tcbcsl.Presentation.Controllers
                                    .SingleOrDefault(pc => pc.PageTag == tag);
 
             return content == null
-                       ? (ActionResult)HttpNotFound()
+                       ? (ActionResult)NotFound()
                        : View(new PageContentModel
                               {
                                   Tag = content.PageTag,
                                   Title = content.Title,
-                                  Content = MvcHtmlString.Create(content.Content)
+                                  Content = new HtmlString(content.Content)
                               });
         }
     }

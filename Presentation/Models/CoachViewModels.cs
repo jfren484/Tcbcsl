@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Html;
+using System.Collections.Generic;
 
 namespace Tcbcsl.Presentation.Models
 {
@@ -25,7 +25,7 @@ namespace Tcbcsl.Presentation.Models
     public class CoachListCoachModel
     {
         public string Name { get; set; }
-        public MvcHtmlString Comments { get; set; }
+        public HtmlString Comments { get; set; }
         public ContactInfoModel ContactInfo { get; set; }
     }
 }

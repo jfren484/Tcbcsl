@@ -1,22 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
-using AutoMapper;
+using Tcbcsl.Data;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
-using Tcbcsl.Data;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(Roles = Roles.LeagueCommissioner + ", " + Roles.TeamCoach)]
-    [RouteArea("Admin")]
-    [RoutePrefix("News")]
     public class NewsController : AdminControllerBase
     {
         #region List
 
-        [Route("")]
         public ActionResult List()
         {
             return View(new NewsEditModel
@@ -26,7 +23,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Route("Data")]
         public JsonResult Data()
         {
             var data = DbContext.NewsItems
@@ -53,7 +49,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #region Create/Edit
 
-        [Route("Create")]
         public ActionResult Create()
         {
             var model = new NewsEditModel
@@ -73,12 +68,11 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Route("Create")]
         public ActionResult Create(NewsEditModel model)
         {
             if (!User.IsTeamIdValidForUser(model.Team.TeamId))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var newsItem = Mapper.Map<NewsItem>(model);
@@ -94,7 +88,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var newsItem = DbContext.NewsItems.SingleOrDefault(n => n.NewsItemId == id);
             if (newsItem == null || !User.IsTeamIdValidForUser(newsItem.TeamId))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var model = Mapper.Map<NewsEditModel>(newsItem);
@@ -110,7 +104,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var newsItem = DbContext.NewsItems.SingleOrDefault(n => n.NewsItemId == id);
             if (newsItem == null || !User.IsTeamIdValidForUser(model.Team.TeamId))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             Mapper.Map(model, newsItem);
@@ -130,7 +124,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var newsItem = DbContext.NewsItems.SingleOrDefault(n => n.NewsItemId == id);
             if (newsItem == null || !User.IsTeamIdValidForUser(newsItem.Team?.TeamId))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             newsItem.IsActive = false;

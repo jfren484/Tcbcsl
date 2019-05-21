@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Html;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
@@ -6,6 +6,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
     {
         public string ListItemName { get; set; }
         public string CreateItemUrl { get; set; }
-        public MvcHtmlString CustomActionHeader { get; set; }
+        public HtmlString CustomActionHeader { get; set; }
     }
 }

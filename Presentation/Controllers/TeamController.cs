@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
 using Tcbcsl.Presentation.Models;
 using Tcbcsl.Presentation.Services;
 
@@ -69,7 +69,7 @@ namespace Tcbcsl.Presentation.Controllers
 
             if (teamYear == null)
             {
-                return HttpNotFound($"Team {teamId} not found for {year}.");
+                return NotFound($"Team {teamId} not found for {year}.");
             }
 
             var model = new TeamViewModel

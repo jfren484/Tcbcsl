@@ -1,9 +1,9 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using System.Data.Entity.SqlServer;
 using System.Linq;
-using System.Web.Mvc;
-using AutoMapper;
 using Tcbcsl.Data;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
@@ -13,8 +13,6 @@ using Tcbcsl.Presentation.Services;
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
-    [RouteArea("Admin")]
-    [RoutePrefix("Schedule")]
     public class ScheduleController : AdminControllerBase
     {
         #region Constructor and Private Fields
@@ -36,7 +34,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var now = CentralTimeZone.Now;
             var games = date == null
                             ? DbContext.Games.Where(g => !g.GameStatus.DisplayOutcome && g.GameDate < now && g.GameDate.Year == Consts.CurrentYear)
-                            : DbContext.Games.Where(g => SqlFunctions.DateDiff("day", g.GameDate, date.Value) == 0);
+                            : DbContext.Games.Where(g => EF.Functions.DateDiffDay(g.GameDate, date.Value) == 0);
 
             var bucketedGames = games.ToList()
                                      .ToLookup(g => ScheduleService.GetGameBucketForEdit(g, date != null));

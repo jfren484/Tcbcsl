@@ -8,7 +8,7 @@
     <div class="well">
         <fieldset>
             <legend>
-                @Html.Partial("_FormLegendEdit", Url.Action("Edit", new { id = Model.Team.TeamYearId }))
+                <partial name="_FormLegendEdit" model="@Url.Action("Edit", new { id = Model.Team.TeamYearId })" />
                 @Html.LabelFor(m => m.Team)
             </legend>
             @Html.EditorFor(m => m.Team.TeamName, new { IsReadOnly = true })
@@ -20,7 +20,7 @@
     <div class="well">
         <fieldset>
             <legend>
-                @Html.Partial("_FormLegendEdit", Url.Action("Edit", "Church", new { id = Model.Church.ChurchId }))
+                <partial name="_FormLegendEdit" model="@Url.Action("Edit", "Church", new { id = Model.Church.ChurchId })" />
                 @Html.LabelFor(m => m.Church)
             </legend>
             @Html.EditorFor(m => m.Church.FullName, new { IsReadOnly = true })
@@ -35,7 +35,7 @@
     <div class="well">
         <fieldset>
             <legend>
-                @Html.Partial("_FormLegendEdit", Url.Action("Edit", "Coach", new { id = Model.HeadCoach.CoachId }))
+                <partial name="_FormLegendEdit" model="@Url.Action("Edit", "Coach", new { id = Model.HeadCoach.CoachId })" />
                 @Html.LabelFor(m => m.HeadCoach)
             </legend>
             @Html.EditorFor(m => m.HeadCoach.FirstName, new { IsReadOnly = true })

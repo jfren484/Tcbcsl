@@ -17,7 +17,7 @@
             @Html.EditorFor(m => m.Clinch)
             @Html.EditorFor(m => m.FieldInformation, new { IsReadonly = Model.YearModel.Year != Consts.CurrentYear })
             @Html.EditorFor(m => m.Comments, new { IsReadonly = Model.YearModel.Year != Consts.CurrentYear })
-            @Html.Partial("_FormCancelSubmit", Model)
+            <partial name="_FormCancelSubmit" model="Model" />
         </fieldset>
     }
 </div>

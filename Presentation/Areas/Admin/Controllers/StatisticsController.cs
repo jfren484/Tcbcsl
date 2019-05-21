@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
-using AutoMapper;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -9,8 +10,6 @@ using Tcbcsl.Presentation.Helpers;
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(Roles = Roles.LeagueCommissioner + ", " + Roles.TeamCoach)]
-    [RouteArea("Admin")]
-    [RoutePrefix("Statistics")]
     public class StatisticsController : AdminControllerBase
     {
         #region Game
@@ -21,7 +20,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var gameParticipant = DbContext.GameParticipants.SingleOrDefault(gp => gp.GameParticipantId == id);
             if (gameParticipant == null || !User.IsTeamIdValidForUser(gameParticipant.TeamYear.TeamId))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var model = Mapper.Map<StatisticsEditModel>(gameParticipant);
@@ -48,7 +47,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var gameParticipant = DbContext.GameParticipants.SingleOrDefault(gp => gp.GameParticipantId == id);
             if (gameParticipant == null || !User.IsTeamIdValidForUser(gameParticipant.TeamYear.TeamId))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var changes = ChangeTracker.GetChangeSets(gameParticipant.StatLines, model.StatLines, e => e.StatLineId, m => m.StatLineId);
@@ -80,7 +79,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         {
             if (!User.IsTeamIdValidForUser(id))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var model = new StatisticsEditModel

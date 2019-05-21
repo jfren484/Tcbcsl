@@ -3,15 +3,20 @@
 }
 @section head
 {
-    @Styles.Render("~/Content/admin")
+    @*@Styles.Render("~/Content/admin")*@
     @RenderSection("head", required: false)
 }
 @RenderBody()
 @section scripts
 {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/admin")
-    <script src="/Scripts/tinymce/tinymce.min.js"></script>
+    <environment include="Development">
+        <script src="~/js/admin.js" asp-append-version="true"></script>
+    </environment>
+    @* TODO: bundling and minification *@
+    <environment exclude="Development">
+        <script src="~/js/admin.min.js" asp-append-version="true"></script>
+    </environment>
+    <script src="~/lib/tinymce/tinymce.min.js"></script>
     @RenderSection("scripts", required: false)
 }
 

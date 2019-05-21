@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using Tcbcsl.Data.Entities;
+using Tcbcsl.Data.Identity;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Helpers
@@ -76,17 +77,20 @@ namespace Tcbcsl.Presentation.Helpers
 
         public static IEnumerable<T> FilterTeamsForUser<T>(this IEnumerable<T> allEntities, IPrincipal userPrincipal, Func<T, int?> getTeamId)
         {
-            var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var tcbcslUser = userManager.FindById(userPrincipal.Identity.GetUserId());
+            //var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            //var tcbcslUser = userManager.FindById(userPrincipal.Identity.GetUserId());
 
-            if (userManager.IsInRole(tcbcslUser.Id, Roles.LeagueCommissioner))
-            {
-                return allEntities;
-            }
+            //if (userManager.IsInRole(tcbcslUser.Id, Roles.LeagueCommissioner))
+            //{
+            //    return allEntities;
+            //}
 
-            var teamIds = tcbcslUser.AssignedTeams.Select(at => (int?)at.TeamId).ToList();
+            //var teamIds = tcbcslUser.AssignedTeams.Select(at => (int?)at.TeamId).ToList();
 
-            return allEntities.Where(n => teamIds.Contains(getTeamId(n)));
+            //return allEntities.Where(n => teamIds.Contains(getTeamId(n)));
+
+            // TODO: handle this
+            return allEntities;
         }
 
         public static object GameStatsField(this IHtmlHelper htmlHelper, object statInfo, int gameId)
@@ -104,30 +108,44 @@ namespace Tcbcsl.Presentation.Helpers
                                                              }, null);
         }
 
+        public static string GetUserId(this IIdentity identity)
+        {
+            throw new NotImplementedException();
+        }
+
         public static bool IsTeamIdValidForUser(this IPrincipal userPrincipal, int? teamId)
         {
-            var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var tcbcslUser = userManager.FindById(userPrincipal.Identity.GetUserId());
+            //var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            //var tcbcslUser = userManager.FindById(userPrincipal.Identity.GetUserId());
 
-            return userManager.IsInRole(tcbcslUser.Id, Roles.LeagueCommissioner)
-                   || teamId == Consts.PlayerPoolTeamId
-                   || tcbcslUser.AssignedTeams.Any(at => at.TeamId == teamId);
+            //return userManager.IsInRole(tcbcslUser.Id, Roles.LeagueCommissioner)
+            //       || teamId == Consts.PlayerPoolTeamId
+            //       || tcbcslUser.AssignedTeams.Any(at => at.TeamId == teamId);
+
+            // TODO: handle this
+            return true;
         }
 
         public static bool IsUserInRole(this IPrincipal userPrincipal, string role)
         {
-            return HttpContext.Current
-                              .GetOwinContext()
-                              .GetUserManager<ApplicationUserManager>()
-                              .IsInRole(userPrincipal.Identity.GetUserId(), role);
+            //return HttpContext.Current
+            //                  .GetOwinContext()
+            //                  .GetUserManager<ApplicationUserManager>()
+            //                  .IsInRole(userPrincipal.Identity.GetUserId(), role);
+
+            // TODO: handle this
+            return true;
         }
 
         public static TcbcslUser TcbcslUser(this IPrincipal userPrincipal)
         {
-            return HttpContext.Current
-                              .GetOwinContext()
-                              .GetUserManager<ApplicationUserManager>()
-                              .FindByName(userPrincipal.Identity.Name);
+            //return HttpContext.Current
+            //                  .GetOwinContext()
+            //                  .GetUserManager<ApplicationUserManager>()
+            //                  .FindByName(userPrincipal.Identity.Name);
+
+            // TODO: handle this
+            return new TcbcslUser();
         }
 
         public static string Sanitize(this string htmlString)
@@ -152,7 +170,7 @@ namespace Tcbcsl.Presentation.Helpers
             return new HtmlString(string.Join("<br />", items.Where(i => i != null).Select(i => i.ToString())));
         }
 
-        public static IHtmlContent UrlToLink(this string url)
+        public static HtmlString UrlToLink(this string url)
         {
             return url == null
                        ? null

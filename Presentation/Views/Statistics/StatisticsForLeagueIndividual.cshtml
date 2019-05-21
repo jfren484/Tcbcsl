@@ -3,7 +3,7 @@
     const string title = "Statistics - League - Individual";
     ViewBag.Title = title + Model.Year.AsTitleSuffix();
 }
-@Html.Partial("_YearsPartial", Model.Year)
+<partial name="_YearsPartial" model="@Model.Year" />
 <h2>@title</h2>
 @*<nav class="navbar navbar-default">
     <p class="navbar-text">Filter</p>
@@ -16,7 +16,7 @@
         </li>
     </ul>
 </nav>*@
-@Html.Partial("_StatsTable", "statsTable")
+<partial name="_StatsTable" model='"statsTable"' />
 @section scripts
 {
     <script>

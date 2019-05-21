@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
@@ -18,7 +17,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         [Required]
         [UIHint("HtmlEditor")]
-        [AllowHtml]
         public string Content { get; set; }
     }
 }

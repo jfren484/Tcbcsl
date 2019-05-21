@@ -6,7 +6,7 @@
     var showTeam = (Model.Team.Teams.Count > 1).ToString().ToLower();
 }
 <h2>@title</h2>
-@Html.Partial("_AdminListTable", new AdminListTableModel {ListItemName = "News", CreateItemUrl = Url.Action("Create")})
+<partial name="_AdminListTable" model='new AdminListTableModel { ListItemName = "News", CreateItemUrl = Url.Action("Create") }' />
 
 @section scripts
 {

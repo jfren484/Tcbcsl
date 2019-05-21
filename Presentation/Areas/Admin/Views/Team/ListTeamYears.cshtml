@@ -3,11 +3,11 @@
     var title = $"Transfer Teams to {Consts.CurrentYear}";
     ViewBag.Title = title + Model.YearModel.Year.AsTitleSuffix();
 }
-@Html.Partial("_YearPartial", Model.YearModel)
+<partial name="_YearPartial" for="YearModel" />
 <h2>@title</h2>
 @using (Html.BeginForm("Transfer", "Team", FormMethod.Post))
 {
-    @Html.Partial("_AdminListTable", new AdminListTableModel {CustomActionHeader = new MvcHtmlString("<label><input class=\"select-all\" type=\"checkbox\" checked=\"checked\" /> Select/Deselect All</label>")})
+    <partial name="_AdminListTable" model='new AdminListTableModel { CustomActionHeader = new HtmlString("<label><input class=\"select-all\" type=\"checkbox\" checked=\"checked\" /> Select/Deselect All</label>") }' />
     <input type="submit" value="Transfer Teams"/>
 }
 

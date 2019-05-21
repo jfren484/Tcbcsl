@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Html;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Models
 {
     public class ContactInfoModel
     {
-        public MvcHtmlString EmailAddress { get; set; }
+        public HtmlString EmailAddress { get; set; }
         public AddressInfoModel Address { get; set; }
         public List<string> PhoneNumbers { get; set; }
     }

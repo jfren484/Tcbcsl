@@ -6,7 +6,7 @@
 <div class="modal calendar-modal">
     <div class="modal-dialog">
         <div class="modal-content calendar-content">
-            @Html.Action("YearCalendar", new { year = Model.Date.Year, activeDate = Model.Date.ToString(Consts.DateFormat) })
+            <a asp-action="YearCalendar" asp-route-year="@Model.Date.Year" asp-route-activeDate="@Model.Date.ToString(Consts.DateFormat)"></a>
         </div>
     </div>
 </div>

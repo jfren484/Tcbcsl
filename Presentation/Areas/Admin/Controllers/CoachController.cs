@@ -1,23 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
-using AutoMapper;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
-using MoreLinq;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(Roles = Roles.LeagueCommissioner + ", " + Roles.TeamCoach)]
-    [RouteArea("Admin")]
-    [RoutePrefix("Coach")]
     public class CoachController : AdminControllerBase
     {
         #region List
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
-        [Route("")]
         public ActionResult List()
         {
             return View();
@@ -25,7 +21,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
         [HttpPost]
-        [Route("Data")]
         public JsonResult Data()
         {
             var data = DbContext.Coaches
@@ -46,7 +41,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         #region Create/Edit
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
-        [Route("Create")]
         public ActionResult Create()
         {
             return View("Edit", new CoachEditModel
@@ -64,7 +58,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
         [HttpPost]
-        [Route("Create")]
         public ActionResult Create(CoachEditModel model)
         {
             var coach = Mapper.Map<Coach>(model);
@@ -84,14 +77,17 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                        .Where(ty => ty.Year == Consts.CurrentYear)
                                        .Any(ty => User.IsTeamIdValidForUser(ty.TeamId)))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var model = Mapper.Map<CoachEditModel>(coach);
             model.Address.State.ItemSelectList = GetStatesSelectList(coach.Address?.StateId);
 
             var phoneTypes = GetPhoneTypes();
-            model.PhoneNumbers.ForEach(pn => { pn.PhoneTypes = phoneTypes; });
+            foreach (var pn in model.PhoneNumbers)
+            {
+                pn.PhoneTypes = phoneTypes;
+            }
 
             return View(model);
         }
@@ -105,7 +101,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                        .Where(ty => ty.Year == Consts.CurrentYear)
                                        .Any(ty => User.IsTeamIdValidForUser(ty.TeamId)))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             Mapper.Map(model, coach);

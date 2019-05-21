@@ -1,19 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using AutoMapper;
 using Tcbcsl.Presentation.Areas.Admin.Models;
-using System.Web.Mvc;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
+    [Route("Admin/[controller]")]
     public abstract class AdminControllerBase : Presentation.Controllers.ControllerBase
     {
         #region Custom Return methods
 
-        protected static ActionResult HttpOk()
+        // TODO: Remove this
+        protected ActionResult HttpOk()
         {
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+            return Ok();// new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         #endregion

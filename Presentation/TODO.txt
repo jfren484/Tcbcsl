@@ -1,1 +1,14 @@
 ﻿Privacy policy
+Bundling/minification
+
+Routes in form action/id
+
+AllowHtml and MvcHtmlString Checks (edit and display)
+	AdminHeader.CustomAction
+	Church.Information
+	Church.Website
+	Coach.Comments
+	Contact.EmailAddress
+	Page.Content
+	Team.FieldInformation
+	Team.Comments

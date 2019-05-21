@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// ReSharper disable UnusedMember.Global
-
-namespace Tcbcsl.Presentation.Models
+﻿namespace Tcbcsl.Presentation.Models
 {
     public enum YearEnum
     {
@@ -21,6 +18,9 @@ namespace Tcbcsl.Presentation.Models
         _2013 = 2013,
         _2014 = 2014,
         _2015 = 2015,
-        _2016 = 2016
+        _2016 = 2016,
+        _2017 = 2017,
+        _2018 = 2018,
+        _2019 = 2019
     }
 }

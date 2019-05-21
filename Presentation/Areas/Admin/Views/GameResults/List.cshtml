@@ -5,10 +5,10 @@
 }
 <div class="btn-group pull-right">
     @Html.EditorFor(m => m.Team)
-    @Html.Partial("_YearPartial", Model.Team)
+    <partial name="_YearPartial" for="Team" />
 </div>
 <h2>@title</h2>
-@Html.Partial("_AdminListTable", new AdminListTableModel { ListItemName = "Game" })
+<partial name="_AdminListTable" model='new AdminListTableModel { ListItemName = "Game" }' />
 <p>* - Pending Confirmation</p>
 
 @section scripts

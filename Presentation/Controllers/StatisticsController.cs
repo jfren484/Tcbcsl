@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Helpers;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Controllers
 {
-    [RoutePrefix("Statistics")]
     public class StatisticsController : ControllerBase
     {
         #region Game
@@ -18,7 +17,7 @@ namespace Tcbcsl.Presentation.Controllers
             var game = DbContext.Games.SingleOrDefault(g => g.GameId == gameId);
             if (game == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var teams = game.GameParticipants
@@ -53,7 +52,7 @@ namespace Tcbcsl.Presentation.Controllers
             var gameParticipant = DbContext.GameParticipants.SingleOrDefault(gp => gp.GameParticipantId == gameParticipantId);
             if (gameParticipant == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var data = gameParticipant.StatLines
@@ -246,7 +245,7 @@ namespace Tcbcsl.Presentation.Controllers
             var player = DbContext.Players.FirstOrDefault(ty => ty.PlayerId == playerId);
             if (player == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var model = new PlayerStatisticsPageModel
@@ -270,7 +269,7 @@ namespace Tcbcsl.Presentation.Controllers
             var player = DbContext.Players.FirstOrDefault(ty => ty.PlayerId == playerId);
             if (player == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var data = year == YearEnum.All
@@ -371,7 +370,7 @@ namespace Tcbcsl.Presentation.Controllers
                                     .FirstOrDefault(ty => ty.TeamId == teamId && (year == YearEnum.All || ty.Year == (int)year));
             if (teamYear == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var model = new TeamStatisticsPageModel
@@ -398,7 +397,7 @@ namespace Tcbcsl.Presentation.Controllers
                 var team = DbContext.Teams.SingleOrDefault(ty => ty.TeamId == teamId);
                 if (team == null)
                 {
-                    return HttpNotFound();
+                    return NotFound();
                 }
 
                 gameParticipants = team.TeamYears.SelectMany(ty => ty.GameParticipants);
@@ -408,7 +407,7 @@ namespace Tcbcsl.Presentation.Controllers
                 var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamId == teamId && ty.Year == (int)year);
                 if (teamYear == null)
                 {
-                    return HttpNotFound();
+                    return NotFound();
                 }
 
                 gameParticipants = teamYear.GameParticipants;

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Web;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
 {
@@ -13,7 +12,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         protected EditModelBase()
         {
-            UrlForReturn = HttpContext.Current?.Request.UrlReferrer?.PathAndQuery;
+            // TODO: UrlForReturn = HttpContext.Current?.Request.UrlReferrer?.PathAndQuery;
         }
     }
 }

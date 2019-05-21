@@ -1,9 +1,5 @@
 ﻿using System;
 
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable UnusedMember.Global
-
 namespace Tcbcsl.Presentation.Models
 {
     #region Models for primary Actions

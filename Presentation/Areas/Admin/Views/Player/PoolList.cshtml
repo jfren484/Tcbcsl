@@ -3,8 +3,8 @@
     const string title = "Player Pool";
 }
 <h2>@title</h2>
-@Html.Partial("_AdminListTable", new AdminListTableModel { ListItemName = "Player" })
-@Html.Partial("_TeamPickerModal", Model)
+<partial name="_AdminListTable" model='new AdminListTableModel { ListItemName = "Player" }' />
+<partial name="_TeamPickerModal" for="@Model" />
 
 @section scripts
 {

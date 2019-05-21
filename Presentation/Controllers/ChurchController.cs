@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using System.Web.Mvc;
 using Tcbcsl.Presentation.Helpers;
 using Tcbcsl.Presentation.Models;
 
@@ -20,7 +21,7 @@ namespace Tcbcsl.Presentation.Controllers
                               {
                                   Name = ch.FullName,
                                   Website = ch.Website.UrlToLink(),
-                                  Information = string.IsNullOrWhiteSpace(ch.Information) ? null : MvcHtmlString.Create(ch.Information),
+                                  Information = string.IsNullOrWhiteSpace(ch.Information) ? null : new HtmlString(ch.Information),
                                   ContactInfo = Mapper.Map<ContactInfoModel>(ch)
                 })
                 .ToList();

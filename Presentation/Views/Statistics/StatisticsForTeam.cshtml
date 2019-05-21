@@ -3,9 +3,9 @@
     var title = $"Statistics - {Model.Team.TeamName}";
     ViewBag.Title = title + Model.Year.AsTitleSuffix();
 }
-@Html.Partial("_YearsPartial", Model.Year)
+<partial name="_YearsPartial" model="@Model.Year" />
 <h2>@title</h2>
-@Html.Partial("_StatsTable", "statsTable")
+<partial name="_StatsTable" model='"statsTable"' />
 @section scripts
 {
     <script>

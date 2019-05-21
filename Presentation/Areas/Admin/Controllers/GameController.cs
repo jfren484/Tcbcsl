@@ -1,7 +1,8 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Linq;
-using System.Web.Mvc;
-using AutoMapper;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -9,8 +10,6 @@ using Tcbcsl.Presentation.Helpers;
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(Roles = Roles.LeagueCommissioner + ", " + Roles.TeamCoach)]
-    [RouteArea("Admin")]
-    [RoutePrefix("Game")]
     public class GameController : AdminControllerBase
     {
         #region Create/Edit
@@ -62,7 +61,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var game = DbContext.Games.SingleOrDefault(g => g.GameId == id);
             if (game == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             var model = Mapper.Map<GameEditModel>(game);
@@ -79,7 +78,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var game = DbContext.Games.SingleOrDefault(g => g.GameId == id);
             if (game == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             Mapper.Map(model, game);
@@ -108,7 +107,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                            .SingleOrDefault(gp => gp.GameParticipantId == winnerGameParticipantId);
             if (gameParticipant == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             gameParticipant.Game.GameStatusId = GameStatus.Forfeited;
@@ -129,7 +128,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 .SingleOrDefault(g => g.GameId == gameId);
             if (game == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             game.GameStatusId = GameStatus.Postponed;
@@ -149,7 +148,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                                 .SingleOrDefault(g => g.GameId == gameId);
             if (game == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             game.GameStatusId = GameStatus.RainedOut;

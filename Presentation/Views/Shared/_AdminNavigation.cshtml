@@ -1,22 +1,24 @@
-﻿@if (Request.IsAuthenticated)
+﻿@if (User.Identity.IsAuthenticated)
 {
     var userIsCommissioner = User.IsInRole(Tcbcsl.Data.Entities.Roles.LeagueCommissioner);
     var userIsCoach = User.IsInRole(Tcbcsl.Data.Entities.Roles.TeamCoach);
 
-    var myTeamLinks = UserCache.AssignedTeams
-                               .SelectMany(kvp => new[]
-                                                  {
-                                                      Html.RouteLink($"Manage {kvp.Value} Information", new {area = "Admin", controller = "Team", action = "Manage", id = kvp.Key}),
-                                                      Html.RouteLink($"Game Results for {kvp.Value}", new {area = "Admin", controller = "GameResults", action = "List", id = kvp.Key, year = (int?)null})
-                                                  })
-                               .OrderBy(s => s.ToString());
+    // TODO: myTeamLinks
+    //var myTeamLinks = UserCache.AssignedTeams
+    //                           .SelectMany(kvp => new[]
+    //                                              {
+    //                                                  Html.RouteLink($"Manage {kvp.Value} Information", new {area = "Admin", controller = "Team", action = "Manage", id = kvp.Key}),
+    //                                                  Html.RouteLink($"Game Results for {kvp.Value}", new {area = "Admin", controller = "GameResults", action = "List", id = kvp.Key, year = (int?)null})
+    //                                              })
+    //                           .OrderBy(s => s.ToString());
+    var myTeamLinks = new List<string>();
 
     var adminAreaLinks = new[]
                          {
                              new {Link = Html.RouteLink("Churches",     new {area = "Admin", controller = "Church",      action = "List"},          null), CommishOnly = true  },
                              new {Link = Html.RouteLink("Coaches",      new {area = "Admin", controller = "Coach",       action = "List"},          null), CommishOnly = true  },
                              new {Link = Html.RouteLink("Game Results", new {area = "Admin", controller = "GameResults", action = "Default"},       null), CommishOnly = true  },
-                             new {Link = new MvcHtmlString("<a href=\"/Admin/Log\">Log</a>"),                                                              CommishOnly = true  },
+                             new {Link = (IHtmlContent)new HtmlString("<a href=\"/Admin/Log\">Log</a>"),                                                   CommishOnly = true  },
                              new {Link = Html.RouteLink("News",         new {area = "Admin", controller = "News",        action = "List"},          null), CommishOnly = false },
                              new {Link = Html.RouteLink("Page Content", new {area = "Admin", controller = "ContentItem", action = "List"},          null), CommishOnly = true  },
                              new {Link = Html.RouteLink("Players",      new {area = "Admin", controller = "Player",      action = "List"},          null), CommishOnly = false },
@@ -28,7 +30,7 @@
                          };
 
     <li class="dropdown @(userIsCoach ? "" : "visible-sm")">
-        @Html.Partial("_NavDropdownToggle", "Admin")
+        <partial name="_NavDropdownToggle" model='"Admin"' />
         <ul class="dropdown-menu">
             <li>@Html.RouteLink("Account", new {area = "", controller = "Manage", action = "Index"}, new {@class = "visible-sm"})</li>
             @if (userIsCoach)

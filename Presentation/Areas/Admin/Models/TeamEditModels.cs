@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Models
@@ -43,12 +43,10 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
 
         [Display(Name = "Field Information")]
         [UIHint("HtmlEditor")]
-        [AllowHtml]
         public string FieldInformation { get; set; }
 
         [Display(Name = "Other Info")]
         [UIHint("HtmlEditor")]
-        [AllowHtml]
         public string Comments { get; set; }
 
         public TeamEditModel()

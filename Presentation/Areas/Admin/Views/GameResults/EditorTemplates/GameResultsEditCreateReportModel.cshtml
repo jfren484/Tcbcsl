@@ -33,7 +33,7 @@
             {
                 @Html.HiddenFor(m => m.Team.TeamId)
             }
-            @Html.Partial("_FormCancelSubmit", Model)
+            <partial name="_FormCancelSubmit" model="Model" />
         </fieldset>
     }
 </div>

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using System.Web.Mvc;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Controllers
@@ -47,7 +48,7 @@ namespace Tcbcsl.Presentation.Controllers
                                                                           Name = $"{ty.HeadCoach.FirstName} {ty.HeadCoach.LastName}",
                                                                           Comments = string.IsNullOrWhiteSpace(ty.HeadCoach.Comments)
                                                                                          ? null
-                                                                                         : MvcHtmlString.Create(ty.HeadCoach.Comments),
+                                                                                         : new HtmlString(ty.HeadCoach.Comments),
                                                                           ContactInfo = Mapper.Map<ContactInfoModel>(ty.HeadCoach)
                                                               }
                                                           })

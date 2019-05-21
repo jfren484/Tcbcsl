@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
-using AutoMapper;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -10,8 +11,6 @@ using Tcbcsl.Presentation.Models;
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(Roles = Roles.LeagueCommissioner + ", " + Roles.TeamCoach)]
-    [RouteArea("Admin")]
-    [RoutePrefix("Team")]
     public class TeamController : AdminControllerBase
     {
         #region List
@@ -107,7 +106,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         #region Create/Edit
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
-        [Route("Create")]
         public ActionResult Create()
         {
             var model = new TeamEditModel {YearModel = new YearModel()};
@@ -119,7 +117,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
         [HttpPost]
-        [Route("Create")]
         public ActionResult Create(TeamEditModel model)
         {
             var teamYear = Mapper.Map<TeamYear>(model);
@@ -138,7 +135,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamYearId == id);
             if (teamYear == null || !User.IsTeamIdValidForUser(teamYear.TeamId))
             {
-                return HttpNotFound();
+                return NotFound();
             }   
 
             var model = Mapper.Map<TeamEditModel>(teamYear);
@@ -154,7 +151,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamYearId == id);
             if (teamYear == null || !User.IsTeamIdValidForUser(teamYear.TeamId))
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             Mapper.Map(model, teamYear);
@@ -201,7 +198,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         #region Transfer
 
-        [Route("Transfer")]
         public ActionResult Transfer(int[] teamYearIds)
         {
             var missingTeams = DbContext.TeamYears

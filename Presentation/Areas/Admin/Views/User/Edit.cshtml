@@ -17,14 +17,14 @@
             @Html.EditorFor(m => m.Roles)
             @Html.EditorFor(m => m.AssignedTeams)
             <div class="form-group">
-                @Html.Label("Password", new {@class = "control-label col-sm-2"})
+                @Html.Label(null, "Password", new {@class = "control-label col-sm-2"})
                 <div class="col-sm-10">
                     <p id="passwordField" class="form-control-static"><a id="resetPassword"><span class="glyphicon glyphicon-repeat"></span></a>
                     </p>
                 </div>
             </div>
 
-            @Html.Partial("_FormCancelSubmit", Model)
+            <partial name="_FormCancelSubmit" model="Model" />
         </fieldset>
     }
 </div>

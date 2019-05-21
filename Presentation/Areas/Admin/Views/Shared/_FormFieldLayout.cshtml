@@ -7,7 +7,8 @@
     <div class="col-sm-@editorWidth">
         @if (ViewBag.IsReadonly ?? false)
         {
-            RenderSection("Editable").WriteTo(TextWriter.Null);
+            // TODO: Remove
+            //RenderSection("Editable").WriteTo(TextWriter.Null);
             if (IsSectionDefined("Readonly"))
             {
                 @RenderSection("Readonly")
@@ -23,7 +24,8 @@
             @RenderSection("Editable")
             if (IsSectionDefined("Readonly"))
             {
-                RenderSection("Readonly").WriteTo(TextWriter.Null);
+                // TODO: Remove
+                //RenderSection("Readonly").WriteTo(TextWriter.Null);
             }
         }
     </div>

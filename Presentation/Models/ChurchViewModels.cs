@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Html;
+using System.Collections.Generic;
 
 namespace Tcbcsl.Presentation.Models
 {
@@ -11,8 +11,8 @@ namespace Tcbcsl.Presentation.Models
     public class ChurchListChurchModel
     {
         public string Name { get; set; }
-        public MvcHtmlString Website { get; set; }
-        public MvcHtmlString Information { get; set; }
+        public HtmlString Website { get; set; }
+        public HtmlString Information { get; set; }
         public ContactInfoModel ContactInfo { get; set; }
     }
 }

@@ -18,7 +18,7 @@
             @Html.EditorFor(m => m.EndDate)
             @Html.EditorFor(m => m.Subject)
             @Html.EditorFor(m => m.Content)
-            @Html.Partial("_FormCancelSubmit", Model)
+            <partial name="_FormCancelSubmit" model="Model" />
         </fieldset>
     }
 </div>

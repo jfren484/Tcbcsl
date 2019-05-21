@@ -6,7 +6,7 @@
 <div class="modal calendar-modal">
     <div class="modal-dialog">
         <div class="modal-content calendar-content">
-            @Html.Action("YearCalendar", "Schedule", new {year = Model.Date.Year, activeDate = Model.Date.ToString(Consts.DateFormat)})
+            @Url.Action("YearCalendar", "Schedule", new { year = Model.Date.Year, activeDate = Model.Date.ToString(Consts.DateFormat) })
         </div>
     </div>
 </div>
@@ -17,8 +17,7 @@
     </button>
 </div>
 <h2>@title</h2>
-<a href="@Url.Action("Create", "Game", new {date = Model.Date.ToString(Consts.DateFormat)})"><span class="glyphicon glyphicon-plus"></span> Add Game to Schedule</a>
-@using (Html.BeginForm("Schedule", "Schedule", FormMethod.Post, new { @class = "form-horizontal form-with-validation" }))
-{
+<a asp-area="Admin" asp-controller="Game" asp-action="Create" asp-route-date="@Model.Date.ToString(Consts.DateFormat)"><span class="glyphicon glyphicon-plus"></span> Add Game to Schedule</a>
+<form asp-controller="Schedule" asp-action="Schedule" method="post" class="form-horizontal form-with-validation">
     @Html.EditorFor(m => m.Buckets)
-}
+</form>
