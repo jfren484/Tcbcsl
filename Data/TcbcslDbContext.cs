@@ -8,6 +8,8 @@ namespace Tcbcsl.Data
 {
     public class TcbcslDbContext : IdentityDbContext<TcbcslUser>
     {
+        public TcbcslDbContext(DbContextOptions<TcbcslDbContext> options) : base(options) { }
+
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Church> Churches { get; set; }
         public DbSet<Coach> Coaches { get; set; }
@@ -28,6 +30,7 @@ namespace Tcbcsl.Data
         public DbSet<Player> Players { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<StatLine> StatLines { get; set; }
+        public DbSet<TcbcslUserTeam> TcbcslUserTeams { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamYear> TeamYears { get; set; }
 
@@ -52,8 +55,24 @@ namespace Tcbcsl.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<StatLine>()
+                .Property(sl => sl.StatHits)
+                .HasComputedColumnSql("StatSingles + StatDoubles + StatTriples + StatHomeRuns");
+
+            modelBuilder.Entity<StatLine>()
+                .Property(sl => sl.StatTotalBases)
+                .HasComputedColumnSql("StatSingles + StatDoubles * 2 + StatTriples * 3 + StatHomeRuns * 4");
+
+            modelBuilder.Entity<StatLine>()
+                .Property(sl => sl.StatAtBats)
+                .HasComputedColumnSql("StatSingles + StatDoubles + StatTriples + StatHomeRuns + StatOuts + StatFieldersChoices + StatReachedByErrors");
+
+            modelBuilder.Entity<StatLine>()
+                .Property(sl => sl.StatPlateAppearances)
+                .HasComputedColumnSql("StatSingles + StatDoubles + StatTriples + StatHomeRuns + StatOuts + StatFieldersChoices + StatReachedByErrors + StatWalks + StatSacrificeFlies");
+
             modelBuilder.Entity<TcbcslUserTeam>()
-                .HasKey(tut => new { tut.TcbcslUserId, tut.TeamId });
+                .HasKey(tut => new { tut.UserId, tut.TeamId });
         }
     }
 }

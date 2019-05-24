@@ -13,7 +13,7 @@ namespace Tcbcsl.Data.Identity
         [MaxLength(20), Required]
         public string FirstName { get; set; }
 
-        public virtual ICollection<Team> TeamsManaged { get; set; }
+        public virtual ICollection<TcbcslUserTeam> TcbcslUserTeams { get; set; }
 
         public string FullName => $"{FirstName} {LastName}";
     }

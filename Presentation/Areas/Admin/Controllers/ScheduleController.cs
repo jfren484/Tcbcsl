@@ -19,8 +19,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         private readonly ScheduleService _scheduleService;
 
-        public ScheduleController()
+        public ScheduleController(TcbcslDbContext dbContext) : base(dbContext)
         {
+            // TODO: dependency injection
             _scheduleService = new ScheduleService(DbContext);
         }
 

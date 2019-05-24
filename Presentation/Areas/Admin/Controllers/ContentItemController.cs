@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Tcbcsl.Data;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -11,6 +12,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
     [Route("Content")]
     public class ContentItemController : AdminControllerBase
     {
+        public ContentItemController(TcbcslDbContext dbContext) : base(dbContext) { }
+
         #region List
 
         [Route("")]

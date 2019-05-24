@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tcbcsl.Data;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -14,6 +15,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
     [AuthorizeRedirect(Roles = Roles.LeagueCommissioner + ", " + Roles.TeamCoach)]
     public class PlayerController : AdminControllerBase
     {
+        public PlayerController(TcbcslDbContext dbContext) : base(dbContext) { }
+
         #region List
 
         public ActionResult List()

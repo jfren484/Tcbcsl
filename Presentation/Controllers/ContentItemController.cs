@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Tcbcsl.Data;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Controllers
 {
-    public class ContentItemController : ControllerBase
+    public class ContentItemController : TcbcslControllerBase
     {
+        public ContentItemController(TcbcslDbContext dbContext) : base(dbContext) { }
+
         [Route("Content/{tag}")]
         public ActionResult PageContent(string tag)
         {

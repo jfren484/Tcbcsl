@@ -4,12 +4,17 @@ using Tcbcsl.Data;
 
 namespace Tcbcsl.Presentation.Controllers
 {
-    public abstract class ControllerBase : Controller
+    public abstract class TcbcslControllerBase : Controller
     {
         // TODO: Fix and/or move to new UserCache
         private const string SessionKey = "AssignedTeams";
 
-        protected readonly TcbcslDbContext DbContext = new TcbcslDbContext();
+        protected readonly TcbcslDbContext DbContext;
+
+        public TcbcslControllerBase(TcbcslDbContext dbContext)
+        {
+            DbContext = dbContext;
+        }
 
         public Dictionary<int, string> AssignedTeams
         {

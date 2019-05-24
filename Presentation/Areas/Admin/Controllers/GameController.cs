@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Linq;
+using Tcbcsl.Data;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -12,6 +13,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
     [AuthorizeRedirect(Roles = Roles.LeagueCommissioner + ", " + Roles.TeamCoach)]
     public class GameController : AdminControllerBase
     {
+        public GameController(TcbcslDbContext dbContext) : base(dbContext) { }
+
         #region Create/Edit
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]

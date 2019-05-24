@@ -12,6 +12,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
     [AuthorizeRedirect(Roles = Roles.LeagueCommissioner + ", " + Roles.TeamCoach)]
     public class NewsController : AdminControllerBase
     {
+        public NewsController(TcbcslDbContext dbContext) : base(dbContext) { }
+
         #region List
 
         public ActionResult List()

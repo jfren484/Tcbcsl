@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using Tcbcsl.Data;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Controllers
 {
-    public class StandingsController : ControllerBase
+    public class StandingsController : TcbcslControllerBase
     {
+        public StandingsController(TcbcslDbContext dbContext) : base(dbContext) { }
+
         [Route("Standings/{type}/{year:year?}")]
         public ActionResult Standings(StandingsType type, int year = Consts.CurrentYear)
         {

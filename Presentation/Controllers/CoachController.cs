@@ -2,12 +2,15 @@
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Tcbcsl.Data;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Controllers
 {
-    public class CoachController : ControllerBase
+    public class CoachController : TcbcslControllerBase
     {
+        public CoachController(TcbcslDbContext dbContext) : base(dbContext) { }
+
         [Route("Coaches/{year:year?}")]
         public ActionResult Coaches(int year = Consts.CurrentYear)
         {

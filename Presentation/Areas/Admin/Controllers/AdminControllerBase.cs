@@ -3,13 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
+using Tcbcsl.Data;
 using Tcbcsl.Presentation.Areas.Admin.Models;
+using Tcbcsl.Presentation.Controllers;
 
 namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 {
     [Route("Admin/[controller]")]
-    public abstract class AdminControllerBase : Presentation.Controllers.ControllerBase
+    public abstract class AdminControllerBase : TcbcslControllerBase
     {
+        public AdminControllerBase(TcbcslDbContext dbContext) : base(dbContext) { }
+
         #region Custom Return methods
 
         // TODO: Remove this

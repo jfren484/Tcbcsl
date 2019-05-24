@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tcbcsl.Data.Entities
 {
@@ -8,7 +7,7 @@ namespace Tcbcsl.Data.Entities
     {
         public int StateId { get; set; }
 
-        [MinLength(2), MaxLength(2), Column(TypeName = "char"), Required]
+        [MinLength(2), MaxLength(2), Required]
         public string Abbreviation { get; set; }
 
         [MaxLength(50), Required]

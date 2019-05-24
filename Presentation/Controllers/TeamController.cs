@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using Tcbcsl.Data;
 using Tcbcsl.Presentation.Models;
 using Tcbcsl.Presentation.Services;
 
 namespace Tcbcsl.Presentation.Controllers
 {
-    public class TeamController : ControllerBase
+    public class TeamController : TcbcslControllerBase
     {
         #region Constructor and Private Fields
 
@@ -23,8 +24,9 @@ namespace Tcbcsl.Presentation.Controllers
 
         private readonly ScheduleService _scheduleService;
 
-        public TeamController()
+        public TeamController(TcbcslDbContext dbContext) : base(dbContext)
         {
+            // TODO: Dependency injection
             _scheduleService = new ScheduleService(DbContext);
         }
 

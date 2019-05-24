@@ -6,6 +6,7 @@ using MoreLinq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tcbcsl.Data;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Areas.Admin.Models;
 using Tcbcsl.Presentation.Helpers;
@@ -15,6 +16,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
     [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
     public class UserController : AdminControllerBase
     {
+        public UserController(TcbcslDbContext dbContext) : base(dbContext) { }
+
         #region List
 
         public ActionResult List()
@@ -84,14 +87,14 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             Mapper.Map(model, user);
 
             // Update assigned teams
-            var teamChanges = ChangeTracker.GetChangeSets(user.TeamsManaged, model.AssignedTeams?.TeamIds ?? new List<int>(), t => t.TeamId, i => i);
-            foreach (var teamToRemove in teamChanges.LeftOnly)
+            var teamChanges = ChangeTracker.GetChangeSets(user.TcbcslUserTeams, model.AssignedTeams?.TeamIds ?? new List<int>(), t => t.TeamId, i => i);
+            foreach (var tcbcslUserTeamToRemove in teamChanges.LeftOnly)
             {
-                user.TeamsManaged.Remove(teamToRemove);
+                user.TcbcslUserTeams.Remove(tcbcslUserTeamToRemove);
             }
-            if (teamChanges.RightOnly.Any())
+            foreach (var teamId in teamChanges.RightOnly)
             {
-                DbContext.Teams.Where(t => teamChanges.RightOnly.Contains(t.TeamId)).ForEach(user.TeamsManaged.Add);
+                user.TcbcslUserTeams.Add(new TcbcslUserTeam { UserId = id, TeamId = teamId });
             }
 
             // Update roles

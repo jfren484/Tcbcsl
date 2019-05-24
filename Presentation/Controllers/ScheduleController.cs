@@ -1,17 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using Tcbcsl.Data;
 using Tcbcsl.Presentation.Services;
 
 namespace Tcbcsl.Presentation.Controllers
 {
-    public class ScheduleController : ControllerBase
+    public class ScheduleController : TcbcslControllerBase
     {
         #region Constructor and Private Fields
 
         private readonly ScheduleService _scheduleService;
 
-        public ScheduleController()
+        public ScheduleController(TcbcslDbContext dbContext) : base(dbContext)
         {
+            // TODO: dependency injection
             _scheduleService = new ScheduleService(DbContext);
         }
 

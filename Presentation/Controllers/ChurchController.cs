@@ -2,13 +2,16 @@
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Tcbcsl.Data;
 using Tcbcsl.Presentation.Helpers;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Controllers
 {
-    public class ChurchController : ControllerBase
+    public class ChurchController : TcbcslControllerBase
     {
+        public ChurchController(TcbcslDbContext dbContext) : base(dbContext) { }
+
         [Route("Churches/{year:year?}")]
         public ActionResult Churches(int year = Consts.CurrentYear)
         {

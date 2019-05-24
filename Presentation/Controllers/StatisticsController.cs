@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using Tcbcsl.Data;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Helpers;
 using Tcbcsl.Presentation.Models;
 
 namespace Tcbcsl.Presentation.Controllers
 {
-    public class StatisticsController : ControllerBase
+    public class StatisticsController : TcbcslControllerBase
     {
+        public StatisticsController(TcbcslDbContext dbContext) : base(dbContext) { }
+
         #region Game
 
         [Route("Game/{gameId}")]
