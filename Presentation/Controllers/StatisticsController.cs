@@ -214,7 +214,7 @@ namespace Tcbcsl.Presentation.Controllers
                                               TeamId = slg.Key.TeamId,
                                               TeamName = slg.Key.TeamYears.OrderByDescending(ty => ty.Year).FirstOrDefault().FullName
                                           },
-                                   Games = slg.Key.TeamYears.Sum(ty => ty.GameParticipants.Count(gp => gp.StatLines.Any())),
+                                   Games = slg.Select(sl => sl.GameParticipant.Game).Distinct().Count(),
                                    PlateAppearances = slg.Sum(sl => sl.StatPlateAppearances),
                                    AtBats = slg.Sum(sl => sl.StatAtBats),
                                    Hits = slg.Sum(sl => sl.StatHits),

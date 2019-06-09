@@ -1,4 +1,13 @@
 ﻿@model StatisticsEditStatLineModel
+@{
+    var columns = new[] { "Order", "Player", "1B", "2B", "3B", "HR", "BB", "Sac", "Outs", "FC", "E", "K", "R", "RBI", "" };
+}
+<tr class="col-row">
+    @foreach (var column in columns)
+    {
+        <th>@column</th>
+    }
+</tr>
 <tr>
     @Html.Partial("_RowNav")
     @Html.EditorFor(m => m.Player)
