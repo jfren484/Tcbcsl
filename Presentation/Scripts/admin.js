@@ -313,7 +313,7 @@ $('.schedule-game-cell').on('click', '.data-button', function () {
 
 $(function () {
     if ($('.form-grid').length > 0) {
-        $('.form-grid tr').each(function(i) {
+        $('.form-grid tr').not('.col-row').each(function(i) {
             var $row = $(this);
             var index = generateIndexValue();
             $row.find('[name="StatLines.index"]').val(index);
