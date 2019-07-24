@@ -7,7 +7,7 @@
     <div class="list-group list-group-inside">
         @Html.DisplayFor(m => m.ContactInfo.PhoneNumbers, "ListGroupItemList")
         @Html.DisplayFor(m => m.ContactInfo.EmailAddress, "ListGroupItem")
-        @Html.DisplayFor(m => m.Comments, "ListGroupItem")
+        <div class="list-group-item">@Html.Raw(Model.Comments)</div>
     </div>
     <a href="@Url.RouteUrl(new
                            {
