@@ -1,2 +1,6 @@
 ﻿@model ScheduleGameHeaderModel
-@(Model.DisplayOutcome ? Model.Outcome : Model.GameDate.ToString("t"))
+@(Model.DisplayOutcome
+    ? Model.Outcome
+    : Consts.TournamentDates.Contains(Model.GameDate.Date)
+        ? Model.Location
+        : Model.GameDate.ToString("t"))

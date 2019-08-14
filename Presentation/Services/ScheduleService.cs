@@ -57,7 +57,8 @@ namespace Tcbcsl.Presentation.Services
                                    {
                                        DisplayOutcome = game.GameStatus.DisplayOutcome,
                                        Outcome = game.GameStatus.Description,
-                                       GameDate = game.GameDate
+                                       GameDate = game.GameDate,
+                                       Location = game.Location
                                    },
                        GameId = game.GameId,
                        DisplayScores = game.GameStatus.IsComplete,
@@ -95,27 +96,27 @@ namespace Tcbcsl.Presentation.Services
 
         private static GameBucket GetGameBucket(Game game)
         {
-            if (game.GameTypeId == GameType.GamePlaceholder)
-            {
-                return new GameBucket("Post-Season", 0);
-            }
-
             if (Consts.TournamentDates.Contains(game.GameDate.Date))
             {
                 return new GameBucket(game.GameDate.ToString("t"), (int)game.GameDate.TimeOfDay.TotalMinutes);
             }
 
-            var conferences = game.GameParticipants
-                                  .Select(gp => gp.TeamYear.DivisionYear.ConferenceYear)
-                                  .DistinctBy(cy => cy.ConferenceYearId)
-                                  .ToList();
-
-            if (game.GameTypeId == GameType.Exhibition || conferences.Any(cy => !cy.IsInLeague))
+            switch (game.GameTypeId)
             {
-                return new GameBucket("Exhibition", 99);
+                case GameType.GamePlaceholder:
+                    return new GameBucket("Post-Season", 0);
+                case GameType.PostSeason:
+                    return new GameBucket("Playoff", 0);
+                case GameType.Exhibition:
+                    return new GameBucket("Exhibition", 99);
             }
 
-            if (conferences.Count > 1 && conferences[0].ConferenceYearId != conferences[1].ConferenceYearId)
+            var conferences = game.GameParticipants
+                                  .Select(gp => gp.TeamYear.DivisionYear.ConferenceYear)
+                                  .Distinct()
+                                  .ToList();
+
+            if (conferences.Count > 1)
             {
                 return new GameBucket("Inter-Conference", 90);
             }
@@ -128,27 +129,27 @@ namespace Tcbcsl.Presentation.Services
             var sortBase = singleDate ? 0 : -game.GameDate.DayOfYear * 10000;
             var prefix = singleDate ? "" : game.GameDate.ToString("MMMM d, ");
 
-            if (game.GameTypeId == GameType.GamePlaceholder)
-            {
-                return new GameBucket($"{prefix}Post-Season", sortBase + 9998);
-            }
-
             if (Consts.TournamentDates.Contains(game.GameDate.Date))
             {
                 return new GameBucket($"{prefix}{game.GameDate:t}", sortBase + (int)game.GameDate.TimeOfDay.TotalMinutes);
             }
 
-            var conferences = game.GameParticipants
-                                  .Select(gp => gp.TeamYear.DivisionYear.ConferenceYear)
-                                  .DistinctBy(cy => cy.ConferenceYearId)
-                                  .ToList();
-
-            if (game.GameTypeId == GameType.Exhibition || conferences.Any(cy => !cy.IsInLeague))
+            switch (game.GameTypeId)
             {
-                return new GameBucket($"{prefix}Exhibition", sortBase + 9999);
+                case GameType.GamePlaceholder:
+                    return new GameBucket($"{prefix}Post-Season", sortBase + 9998);
+                case GameType.PostSeason:
+                    return new GameBucket($"{prefix}Playoff", sortBase + 9998);
+                case GameType.Exhibition:
+                    return new GameBucket($"{prefix}Exhibition", sortBase + 9999);
             }
 
-            if (conferences.Count > 1 && conferences[0].ConferenceYearId != conferences[1].ConferenceYearId)
+            var conferences = game.GameParticipants
+                                  .Select(gp => gp.TeamYear.DivisionYear.ConferenceYear)
+                                  .Distinct()
+                                  .ToList();
+
+            if (conferences.Count > 1)
             {
                 return new GameBucket($"{prefix}Inter-Conference", sortBase + 9990);
             }
@@ -227,7 +228,11 @@ namespace Tcbcsl.Presentation.Services
                                                        .Select(kvp => new ScheduleConferenceModel
                                                                       {
                                                                           Label = kvp.Key.Label,
-                                                                          Games = kvp.Value.Select(GameModelFromGame).ToList()
+                                                                          Games = kvp.Value
+                                                                                     .OrderBy(g => g.GameDate)
+                                                                                     .ThenBy(g => g.Location)
+                                                                                     .Select(GameModelFromGame)
+                                                                                     .ToList()
                                                                       })
                                                        .ToList()
                    };

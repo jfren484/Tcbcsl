@@ -21,6 +21,9 @@ namespace Tcbcsl.Data.Entities
         [Required]
         public bool IsFinalized { get; set; }
 
+        [MaxLength(200)]
+        public string Location { get; set; }
+
         public virtual GameType GameType { get; set; }
 
         public virtual GameStatus GameStatus { get; set; }

@@ -50,6 +50,7 @@ namespace Tcbcsl.Presentation.Models
         public DateTime GameDate { get; set; }
         public bool DisplayOutcome { get; set; }
         public string Outcome { get; set; }
+        public string Location { get; set; }
     }
 
     public class ScheduleGameTeamModel : IScheduleGameRowDataModel
