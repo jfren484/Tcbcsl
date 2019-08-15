@@ -58,6 +58,7 @@ namespace Tcbcsl.Presentation.Services
                                        DisplayOutcome = game.GameStatus.DisplayOutcome,
                                        Outcome = game.GameStatus.Description,
                                        GameDate = game.GameDate,
+                                       DisplayLocation = Consts.TournamentDates.Contains(game.GameDate.Date) && game.GameTypeId == GameType.PostSeason,
                                        Location = game.Location
                                    },
                        GameId = game.GameId,

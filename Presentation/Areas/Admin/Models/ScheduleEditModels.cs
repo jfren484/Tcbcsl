@@ -24,6 +24,8 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         public bool Entered { get; set; }
         public string Outcome { get; set; }
         public DateTimeOffset GameDate { get; set; }
+        public bool ShowLocation { get; set; }
+        public string Location { get; set; }
 
         public ScheduleGameParticipantEditModel RoadParticipant { get; set; }
         public ScheduleGameParticipantEditModel HomeParticipant { get; set; }

@@ -194,6 +194,10 @@
     <Compile Include="Migrations\201702220549370_AddTournamentDates.Designer.cs">
       <DependentUpon>201702220549370_AddTournamentDates.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908142228068_AddGameLocation.cs" />
+    <Compile Include="Migrations\201908142228068_AddGameLocation.Designer.cs">
+      <DependentUpon>201908142228068_AddGameLocation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\NewsItem.cs" />
     <Compile Include="Entities\PageContent.cs" />
@@ -293,6 +297,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702220549370_AddTournamentDates.resx">
       <DependentUpon>201702220549370_AddTournamentDates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908142228068_AddGameLocation.resx">
+      <DependentUpon>201908142228068_AddGameLocation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

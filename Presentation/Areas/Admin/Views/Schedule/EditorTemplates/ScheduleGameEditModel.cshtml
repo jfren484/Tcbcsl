@@ -4,7 +4,7 @@
         <div class="container-fluid game-header">
             <div class="row">
                 <div class="col-xs-12 schedule-game-cell">
-                    @(Model.Entered ? Model.Outcome : Model.GameDate.ToString("t"))
+                    @(Model.Entered ? Model.Outcome : Model.ShowLocation ? Model.Location : Model.GameDate.ToString("t"))
                     <div class="game-updates">
                         @if (!Model.Entered)
                         {

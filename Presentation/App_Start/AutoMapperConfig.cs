@@ -284,11 +284,12 @@ namespace Tcbcsl.Presentation
 
             config.CreateMap<IGrouping<GameBucket, Game>, ScheduleBucketEditModel>()
                   .ForMember(m => m.Bucket, exp => exp.MapFrom(g => g.Key))
-                  .ForMember(m => m.Games, exp => exp.MapFrom(g => g.ToList()));
+                  .ForMember(m => m.Games, exp => exp.MapFrom(g => g.OrderBy(g2 => g2.GameDate).ThenBy(g2 => g2.Location).ToList()));
 
             config.CreateMap<Game, ScheduleGameEditModel>()
                   .ForMember(m => m.Entered, exp => exp.MapFrom(e => e.GameStatusId != GameStatus.Scheduled))
-                  .ForMember(m => m.Outcome, exp => exp.MapFrom(e => e.GameStatus.Description));
+                  .ForMember(m => m.Outcome, exp => exp.MapFrom(e => e.GameStatus.Description))
+                  .ForMember(m => m.ShowLocation, exp => exp.MapFrom(e => Consts.TournamentDates.Contains(e.GameDate.Date) && e.GameTypeId == GameType.PostSeason));
 
             config.CreateMap<GameParticipant, ScheduleGameParticipantEditModel>()
                   .ForMember(m => m.TeamName, exp => exp.MapFrom(e => e.TeamYear.FullName));

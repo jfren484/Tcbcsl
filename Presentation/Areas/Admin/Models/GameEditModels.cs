@@ -17,6 +17,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Models
         [Display(Name = "Game Status")]
         public GameEditStatusModel GameStatus { get; set; }
 
+        [Display(Name = "Location")]
+        public string Location { get; set; }
+
         [Required]
         public bool IsFinalized { get; set; }
 
