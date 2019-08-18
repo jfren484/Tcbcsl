@@ -642,6 +642,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\Uploads\2019 Tourney Schedule.pdf" />
+    <Content Include="Content\Uploads\2019 Tourney Results.pdf" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <Content Include="Scripts\highcharts\css\annotations\popup.scss" />
     <Content Include="Scripts\highcharts\css\highcharts.scss" />
