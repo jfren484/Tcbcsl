@@ -75,7 +75,6 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
                 row.Game.GameStatusId = GameStatus.Final;
                 row.Game.RoadParticipant.RunsScored = row.Model.RoadParticipant.RunsScored;
                 row.Game.HomeParticipant.RunsScored = row.Model.HomeParticipant.RunsScored;
-                row.Game.IsFinalized = true;
                 row.Game.AddResultReportFromLeague();
             }
             DbContext.SaveChanges(User.Identity.GetUserId());
