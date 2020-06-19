@@ -3,4 +3,4 @@
     ? Model.Outcome
     : Model.DisplayLocation
         ? Model.Location
-        : Model.GameDate.ToString("t"))
+        : Model.GameDate.ToString("t") + (string.IsNullOrEmpty(Model.Location) ? "" : " - " + Model.Location))

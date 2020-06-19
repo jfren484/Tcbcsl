@@ -7,7 +7,7 @@
         <tr>
             <th>Date</th>
             <th>Opponent</th>
-            <th>Result</th>
+            <th>Result/Location</th>
         </tr>
         @foreach (var game in Model.Games)
         {
@@ -34,6 +34,10 @@
                                                                         GameId = game.GameId
                                                                     }, new {@class = resultClass})
                     }
+                    else
+                    {
+                        @game.Location
+                    }
                 </td>
             </tr>
         }
@@ -46,7 +50,7 @@
         <div class="table-schedule-legend">
             <div class="pull-left"><span class="home swatch"></span>Home</div>
             <div class="pull-left"><span class="away swatch"></span>Away</div>
-            <div><span class="neutral swatch"></span>Post-Season</div>
+            <div><span class="neutral swatch"></span>Post-Season/Neutral Site</div>
         </div>
     </div>
 </div>

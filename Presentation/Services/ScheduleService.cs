@@ -256,12 +256,14 @@ namespace Tcbcsl.Presentation.Services
                                Date = gp.Game.GameDate,
                                OpponentId = opponent.TeamYear.TeamId,
                                OpponentName = opponent.TeamYear.FullName + (gp.Game.GameTypeId == GameType.Exhibition ? " *" : string.Empty),
+                               Location = gp.Game.GameStatus.IsComplete ? null : gp.Game.Location,
                                IsGameCompleted = gp.Game.GameStatus.IsComplete,
                                DidWin = won,
                                DidLose = lost,
                                IsHomeTeam = gp.IsHost,
                                IsNeutralSite = gp.Game.GameTypeId == GameType.GamePlaceholder
-                                               || gp.Game.GameTypeId == GameType.PostSeason,
+                                               || gp.Game.GameTypeId == GameType.PostSeason
+                                               || !string.IsNullOrEmpty(gp.Game.Location),
                                IsPlaceholder = gp.Game.GameTypeId == GameType.GamePlaceholder,
                                IsExhibition = gp.Game.GameTypeId == GameType.Exhibition,
                                GameResultDescription = gp.Game.GameStatus.IsComplete

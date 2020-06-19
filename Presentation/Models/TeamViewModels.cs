@@ -74,6 +74,7 @@ namespace Tcbcsl.Presentation.Models
         public DateTime Date { get; set; }
         public int OpponentId { get; set; }
         public string OpponentName { get; set; }
+        public string Location { get; set; }
         public bool IsGameCompleted { get; set; }
         public bool DidWin { get; set; }
         public bool DidLose { get; set; }
