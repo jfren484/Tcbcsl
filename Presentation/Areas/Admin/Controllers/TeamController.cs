@@ -124,6 +124,7 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         public ActionResult Create(TeamEditModel model)
         {
             var teamYear = Mapper.Map<TeamYear>(model);
+            teamYear.Team = Mapper.Map<Team>(model);
             teamYear.Year = Consts.CurrentYear;
             PopulateFullname(teamYear);
 

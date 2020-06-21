@@ -367,7 +367,7 @@ namespace Tcbcsl.Presentation
                   .ForMember(e => e.TeamId, exp => exp.Ignore())
                   .ForMember(e => e.Year, exp => exp.Ignore())
                   .ForMember(e => e.TeamYearId, exp => exp.Ignore())
-                  .ForMember(e => e.Team, exp => exp.MapFrom(m => m))
+                  .ForMember(e => e.Team, exp => exp.Ignore())
                   .ForMember(e => e.FullName, exp => exp.Ignore())
                   .ForMember(e => e.ChurchId, exp => exp.MapFrom(m => m.Church.ChurchId))
                   .ForMember(e => e.Church, exp => exp.Ignore())
