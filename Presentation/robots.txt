@@ -1,0 +1,7 @@
+User-agent: * 
+Disallow: /Account/ 
+Disallow: /Admin/ 
+Disallow: /Coaches/
+Disallow: /Content/
+Disallow: /Schedule/ 
+Disallow: /Statistics/
