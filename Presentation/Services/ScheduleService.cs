@@ -262,8 +262,7 @@ namespace Tcbcsl.Presentation.Services
                                DidLose = lost,
                                IsHomeTeam = gp.IsHost,
                                IsNeutralSite = gp.Game.GameTypeId == GameType.GamePlaceholder
-                                               || gp.Game.GameTypeId == GameType.PostSeason
-                                               || !string.IsNullOrEmpty(gp.Game.Location),
+                                               || gp.Game.GameTypeId == GameType.PostSeason,
                                IsPlaceholder = gp.Game.GameTypeId == GameType.GamePlaceholder,
                                IsExhibition = gp.Game.GameTypeId == GameType.Exhibition,
                                GameResultDescription = gp.Game.GameStatus.IsComplete
