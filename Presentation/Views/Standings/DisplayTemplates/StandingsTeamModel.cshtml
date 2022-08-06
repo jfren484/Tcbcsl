@@ -9,6 +9,7 @@
     <td class="hidden-xs">@ScheduleService.FormatRecord(Model.DivisionWins, Model.DivisionLosses, Model.DivisionTies)</td>
     <td class="hidden-xs">@Model.RunsScored</td>
     <td class="hidden-xs">@Model.RunsAllowed</td>
+    <td class="hidden-xs">@(Model.RunsScored - Model.RunsAllowed)</td>
     <td class="hidden-xs">
         @if (Model.StreakCount > 0)
         {

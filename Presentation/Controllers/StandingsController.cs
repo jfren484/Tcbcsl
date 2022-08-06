@@ -132,6 +132,7 @@ namespace Tcbcsl.Presentation.Controllers
         {
             return teamRawModels.OrderByDescending(t => t.GamesBack)
                                 .ThenByDescending(t => t.WinningPercentage)
+                                .ThenByDescending(t => t.RunsScored - t.RunsAllowed)
                                 .ToList();
         }
 
