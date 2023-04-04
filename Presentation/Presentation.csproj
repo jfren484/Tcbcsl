@@ -632,6 +632,8 @@
     <Content Include="Content\Uploads\2019 Tourney Schedule.pdf" />
     <Content Include="Content\Uploads\2019 Tourney Results.pdf" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\highcharts\css\annotations\popup.scss" />
     <Content Include="Scripts\highcharts\css\highcharts.scss" />
     <Content Include="Scripts\highcharts\css\stocktools\gui.scss" />
@@ -718,8 +720,6 @@
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap-multiselect-collapsible-groups.js" />
     <Content Include="Scripts\bootstrap-multiselect.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap4.js" />
