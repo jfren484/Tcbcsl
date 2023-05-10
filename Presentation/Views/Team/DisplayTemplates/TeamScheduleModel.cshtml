@@ -2,6 +2,7 @@
 <div class="panel panel-primary team-schedule">
     <div class="panel-heading">
         Schedule
+        <div>@Html.ActionLink("Download", "ScheduleDownload", new { teamId = Model.TeamId })</div>
     </div>
     <table class="table table-schedule">
         <tr>

@@ -1,0 +1,12 @@
+﻿@model TeamScheduleDownloadGameModel
+BEGIN:VEVENT
+DTSTART:@Model.StartDate
+DTEND:@Model.EndDate
+UID:@Model.UID
+LOCATION:@Model.Location
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:@Model.Summary
+DESCRIPTION:@Model.Description
+TRANSP:OPAQUE
+END:VEVENT

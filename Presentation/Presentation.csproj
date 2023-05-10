@@ -1584,6 +1584,8 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\readme.md" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
+    <Content Include="Views\Team\ScheduleDownload.cshtml" />
+    <Content Include="Views\Team\DisplayTemplates\TeamScheduleDownloadGameModel.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

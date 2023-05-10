@@ -286,6 +286,34 @@ namespace Tcbcsl.Presentation.Services
                 .ToList();
         }
 
+        public List<TeamScheduleDownloadGameModel> GetTeamDownloadSchedule(TeamYear teamYear)
+        {
+            return (from gp in teamYear.GameParticipants
+                    let opponent = gp.Game.GameParticipants.FirstOrDefault(gp2 => gp2.GameParticipantId != gp.GameParticipantId)
+                    orderby gp.Game.GameDate
+                    select new TeamScheduleDownloadGameModel
+                    {
+                        StartDate = gp.Game.GameDate.ToUniversalTime().ToString("yyyyMMddTHHmmssZ"),
+                        EndDate = gp.Game.GameDate.AddHours(1).ToUniversalTime().ToString("yyyyMMddTHHmmssZ"),
+                        UID = $"{gp.Game.GameId}-{teamYear.TeamId}-{opponent.TeamYear.TeamId}@tcbcsl.org",
+                        Location = gp.Game.Location ?? gp.Game.HomeParticipant.TeamYear.Team.FieldInformation,
+                        Summary = $"{teamYear.FullName} {(gp.IsHost ? "Home" : "Away")} Game {(gp.IsHost ? "vs" : "@")} {opponent.TeamYear.FullName}"
+                    })
+                .Concat(_dbContext.Games
+                                  .Where(g => g.GameDate.Year == teamYear.Year
+                                                && g.GameTypeId == GameType.GamePlaceholder)
+                                  .ToList()
+                                  .Select(g => new TeamScheduleDownloadGameModel
+                                  {
+                                      StartDate = g.GameDate.ToUniversalTime().ToString("yyyyMMddTHHmmssZ"),
+                                      EndDate = g.GameDate.AddHours(1).ToUniversalTime().ToString("yyyyMMddTHHmmssZ"),
+                                      UID = $"{g.GameId}-{teamYear.TeamId}-{g.HomeParticipant.TeamYear.TeamId}@tcbcsl.org",
+                                      Location = g.Location,
+                                      Summary = $"{teamYear.FullName} - {g.HomeParticipant.TeamYear.FullName} (Placeholder)"
+                                  }))
+                .ToList();
+        }
+
         public YearCalendarModel GetYearCalendarModel(int year, DateTime activeDate)
         {
             var model = new YearCalendarModel

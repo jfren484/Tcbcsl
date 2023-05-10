@@ -94,6 +94,7 @@ namespace Tcbcsl.Presentation.Controllers
                             NewsItems = new ContentService(DbContext).GetCurrentNews(teamYear.TeamId),
                             Schedule = new TeamScheduleModel
                                        {
+                                           TeamId = teamYear.TeamId,
                                            Year = year,
                                            Games = _scheduleService.GetTeamSchedule(teamYear)
                                        }
@@ -106,6 +107,29 @@ namespace Tcbcsl.Presentation.Controllers
                     .Select(cat => GetStatsCategoryLeader(cat, model.TeamId, year, (teamGamesCount + 1) / 2))
                     .ToList();
             }
+
+            return View(model);
+        }
+
+        [Route("Team/{teamId}/ScheduleDownload")]
+        public ActionResult ScheduleDownload(int teamId)
+        {
+            var teamYear = DbContext
+                .TeamYears
+                .SingleOrDefault(ty => ty.TeamId == teamId && ty.Year == Consts.CurrentYear);
+
+            if (teamYear == null)
+            {
+                return HttpNotFound($"Team {teamId} not found for {Consts.CurrentYear}.");
+            }
+
+            var model = new TeamScheduleDownloadModel
+            {
+                Year = teamYear.Year,
+                TeamId = teamYear.TeamId,
+                TeamName = teamYear.FullName,
+                Games = _scheduleService.GetTeamDownloadSchedule(teamYear)
+            };
 
             return View(model);
         }
