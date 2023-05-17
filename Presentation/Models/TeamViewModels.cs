@@ -38,8 +38,17 @@ namespace Tcbcsl.Presentation.Models
 
     public class TeamScheduleModel
     {
+        public int TeamId { get; set; }
         public int Year { get; set; }
         public List<TeamGameModel> Games { get; set; }
+    }
+
+    public class TeamScheduleDownloadModel
+    {
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
+        public int Year { get; set; }
+        public List<TeamScheduleDownloadGameModel> Games { get; set; }
     }
 
     public class TeamCoachModel
@@ -83,5 +92,15 @@ namespace Tcbcsl.Presentation.Models
         public bool IsPlaceholder { get; set; }
         public bool IsExhibition { get; set; }
         public string GameResultDescription { get; set; }
+    }
+
+    public class TeamScheduleDownloadGameModel
+    {
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string UID { get; set; }
+        public string Location { get; set; }
+        public string Summary { get; set; }
+        public string Description { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 <div class="panel panel-primary team-schedule">
     <div class="panel-heading">
         Schedule
+        <div class="download">@Html.ActionLink(HttpUtility.HtmlDecode("&#x2b73;"), "ScheduleDownload", new { teamId = Model.TeamId }, new {title = "Download Schedule file to import into your calendar"})</div>
     </div>
     <table class="table table-schedule">
         <tr>

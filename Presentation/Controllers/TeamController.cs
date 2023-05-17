@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -94,6 +95,7 @@ namespace Tcbcsl.Presentation.Controllers
                             NewsItems = new ContentService(DbContext).GetCurrentNews(teamYear.TeamId),
                             Schedule = new TeamScheduleModel
                                        {
+                                           TeamId = teamYear.TeamId,
                                            Year = year,
                                            Games = _scheduleService.GetTeamSchedule(teamYear)
                                        }
@@ -107,6 +109,30 @@ namespace Tcbcsl.Presentation.Controllers
                     .ToList();
             }
 
+            return View(model);
+        }
+
+        [Route("Team/{teamId}/ScheduleDownload")]
+        public ActionResult ScheduleDownload(int teamId)
+        {
+            var teamYear = DbContext
+                .TeamYears
+                .SingleOrDefault(ty => ty.TeamId == teamId && ty.Year == Consts.CurrentYear);
+
+            if (teamYear == null)
+            {
+                return HttpNotFound($"Team {teamId} not found for {Consts.CurrentYear}.");
+            }
+
+            var model = new TeamScheduleDownloadModel
+            {
+                Year = teamYear.Year,
+                TeamId = teamYear.TeamId,
+                TeamName = teamYear.FullName,
+                Games = _scheduleService.GetTeamDownloadSchedule(teamYear)
+            };
+
+            Response.AddHeader("Content-Disposition", $"attachment; filename=\"{Url.Encode(teamYear.FullName)}-{Consts.CurrentYear}-Calendar.ics\"");
             return View(model);
         }
 
