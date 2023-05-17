@@ -1,9 +1,9 @@
 ﻿@model TeamScheduleDownloadModel
 @{
     Layout = null;
-}
-BEGIN:VCALENDAR
-PRODID:-//Google Inc//Google Calendar 70.9054//EN
+    Response.Write("BEGIN:VCALENDAR");
+    // Preserve formatting in this file, as it eliminates blank lines, which prevent loading the ics file.
+}PRODID:-//Google Inc//Google Calendar 70.9054//EN
 VERSION:2.0
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
@@ -27,5 +27,4 @@ DTSTART:19701101T020000
 RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
 END:STANDARD
 END:VTIMEZONE
-@Html.DisplayFor(m => m.Games)
-END:VCALENDAR
+@Html.DisplayFor(m => m.Games)END:VCALENDAR

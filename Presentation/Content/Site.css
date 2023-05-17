@@ -1,4 +1,4 @@
-﻿/* ReSharper disable DeclarationIsEmpty */
+/* ReSharper disable DeclarationIsEmpty */
 a {
   cursor: pointer;
 }
@@ -142,6 +142,11 @@ legend a {
 }
 .datatable-settings th {
   padding: 10px 20px !important;
+}
+.download {
+  float: right;
+  font-size: 1.2em;
+  font-weight: bold;
 }
 .form-grid .row-nav {
   width: 160px;

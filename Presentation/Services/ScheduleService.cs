@@ -2,7 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.SqlServer;
+using System.IO;
 using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
 using Tcbcsl.Data;
 using Tcbcsl.Data.Entities;
 using Tcbcsl.Presentation.Models;
@@ -288,16 +292,29 @@ namespace Tcbcsl.Presentation.Services
 
         public List<TeamScheduleDownloadGameModel> GetTeamDownloadSchedule(TeamYear teamYear)
         {
+            const string calendarDateFormat = "yyyyMMddTHHmmssZ";
+
+            var request = HttpContext.Current.Request;
+            var url = new UrlHelper(request.RequestContext);
+            var teamUrl = url.Action("View", "Team", new { teamId = teamYear.TeamId }, request.Url.Scheme);
+
             return (from gp in teamYear.GameParticipants
                     let opponent = gp.Game.GameParticipants.FirstOrDefault(gp2 => gp2.GameParticipantId != gp.GameParticipantId)
+                    let oppId = opponent.TeamYear.TeamId
+                    let oppName = opponent.TeamYear.FullName
+                    let oppUrl = url.Action("View", "Team", new { teamId = oppId }, request.Url.Scheme)
                     orderby gp.Game.GameDate
                     select new TeamScheduleDownloadGameModel
                     {
-                        StartDate = gp.Game.GameDate.ToUniversalTime().ToString("yyyyMMddTHHmmssZ"),
-                        EndDate = gp.Game.GameDate.AddHours(1).ToUniversalTime().ToString("yyyyMMddTHHmmssZ"),
-                        UID = $"{gp.Game.GameId}-{teamYear.TeamId}-{opponent.TeamYear.TeamId}@tcbcsl.org",
-                        Location = gp.Game.Location ?? gp.Game.HomeParticipant.TeamYear.Team.FieldInformation,
-                        Summary = $"{teamYear.FullName} {(gp.IsHost ? "Home" : "Away")} Game {(gp.IsHost ? "vs" : "@")} {opponent.TeamYear.FullName}"
+                        StartDate = gp.Game.GameDate.ToUniversalTime().ToString(calendarDateFormat),
+                        EndDate = gp.Game.GameDate.AddHours(1).ToUniversalTime().ToString(calendarDateFormat),
+                        UID = $"{gp.Game.GameId}-{teamYear.TeamId}-{oppId}@tcbcsl.org",
+                        Location = ConvertStringToCalendarSafe(gp.Game.Location
+                            ?? HtmlUtility.ConvertToPlainText(gp.Game.HomeParticipant.TeamYear.Team.FieldInformation).Trim(), 9),
+                        Summary = ConvertStringToCalendarSafe(
+                            $"{teamYear.FullName} {(gp.IsHost ? "Home" : "Away")} Game {(gp.IsHost ? "vs" : "@")} {oppName}", 8),
+                        Description = ConvertStringToCalendarSafe(
+                            $"Team Links:\\n{teamYear.FullName} Page: {teamUrl}\\n{oppName} Page: {oppUrl}", 12)
                     })
                 .Concat(_dbContext.Games
                                   .Where(g => g.GameDate.Year == teamYear.Year
@@ -305,11 +322,12 @@ namespace Tcbcsl.Presentation.Services
                                   .ToList()
                                   .Select(g => new TeamScheduleDownloadGameModel
                                   {
-                                      StartDate = g.GameDate.ToUniversalTime().ToString("yyyyMMddTHHmmssZ"),
-                                      EndDate = g.GameDate.AddHours(1).ToUniversalTime().ToString("yyyyMMddTHHmmssZ"),
+                                      StartDate = g.GameDate.ToUniversalTime().ToString(calendarDateFormat),
+                                      EndDate = g.GameDate.AddHours(1).ToUniversalTime().ToString(calendarDateFormat),
                                       UID = $"{g.GameId}-{teamYear.TeamId}-{g.HomeParticipant.TeamYear.TeamId}@tcbcsl.org",
-                                      Location = g.Location,
-                                      Summary = $"{teamYear.FullName} - {g.HomeParticipant.TeamYear.FullName} (Placeholder)"
+                                      Location = ConvertStringToCalendarSafe(g.Location, 9),
+                                      Summary = ConvertStringToCalendarSafe($"{teamYear.FullName} - {g.HomeParticipant.TeamYear.FullName} (Placeholder)", 8),
+                                      Description = ConvertStringToCalendarSafe("Will play at least 4 games during the day.", 12)
                                   }))
                 .ToList();
         }
@@ -359,6 +377,30 @@ namespace Tcbcsl.Presentation.Services
             }
 
             return model;
+        }
+
+        private string ConvertStringToCalendarSafe(string value, int labelLength)
+        {
+            const int lineLength = 76;
+
+            var replaced = value.Replace(",", "\\,").Replace("\r", "").Replace("\n", "\\n");
+
+            var sw = new StringWriter();
+            var prefixLength = labelLength;
+            var index = 0;
+
+            while (replaced.Length - index > lineLength - prefixLength)
+            {
+                var adjust = replaced[index + lineLength - prefixLength - 1] == ' ' ? -1 : 0;
+                sw.WriteLine(replaced.Substring(index, lineLength - prefixLength + adjust));
+                sw.Write(" ");
+                index += lineLength - prefixLength + adjust;
+                prefixLength = 1;
+            }
+
+            sw.Write(replaced.Substring(index));
+
+            return sw.ToString();
         }
     }
 }

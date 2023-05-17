@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -131,6 +132,7 @@ namespace Tcbcsl.Presentation.Controllers
                 Games = _scheduleService.GetTeamDownloadSchedule(teamYear)
             };
 
+            Response.AddHeader("Content-Disposition", $"attachment; filename=\"{Url.Encode(teamYear.FullName)}-{Consts.CurrentYear}-Calendar.ics\"");
             return View(model);
         }
 
