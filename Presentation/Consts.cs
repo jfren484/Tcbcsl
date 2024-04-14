@@ -6,7 +6,7 @@ namespace Tcbcsl.Presentation
     public static class Consts
     {
         public const int FirstYear = 2001;
-        public const int CurrentYear = 2023;
+        public const int CurrentYear = 2024;
 
         public const int TeamTBDTeamId = 44;
         public const int PlayerPoolTeamId = 60;
