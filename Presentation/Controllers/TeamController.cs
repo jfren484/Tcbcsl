@@ -32,11 +32,11 @@ namespace Tcbcsl.Presentation.Controllers
         #endregion
 
         [Route("Teams/{year:year?}")]
-        public ActionResult Teams(int year = Consts.CurrentYear)
+        public ActionResult Teams(int? year)
         {
             var divisions = DbContext
                 .DivisionYears
-                .Where(dy => dy.Year == year && dy.IsInLeague)
+                .Where(dy => dy.Year == (year ?? Consts.CurrentYear) && dy.IsInLeague)
                 .OrderBy(dy => dy.ConferenceYear.Sort)
                 .ThenBy(dy => dy.Sort)
                 .Select(dy => new DivisionTeamsModel
@@ -47,7 +47,7 @@ namespace Tcbcsl.Presentation.Controllers
                                             .Select(ty => new TeamsListTeamModel
                                                           {
                                                               TeamId = ty.TeamId,
-                                                              Year = year,
+                                                              Year = year ?? Consts.CurrentYear,
                                                               TeamName = ty.FullName
                                                           })
                                             .ToList()
@@ -56,21 +56,21 @@ namespace Tcbcsl.Presentation.Controllers
 
             return View(new TeamsListModel
                         {
-                            Year = year,
+                            Year = year ?? Consts.CurrentYear,
                             Divisions = divisions
                         });
         }
 
         [Route("Team/{teamId}/{year:year?}")]
-        public ActionResult View(int teamId, int year = Consts.CurrentYear)
+        public ActionResult View(int teamId, int? year)
         {
             var teamYear = DbContext
                 .TeamYears
-                .SingleOrDefault(ty => ty.TeamId == teamId && ty.Year == year);
+                .SingleOrDefault(ty => ty.TeamId == teamId && ty.Year == (year ?? Consts.CurrentYear));
 
             if (teamYear == null)
             {
-                return HttpNotFound($"Team {teamId} not found for {year}.");
+                return HttpNotFound($"Team {teamId} not found for {year ?? Consts.CurrentYear}.");
             }
 
             var model = new TeamViewModel
@@ -85,7 +85,7 @@ namespace Tcbcsl.Presentation.Controllers
                             Coach = new TeamCoachModel
                                     {
                                         CoachId = teamYear.HeadCoachId,
-                                        Year = year,
+                                        Year = year ?? Consts.CurrentYear,
                                         Name = teamYear.HeadCoach.FullName,
                                         Comments = teamYear.HeadCoach.Comments,
                                         ContactInfo = Mapper.Map<ContactInfoModel>(teamYear.HeadCoach)
@@ -96,7 +96,7 @@ namespace Tcbcsl.Presentation.Controllers
                             Schedule = new TeamScheduleModel
                                        {
                                            TeamId = teamYear.TeamId,
-                                           Year = year,
+                                           Year = year ?? Consts.CurrentYear,
                                            Games = _scheduleService.GetTeamSchedule(teamYear)
                                        }
                         };
@@ -105,7 +105,7 @@ namespace Tcbcsl.Presentation.Controllers
             if (teamGamesCount > 0)
             {
                 model.StatsLeaders = StatsCategories
-                    .Select(cat => GetStatsCategoryLeader(cat, model.TeamId, year, (teamGamesCount + 1) / 2))
+                    .Select(cat => GetStatsCategoryLeader(cat, model.TeamId, year ?? Consts.CurrentYear, (teamGamesCount + 1) / 2))
                     .ToList();
             }
 

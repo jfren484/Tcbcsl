@@ -92,11 +92,11 @@ namespace Tcbcsl.Presentation.Controllers
         #region League Individual
 
         [Route("League/Individual/{year:years?}")]
-        public ActionResult StatisticsForLeagueIndividual(YearEnum year = (YearEnum)Consts.CurrentYear)
+        public ActionResult StatisticsForLeagueIndividual(YearEnum? year)
         {
             var model = new LeagueStatisticsPageModel
             {
-                Year = year
+                Year = (year ?? (YearEnum)Consts.CurrentYear)
             };
 
             return View(model);
@@ -178,11 +178,11 @@ namespace Tcbcsl.Presentation.Controllers
         #region League Team
 
         [Route("League/Team/{year:years?}")]
-        public ActionResult StatisticsForLeagueTeam(YearEnum year = (YearEnum)Consts.CurrentYear)
+        public ActionResult StatisticsForLeagueTeam(YearEnum? year)
         {
             var model = new LeagueStatisticsPageModel
             {
-                Year = year
+                Year = (year ?? (YearEnum)Consts.CurrentYear)
             };
 
             return View(model);
@@ -241,7 +241,7 @@ namespace Tcbcsl.Presentation.Controllers
         #region Player
 
         [Route("Player/{playerId}/{year:years?}")]
-        public ActionResult StatisticsForPlayer(int playerId, YearEnum year = (YearEnum)Consts.CurrentYear)
+        public ActionResult StatisticsForPlayer(int playerId, YearEnum? year)
         {
             var player = DbContext.Players.FirstOrDefault(ty => ty.PlayerId == playerId);
             if (player == null)
@@ -251,7 +251,7 @@ namespace Tcbcsl.Presentation.Controllers
 
             var model = new PlayerStatisticsPageModel
                         {
-                            Year = year,
+                            Year = (year ?? (YearEnum)Consts.CurrentYear),
                             Player = new StatisticsPlayerInfoModel
                                      {
                                          PlayerId = player.PlayerId,
@@ -364,11 +364,11 @@ namespace Tcbcsl.Presentation.Controllers
         #region Team
 
         [Route("Team/{teamId}/{year:years?}")]
-        public ActionResult StatisticsForTeam(int teamId, YearEnum year = (YearEnum)Consts.CurrentYear, string sort = null)
+        public ActionResult StatisticsForTeam(int teamId, YearEnum? year = null, string sort = null)
         {
             var teamYear = DbContext.TeamYears
                                     .OrderByDescending(ty => ty.Year)
-                                    .FirstOrDefault(ty => ty.TeamId == teamId && (year == YearEnum.All || ty.Year == (int)year));
+                                    .FirstOrDefault(ty => ty.TeamId == teamId && (year == YearEnum.All || ty.Year == (int)(year ?? (YearEnum)Consts.CurrentYear)));
             if (teamYear == null)
             {
                 return HttpNotFound();
@@ -376,7 +376,7 @@ namespace Tcbcsl.Presentation.Controllers
 
             var model = new TeamStatisticsPageModel
                         {
-                            Year = year,
+                            Year = (year ?? (YearEnum)Consts.CurrentYear),
                             Team = new StatisticsTeamInfoModel
                                    {
                                        TeamId = teamYear.TeamId,

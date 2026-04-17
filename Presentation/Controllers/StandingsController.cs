@@ -9,13 +9,13 @@ namespace Tcbcsl.Presentation.Controllers
     public class StandingsController : ControllerBase
     {
         [Route("Standings/{type}/{year:year?}")]
-        public ActionResult Standings(StandingsType type, int year = Consts.CurrentYear)
+        public ActionResult Standings(StandingsType type, int? year)
         {
-            var teams = GetStandingsModels(year);
+            var teams = GetStandingsModels(year ?? Consts.CurrentYear);
 
             var model = new StandingsModel
                         {
-                            Year = year,
+                            Year = year ?? Consts.CurrentYear,
                             Type = type,
                             ShowTies = teams.Any(t => t.Ties > 0),
                             Groups = type == StandingsType.Division

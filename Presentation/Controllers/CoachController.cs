@@ -8,11 +8,11 @@ namespace Tcbcsl.Presentation.Controllers
     public class CoachController : ControllerBase
     {
         [Route("Coaches/{year:year?}")]
-        public ActionResult Coaches(int year = Consts.CurrentYear)
+        public ActionResult Coaches(int? year)
         {
             var data = DbContext
                 .DivisionYears
-                .Where(dy => dy.Year == year && dy.IsInLeague)
+                .Where(dy => dy.Year == (year ?? Consts.CurrentYear) && dy.IsInLeague)
                 .Select(dy => new
                               {
                                   DivisionName = dy.Name,
@@ -40,7 +40,7 @@ namespace Tcbcsl.Presentation.Controllers
                                             .Select(ty => new CoachListTeamModel
                                                           {
                                                               TeamId = ty.TeamId,
-                                                              Year = year,
+                                                              Year = year ?? Consts.CurrentYear,
                                                               TeamName = ty.TeamName,
                                                               Coach = new CoachListCoachModel
                                                                       {
@@ -57,7 +57,7 @@ namespace Tcbcsl.Presentation.Controllers
 
             return View(new CoachListModel
                         {
-                            Year = year,
+                            Year = year ?? Consts.CurrentYear,
                             Divisions = divisions
                         });
         }

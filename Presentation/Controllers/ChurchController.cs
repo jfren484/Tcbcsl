@@ -9,11 +9,11 @@ namespace Tcbcsl.Presentation.Controllers
     public class ChurchController : ControllerBase
     {
         [Route("Churches/{year:year?}")]
-        public ActionResult Churches(int year = Consts.CurrentYear)
+        public ActionResult Churches(int? year)
         {
             var churches = DbContext
                 .Churches
-                .Where(ch => ch.TeamYears.Any(ty => ty.Year == year && ty.DivisionYear.IsInLeague))
+                .Where(ch => ch.TeamYears.Any(ty => ty.Year == (year ?? Consts.CurrentYear) && ty.DivisionYear.IsInLeague))
                 .OrderBy(ch => ch.FullName)
                 .ToList()
                 .Select(ch => new ChurchListChurchModel
@@ -27,7 +27,7 @@ namespace Tcbcsl.Presentation.Controllers
 
             return View(new ChurchListModel
                         {
-                            Year = year,
+                            Year = year ?? Consts.CurrentYear,
                             Churches = churches
                         });
         }

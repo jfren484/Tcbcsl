@@ -19,9 +19,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
         [Route("{year:year?}")]
-        public ActionResult List(int year = Consts.CurrentYear)
+        public ActionResult List(int? year)
         {
-            return View(new TeamEditModel {YearModel = new YearModel {Year = year}});
+            return View(new TeamEditModel {YearModel = new YearModel {Year = year ?? Consts.CurrentYear} });
         }
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
@@ -74,9 +74,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
         [Route("Years/{year:year?}")]
-        public ActionResult ListTeamYears(int year = Consts.CurrentYear)
+        public ActionResult ListTeamYears(int? year)
         {
-            return View(new TeamEditModel {YearModel = new YearModel {Year = year}});
+            return View(new TeamEditModel {YearModel = new YearModel {Year = year ?? Consts.CurrentYear}});
         }
 
         [AuthorizeRedirect(Roles = Roles.LeagueCommissioner)]
@@ -311,10 +311,10 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
             return clinchItems;
         }
 
-        private List<SelectListItem> GetDivisionSelectListItems(bool appendEmptyItem = true, int year = Consts.CurrentYear)
+        private List<SelectListItem> GetDivisionSelectListItems(bool appendEmptyItem = true, int? year = null)
         {
             var divisions = DbContext.DivisionYears
-                                     .Where(dy => dy.Year == year)
+                                     .Where(dy => dy.Year == (year ?? Consts.CurrentYear))
                                      .OrderBy(dy => dy.Sort)
                                      .Select(dy => new SelectListItem { Value = dy.DivisionYearId.ToString(), Text = dy.Name })
                                      .ToList();

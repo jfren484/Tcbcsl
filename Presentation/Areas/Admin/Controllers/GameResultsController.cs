@@ -34,9 +34,9 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
         }
 
         [Route("Team/{id:int}/{year:year?}")]
-        public ActionResult List(int id, int year = Consts.CurrentYear)
+        public ActionResult List(int id, int? year)
         {
-            var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamId == id && ty.Year == year);
+            var teamYear = DbContext.TeamYears.SingleOrDefault(ty => ty.TeamId == id && ty.Year == (year ?? Consts.CurrentYear));
             if (teamYear == null || !User.IsTeamIdValidForUser(id))
             {
                 return HttpNotFound();
@@ -50,10 +50,10 @@ namespace Tcbcsl.Presentation.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("Data/{id:int}/{year:year?}")]
-        public JsonResult Data(int id, int year = Consts.CurrentYear)
+        public JsonResult Data(int id, int? year)
         {
             var data = DbContext.GameParticipants
-                                .Where(gp => gp.TeamYear.TeamId == id && gp.TeamYear.Year == year)
+                                .Where(gp => gp.TeamYear.TeamId == id && gp.TeamYear.Year == (year ?? Consts.CurrentYear))
                                 .ToList()
                                 .Select(gp =>
                                 {
