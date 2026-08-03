@@ -24,4 +24,5 @@
 @{
     var clinchCharsUsed = Model.Groups.SelectMany(g => g.Teams.Select(t => t.ClinchChar)).Distinct().ToArray();
 }
+* All values except for "Overall" refer to Division games only.<br />
 @string.Join(", ", Consts.ClinchDescriptions.Where(kvp => clinchCharsUsed.Contains(kvp.Key)).Select(kvp => kvp.ClinchDescriptionFormatted()))

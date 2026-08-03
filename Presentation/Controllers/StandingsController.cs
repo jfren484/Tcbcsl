@@ -17,7 +17,7 @@ namespace Tcbcsl.Presentation.Controllers
                         {
                             Year = year ?? Consts.CurrentYear,
                             Type = type,
-                            ShowTies = teams.Any(t => t.Ties > 0),
+                            ShowTies = teams.Any(t => t.TotalTies > 0),
                             Groups = type == StandingsType.Division
                                          ? GetDivisionStandingsTeamModels(teams)
                                          : GetLeagueStandingsTeamModels(teams)
@@ -44,11 +44,14 @@ namespace Tcbcsl.Presentation.Controllers
                                     Outcome = gp.RunsScored.CompareTo(opponent.RunsScored),
                                     IsDivision = gp.TeamYear.DivisionYear.DivisionId == opponent.TeamYear.DivisionYear.DivisionId
                                 }
-                    let wins = games.Count(g => g.Outcome > 0)
-                    let losses = games.Count(g => g.Outcome < 0)
-                    let ties = games.Count(g => g.Outcome == 0)
-                    let last5GameInfo = games.OrderByDescending(g => g.GameDate).Take(5)
-                    let first = games.FirstOrDefault()
+                    let divGames = games.Where(g => g.IsDivision)
+                    let totWins = games.Count(g => g.Outcome > 0)
+                    let totLosses = games.Count(g => g.Outcome < 0)
+                    let totTies = games.Count(g => g.Outcome == 0)
+                    let divWins = divGames.Count(g => g.Outcome > 0)
+                    let divLosses = divGames.Count(g => g.Outcome < 0)
+                    let divTies = divGames.Count(g => g.Outcome == 0)
+                    let last5GameInfo = divGames.OrderByDescending(g => g.GameDate).Take(5)
                     select new
                     {
                         StandingsTeamModel = new StandingsTeamModel
@@ -58,32 +61,32 @@ namespace Tcbcsl.Presentation.Controllers
                             TeamId = ty.TeamId,
                             TeamName = ty.FullName,
                             ClinchChar = ty.Clinch,
-                            Wins = wins,
-                            Losses = losses,
-                            Ties = ties,
-                            WinningPercentage = games.Any() ? (double)wins / (wins + losses + ties) : 0,
-                            GamesBack = (double)(wins - losses) / 2,
-                            DivisionWins = games.Count(g => g.IsDivision && g.Outcome > 0),
-                            DivisionLosses = games.Count(g => g.IsDivision && g.Outcome < 0),
-                            DivisionTies = games.Count(g => g.IsDivision && g.Outcome == 0),
-                            RunsScored = games.Any() ? games.Sum(g => g.RunsScored) : 0,
-                            RunsAllowed = games.Any() ? games.Sum(g => g.RunsAllowed) : 0,
+                            TotalWins = totWins,
+                            TotalLosses = totLosses,
+                            TotalTies = totTies,
+                            DivisionWinningPercentage = divGames.Any() ? ((double)divWins + (double)divTies / 2) / (divWins + divLosses + divTies) : 0,
+                            DivisionGamesBack = (double)(divWins - divLosses) / 2,
+                            DivisionWins = divWins,
+                            DivisionLosses = divLosses,
+                            DivisionTies = divTies,
+                            DivisionRunsScored = divGames.Any() ? games.Sum(g => g.RunsScored) : 0,
+                            DivisionRunsAllowed = divGames.Any() ? games.Sum(g => g.RunsAllowed) : 0,
                             Last5Wins = last5GameInfo.Count(g => g.Outcome > 0),
                             Last5Losses = last5GameInfo.Count(g => g.Outcome < 0),
                             Last5Ties = last5GameInfo.Count(g => g.Outcome == 0),
-                            StreakOutcome = games.Any() ? games.OrderByDescending(g => g.GameDate).FirstOrDefault().Outcome : 0
+                            StreakOutcome = divGames.Any() ? divGames.OrderByDescending(g => g.GameDate).FirstOrDefault().Outcome : 0
                         },
-                        Record = games.OrderByDescending(g => g.GameDate)
-                                                               .Select(g => g.Outcome)
-                                                               .ToList()
+                        DivRecord = divGames.OrderByDescending(g => g.GameDate)
+                                            .Select(g => g.Outcome)
+                                            .ToList()
                     })
                     .ToList()
                     .Select(data =>
                         {
                             data.StandingsTeamModel.StreakCount = 0;
 
-                            while (data.StandingsTeamModel.StreakCount < data.Record.Count &&
-                                   data.Record[data.StandingsTeamModel.StreakCount] == data.StandingsTeamModel.StreakOutcome)
+                            while (data.StandingsTeamModel.StreakCount < data.DivRecord.Count &&
+                                   data.DivRecord[data.StandingsTeamModel.StreakCount] == data.StandingsTeamModel.StreakOutcome)
                             {
                                 ++data.StandingsTeamModel.StreakCount;
                             }
@@ -130,18 +133,18 @@ namespace Tcbcsl.Presentation.Controllers
 
         private static List<StandingsTeamModel> GetTeamsForGroup(IEnumerable<StandingsTeamModel> teamRawModels)
         {
-            return teamRawModels.OrderByDescending(t => t.GamesBack)
-                                .ThenByDescending(t => t.WinningPercentage)
-                                .ThenByDescending(t => t.RunsScored - t.RunsAllowed)
+            return teamRawModels.OrderByDescending(t => t.DivisionGamesBack)
+                                .ThenByDescending(t => t.DivisionWinningPercentage)
+                                .ThenByDescending(t => t.DivisionRunsScored - t.DivisionRunsAllowed)
                                 .ToList();
         }
 
         private static void UpdateGamesBack(StandingsGroupModel groupModel)
         {
-            var gbDiff = groupModel.Teams.Max(t => t.GamesBack);
+            var gbDiff = groupModel.Teams.Max(t => t.DivisionGamesBack);
             groupModel.Teams.ForEach(t =>
                                      {
-                                         t.GamesBack -= gbDiff;
+                                         t.DivisionGamesBack -= gbDiff;
                                      });
         }
 

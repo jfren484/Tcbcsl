@@ -28,16 +28,18 @@ namespace Tcbcsl.Presentation.Models
         public int TeamId { get; set; }
         public string TeamName { get; set; }
         public string ClinchChar { get; set; }
-        public int Wins { get; set; }
-        public int Losses { get; set; }
-        public int Ties { get; set; }
-        public double WinningPercentage { get; set; }
-        public double GamesBack { get; set; }
+        public int TotalWins { get; set; }
+        public int TotalLosses { get; set; }
+        public int TotalTies { get; set; }
+        public double DivisionWinningPercentage { get; set; }
+        public double DivisionGamesBack { get; set; }
         public int DivisionWins { get; set; }
         public int DivisionLosses { get; set; }
         public int DivisionTies { get; set; }
-        public int RunsScored { get; set; }
-        public int RunsAllowed { get; set; }
+        public int DivisionRunsScored { get; set; }
+        public int DivisionRunsAllowed { get; set; }
+        public int TotalRunsScored { get; set; }
+        public int TotalRunsAllowed { get; set; }
         public int StreakOutcome { get; set; }
         public int StreakCount { get; set; }
         public int Last5Wins { get; set; }
