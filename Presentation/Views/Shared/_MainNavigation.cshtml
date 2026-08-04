@@ -14,18 +14,9 @@
                     @Html.RouteLink("Schedule", new {area = "", controller = "Schedule", action = "Schedule", date = (DateTime?)null}, null)
                 </li>
                 <li class="dropdown">
-                    @Html.Partial("_NavDropdownToggle", "Standings")
                     @{ var dict = new RouteValueDictionary(new {area = "", controller = "Standings", action = "Standings", year = (int?)null}); }
-                    <ul class="dropdown-menu">
-                        <li>
-                            @{ dict["type"] = StandingsType.Division; }
-                            @Html.RouteLink("Division", dict)
-                        </li>
-                        <li>
-                            @{ dict["type"] = StandingsType.League; }
-                            @Html.RouteLink("League", dict)
-                        </li>
-                    </ul>
+                    @{ dict["type"] = StandingsType.Division; }
+                    @Html.RouteLink("Standings", dict)
                 </li>
                 <li class="dropdown">
                     @Html.Partial("_NavDropdownToggle", "Statistics")
