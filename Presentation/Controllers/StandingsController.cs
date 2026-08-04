@@ -71,6 +71,8 @@ namespace Tcbcsl.Presentation.Controllers
                             DivisionTies = divTies,
                             DivisionRunsScored = divGames.Any() ? divGames.Sum(g => g.RunsScored) : 0,
                             DivisionRunsAllowed = divGames.Any() ? divGames.Sum(g => g.RunsAllowed) : 0,
+                            TotalRunsScored = games.Any() ? games.Sum(g => g.RunsScored) : 0,
+                            TotalRunsAllowed = games.Any() ? games.Sum(g => g.RunsAllowed) : 0,
                             Last5Wins = last5GameInfo.Count(g => g.Outcome > 0),
                             Last5Losses = last5GameInfo.Count(g => g.Outcome < 0),
                             Last5Ties = last5GameInfo.Count(g => g.Outcome == 0),
